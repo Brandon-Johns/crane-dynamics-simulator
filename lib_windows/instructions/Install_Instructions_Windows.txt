@@ -1,0 +1,81 @@
+# Written by:		Brandon Johns
+# Version created:	2022-02-18
+# Last edited:		2022-02-21
+
+# Purpose:
+#	Install libraries on Windows
+#	For running sundials only, not for experiments
+
+Libraries
+	Sundials
+		https://computing.llnl.gov/projects/sundials
+		https://github.com/LLNL/sundials
+		Doc         https://sundials.readthedocs.io/en/latest/index.html
+		Download    https://computing.llnl.gov/projects/sundials/sundials-software
+	Armadillo
+		http://arma.sourceforge.net/
+		Doc         http://arma.sourceforge.net/docs.html
+		Download    http://arma.sourceforge.net/download.html
+
+
+##################################################################
+# Setup
+#################################
+Install
+	Visual Studio Community (I'm on VS 2017)
+		with workload: Desktop development with C++
+
+Create directories
+	lib_windows\src
+	lib_windows\build
+	lib_windows\install
+	lib_windows\install\armadillo
+
+
+##################################################################
+# Install Sundials
+#################################
+Download latest stable version (I'm using "cvode-6.1.1.tar.gz")
+Unzip as "lib_windows\src\cvode-6.1.1"
+
+Copy file "lib_windows\instructions\vs_buildSettings_sundials\CMakeSettings.json" into "lib_windows\src\cvode-6.1.1"
+
+Visual Studio:
+	File > Open > CMake > (choose "lib_windows\src\cvode-6.1.1\CMakeLists.txt")
+	(wait for it to autogenerate the cache)
+	CMake > Install > SUNDIALS
+
+
+#################################
+If it fails....
+	The path to the build and install directories should have no spaces
+	Visual Studio 2017 works, but 2022 keeps giving me errors => give up
+
+
+##################################################################
+# Install Armadillo
+#################################
+Download latest stable version (I'm using "armadillo-10.8.2.tar.xz)
+Unzip as "lib_windows\src\armadillo-10.8.2"
+
+Copy dir "lib_windows\src\armadillo-10.8.2\include"            into "lib_windows\install\armadillo"
+Copy dir "lib_windows\src\armadillo-10.8.2\examples\lib_win64" into "lib_windows\install\armadillo"
+
+Copy file "lib_windows\install\armadillo\lib_win64\libopenblas.dll" into "lib_windows\install\armadillo\lib_win64\openblas.dll"
+	There should now be 2 of this file
+	(Or you can symlink it)
+
+Rename file "lib_windows\install\armadillo\lib_win64\libopenblas.lib" to "lib_windows\install\armadillo\lib_win64\openblas.lib"
+
+
+##################################################################
+# Runtime
+#################################
+The following files must be on the system path or in the same directory as the exe
+
+# Sundials
+sundials_cvode.dll
+
+# Armadillo
+libopenblas.dll
+

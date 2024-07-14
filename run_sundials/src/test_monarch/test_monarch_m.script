@@ -1,0 +1,24 @@
+#!/bin/bash
+## Written By: Brandon Johns
+## Date Version Created: 2020-11-17
+## Date Last Edited: 2020-11-17
+## Purpose: Test running on MonARCH - without Matlab C Compiler
+## Status: Complete
+
+#SBATCH --job-name=BJohnsHW1
+#SBATCH --time=01:00:00
+#SBATCH --ntasks=1
+#SBATCH --mem-per-cpu=4096
+#SBATCH --cpus-per-task=1
+
+module load  matlab/r2020a
+export MATLABROOT=/usr/local/matlab/r2020a
+
+## USER INPUT: Specify M-File to run (without extension)
+JobFile="helloworld_m"
+
+echo "Running: ${JobFile}"
+
+## Run Matlab C Compiler
+##matlab -nodisplay < "${JobFile}.m"
+matlab -batch "${JobFile}"

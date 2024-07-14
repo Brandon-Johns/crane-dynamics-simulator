@@ -1,0 +1,18 @@
+*.mp4
+#*.gif
+#*.png
+
+
+# Visual studio
+.vs/
+*.ilk
+*.pdb
+
+# Matlab
+*.asv
+
+# Excel
+~$*
+
+# Windows
+Thumbs.db

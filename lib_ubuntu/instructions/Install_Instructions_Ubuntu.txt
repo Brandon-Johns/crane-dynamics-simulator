@@ -1,0 +1,130 @@
+# Written by:		Brandon Johns
+# Version created:	2022-02-22
+# Last edited:		2022-02-22
+
+# Purpose:
+#	Install libraries on Ubuntu
+#	For running sundials only, not for experiments
+
+Dependencies
+	CMake
+		https://cmake.org/download/
+
+
+Libraries
+	Sundials
+		https://computing.llnl.gov/projects/sundials
+		https://github.com/LLNL/sundials
+		Doc         https://sundials.readthedocs.io/en/latest/index.html
+		Download    https://computing.llnl.gov/projects/sundials/sundials-software
+	Armadillo
+		http://arma.sourceforge.net/
+		Doc         http://arma.sourceforge.net/docs.html
+		Download    http://arma.sourceforge.net/download.html
+
+
+##################################################################
+# Setup
+#################################
+Create directories
+	lib_ubuntu/src
+
+
+##################################################################
+# Install basic utils & dependencies (Part 1)
+#################################
+Bash:
+	sudo apt-get update
+
+
+##################################################################
+# Install CMake
+#################################
+WSL has issues, so let's install form source
+
+Uninstall old CMake
+Bash:
+	cmake --version
+	sudo apt remove --purge cmake
+	hash -r
+
+Install new CMake
+Download latest stable version (I'm using "cmake-3.23.0-rc1.tar.gz")
+Move to "~/tmp/cmake-3.23.0-rc1.tar.gz"
+Bash:
+	sudo apt install build-essential libssl-dev
+	cd "~/tmp"
+	tar -zxf cmake-3.23.0-rc1.tar.gz
+	cd cmake-3.23.0-rc1/
+	./bootstrap
+	make
+	sudo make install
+	cmake --version
+
+
+##################################################################
+# Install basic utils & dependencies (Part 2)
+#################################
+For Boost and Armadillo
+Bash:
+	sudo apt-get update
+	sudo apt-get install libopenblas-dev -y  # For Boost and Armadillo
+	sudo apt-get install liblapack-dev -y    # For Armadillo
+
+
+##################################################################
+# Install Sundials
+#################################
+Download latest stable version (I'm using "cvode-6.1.1.tar.gz")
+Move to "lib_ubuntu/src/cvode-6.1.1.tar.gz"
+
+Configure settings in install script
+	"lib_ubuntu/instructions/ubuntu_install_sundials.sh"
+
+Bash (from root of CDS):
+	chmod +x "lib_ubuntu/instructions/ubuntu_install_sundials.sh"
+	./lib_ubuntu/instructions/ubuntu_install_sundials.sh
+
+
+##################################################################
+# Install Armadillo
+#################################
+Download latest stable version (I'm using "armadillo-10.8.2.tar.xz)
+Unzip as "lib_ubuntu/src/armadillo-10.8.2"
+
+Bash (from root of CDS):
+	cd "lib_ubuntu/src"
+	tar -xf "armadillo-10.8.2.tar.xz"
+	cd "armadillo-10.8.2"
+
+	cmake . -DCMAKE_INSTALL_PREFIX:PATH=/usr/local
+	sudo make install
+
+#################################
+To reset before recompiling
+Bash:
+	rm CMakeCache.txt
+
+#################################
+To uninstall
+Bash:
+	sudo rm -rf /usr/local/include/armadillo_bits # Dir
+	sudo rm -rf /usr/local/include/armadillo # 1 file
+	sudo rm -rf /usr/local/lib/libarmadillo.so* # Total 3 files
+	sudo rm -rf /usr/local/share/Armadillo # Dir
+	sudo rm -rf /usr/local/lib/pkgconfig/armadillo.pc # 1 file
+
+
+##################################################################
+##################################################################
+##################################################################
+# Runtime
+#################################
+The following files must be on the system path or in the same directory as the exe
+
+# Sundials
+sundials_cvode.dll
+
+# Armadillo
+?
+

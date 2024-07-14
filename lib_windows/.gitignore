@@ -1,0 +1,10 @@
+# Ignore these
+build
+install
+src/*
+
+
+# Except:
+!/src/armadillo-10.8.2.tar.xz
+!/src/cvode-6.1.1.tar.gz
+
