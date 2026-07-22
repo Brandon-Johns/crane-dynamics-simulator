@@ -13,7 +13,7 @@ methods
     function this = CDS_Solver_ReformEquations()
         %
     end
-    
+
     %**********************************************************************
     % Interface
     %***********************************
@@ -23,42 +23,42 @@ methods
         q_free = sys.params.q_free;
         x_swap = sys.params.x_SymSwap();
         x_swap_t = sys.params.x_SymSwap('t');
-        
+
         DAEs_EL_t = subs(DAEs_EL, x_swap, x_swap_t);
         DAEs_C_t = subs(DAEs_C, x_swap, x_swap_t);
-        
+
         % Extra equations from reduction of order
         DAEs_OrderReducing_t = (q_free.Sym(0,'t',1) - q_free.Sym(1,'t'));
-        
+
         % Form system of equation into matrix equation
         DAEs_LHS_t = [DAEs_EL_t; DAEs_OrderReducing_t; DAEs_C_t];
         DAEs_RHS_t = zeros(size(DAEs_LHS_t));
         DAEs_t = DAEs_LHS_t == DAEs_RHS_t;
     end
-    
+
     % Reform into: M(t,x)*x_d=f(t,x)
     function [M, f] = MassMatrix(this, sys, DAEs_EL, DAEs_C)
         q_free_dd = sys.params.q_free.Sym(2);
         x = sys.params.x.Sym;
         numQF = length(q_free_dd);
         numX = length(x);
-        
+
         M = zeros(numX,numX, 'sym');
         f = zeros(numX,1, 'sym');
-        
+
         % EL equations
         [M(1:numQF,1:numQF), f(1:numQF)] = this.FormMatrixEquation(DAEs_EL, q_free_dd);
-        
+
         % Extra equations from reduction of order
         M(numQF+1:2*numQF, numQF+1:2*numQF) = eye(numQF,numQF);
         f(numQF+1:2*numQF) = x(1:numQF);
-        
+
         % Constraint equations
         %   I've double and triple checked this one. Should be good
         %   Wish I had a test case sufficiently complex to really test it though
         [M(2*numQF+1:numX,1:numQF), f(2*numQF+1:numX)] = this.FormMatrixEquation(DAEs_C, q_free_dd);
     end
-    
+
     % Reform into: x_d=f(t,x)
     function ODEs = Solve(this, sys, DAEs_EL, DAEs_C, mode)
         if isempty(sys.params.lambda.Sym)...
@@ -85,19 +85,19 @@ methods (Access=private)
         lambda = sys.params.lambda.Sym;
         q_free_d = sys.params.q_free.Sym(1);
         q_free_dd = sys.params.q_free.Sym(2);
-        
+
         % EL equations
         [f_b, f_a] = this.FormMatrixFunction(DAEs_EL, lambda);
         [M_order2, f_c] = this.FormMatrixFunction(f_a, q_free_dd);
-        
+
         % Constraint equations
         [f_dT, f_e] = this.FormMatrixFunction(DAEs_C, q_free_dd);
-        
+
         % Remove lambda from state vector
         sys.params.SetStateVectorMode("withoutLambda")
         x = sys.params.x.Sym;
         u = sys.params.u.Sym;
-        
+
         if strcmp(mode, "setuptime")
             % Solve for lambda
             f_mb = M_order2\f_b;
@@ -107,18 +107,18 @@ methods (Access=private)
             % Form into 2nd order ODE
             %   q_dd = f(t, [q; q_d], u)
             f_q_free_dd = -f_mc - f_lambda*f_mb;
-            
+
             % Form into 1st order ODE
             %   x_d = f(t, x, u)
             x_d = [f_q_free_dd; q_free_d];
-            
+
             % Sub in constants
             x_d_semiNum = subs(x_d, sys.params.const.Sym, sys.params.const.Num);
-            
+
             % Create function handle for solver
             x_d_h = matlabFunction(x_d_semiNum,'Vars',{sym('t'), x, u});
             ODEs = x_d_h;
-            
+
         elseif strcmp(mode, "solvetime_anonfun")
             % Sub in constants
             M_order2_semiNum = subs(M_order2, sys.params.const.Sym, sys.params.const.Num);
@@ -126,28 +126,28 @@ methods (Access=private)
             f_c_semiNum = subs(f_c, sys.params.const.Sym, sys.params.const.Num);
             f_dT_semiNum = subs(f_dT, sys.params.const.Sym, sys.params.const.Num);
             f_e_semiNum = subs(f_e, sys.params.const.Sym, sys.params.const.Num);
-            
+
             % To compare: Anon functions or just call a function
             M_order2_h = matlabFunction(M_order2_semiNum,'Vars',{sym('t'), x, u});
             fb_h = matlabFunction(f_b_semiNum,'Vars',{sym('t'), x, u});
             fc_h = matlabFunction(f_c_semiNum,'Vars',{sym('t'), x, u});
             fdT_h = matlabFunction(f_dT_semiNum,'Vars',{sym('t'), x, u});
             fe_h = matlabFunction(f_e_semiNum,'Vars',{sym('t'), x, u});
-            
+
             % Solve for lambda
             f_mb_h = @(t_,x_,u_) M_order2_h(t_,x_,u_) \ fb_h(t_,x_,u_);
             f_mc_h = @(t_,x_,u_) M_order2_h(t_,x_,u_) \ fc_h(t_,x_,u_);
             f_lambda_h = @(t_,x_,u_) ( fe_h(t_,x_,u_) - fdT_h(t_,x_,u_) * f_mc_h(t_,x_,u_) )/( fdT_h(t_,x_,u_) * f_mb_h(t_,x_,u_) );
-            
+
             % Form into 2nd order ODE
             %   q_dd = f(t, [q; q_d], u)
             f_q_free_dd_h = @(t_,x_,u_) -f_mc_h(t_,x_,u_) - f_lambda_h(t_,x_,u_) * f_mb_h(t_,x_,u_);
-            
+
             % Form into 1st order ODE
             %   x_d = f(t, x, u)
             x_d_h = @(t_,x_,u_) [f_q_free_dd_h(t_,x_,u_); x_(1:length(x_)/2)];
             ODEs = x_d_h;
-            
+
         elseif strcmp(mode, "solvetime_object")
             % Create object for holding and evaluating the system equations
             ODEs = CDS_Solver_ODEs();
@@ -157,12 +157,12 @@ methods (Access=private)
             ODEs.f_c = f_c;
             ODEs.f_dT = f_dT;
             ODEs.f_e = f_e;
-            
+
         else
             error("Bad input: mode")
         end
     end
-    
+
     % Reform into: x_d=f(t,x)
     % Assumes there is no constraint
     function ODEs = Solve_NoConstraint(this, sys, DAEs_EL, mode)
@@ -174,62 +174,62 @@ methods (Access=private)
         end
         q_free_d = sys.params.q_free.Sym(1);
         q_free_dd = sys.params.q_free.Sym(2);
-        
+
         % EL equations
         f_a = DAEs_EL;
         [M_order2, f_c] = this.FormMatrixFunction(f_a, q_free_dd);
-        
+
         % Remove lambda from state vector (not that there should be any there)
         sys.params.SetStateVectorMode("withoutLambda")
         x = sys.params.x.Sym;
         u = sys.params.u.Sym;
-        
+
         if strcmp(mode, "setuptime")
             % Form into 2nd order ODE
             %   q_dd = f(t, [q; q_d], u)
             f_q_free_dd = -M_order2\f_c;
-            
+
             % Form into 1st order ODE
             %   x_d = f(t, x, u)
             x_d = [f_q_free_dd; q_free_d];
-            
+
             % Sub in constants
             x_d_semiNum = subs(x_d, sys.params.const.Sym, sys.params.const.Num);
-            
+
             % Create function handle for solver
             x_d_h = matlabFunction(x_d_semiNum,'Vars',{sym('t'), x, u});
             ODEs = x_d_h;
-            
+
         elseif strcmp(mode, "solvetime_anonfun")
             % Sub in constants
             M_order2_semiNum = subs(M_order2, sys.params.const.Sym, sys.params.const.Num);
             f_c_semiNum = subs(f_c, sys.params.const.Sym, sys.params.const.Num);
-            
+
             % To compare: Anon functions or just call a function
             M_order2_h = matlabFunction(M_order2_semiNum,'Vars',{sym('t'), x, u});
             fc_h = matlabFunction(f_c_semiNum,'Vars',{sym('t'), x, u});
-            
+
             % Form into 2nd order ODE
             %   q_dd = f(t, [q; q_d], u)
             f_q_free_dd_h = @(t_,x_,u_) -M_order2_h(t_,x_,u_) \ fc_h(t_,x_,u_);
-            
+
             % Form into 1st order ODE
             %   x_d = f(t, x, u)
             x_d_h = @(t_,x_,u_) [f_q_free_dd_h(t_,x_,u_); x_(1:length(x_)/2)];
             ODEs = x_d_h;
-            
+
         elseif strcmp(mode, "solvetime_object")
             % Create object for holding and evaluating the system equations
             ODEs = CDS_Solver_ODEs();
             ODEs.modeConstraint = "noConstraint";
             ODEs.M_order2 = M_order2;
             ODEs.f_c = f_c;
-            
+
         else
             error("Bad input: mode")
         end
     end
-    
+
     %{
     For a set of 'm' number of functions f(x) = [f_1(x); ...; f_m(x)]
     which are linear of 'n' number of variables x = [x_1; ...; x_n]
@@ -253,7 +253,7 @@ methods (Access=private)
         b = zeros(m,1, 'sym');
         for idx_j = 1:m
             remainder = f(idx_j);
-            
+
             for idx_i = 1:n
                 % coeffs returns coefficients ordered by degree [0th, ..., highest]
                 % In this case: [0th, 1st] or [0th] if not in equation
@@ -287,7 +287,7 @@ methods (Access=private)
         rank_A = rank(A);
         if rank_A < min(size((A)))
             warningMsg = "Check your model's inertial resistance to wiggling around. Singular matrix in calculation";
-            
+
             rank_Ab = rank([A,b]);
             if rank_A == rank_Ab
                 warningMsg = warningMsg + " (Many solutions)";
@@ -297,7 +297,7 @@ methods (Access=private)
             warning(warningMsg);
         end
     end
-    
+
     %{
     Similar to FormMatrixFunction(), but where
         f(x) represents the LHS of the equation f(x)=0
@@ -306,7 +306,7 @@ methods (Access=private)
     %}
     function [A, b] = FormMatrixEquation(this, f, x)
         [A, b] = this.FormMatrixFunction(f, x);
-        
+
         % Flip sign of remainder for move to other side of equation
         b = -b;
     end

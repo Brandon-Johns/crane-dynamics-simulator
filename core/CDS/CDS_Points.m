@@ -26,7 +26,7 @@ methods
         % Register the parameter tracking object for creation of new parameters
         this.params = params;
     end
-    
+
     % Build instances of CDS_Point
     % INPUT
     %   sym_append: String to represent the point (each point must have a unique name)
@@ -53,19 +53,19 @@ methods
         if ( isvector(inertia_num) && length(inertia_num)~=3 ) || ( ~isvector(inertia_num) && any(size(inertia_num,1)~=3) )
             error("Moment of inertia must be size: 3x1 or 3x3");
         end
-        
+
         % Check if duplicate
         if ~isempty(this.Point(sym_append,"KeepDuplicates","NoWarn"))
             error('Point already exists and registered: %s', sym_append)
         end
-        
+
         % Create and register
         pointObject = CDS_Point();
         this.all(end+1) = pointObject;
-        
+
         % Name
         pointObject.SetNameShort(sym_append);
-        
+
         % Mass
         if mass_num == 0
             %
@@ -73,10 +73,10 @@ methods
             % Create new parameters & set num
             m = this.params.Create('const', strcat('m',sym_append));
             m.SetNum(mass_num);
-            
+
             pointObject.SetMass(m.Sym);
         end
-        
+
         % Inertia
         % Create new parameters & set num
         if isequal(inertia_num, [0;0;0]) || isequal(inertia_num, zeros(3,3))
@@ -89,7 +89,7 @@ methods
             Ixx.SetNum(inertia_num(1));
             Iyy.SetNum(inertia_num(2));
             Izz.SetNum(inertia_num(3));
-            
+
             pointObject.SetInertia(diag([Ixx.Sym, Iyy.Sym, Izz.Sym]));
         else
             % General moment of inertia tensor
@@ -102,12 +102,12 @@ methods
             Izx = this.params.Create('const', strcat('I_zx',sym_append)).SetNum(inertia_num(3,1));
             Izy = this.params.Create('const', strcat('I_zy',sym_append)).SetNum(inertia_num(3,2));
             Izz = this.params.Create('const', strcat('I_zz',sym_append)).SetNum(inertia_num(3,3));
-            
+
             inertia_sym = [Ixx.Sym,Ixy.Sym,Ixz.Sym; Iyx.Sym,Iyy.Sym,Iyz.Sym; Izx.Sym,Izy.Sym,Izz.Sym];
             pointObject.SetInertia(inertia_sym);
         end
     end
-    
+
     %**********************************************************************
     % Interface: Get
     %***********************************
@@ -117,6 +117,6 @@ methods
     function pointObject = Point(this, varargin)
         pointObject = this.all.Point(varargin{:});
     end
-    
+
 end
 end

@@ -27,7 +27,7 @@ methods
     % OUTPUT
     %   Path to the corresponding directory
     function out = root(this,varargin);          out = this.formPath(varargin{:}); end
-    
+
     function out = exp_results(this,varargin);   out = this.formPath("experiments_results", varargin{:}); end
     function out = cache(this,varargin);         out = this.formPath("matlab_cache", varargin{:}); end
     function out = fig(this,varargin);           out = this.formPath("matlab_fig", varargin{:}); end
@@ -42,7 +42,7 @@ methods (Access=private)
         arguments(Repeating)
             append(1,1) string
         end
-        
+
         out = fullfile(this.base, append{:});
     end
 end

@@ -60,7 +60,7 @@ This work is companion to [our publication](https://doi.org/10.1007/s43452-023-0
 }
 ```
 
-(Optional) If you find this work to be useful, please message me and share how you used it. I'd love to hear about it. 
+(Optional) If you find this work to be useful, please message me and share how you used it. I'd love to hear about it.
 You can find me here: [twitter](https://twitter.com/BrandonJohns96), [linkedin](https://www.linkedin.com/in/brandon-johns-6bab7815a).
 
 

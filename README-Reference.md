@@ -54,13 +54,13 @@ Location of the generated code
 - This location must be added to the variable `SunGenerated_Includes` in `run_sundials/src/SimC3/CMakeLists.txt`
 ```CMake
 # If the data is at
-# 
+#
 # data/sundials_generated/MyModel-1/crane_head_shared.cpp
 # data/sundials_generated/MyModel-1/crane_head.cpp
 # data/sundials_generated/MyModel-1/crane_inputs.cpp
 # data/sundials_generated/MyModel-1/crane_ode.cpp
 # data/sundials_generated/MyModel-1/crane_x.cpp
-# 
+#
 # data/sundials_generated/MyOtherModels/Model_2/crane_head_shared.cpp
 # data/sundials_generated/MyOtherModels/Model_2/crane_head.cpp
 # data/sundials_generated/MyOtherModels/Model_2/crane_inputs.cpp
@@ -594,7 +594,7 @@ properties (SetAccess=private)
     q(1,1) function_handle = @(t,x) 0
     q_d(1,1) function_handle = @(t,x) 0
     q_dd(1,1) function_handle = @(t,x) 0
-    
+
     % Type of input provided by the user
     mode(1,1) string {mustBeMember(mode, ["analytic","analyticFeedback","FeedbackObject","analyticPiecewise","sampled"])} = "analytic"
 end
@@ -695,7 +695,7 @@ NOTATION
 %}
 properties (SetAccess=private)
     T_0n(1,1) CDS_T = CDS_T(eye(4))
-    
+
     m(1,1) sym = 0 % Default no mass at point
     I_pn(3,3) sym = zeros(3) % Default point mass assumption
     R_np(3,3) sym = eye(3) % Default aligned
@@ -837,36 +837,36 @@ NOTES
 properties (SetAccess=protected)
     % Solution time
     t(1,:) double
-    
+
     % Generalised coordinates
     q_free(:,1) CDS_Param_Free
     qf(:,:) double    % (q_free,time)
     qf_d(:,:) double  % (q_free,time)
     qf_dd(:,:) double % (q_free,time)
-    
+
     % Time and state dependent variable system parameters
     q_input(:,1) CDS_Param_Input
     qi(:,:) double    % (q_input,time)
     qi_d(:,:) double  % (q_input,time)
     qi_dd(:,:) double % (q_input,time)
-    
+
     % Lagrange multipliers
     q_lambda(:,1) CDS_Param_Lambda
     ql(:,:) double   % (lambda,time)
     ql_d(:,:) double % (lambda,time)
-    
+
     % Points with mass
     p_mass(:,1) CDS_Point
     K(:,:) double % Kinetic energy (K,time)
     V(:,:) double % Potential energy (V,time)
     E(1,:) double % Total system energy (E,time)
-    
+
     % All points
     p_all(:,1) CDS_Point
     Px(:,:) double % Task space position (x,time)
     Py(:,:) double % Task space position (y,time)
     Pz(:,:) double % Task space position (z,time)
-    
+
     % Kinematic chains (for CDS_Solution_Animate)
     chains(1,:) cell % Cell array of linear arrays of CDS_Point instances, where each array is a chain
 end
@@ -1315,7 +1315,7 @@ properties (Access=public)
 
     % Boolean flag: Pass events function to odeset()?
     EventsIsActive(1,1) logical = 0
-    
+
     % Options passed to odeset()
     RelTol(1,1) double = 10^(-7)
     AbsTol(1,1) double = 10^(-7)
@@ -1352,7 +1352,7 @@ properties (SetAccess=private)
     params(1,1) CDS_Params
     points(1,:) CDS_Points % Would force (1,1), but dumb errors
     chains(1,:) cell
-    
+
     g0(3,1) sym = zeros(3,1)
     C(:,1) sym = []
 end

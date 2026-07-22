@@ -73,21 +73,21 @@ methods (Sealed=true)
         this.sym = sym(symIn);
         this.sym_short = symShortPtr;
         this.name_readable = nameReadablePtr;
-        
+
         this.d_offset = d_offset;
     end
-    
+
     %**********************************************************************
     % Interface: Set
     %***********************************
     function this = SetSymShort(this, nameIn)
         this.sym_short.SetProp(nameIn);
     end
-    
+
     function this = SetNameReadable(this, nameIn)
         this.name_readable.SetProp(nameIn);
     end
-    
+
     %**********************************************************************
     % Interface: Get
     %***********************************
@@ -108,11 +108,11 @@ methods (Sealed=true)
         % Validate
         if d+nDiff>2; error("Bad input: Differential order greater than 2"); end
         if t~='t' && nDiff>0; error("Bad input: Not function of time => can't differentiate"); end
-        
+
         if t=='t'
             % Form sym
             symOut = str2sym(strcat(this.Str(d),'(t)'));
-            
+
             % Differentiate
             symOut = diff(symOut,sym('t'),nDiff);
         else
@@ -120,7 +120,7 @@ methods (Sealed=true)
             symOut = sym(this.Str(d));
         end
     end
-    
+
     % Same as this.Sym, but output as a string
     function strOut = Str(this, d)
         arguments
@@ -128,18 +128,18 @@ methods (Sealed=true)
             d(1,1) double {mustBeMember(d,[0,1,2])} = 0
         end
         symArray = this.PropArray(this.sym);
-        
+
         % Apply offset to interface objects
         d = d + this.PropArray(this.d_offset);
         if d>2; error("Bad input: working with offset interface"); end
-        
+
         % Form output string
         strOut = strings(size(this));
         idx = d==0; strOut(idx) = string(symArray(idx));
         idx = d==1; strOut(idx) = strcat(string(symArray(idx)),'d');
         idx = d==2; strOut(idx) = strcat(string(symArray(idx)),'dd');
     end
-    
+
     % For code generation. Variable name to represent the parameter in the generated code
     function symOut = SymShort(this, d)
         arguments
@@ -148,7 +148,7 @@ methods (Sealed=true)
         end
         symOut =  sym(this.StrShort(d));
     end
-    
+
     % Same as this.SymShort, but output as a string
     function strOut = StrShort(this, d)
         arguments
@@ -156,18 +156,18 @@ methods (Sealed=true)
             d(1,1) double {mustBeMember(d,[0,1,2])} = 0
         end
         symArray = this.PropArray(this.sym_short).Prop;
-        
+
         % Apply offset to interface objects
         d = d + this.PropArray(this.d_offset);
         if d>2; error("Bad input: working with offset interface"); end
-        
+
         % Form output string
         strOut = strings(size(this));
         idx = d==0; strOut(idx) = string(symArray(idx));
         idx = d==1; strOut(idx) = strcat(string(symArray(idx)),'d');
         idx = d==2; strOut(idx) = strcat(string(symArray(idx)),'dd');
     end
-    
+
     % Friendly name to identify the parameter by
     % Used in in outputs, error messages, generated code
     function strOut = NameReadable(this, d)
@@ -176,11 +176,11 @@ methods (Sealed=true)
             d(1,1) double {mustBeMember(d,[0,1,2])} = 0
         end
         nameArray = this.PropArray(this.name_readable).Prop;
-        
+
         % Apply offset to interface objects
         d = d + this.PropArray(this.d_offset);
         if d>2; error("Bad input: working with offset interface"); end
-        
+
         % Form output string
         strOut = strings(size(this));
         idx = d==0; strOut(idx) = string(nameArray(idx));
@@ -237,11 +237,11 @@ methods (Sealed=true)
         for idxIn = 1:length(NameIn)
             idxMatch = [idxMatch , find(NameIn(idxIn)==this.Str)];
         end
-        
+
         if strcmp(optWarn,"EnableWarn") && length(idxMatch)~=length(NameIn)
             warning("Some points not found");
         end
-        
+
         if strcmp(optDuplicates,"RemoveDuplicates")
             idxMatch=unique(idxMatch);
         end

@@ -25,7 +25,7 @@ properties (SetAccess=private)
     q(1,1) function_handle = @(t,x) 0
     q_d(1,1) function_handle = @(t,x) 0
     q_dd(1,1) function_handle = @(t,x) 0
-    
+
     % Type of input provided by the user
     mode(1,1) string {mustBeMember(mode, ["analytic","analyticFeedback","FeedbackObject","analyticPiecewise","sampled"])} = "analytic"
 end
@@ -35,13 +35,13 @@ properties (Access=private)
     %***********************************
     % For analytic input
     q_sym(3,:) sym = [0;0;0]
-    
+
     % For analytic input > piecewise
     time_transition(1,:) double
     array_q(1,:) cell
     array_q_d(1,:) cell
     array_q_dd(1,:) cell
-    
+
     % For sampled input
     time_sampled(1,:) double
     q_samples(1,:) double
@@ -56,7 +56,7 @@ methods
     function this = CDS_Param_Input(varargin)
         this@CDS_Param(varargin);
     end
-    
+
     %**********************************************************************
     % Interface: Set
     %***********************************
@@ -91,22 +91,22 @@ methods
         end
         this.mode = "analytic";
         syms t
-        
+
         % Validate
         q_vars = symvar(q_symIn);
         q_vars = q_vars(q_vars~=t); % remove 't' from list
         if ~isempty(q_vars); error("Invalid input: q may only consist of numbers and sym('t')"); end
-        
+
         % Set user interface
         this.q_sym = [q_symIn; diff(q_symIn,t,1); diff(q_symIn,t,2)];
-        
+
         % Functions to evaluate
         syms x_unused
         this.q = this.sym2Handle(this.q_sym(1), x_unused);
         this.q_d = this.sym2Handle(this.q_sym(2), x_unused);
         this.q_dd = this.sym2Handle(this.q_sym(3), x_unused);
     end
-    
+
     % Set the value of the parameter to a analytic piecewise function of time
     % The first expression will be used until the first transition time, then the next expression will be used, etc.
     % INPUT
@@ -128,18 +128,18 @@ methods
         warning("This mode is not fully tested (need to test sundials export)");
         this.mode = "analyticPiecewise";
         syms t
-        
+
         % Validate
         q_vars = symvar(q_symIn);
         q_vars = q_vars(q_vars~=t); % Remove 't' from list
         if ~isempty(q_vars); error("Invalid input: q may only consist of numbers and sym('t')"); end
         if length(q_symIn)-1 ~= length(transitionTimes); error("Mismatching inputs"); end
-        
+
         this.time_transition = transitionTimes;
 
         % Set user interface
         this.q_sym = [q_symIn; diff(q_symIn,t,1); diff(q_symIn,t,2)];
-        
+
         % Functions to evaluate
         syms x_unused
         for idx = 1:length(q_symIn)
@@ -147,7 +147,7 @@ methods
             this.array_q_d{idx}  = this.sym2Handle(this.q_sym(2,idx), x_unused);
             this.array_q_dd{idx} = this.sym2Handle(this.q_sym(3,idx), x_unused);
         end
-        
+
         this.q    = @(t,x_unused) this.EvaluatePiecewise(t, 0);
         this.q_d  = @(t,x_unused) this.EvaluatePiecewise(t, 1);
         this.q_dd = @(t,x_unused) this.EvaluatePiecewise(t, 2);
@@ -178,22 +178,22 @@ methods
         warning("This mode is not fully functional or tested");
         this.mode = "analyticFeedback";
         syms t
-        
+
         % Validate
         q_vars = symvar(q_symIn);
         q_vars = q_vars(q_vars~=t); % remove 't' from list
         if ~all(has(q_vars, xSym)); error("Invalid input: q may only consist of numbers, t, and x(:)"); end
-        
+
         % Set user interface
         % TODO: This might be incorrect? Use multivariable chain rule accounting for x?
         this.q_sym = [q_symIn; diff(q_symIn,t,1); diff(q_symIn,t,2)];
-        
+
         % Functions to evaluate
         this.q = this.sym2Handle(this.q_sym(1), xSym);
         this.q_d = this.sym2Handle(this.q_sym(2), xSym);
         this.q_dd = this.sym2Handle(this.q_sym(3), xSym);
     end
-    
+
     % This never really worked out very well...
     % The feedback object needs better internal differentiation
     function this = SetFeedback(this, feedbackObject)
@@ -208,7 +208,7 @@ methods
         this.q_d = @(t_,x_) feedbackObject.Eval_q_d(t_,x_);
         this.q_dd = @(t_,x_) feedbackObject.Eval_q_dd(t_,x_);
     end
-    
+
     %**********************************************************************
     % Interface: Get
     %***********************************

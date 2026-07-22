@@ -47,14 +47,14 @@ methods
         u = sys.params.u;
         c = sys.params.const;
         cNum = sys.params.const.Num;
-        
+
         % Plot system energy
         %   DIM: (energy, time)
         GenEquations = CDS_Solver_GenerateEquations;
         [K_sym, V_sym, this.OutputList] = GenEquations.Energy(sys);
         V_semiNum = subs(V_sym, c.Sym,cNum);
         K_semiNum = subs(K_sym, c.Sym,cNum);
-        
+
         % Tested matlabFunction is ~10x faster than subs
         % Cell of handles because of bug in matlabFunction when one of the values in the array is a constant (vertcat error)
         numMass = length(this.OutputList);
@@ -126,7 +126,7 @@ methods
         %     V =/= V(t) i.e. The potential energy is not an explicit function of time
         %     V =/= V(q_d) i.e. V is not a function of velocities
         % I'm going with (2), and calling the case where they differ as non-conservative systems
-        
+
         % Sum energy of all masses
         out = sum(this.V(varargin{:}) + this.K(varargin{:}), 1);
     end

@@ -10,10 +10,10 @@ NOTES
 classdef CDS_Solution_Animate < handle
 properties (Access=private)
     SS(1,1) CDS_Solution
-    
+
     view_vector(1,3) double = [0,0,1]
     view_upVector(1,3) double = [0,1,0]
-    
+
     idx_AnimateIncludeTimes(1,:) double
 end
 methods
@@ -28,7 +28,7 @@ methods
             this(idx).SS = solution(idx);
         end
     end
-    
+
     % Select a predefined plot view orientation
     % Intended for y-up coordinate systems
     % INPUT
@@ -38,7 +38,7 @@ methods
             this(1,1)
             view_name(1,1) string = "front"
         end
-        
+
         if strcmp(view_name, 'top')
             this.view_vector = [0,1,0];
             this.view_upVector = [0,0,1];
@@ -79,13 +79,13 @@ methods
 
         % Find closest frames to specified times
         idx_times = dsearchn(this.SS.t.', frameTimes(:));
-        
+
         % Loop over all times to plot at
         for idx_time = idx_times(:).'
             % Plot frame
             coords_chains = this.Draw(this.SS.chains, idx_time);
             coords_mass = this.Draw({this.SS.p_mass}, idx_time);
-            
+
             % Draw frame
             for idxChain = 1:length(coords_chains)
                 plot3(...
@@ -104,7 +104,7 @@ methods
                 'MarkerEdgeColor','black');
         end
         if ~isHoldOnAtStart; hold(axes_h, 'off'); end
-        
+
         title("Configuration at time =" + strjoin(compose(" %g",this.SS.t(idx_times))," and") + " (s)")
         xlabel('x (m)')
         ylabel('y (m)')
@@ -116,7 +116,7 @@ methods
         end
         this.Set_View(axes_h);
     end
-    
+
     % Animate drawing the system at realtime speed
     % INPUT
     %   mode
@@ -130,23 +130,23 @@ methods
             mode(1,:) char {mustBeMember(mode,["play","gif","video"])} = "play"
             fileName(1,:) char = 'tmp'
         end
-        
+
         if strcmp(mode, 'play')
             this.Animate_Setup(mode, 20);
-            
+
         elseif strcmp(mode, 'gif')
             options.videoFrameRate = 10;
             fig_handle = this.Animate_Setup(mode, options.videoFrameRate);
-            
+
             % Record
             videoFrames = this.Animate_Play(fig_handle, mode, options);
             % Save
             this.Animate_SaveGif(videoFrames, fileName, options);
-            
+
         elseif strcmp(mode, 'video')
             options.videoFrameRate = 20;
             fig_handle = this.Animate_Setup(mode, options.videoFrameRate);
-            
+
             % Record
             videoFrames = this.Animate_Play(fig_handle, mode, options);
             % Save
@@ -155,20 +155,20 @@ methods
             warning('Bad input - Animate()')
         end
     end
-    
+
 end
 methods (Access=private)
     function [P_chains_num] = Draw(this, P_chains, idx_time)
         P_chains_num = cell(size(P_chains));
         for idx_chain = 1:length(P_chains_num)
             points = P_chains{idx_chain};
-            
+
             % Get ordered indices of points to plot
             idxP = zeros(size(points));
             for idxP_in = 1:length(points)
                 idxP(idxP_in) = find(this.SS.p_all==points(idxP_in));
             end
-            
+
             % Get ordered points
             P_chains_num{idx_chain} = [...
                 this.SS.Px(idxP,idx_time),...
@@ -176,18 +176,18 @@ methods (Access=private)
                 this.SS.Pz(idxP,idx_time)];
         end
     end
-    
+
     % Set plot view orientation
     function Set_View(this, axes_handle)
         arguments
             this(1,1)
             axes_handle
         end
-        
+
         view(axes_handle, this.view_vector)
         camup(axes_handle, this.view_upVector);
     end
-    
+
     %**********************************************************************
     % Animation internal functions
     %***********************************
@@ -195,14 +195,14 @@ methods (Access=private)
     function Callback_Repeat(this,source,event)
         this.Animate_Play(source.Parent, 'play');
     end
-    
+
     function fig_h = Animate_Setup(this, mode, frameRate)
         arguments
             this(1,1)
             mode(1,1) string
             frameRate(1,1) double = 20
         end
-        
+
         % Cut frames that won't be rendered - restrict to frame rate
         idx_include = zeros(size(this.SS.t));
         idx_include(1) = 1; % Use first frame
@@ -215,7 +215,7 @@ methods (Access=private)
             end
         end
         this.idx_AnimateIncludeTimes = nonzeros(idx_include);
-        
+
         % Create figure
         if strcmp(mode,"play")
             fig_h = figure;
@@ -223,7 +223,7 @@ methods (Access=private)
             % Don't display figure to user
             fig_h = figure('Visible','off');
         end
-        
+
         % Set axis limits with 20% padding
         axLim = [...
             min(this.SS.Px,[],'all'), max(this.SS.Px,[],'all');...
@@ -232,7 +232,7 @@ methods (Access=private)
         axSpan = axLim(:,2) - axLim(:,1);
         axLimPadded(:,1) = axLim(:,1) - 0.2*axSpan;
         axLimPadded(:,2) = axLim(:,2) + 0.2*axSpan;
-        
+
         % Figure to plot on and line object definitions
         axes_h = axes('Parent',fig_h, 'XGrid','on', 'YGrid','on', 'ZGrid','on');
         if axSpan(1)~=0; axes_h.XLim = axLimPadded(1,:); end
@@ -244,7 +244,7 @@ methods (Access=private)
         axes_h.ZLabel.String = 'z (m)';
         daspect(axes_h, [1, 1, 1]) % Force axis scale ratios 1:1:1
         this.Set_View(axes_h);
-        
+
         % Define lines by handle and draw/clear by handle
         numChains = length(this.SS.chains);
         line_h = cell(numChains + 1, 1);
@@ -252,9 +252,9 @@ methods (Access=private)
             line_h{idxChain} = animatedline(axes_h);
         end
         line_h{end} = animatedline(axes_h, 'LineStyle','none', 'Marker','*', 'MarkerSize',15);
-        
+
         axes_h.UserData = line_h;
-        
+
         if strcmp(mode,"play")
             % Method to pass data to a callback function
             % https://au.mathworks.com/help/matlab/creating_plots/callback-definition.html
@@ -265,12 +265,12 @@ methods (Access=private)
                 'Callback', @this.Callback_Repeat);
         end
     end
-    
+
     function videoFrames = Animate_Play(this, fig_handle, mode, options)
         % Initialise
         axes_h = get(fig_handle,'CurrentAxes');
         line_h = axes_h.UserData;
-        
+
         if strcmp(mode,'play')
             videoFrames = nan; % Not used in this mode
             pause(0.1)
@@ -281,9 +281,9 @@ methods (Access=private)
             video_time = 0;
             idx_frame = 0;
         end
-        
+
         idx_include = this.idx_AnimateIncludeTimes;
-        
+
         % Play animation
         prevFrameTime = this.SS.t(1);
         tic;
@@ -291,7 +291,7 @@ methods (Access=private)
             % Plot frame
             coords_chains = this.Draw(this.SS.chains, idx);
             coords_mass = this.Draw({this.SS.p_mass}, idx);
-            
+
             % Draw frame
             for idxChain = 1 : length(line_h)-1
                 clearpoints(line_h{idxChain});
@@ -305,7 +305,7 @@ methods (Access=private)
                 coords_mass{1}(:,1),...
                 coords_mass{1}(:,2),...
                 coords_mass{1}(:,3));
-            
+
             % Paint frame
             if strcmp(mode,'play')
                 drawnow limitrate; % limits to 20fps
@@ -324,7 +324,7 @@ methods (Access=private)
             end
         end
     end
-    
+
     function Animate_SaveGif(this, videoFrames, fileName, options)
         [dimH, dimW, ~] = size(videoFrames(1).cdata);
         dimAR = dimW/dimH; % Aspect ratio
@@ -334,7 +334,7 @@ methods (Access=private)
         NumColours = 3; % very literally
         delayLength = 1/options.videoFrameRate;
         dimHOut = 200;
-        
+
         % Write to new file
         for idx = 1 : length(videoFrames)
             % Raw frame
@@ -357,16 +357,16 @@ methods (Access=private)
             end
         end
     end
-    
+
     function Animate_SaveVideo(this, videoFrames, fileName, options)
         % Write video to file
         video = VideoWriter(fileName, 'MPEG-4');
         video.FrameRate = options.videoFrameRate;
-        
+
         open(video);
         writeVideo(video,videoFrames);
         close(video);
     end
-    
+
 end
 end

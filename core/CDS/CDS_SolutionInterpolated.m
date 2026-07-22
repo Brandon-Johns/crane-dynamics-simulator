@@ -60,7 +60,7 @@ methods (Access=private)
             valNew=[];
             return
         end
-        
+
         valNew = interp1(t,val, tNew, varargin{:});
     end
 end

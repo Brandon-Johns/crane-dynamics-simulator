@@ -9,7 +9,7 @@ properties (SetAccess=private)
     params(1,1) CDS_Params
     points(1,:) CDS_Points % Would force (1,1), but dumb errors
     chains(1,:) cell
-    
+
     g0(3,1) sym = zeros(3,1)
     C(:,1) sym = []
 end
@@ -38,13 +38,13 @@ methods
         this.points = points;
         this.chains = chains;
         this.g0 = g0;
-        
+
         % Validate chains
         for idx = 1:length(chains)
             if ~isa(chains{idx}, "CDS_Point"); error("Bad input: Chains must be point objects"); end
         end
     end
-    
+
     %**********************************************************************
     % Interface: Set
     %***********************************
@@ -66,7 +66,7 @@ methods
         if ~any( symvar(C) == this.params.x.Sym )
             warning("Constraint is not a function of the generalised coordinates")
        end
-        
+
         % Create lagrange multipliers
         for idx = 1:length(C)
             this.params.Create("lambda", strcat("lambda_",num2str(idx)));

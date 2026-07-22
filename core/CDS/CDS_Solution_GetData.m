@@ -45,7 +45,7 @@ methods
             this(idx).SS = solution(idx);
         end
     end
-    
+
     %**********************************************************************
     % Plain data
     %***********************************
@@ -77,13 +77,13 @@ methods
                 out(end+1, :) = this.SS.qf(idxPointInSS, idx_time);
                 continue;
             end
-            
+
             idxPointInSS = this.SS.q_input.ParamIdx(params(idx), "KeepDuplicates", "NoWarn");
             if ~isempty(idxPointInSS)
                 out(end+1, :) = this.SS.qi(idxPointInSS, idx_time);
                 continue;
             end
-            
+
             idxPointInSS = this.SS.q_lambda.ParamIdx(params(idx), "KeepDuplicates", "NoWarn");
             if ~isempty(idxPointInSS)
                 out(end+1, :) = this.SS.ql(idxPointInSS, idx_time);
@@ -114,13 +114,13 @@ methods
                 out(end+1, :) = this.SS.qf_d(idxPointInSS, idx_time);
                 continue;
             end
-            
+
             idxPointInSS = this.SS.q_input.ParamIdx(params(idx), "KeepDuplicates", "NoWarn");
             if ~isempty(idxPointInSS)
                 out(end+1, :) = this.SS.qi_d(idxPointInSS, idx_time);
                 continue;
             end
-            
+
             idxPointInSS = this.SS.q_lambda.ParamIdx(params(idx), "KeepDuplicates", "NoWarn");
             if ~isempty(idxPointInSS)
                 out(end+1, :) = this.SS.ql_d(idxPointInSS, idx_time);
@@ -151,13 +151,13 @@ methods
                 out(end+1, :) = this.SS.qf_dd(idxPointInSS, idx_time);
                 continue;
             end
-            
+
             idxPointInSS = this.SS.q_input.ParamIdx(params(idx), "KeepDuplicates", "NoWarn");
             if ~isempty(idxPointInSS)
                 out(end+1, :) = this.SS.qi_dd(idxPointInSS, idx_time);
                 continue;
             end
-            
+
             % If this is reached, then the point is not found
             % Note: acceleration for q_lambda is not calculated
             if isa(params, "string")
@@ -219,7 +219,7 @@ methods
         end
         % Get ordered indices of points to plot
         idxP = this.SS.p_all.PointIdx(points, "KeepDuplicates", "NoWarn");
-        
+
         % Get ordered points
         data = [...
             this.SS.Px(idxP,idx_time),...
@@ -242,7 +242,7 @@ methods
 
         % Get ordered indices of points to plot
         idxP = this.SS.p_all.PointIdx(points, "RemoveDuplicates");
-        
+
         % Get ordered points
         data = [...
             this.SS.Px(idxP,idx_time),...
@@ -251,7 +251,7 @@ methods
 
         dataTable = array2table(data, 'VariableName',["x","y","z"], 'RowNames',this.SS.p_all(idxP).NameShort);
     end
-    
+
     % Same as this.xyz(), but with the output table transposed
     function dataTable = xyzTable_t(this, varargin)
         dataTable = rows2vars( this.xyzTable(varargin{:}) );
@@ -306,7 +306,7 @@ methods
             point1(1,1) {mustBeA(point1, ["string", "CDS_Point"])}
             point2(1,1) {mustBeA(point2, ["string", "CDS_Point"])}
         end
-        
+
         idxP1 = this.SS.p_all.PointIdx(point1);
         idxP2 = this.SS.p_all.PointIdx(point2);
 

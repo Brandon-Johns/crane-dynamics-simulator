@@ -12,7 +12,7 @@ properties (Access=public)
 
     % Boolean flag: Pass events function to odeset()?
     EventsIsActive(1,1) logical = 0
-    
+
     % Options passed to odeset()
     RelTol(1,1) double = 10^(-7)
     AbsTol(1,1) double = 10^(-7)

@@ -16,7 +16,7 @@ methods
         end
         this.options = options;
     end
-    
+
     %**********************************************************************
     % Interface - Solve
     %***********************************
@@ -53,7 +53,7 @@ methods
                 solverName="ode15i";
             end
         end
-        
+
         % Override bad input & resolve "auto" for special solvers
         if solverName=="sundials"; solveMode="export"; end
         if solverName=="drawIC"; solveMode="drawIC"; end % User should specify "solveMode"="auto"
@@ -96,53 +96,53 @@ methods
         %       t_span=[t_span(1), t_span(end)]
         %   => must use deval to change solution coordinates
         t_span = this.options.time;
-        
+
         % Set solve options
         opt = odeset('RelTol',this.options.RelTol, 'AbsTol',this.options.AbsTol);
         opt = odeset(opt, 'Stats','on');
         if this.options.EventsIsActive
             opt = odeset(opt, 'Events',this.options.Events);
         end
-        
+
         GenEquations = CDS_Solver_GenerateEquations;
         ReformEquations = CDS_Solver_ReformEquations;
-        
+
         % Switch solveMode
         if solveMode=="fullyImplicit"
             % FORM:   0 = f(t, x, x_d)
             %         0 = g(t, x)
             % INPUT:  [f, g]
             % OUTPUT: x
-            
+
             % Generate and form system equations
             [K, V] = GenEquations.Energy(sys);
             DAEs_EL = GenEquations.EulerLagrange(sys, K, V);
             DAEs_C = GenEquations.Constraint(sys, "C_d");
             DAEs_f_t = ReformEquations.Implicit(sys, DAEs_EL, DAEs_C);
-            
+
             % Sub in constants
             DAEs_f_semiNum_t = subs(DAEs_f_t, sys.params.const.Sym, sys.params.const.Num);
-            
+
             % Create function handle for ode solver
             DAEs_h1 = daeFunction(DAEs_f_semiNum_t, sys.params.x.Sym(0,"t"), sys.params.u.Sym);
-            
+
             % Inject inputs into DAE
             u_h = sys.params.u.q;
             DAEs_h = @(t_,x_,x_d_) DAEs_h1(t_,x_,x_d_, u_h(t_,x_));
-            
+
             % Create consistent set of ICs
             [x0,x_d0] = decic(DAEs_h, 0,...
                 sys.params.x.x0, sys.params.x.x0_fixed,...
                 sys.params.x.x_d0, sys.params.x.x_d0_fixed,...
                 opt);
             sys.params.x.SetIC(x0, x_d0);
-            
+
             fprintf('Modified initial conditions:\n')
             disp(table(sys.params.x.Str, x0, x_d0, 'VariableNames',["x","x(0)","x_d(0)"]));
-            
+
             % Solve
             sol = ode15i(DAEs_h,t_span,x0,x_d0,opt);
-            
+
         elseif solveMode=="massMatrix"
             % FORM:   M(t, x) * x_d = f(t, x)
             %         ode15s, ode23t: M can be singular
@@ -150,7 +150,7 @@ methods
             %         other solvers:  M must be full rank
             % INPUT:  M, f
             % OUTPUT: x
-            
+
             % Generate and form system equations
             [K, V] = GenEquations.Energy(sys);
             DAEs_EL = GenEquations.EulerLagrange(sys, K, V);
@@ -160,32 +160,32 @@ methods
             if solverName=="ode23s" && any(ismember(symvar(DAEs_M), sys.params.x.Sym))
                 error("Mode 'massMatrix' for solver 'ode23s' requires the mass matrix to be constant.");
             end
-            
+
             % Sub in constants
             DAEs_M_semiNum = subs(DAEs_M, sys.params.const.Sym, sys.params.const.Num);
             DAEs_f_semiNum = subs(DAEs_f, sys.params.const.Sym, sys.params.const.Num);
-            
+
             % Create function handle for ode solver
             DAEs_M_h1 = matlabFunction(DAEs_M_semiNum, 'Vars',{sym('t'), sys.params.x.Sym, sys.params.u.Sym});
             DAEs_f_h1 = matlabFunction(DAEs_f_semiNum, 'Vars',{sym('t'), sys.params.x.Sym, sys.params.u.Sym});
-            
+
             % Inject inputs into DAE
             u_h = sys.params.u.q;
             DAEs_M_h = @(t_,x_) DAEs_M_h1(t_, x_, u_h(t_,x_));
             DAEs_f_h = @(t_,x_) DAEs_f_h1(t_, x_, u_h(t_,x_));
-            
+
             % Pass mass matrix to solver
             opt = odeset(opt, 'Mass',DAEs_M_h);
-            
+
             % Solve
             x0 = sys.params.x.x0;
             sol = this.RunSolver(solverName, DAEs_f_h, t_span, x0, opt);
-            
+
         elseif any(solveMode==["setupTime", "solveTime"])
             % FORM:   x_d = f(t, x)
             % INPUT:  f
             % OUTPUT: x
-            
+
             % Generate and form system equations
             [K, V] = GenEquations.Energy(sys);
             DAEs_EL = GenEquations.EulerLagrange(sys, K, V);
@@ -195,45 +195,45 @@ methods
             else % solveMode=="solveTime"
                 DAEs_f_h1 = ReformEquations.Solve(sys, DAEs_EL, DAEs_C, "solvetime_anonfun");
             end
-            
+
             % Inject inputs into DAE
             u_h = sys.params.u.q;
             DAEs_f_h = @(t_,x_) DAEs_f_h1(t_, x_, u_h(t_,x_));
-            
+
             % Solve
             x0 = sys.params.x.x0;
             sol = this.RunSolver(solverName, DAEs_f_h, t_span, x0, opt);
-            
+
         elseif solveMode=="solveTime2"
             % FORM:   x_d = f(t, x)
             % INPUT:  f
             % OUTPUT: x
-            
+
             % Generate and form system equations
             [K, V] = GenEquations.Energy(sys);
             DAEs_EL = GenEquations.EulerLagrange(sys, K, V);
             DAEs_C = GenEquations.Constraint(sys, "C_dd");
             ODEs_obj = ReformEquations.Solve(sys, DAEs_EL, DAEs_C, "solvetime_object");
-            
+
             % Create handle to solver
             ODEs_f_obj = CDS_Solver_ODEs_Eval(sys, ODEs_obj);
             DAEs_f_h = @(t_,x_) ODEs_f_obj.Evaluate(t_,x_);
-            
+
             % Solve
             x0 = sys.params.x.x0;
             sol = this.RunSolver(solverName, DAEs_f_h, t_span, x0, opt);
-            
+
         elseif solveMode=="export"
             % FORM:   x_d = f(t, x)
             % INPUT:  f
             % OUTPUT: x
-            
+
             % Generate and form system equations
             [K, V] = GenEquations.Energy(sys);
             DAEs_EL = GenEquations.EulerLagrange(sys, K, V);
             DAEs_C = GenEquations.Constraint(sys, "C_dd");
             ODEs_obj = ReformEquations.Solve(sys, DAEs_EL, DAEs_C, "solvetime_object");
-            
+
             % Export Equations
             Exporter = CDS_Solver_ODEs_Export(sys, ODEs_obj, this.options);
             if solverName=="sundials"
@@ -242,23 +242,23 @@ methods
                 Exporter.Export_Matlab(solverName);
             end
             return
-            
+
         elseif solveMode=="drawIC"
             % Skip solver, just pass through ICs
             % deval doesn't like me => create dummy sol struct
             sol = ode45(@(t,x)x, [0,eps], sys.params.x.x0, odeset('InitialStep',eps, 'maxstep',eps));
-            
+
         else
             error('Bad input: solveMode')
         end
-        
+
         % Interpolate solution to desired time coordinates
         %   Cut user specified time if solver exited early
         %   A warning is already issued by the solver, so no need to reissue
         if length(t_span)==2
             % Use the solution time coords generated by solver
             t_sol = sol.x; % Why they have to call it x, RIP
-            
+
             % Limit against too many coords
             %   Because deval is quite slow
             if length(t_sol)>10000

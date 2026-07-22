@@ -24,19 +24,19 @@ methods
             filePath(1,1) string
         end
         filePath = this.ValidatePath(filePath);
-        
+
         % Extract directory, removing filename
         [PathDir,~,~] = fileparts(filePath);
-        
+
         % Current working directory => No action required
         if PathDir==""; return; end
-        
+
         % Path already exists => No action required
         if isfolder(PathDir); return; end
-        
+
         mkdir(PathDir);
     end
-    
+
     %**********************************************************************
     % Interface:
     %   Validate (throws errors)
@@ -57,7 +57,7 @@ methods
         end
         [~,pathFN,pathEx] = fileparts(filePath);
         if contains(pathFN, "."); error("Path contains multiple extensions"); end
-        
+
         % Add "." to extension
         if ~contains(extension, "."); extension="."+extension; end
 
@@ -68,7 +68,7 @@ methods
             error("Mismatching extension");
         end
     end
-    
+
     % Check if a given file exists
     % Test the input string without altering it / without any error-correcting
     % INPUT
@@ -110,13 +110,13 @@ methods
         %   fullfile() sets the correct separator when given a UNIX path
         %   => change window separator to UNIX, then let fullfile() finish the job
         filePath = fullfile(strrep(filePath, "\","/"));
-        
+
         % Prevent dangerous operations
         [pathDir,~,pathEx] = fileparts(filePath);
         if pathEx==""; error("Bad input: No file extension"); end
         if any(strncmp(pathDir,["\","/"],1)); error("Bad input: Relative paths only (Path starts with '/')"); end
     end
-    
+
     %**********************************************************************
     % Interface: Write
     %***********************************
@@ -129,14 +129,14 @@ methods
             filePath(1,1) string
         end
         filePath = this.MakePathToFile(filePath);
-        
+
         % Empty file / Create if none exists
         fileID = fopen(filePath, 'wt');
-        
+
         % Close file
         fclose(fileID);
     end
-    
+
     % Append string to text file
     % INPUT
     %   str: string to output
@@ -153,7 +153,7 @@ methods
             mode(1,1) string {mustBeMember(mode, ["format","exact","exactN"])} = "format"
         end
         filePath = this.MakePathToFile(filePath);
-        
+
         % Open and setup output file
         fileID = fopen(filePath, 'rt+');
         if fileID==-1 % error code for file does not exist
@@ -161,7 +161,7 @@ methods
         else
             fseek(fileID, 0, 'eof'); % add at end of file
         end
-        
+
         % Print / write string to file
         for idx = 1:length(str)
             if strcmp(mode,"format")
@@ -173,11 +173,11 @@ methods
                 fprintf(fileID, '\n');
             end
         end
-        
+
         % Close file
         fclose(fileID);
     end
-    
+
     % Append symbolic expression to text file
     % INPUT
     %   var: symbolic matrix or cell array of symbolic matrices
@@ -197,13 +197,13 @@ methods
             modeWS(1,1) string {mustBeMember(modeWS, ["normalWS","removeWS"])} = "normalWS"
         end
         filePath = this.MakePathToFile(filePath);
-        
+
         if strcmp(modeWS, "removeWS")
             preprocessWS = @(str) strrep(str,' ','');
         else %strcmp(modeWS, 'normalWS')
             preprocessWS = @(str) str;
         end
-        
+
         % Open and setup output file
         fileID = fopen(filePath, 'rt+');
         if fileID==-1 % error code for file does not exist
@@ -211,24 +211,24 @@ methods
         else
             fseek(fileID, 0, 'eof'); % add at end of file
         end
-        
+
         % Print data
         if iscell(var)
             % Reshape into 1D cell array
             var = var(:);
-            
+
             % Print each cell
             for idx = 1:length(var)
                 fprintf(fileID, '%s\n\n' ,preprocessWS(char(var{idx})));
             end
         else % Bare matrix
             fprintf(fileID, '%s' ,preprocessWS(char(var)));
-            
+
             if strcmp(mode,'terminate')
                 fprintf(fileID, ';\n\n');
             end
         end
-        
+
         % Close file
         fclose(fileID);
     end

@@ -40,7 +40,7 @@ properties (Access=private)
     % These properties are only for use in building this object
     % Public properties defined in CDS_Solution
     params(1,1) CDS_Params
-    
+
 end
 methods
     %**********************************************************************
@@ -56,7 +56,7 @@ methods
         end
         this.t = t_sol;
         this.params = params;
-        
+
         % Generate input
         %   Non-vectorised version (see notes in CDS_SolutionSim)
         this.q_input = params.q_input;
@@ -69,7 +69,7 @@ methods
             end
         end
     end
-    
+
     % INPUT
     %   point: CDS_Point with all properties appropriately set
     function AddPoint_Analytic(this, point)
@@ -79,7 +79,7 @@ methods
         end
         this.CalcTransforms_Analytic(this.params.const, point);
     end
-    
+
     % NOTATION
     %   T_AB means the transformation matrix that satisfies the relation P_A = T_AB * P_B, where
     %       P_A is a point as measured in frame A
@@ -109,10 +109,10 @@ methods
         % Save point object
         this.p_all(end+1) = point;
         if(point.HasMass); this.p_mass(end+1) = point; end
-        
+
         % Evaluate any symbolic variables e.g. 'pi'
         T_w0 = CDS_T(double(T_w0.T));
-        
+
         % Evaluate and save positions
         %   Precalculated for vectorisation (speed up of like a million times, no joke)
         %       T_w0 = str2sym("[w011, w012, w013, w0x; w021, w022, w023, w0y; w031, w032, w033, w0z; 0,0,0,1]");
@@ -134,7 +134,7 @@ methods
             T_dn.y*(R_wd(:,2)*R_w0(3,1)+R_wd(:,5)*R_w0(3,2)+R_wd(:,8)*R_w0(3,3))+...
             T_dn.z*(R_wd(:,3)*R_w0(3,1)+R_wd(:,6)*R_w0(3,2)+R_wd(:,9)*R_w0(3,3));
     end
-    
+
     % Kinematic chains (used only for plotting the animation)
     % INPUT
     %   % Cell array of linear arrays of CDS_Point instances, where each array is a chain
@@ -147,14 +147,14 @@ methods
         for idxChain = 1:length(chains)
             chain = chains{idxChain}; % Because matlab tries to be clever in edge cases
             if ~isa(chain, "CDS_Point"); error("Bad input: Chains must be point objects"); end
-            
+
             for point = chain
                 if ~any(this.p_all == point)
                     error("Bad input: First call AddPoint_...() for: " + point.NameReadable);
                 end
             end
         end
-        
+
         % Valid => save
         this.chains = chains;
     end
@@ -176,7 +176,7 @@ methods (Static)
             cos(y).*cos(z), -cos(y).*sin(z), sin(y),...
             cos(x).*sin(z)+sin(x).*sin(y).*cos(z), cos(x).*cos(z)-sin(x).*sin(y).*sin(z), -sin(x).*cos(y),...
             sin(x).*sin(z)-cos(x).*sin(y).*cos(z), sin(x).*cos(z)+cos(x).*sin(y).*sin(z), cos(x).*cos(y)];
-        
+
         %R = eul2rotm(eulerXYZ,"XYZ");
         %R_rowMajor = reshape(permute(R,[3,2,1]), size(R,3), 9);
     end
@@ -196,11 +196,11 @@ methods (Access=private)
         uSol = [this.qi; this.qi_d; this.qi_dd];
         cNum = params_const.Num;
         numT = length(this.t);
-        
+
         % Save point object
         this.p_all(end+1) = point;
         if(point.HasMass); this.p_mass(end+1) = point; end
-        
+
         % Evaluate and save positions
         %   Preallocation to avoid errors if matlabFunction outputs a constant
         P_semiNum = subs(point.T_0n.P, c,cNum);

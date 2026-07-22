@@ -27,7 +27,7 @@ methods
 
         % Point I: True or equilibrium
         %Flag_pointI_truePosition = this.Flag_pointI_truePosition;
-        
+
         %**********************************************************************
         % Check input
         %***********************************
@@ -185,7 +185,7 @@ methods
         %   Specify as 0=C
         %   Note: all uses of C differentiate => no need to specify const
         %(none)
-        
+
         %**********************************************************************
         % Save output
         %***********************************

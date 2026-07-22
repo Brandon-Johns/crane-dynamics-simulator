@@ -19,7 +19,7 @@ properties (SetAccess=private)
     q_free(:,1) CDS_Param_Free
     q_input(:,1) CDS_Param_Input
     lambda(:,1) CDS_Param_Lambda
-    
+
     % For internal use
     % Set the state vector interface to include or exclude lambda
     %   Include if using an implicit solver
@@ -41,7 +41,7 @@ methods
     function this = CDS_Params()
         %
     end
-    
+
     % Build instances of CDS_Param subclasses
     % INPUT
     %   paramType
@@ -60,43 +60,43 @@ methods
             paramType(1,1) string
             paramIn(1,1) string
         end
-        
+
         % Check if duplicate
         if ~isempty(this.Param(paramIn,"KeepDuplicates","NoWarn"))
             error('Parameter already exists and registered: %s', paramIn)
         end
-        
+
         % Check if already defined within scope of caller
         inputExists = evalin('caller', "exist('"+paramIn+"')&&(class("+paramIn+")~=""sym"")");
         if inputExists
             warning('Variable of same name, which is not a sym, is already defined in caller. It will be overwritten.')
         end
-        
+
         % Define inputs as syms in scope of caller
         assignin('caller', paramIn, sym(paramIn));
-        
+
         % Create & register new param
         if strcmp(paramType, 'const')
             % Create Param
             paramObject = CDS_Param_Const(paramIn);
             this.const(end+1) = paramObject;
-            
+
         elseif strcmp(paramType, 'free')
             % Create Param
             paramObject = CDS_Param_Free(paramIn);
             this.q_free(end+1) = paramObject;
-            
+
             % Create Interfaces
             interface = CDS_Param_x(paramObject);
             interface_d = CDS_Param_x(paramObject, 1);
             this.q_free_interface(end+1) = interface;
             this.q_free_d_interface(end+1) = interface_d;
-            
+
         elseif strcmp(paramType, 'input')
             % Create Param
             paramObject = CDS_Param_Input(paramIn);
             this.q_input(end+1) = paramObject;
-            
+
             % Create Interfaces
             interface = CDS_Param_u(paramObject);
             interface_d = CDS_Param_u(paramObject, 1);
@@ -104,12 +104,12 @@ methods
             this.q_input_interface(end+1) = interface;
             this.q_input_d_interface(end+1) = interface_d;
             this.q_input_dd_interface(end+1) = interface_dd;
-            
+
         elseif strcmp(paramType, 'lambda')
             % Create Param
             paramObject = CDS_Param_Lambda(paramIn);
             this.lambda(end+1) = paramObject;
-            
+
             % Create Interface
             interface = CDS_Param_x(paramObject);
             this.lambda_interface(end+1) = interface;
@@ -117,7 +117,7 @@ methods
             error('Invalid input: paramType')
         end
     end
-    
+
     %**********************************************************************
     % Interface: Set
     %***********************************
@@ -125,7 +125,7 @@ methods
     function SetStateVectorMode(this, mode)
         this.x_mode = mode;
     end
-    
+
     %**********************************************************************
     % Interface: Get - Objects
     %***********************************
@@ -133,12 +133,12 @@ methods
     function all = All(this)
         all = [this.const; this.q_free; this.q_input; this.lambda];
     end
-    
+
     % Get the array of all created CDS_Param_Free and CDS_Param_Input objects
     function paramObjectArray = q(this)
         paramObjectArray = [this.q_free; this.q_input];
     end
-    
+
     % For internal use
     % Get the state vector interface
     function paramObjectArray = x(this, x_mode)
@@ -152,7 +152,7 @@ methods
             paramObjectArray = [this.q_free_d_interface; this.q_free_interface];
         end
     end
-    
+
     % For internal use
     % Get the state input interface
     function paramObjectArray = u(this)
@@ -161,14 +161,14 @@ methods
         end
         paramObjectArray = [this.q_input_interface; this.q_input_d_interface ; this.q_input_dd_interface];
     end
-    
+
     % Get specific param objects
     % INPUT
     %   Same as CDS_Param.ParamIdx
     function paramObject = Param(this, varargin)
         paramObject = this.All.Param(varargin{:});
     end
-    
+
     %**********************************************************************
     % Interface: Get - Properties
     %***********************************
@@ -184,7 +184,7 @@ methods
             symOut = [this.q.Sym(2); this.q.Sym(1); this.q.Sym(0)];
         end
     end
-    
+
     % For internal use
     function symOut = x_SymSwap(this, t)
         arguments

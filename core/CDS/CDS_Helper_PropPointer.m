@@ -24,11 +24,11 @@ methods
         this.type = type;
         this.prop = this.ValidateProp(prop);
     end
-    
+
     function SetProp(this, prop)
         this.prop = this.ValidateProp(prop);
     end
-    
+
     function prop = Prop(this)
         prop = this.PropArray(this.prop);
     end
@@ -42,7 +42,7 @@ methods (Access=private)
     function propArray = PropArray(this, varargin)
         propArray = reshape([varargin{:}],size(this));
     end
-    
+
     function prop = ValidateProp(this, prop)
         try % First check if type exactly matches
             mustBeA(prop, this.type)
@@ -58,7 +58,7 @@ methods (Access=private)
                 prop = sym(prop);
                 return
             end
-            
+
             prop = cast(prop, this.type);
             return
         catch

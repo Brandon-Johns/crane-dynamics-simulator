@@ -66,7 +66,7 @@ methods (Access=private)
             val=[];
             return
         end
-        
+
         val = readmatrix(fileName, 'sheet',sheetName, 'UseExcel',0).';
     end
 end

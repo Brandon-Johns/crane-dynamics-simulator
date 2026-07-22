@@ -19,7 +19,7 @@ end
 methods
     function this = CDSu_PlotMultiple()
     end
-    
+
     % NOTES:
     %   A lagging plot occurs after the baseline => it is to far right on the time plot
     % INPUT:
@@ -35,7 +35,7 @@ methods
         inType=class(P);
         if inType=="double"; P={P}; end
         mustBeVector(P);
-        
+
         for idx=1:length(P)
             lagIdx = LagIdx(idx);
             if 0 < lagIdx
@@ -53,7 +53,7 @@ methods
         % Output in same form as input
         if inType=="double"; P=P{1}; end
     end
-    
+
     function P = OffsetDataToZero(this, P, ax)
         arguments
             this(1,1)
@@ -63,7 +63,7 @@ methods
         inType=class(P);
         if inType=="double"; P={P}; end
         mustBeVector(P);
-        
+
         % Operate only on specified axes
         idxAx = [any(ax=='x'); any(ax=='y'); any(ax=='z')];
 
@@ -85,13 +85,13 @@ methods
         end
         if isa(P,"double"); P={P}; end
         mustBeVector(P);
-        
+
         % Choose plane
         if     plane=="x"; idxX=2; idxY=3;
         elseif plane=="y"; idxX=1; idxY=3;
         elseif plane=="z"; idxX=1; idxY=2;
         end
-        
+
         fig=figure;
         ax=axes('Parent',fig);
         hold(ax, 'on')
@@ -100,7 +100,7 @@ methods
         end
         hold(ax, 'off')
     end
-    
+
     % Plot specific axes
     function fig = PlotXYZ(this, varargin); fig = PlotXYZ_Choose(this, 'xyz', varargin{:}); end
     function fig = PlotXY(this, varargin); fig = PlotXYZ_Choose(this, 'xy', varargin{:}); end
@@ -133,7 +133,7 @@ methods
         axX = ax(axToPlot=='x');
         axY = ax(axToPlot=='y');
         axZ = ax(axToPlot=='z');
-        
+
         hold(ax, 'on')
         for idx = 1:length(P)
             if ~isempty(axX); plot(axX, t, P{idx}(1,:), 'LineWidth',LW, "Color",LC(idx), "LineStyle",LS(idx)); end
@@ -183,7 +183,7 @@ methods
         mustBeVector(PM);
         if length(PK)~=length(PM); error("Mismatching inputs: Points K to Points M"); end
         if length(PK)~=length(legendStr); error("Mismatching inputs: Legend string"); end
-        
+
         LS = this.lineStyle;
         LC = this.LineColours(length(PK));
         LW = this.lineWidth;
@@ -233,7 +233,7 @@ methods
         % Save figure
         this.exportFig(fig, fileNameOut, export);
     end
-    
+
     function exportFig(this, fig, fileName, fileType)
         arguments
             this(1,1)
@@ -242,7 +242,7 @@ methods
             fileType(1,1) string {mustBeMember(fileType,["","png","eps","pdf","svg"])} = ""
         end
         if fileType==""; return; end
-        
+
         FH = CDS_Helper_StrOut();
         fileName = FH.ValidateFileExtension(fileName,fileType);
         fileName = FH.MakePathToFile(fileName);
@@ -269,7 +269,7 @@ methods
         end
         % Check user override
         if this.lineColour~="auto"; lineColours=this.lineColour; return; end
-        
+
         % Aims to choose colour blind friendly colours
         % Source: https://personal.sron.nl/~pault/#sec:qualitative
         switch numberOfLines

@@ -22,17 +22,17 @@ properties (Access=public)
     L_JK(1,1) double = nan
     L_KL(1,1) double = nan
     L_LM(1,1) double = nan
-    
+
     theta_3_eq(1,1) double = nan
     a_DE_eq(1,1) double = nan
-    
+
     % Mass
     g(1,1) double = nan
     mass_K(1,1) double = nan
     mass_M(1,1) double = nan
     inertia_K(:,:) double {ValidateInertia} = [nan,nan,nan]
     inertia_M(:,:) double {ValidateInertia} = [nan,nan,nan]
-    
+
     %**********************************************************************
     % Input Preset
     %***********************************
@@ -44,7 +44,7 @@ properties (Access=public)
     theta_10_t(1,:) {mustBeA(theta_10_t, ["sym", "double", "cell"])} = nan
 
     Flag_2DPermitted(1,1) {ValidateFlag} = nan
-    
+
     %**********************************************************************
     % ICs: Dependent on Geometry & Input
     %***********************************
@@ -61,7 +61,7 @@ properties (Access=public)
     theta_p1o_IC(1,1) double = nan
     theta_p2o_IC(1,1) double = nan
     theta_p1s_IC(1,1) double = nan
-    
+
     %**********************************************************************
     % Dependent - Calculated During Build
     %***********************************
@@ -101,7 +101,7 @@ properties (Access=public)
     T_BH_C(1,1) CDS_T
     T_HB_F(1,1) CDS_T % HB, axis of front sheave
     T_HB_G(1,1) CDS_T % HB, axis of back sheave
-    
+
 end
 methods
     %**********************************************************************
@@ -146,7 +146,7 @@ methods
     function out = get.theta_2_t(this); out=this.theta_2_t; this.ValidateIsSet(out); end
     function out = get.theta_10_t(this); out=this.theta_10_t; this.ValidateIsSet(out); end
     function out = get.Flag_2DPermitted(this); out=this.Flag_2DPermitted; this.ValidateIsSet(out); end
-    
+
     function out = get.theta_3_IC(this); out=this.theta_3_IC; this.ValidateIsSet(out); end
     function out = get.theta_4_IC(this); out=this.theta_4_IC; this.ValidateIsSet(out); end
     function out = get.theta_5_IC(this); out=this.theta_5_IC; this.ValidateIsSet(out); end
@@ -175,7 +175,7 @@ function ValidateFlag(in)
     % Only allow these to be implicitly converted
     if in==1; in=true; end
     if in==0; in=false; end
-    
+
     if ~( islogical(in) || isnan(in) )
         error("Value must be a logical or NaN (unset)")
     end

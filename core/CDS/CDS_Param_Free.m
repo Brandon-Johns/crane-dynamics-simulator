@@ -30,7 +30,7 @@ properties (Access=private)
     q0_(1,1) double {mustBeFinite(q0_)} = 0
     q_d0_(1,1) double {mustBeFinite(q_d0_)} = 0
     q_dd0_(1,1) double {mustBeFinite(q_dd0_)} = 0
-    
+
     % For implicit solvers - Disallow solver from changing specified initial conditions
     q0_fixed_(1,1) logical = 1
     q_d0_fixed_(1,1) logical = 0 % Setting this fixed can make solver unhappy
@@ -43,7 +43,7 @@ methods
     function this = CDS_Param_Free(varargin)
         this@CDS_Param(varargin);
     end
-    
+
     %**********************************************************************
     % Interface: Set
     %***********************************
@@ -59,19 +59,19 @@ methods
         if nargin >= 2; this.q0_ = q0; end
         if nargin >= 3; this.q_d0_ = q_d0; end
         if nargin >= 4; this.q_dd0_ = q_dd0; end
-        
+
         if nargin >= 5; this.q0_fixed_ = q0_fixed; end
         if nargin >= 6; this.q_d0_fixed_ = q_d0_fixed; end
         if nargin >= 7; this.q_dd0_fixed_ = q_dd0_fixed; end
     end
-    
+
     % Intended for internal use only
     % For interface CDS_Param_x
     function this = SetIC_offset(this, q_d0,q_dd0)
         this.q_d0_ = q_d0;
         this.q_dd0_ = q_dd0;
     end
-    
+
     %**********************************************************************
     % Interface: Get
     %***********************************

@@ -22,21 +22,21 @@ methods
             d_offset(1,1) double {mustBeMember(d_offset,[0,1])} = 0
         end
         this@CDS_Param(x_object.Sym, d_offset, x_object.SymShortPtr, x_object.NameReadablePtr);
-        
+
         % Validate input
         if d_offset == 1 && ~isa(x_object, "CDS_Param_Free")
             error("Bad input")
         end
-            
+
         this.x = x_object;
     end
-    
+
     %**********************************************************************
     % Interface: Set
     %***********************************
     function this = SetIC(this, x0,x_d0)
         d = this.PropArray(this.d_offset);
-        
+
         for idx = 1:length(d)
             if this(idx).d_offset == 0
                 this(idx).x.SetIC(x0(idx),x_d0(idx));
@@ -45,7 +45,7 @@ methods
             end
         end
     end
-    
+
     %**********************************************************************
     % Interface: Get
     %***********************************
@@ -53,7 +53,7 @@ methods
     function out = x0(this)
         d = this.PropArray(this.d_offset);
         ObjectArray = [this.x];
-        
+
         % Get output
         out = zeros(size(this));
         for idx = 1:length(d)
@@ -67,7 +67,7 @@ methods
     function out = x_d0(this)
         d = this.PropArray(this.d_offset);
         ObjectArray = [this.x];
-        
+
         % Get output
         out = zeros(size(this));
         for idx = 1:length(d)
@@ -81,7 +81,7 @@ methods
     function out = x0_fixed(this)
         d = this.PropArray(this.d_offset);
         ObjectArray = [this.x];
-        
+
         % Get output
         out = zeros(size(this));
         for idx = 1:length(d)
@@ -95,7 +95,7 @@ methods
     function out = x_d0_fixed(this)
         d = this.PropArray(this.d_offset);
         ObjectArray = [this.x];
-        
+
         % Get output
         out = zeros(size(this));
         for idx = 1:length(d)
@@ -106,14 +106,14 @@ methods
             end
         end
     end
-    
+
     % Get underlying objects
     %   Retrieving "this.x" gives underlying CDS_Param_Free or CDS_Param_Lambda
     %   Retrieving "this" would give CDS_Param_x
     function [param, d_offset, type] = ParamUnderlying(this)
         param = this.PropArray(this.x);
         d_offset = this.PropArray(this.d_offset);
-        
+
         type = strings(size(this));
         for idx = 1:length(this)
             type(idx) = class(param(idx));

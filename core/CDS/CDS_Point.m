@@ -23,7 +23,7 @@ NOTATION
 classdef CDS_Point < handle
 properties (SetAccess=private)
     T_0n(1,1) CDS_T = CDS_T(eye(4))
-    
+
     m(1,1) sym = 0 % Default no mass at point
     I_pn(3,3) sym = zeros(3) % Default point mass assumption
     R_np(3,3) sym = eye(3) % Default aligned
@@ -41,7 +41,7 @@ methods
         this.m = 0;
         this.I_pn = zeros(3);
     end
-    
+
     %**********************************************************************
     % Interface: Set
     %***********************************
@@ -51,34 +51,34 @@ methods
     function this = SetT_0n(this, T)
         this.T_0n = T;
     end
-    
+
     % Mass of the point
     % INPUT
     %   m: Symbolic expression of the CDS_Param_Const parameters registered with CDS_Params
     function this = SetMass(this, m)
         this.m = m;
     end
-    
+
     % Mass moment of inertia of the point (3x3 matrix)
     % INPUT
     %   I: Symbolic expression of the CDS_Param_Const parameters registered with CDS_Params
     function this = SetInertia(this, I)
         this.I_pn = I;
     end
-    
+
     % Orientation at which the moment of inertia was measured, with respect to that of the point (3x3 matrix)
     % INPUT
     %   I: Symbolic expression of the CDS_Param_Const parameters registered with CDS_Params
     function this = SetInertiaR(this, R_np)
         this.R_np = R_np;
     end
-    
+
     % Friendly name to identify the parameter by
     % Used in in outputs, error messages, generated code
     function this = SetNameShort(this, nameIn)
         this.name_short = nameIn;
     end
-    
+
     %**********************************************************************
     % Interface: Get
     %***********************************
@@ -87,12 +87,12 @@ methods
         name = this.PropArray(this.name_short);
         nameOut = string(name);
     end
-    
+
     function name = NameReadable(this)
         nameShort = this.PropArray(this.name_short);
         name = strcat("Point ", nameShort);
     end
-    
+
     % Test properties of the point
     function logicalOut = HasLinearInertia(this)
         mass = this.PropArray(this.m);
@@ -160,11 +160,11 @@ methods
         for idxIn = 1:length(NameShortIn)
             idxMatch = [idxMatch , find(NameShortIn(idxIn)==this.NameShort)];
         end
-        
+
         if strcmp(optWarn,"EnableWarn") && length(idxMatch)~=length(NameShortIn)
             warning("Some points not found");
         end
-        
+
         if strcmp(optDuplicates,"RemoveDuplicates")
             idxMatch=unique(idxMatch);
         end

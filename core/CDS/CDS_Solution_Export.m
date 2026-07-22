@@ -22,7 +22,7 @@ methods
             this(idx).SS = solution(idx);
         end
     end
-    
+
     % Output solution to excel
     % If file already exists, overwrite entire file
     %    Each sheet holds each variable from CDS_Solution
@@ -37,7 +37,7 @@ methods
         FileHelper = CDS_Helper_StrOut();
         fileName = FileHelper.ValidateFileExtension(fileName, ".xlsx");
         fileName = FileHelper.MakePathToFile(fileName);
-        
+
         % Output configuration space
         this.ExportToExcel(this.SS.t, "Time", fileName, "t", "clearFile")
         this.ExportToExcel(this.SS.qf, this.SS.q_free.Str, fileName, "qf")
@@ -46,12 +46,12 @@ methods
         this.ExportToExcel(this.SS.qi, this.SS.q_input.Str, fileName, "qi")
         this.ExportToExcel(this.SS.qi_d, this.SS.q_input.Str, fileName, "qi_d")
         this.ExportToExcel(this.SS.qi_dd, this.SS.q_input.Str, fileName, "qi_dd")
-        
+
         % Output Energy
         this.ExportToExcel(this.SS.E, "Total", fileName, "E")
         this.ExportToExcel(this.SS.V, this.SS.p_mass.NameShort, fileName, "V")
         this.ExportToExcel(this.SS.K, this.SS.p_mass.NameShort, fileName, "K")
-        
+
         % Output task space - all
         this.ExportToExcel(this.SS.Px, this.SS.p_all.NameShort, fileName, "Px")
         this.ExportToExcel(this.SS.Py, this.SS.p_all.NameShort, fileName, "Py")
@@ -78,7 +78,7 @@ methods (Access=protected)
             end
             return;
         end
-        
+
         if strcmp(clearFile, "clearFile")
             writeMode = "replacefile";
         else

@@ -24,50 +24,50 @@ methods
             this.T = diag([1,1,1,1]);
             return;
         end
-        
+
         % Shortcut: Input T
         if nargin == 1
             this.T = varargin{1};
             return;
         end
-        
+
         % Normal: Switch over inputType
         inputType = varargin{1};
         if strcmp(inputType, "T")
             this.T = varargin{2};
-            
+
         elseif strcmp(inputType, "RP")
             R = varargin{2};
             P = varargin{3};
             this.T = this.RPtoT(R, P);
-            
+
         elseif strcmp(inputType, "R")
             R = varargin{2};
             P = [0;0;0];
             this.T = this.RPtoT(R, P);
-            
+
         elseif strcmp(inputType, "P")
             R = eye(3);
             P = varargin{2};
             this.T = this.RPtoT(R, P);
-            
+
         elseif strcmp(inputType, "atP")
             axis = varargin{2};
             theta = varargin{3};
             P = varargin{4};
             this.T = this.T_ConstructPR(axis, theta, P);
-            
+
         elseif strcmp(inputType, "at")
             axis = varargin{2};
             theta = varargin{3};
             P = [0;0;0];
             this.T = this.T_ConstructPR(axis, theta, P);
-            
+
         else
             error('Invalid input: paramType')
         end
     end
-    
+
     %**********************************************************************
     % Interface: Get
     %***********************************
@@ -75,19 +75,19 @@ methods
     function out = x(this); out = this.T(1,4); end
     function out = y(this); out = this.T(2,4); end
     function out = z(this); out = this.T(3,4); end
-    
+
     % R, P, Ph
     function out = R(this); out = this.T(1:3,1:3); end
     function out = P(this); out = this.T(1:3,4); end
     function out = Ph(this); out = this.T(1:4,4); end
-    
+
     % Return inverse of T (this object remains unchanged)
     %   Uses mathematical properties of T => cleaner & more efficient than T^-1
     function T_inverted = Inv(this)
         R_transpose = (this.R).';
         T_inverted =  CDS_T("RP", R_transpose, -R_transpose*this.P);
     end
-    
+
     %**********************************************************************
     % Interface: Operator Overloads
     %***********************************
@@ -112,7 +112,7 @@ methods (Access=private)
     function T = T_ConstructPR(this, axis, theta, P)
         T = this.RPtoT(this.R_Construct(axis, theta), P);
     end
-    
+
     %{
     Construct R
     INPUT
@@ -130,13 +130,13 @@ methods (Access=private)
         else
             error('Bad input')
         end
-        
+
         if isa(theta, 'sym')...
                 && length(symvar(theta)) <= 1 % Catch complex sym expressions
             R = simplify(expand(R));
         end
     end
-    
+
     % Swap between T, R, P
     function T = RPtoT(~, R, P)
         P = P(:); % Force vertical vector

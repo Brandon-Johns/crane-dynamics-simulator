@@ -19,7 +19,7 @@ methods
             this(idx).SS = solution(idx);
         end
     end
-    
+
     % OUTPUT
     %   figure with plot of total system energy vs time
     function PlotEnergyTotal(this)
@@ -28,7 +28,7 @@ methods
         end
         this.PlotEnergy("E", "E")
     end
-    
+
     % OUTPUT
     %   figure with overlaid plots of each energy component and total system energy vs time
     function PlotEnergyAll(this)
@@ -37,7 +37,7 @@ methods
         end
         this.PlotEnergy(["E","K","V"], "V")
     end
-    
+
     % INPUT
     %   ax: (default = create new figure) Axes object to plot on
     % OUTPUT
@@ -61,7 +61,7 @@ methods
         box(ax, 'off');
         grid(ax, 'on');
     end
-    
+
     % INPUT
     %   ax: (default = create new figure) Axes object to plot on
     % OUTPUT
@@ -85,7 +85,7 @@ methods
         box(ax, 'off');
         grid(ax, 'on');
     end
-    
+
     % OUTPUT
     %   figure with overlaid plots of all inputs vs time
     function PlotInput(this)
@@ -94,7 +94,7 @@ methods
         end
         % Exception for no inputs - Do not plot
         if isempty(this.SS.q_input); fprintf("No inputs\n"); return; end
-        
+
         figure;
         plot(this.SS.t,this.SS.qi.', 'LineWidth',2)
         legend(this.SS.q_input.Str,'Location','Best')
@@ -104,7 +104,7 @@ methods
         box off;
         grid on;
     end
-    
+
     % INPUT
     %   dim: axis of coordinates to plot (e.g. "x" = plot x coordinates)
     %   points
@@ -126,7 +126,7 @@ methods
         % Reinterpret because of "RemoveDuplicates" and remove not found
         points = this.SS.p_all(idxP);
         numP = length(idxP);
-        
+
         % Plot
         figure;
         hold on
@@ -143,7 +143,7 @@ methods
             legend_string(end+1 : end+numP) = strcat(points.NameReadable, "_z");
             plot(this.SS.t, this.SS.Pz(idxP,:).', 'LineWidth',2)
         end
-        
+
         title(titleString)
         legend(legend_string)
         xlabel('time (s)')
@@ -152,7 +152,7 @@ methods
         grid on;
         hold off
     end
-    
+
     % OUTPUT
     %   figure with plot of coordinates in task space
     %   variant that plots only the points with mass
@@ -164,7 +164,7 @@ methods
         end
         PlotTaskSpace(this, dim, this.SS.p_mass, titleString);
     end
-    
+
     % OUTPUT
     %   figure with plot of coordinates in task space
     %   variant that plots all points
@@ -186,11 +186,11 @@ methods (Access=private)
         end
         % Exception for energy not calculated (e.g. experimental input) - Do not plot
         if isempty(this.SS.E); fprintf("Energy not calculated\n"); return; end
-        
+
         V = this.SS.V;
         K = this.SS.K;
         E = this.SS.E;
-        
+
         % Offset to make energy component start at 0
         if offsetComponents=="E" || offsetComponents=="V"
             E = E - sum(V(:,1));
@@ -200,12 +200,12 @@ methods (Access=private)
             E = E - sum(K(:,1));
             K = K - K(:,1);
         end
-        
+
         % Legend
         head_E = "Total";
         head_V = strcat("Potential_",this.SS.p_mass.NameShort);
         head_K = strcat("Kinetic_",this.SS.p_mass.NameShort);
-        
+
         figure;
         hold on
         legend_string = strings(0);
@@ -221,7 +221,7 @@ methods (Access=private)
             legend_string(end+1 : end+length(head_V)) = head_V;
             plot(this.SS.t, V.', 'LineWidth',2)
         end
-        
+
         hold off
         title('System Energy')
         xlabel('Time (s)')

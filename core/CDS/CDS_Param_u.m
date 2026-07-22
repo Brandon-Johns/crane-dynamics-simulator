@@ -22,14 +22,14 @@ methods
             d_offset(1,1) double {mustBeMember(d_offset,[0,1,2])} = 0
         end
         this@CDS_Param(u_object.Sym, d_offset, u_object.SymShortPtr, u_object.NameReadablePtr);
-            
+
         this.u = u_object;
     end
-    
+
     %**********************************************************************
     % Interface: Set
     %***********************************
-    
+
     %**********************************************************************
     % Interface: Get
     %***********************************
@@ -45,28 +45,28 @@ methods
             out = @(t_,x_) [];
             return
         end
-        
+
         % Setup
         d = [this.d_offset];
         ObjectArray = [this.u];
-        
+
         % Get output
         cellArrayOfHandles = cell(size(this));
         idx = d==0; cellArrayOfHandles(idx) = {ObjectArray(idx).q};
         idx = d==1; cellArrayOfHandles(idx) = {ObjectArray(idx).q_d};
         idx = d==2; cellArrayOfHandles(idx) = {ObjectArray(idx).q_dd};
-        
+
         % Array of indexes to address the cell array at
         %   Output dimensions will match this array, per how arrayfun works
         %idx_handle = ( 1:length(cellArrayOfHandles) ).';
-        
+
         % Merge into 1 function handle with array output
         %   TODO: optimise
         %out = @(t_) arrayfun(@(n) cellArrayOfHandles{n}(t_), idx_handle);
         %out = @(t_) arrayfun(@(n) cellArrayOfHandles{n}(t_), idx_handle, 'UniformOutput',false);
         out = @(t_,x_) this.evalCellOfHandles(cellArrayOfHandles, t_, x_);
     end
-    
+
     function out = evalCellOfHandles(~, h, t, x)
         % Always use output dimensions [u(t_0); ...; u(t_n)]
         out = zeros(length(h),length(t));

@@ -25,7 +25,7 @@ methods
         this.Build_Input(inputPreset);
         this.Build_ICs;
     end
-    
+
     %**********************************************************************
     % Interface: Set option
     %***********************************
@@ -61,7 +61,7 @@ methods (Access=protected)
     function Build_Geometry(this, geometryPreset)
         this.Build_Geometry_called = 1;
         V = this.Values;
-        
+
         fprintf('Geometry Preset: ')
         switch geometryPreset
         case 1
@@ -110,7 +110,7 @@ methods (Access=protected)
             V.L_JK = 0.7; % from rough model
             V.L_KL = 1.5; % from rough model
             V.L_LM = 1.85; % random CW
-            
+
             V.mass_K = 2580; % from rough model
             V.mass_M = 350; % random CW
             V.inertia_K = [541,1938,2153]; % from rough model
@@ -124,9 +124,9 @@ methods (Access=protected)
                 fprintf(' with Concrete')
                 payload="PH";
             end
-            
+
             cableThickness = ( 2 )*1e-3; % Very Roughly
-        
+
             V.phi_1 = 0; % (SolidWorks)
             V.L_BC = ( 40 )*1e-3; % (SolidWorks)
             V.L_CD = ( 20 )*1e-3 + cableThickness; % (SolidWorks)
@@ -134,7 +134,7 @@ methods (Access=protected)
             V.L_GH = V.L_EF; % (Checked)
             V.L_FG = ( 45 )*1e-3; % (SolidWorks)
             V.L_FJ = V.L_FG/2; % (Checked)
-            
+
             % Boom head
             L_BI = ( 30 )*1e-3; % (SolidWorks)
 
@@ -150,7 +150,7 @@ methods (Access=protected)
             V.T_HB_J = CDS_T("P", [42.5; -(30.5+6.4); 0]*1e-3 ); % (SolidWorks)
             V.T_HB_K = V.T_HB_J * CDS_T("P", [0; 0; -V.L_JK]); % (Checked)
             V.T_HB_L = V.T_HB_J * CDS_T("P", [0; 0; -L_JL]); % (Checked)
-            
+
             V.T_BH_B = V.T_BH_I * CDS_T("P", [-L_BI; 0; 0]); % (Checked)
             V.T_BH_C = V.T_BH_I * CDS_T("P", [-L_BI+V.L_BC; 0; 0]); % (Checked)
             V.T_HB_F = V.T_HB_J * CDS_T("P", [V.L_FJ; 0; 0]); % (Checked)
@@ -218,7 +218,7 @@ methods (Access=protected)
         end
         fprintf('\n')
     end
-    
+
     function Build_Input(this, inputPreset)
         this.Build_Input_called = 1;
         V = this.Values;
@@ -248,7 +248,7 @@ methods (Access=protected)
         case 2
             fprintf('Luffing & Slewing: ramped sin (Mod case 1 with skew=pi/2)')
             V.Flag_2DPermitted = false;
-            
+
             tm = 10;
             V.t_max = tm;
             V.theta_1_t = (t/tm)*0.4*(pi/4)*sin(2*t);
@@ -257,7 +257,7 @@ methods (Access=protected)
         case 3
             fprintf('Luffing only')
             V.Flag_2DPermitted = true;
-            
+
             tm = 10;
             V.t_max = tm;
             V.theta_1_t = 0;
@@ -266,7 +266,7 @@ methods (Access=protected)
         case 4
             fprintf('Slewing only')
             V.Flag_2DPermitted = false;
-            
+
             tm = 10;
             V.t_max = tm;
             V.theta_1_t = (t/tm)*0.4*(pi/4)*sin(2*t);
@@ -275,11 +275,11 @@ methods (Access=protected)
         case 5
             fprintf('For large crane')
             V.Flag_2DPermitted = false;
-            
+
             w_slew = 0.6*(2*pi/60); % rpm to rad/s
             w_luff_ = 1.4; % min/(cycle of ~pi/2 rad)
             w_luff = (1/w_luff_)*((pi/2)/60); % min/(cycle of ~pi/2 rad) to rad/s
-            
+
             tm = 120;
             V.t_max = tm;
             V.theta_1_t = (t/tm)*0.8*(pi/4)*sin(w_slew*t);
@@ -288,7 +288,7 @@ methods (Access=protected)
         case 6
             fprintf("Luffing & Slewing (Exp: 2021-11-29 'motion1')")
             V.Flag_2DPermitted = false;
-            
+
             tm = 15;
             amplitudeB = 35; % deg
             periodB = 5; % seconds
@@ -302,7 +302,7 @@ methods (Access=protected)
         case 7
             fprintf("Luffing (Exp: 2021-11-29 'motion2')")
             V.Flag_2DPermitted = true;
-            
+
             tm = 15;
             amplitudeS = 22.5; % deg
             periodS = 15/4; % seconds
@@ -314,7 +314,7 @@ methods (Access=protected)
         case 8
             fprintf("Slewing (Exp: 2021-11-29 'motion3')")
             V.Flag_2DPermitted = false;
-            
+
             tm = 15;
             amplitudeB = 35; % deg
             periodB = 2.5; % seconds
@@ -340,14 +340,14 @@ methods (Access=protected)
         end
         fprintf('\n')
     end
-    
+
     function Build_ICs(this)
         if ~( this.Build_Geometry_called && this.Build_Input_called )
             error("Must build Geometry and Inputs before ICs")
         end
         this.Build_ICs_called = 1;
         V = this.Values;
-        
+
         % Same for all models to start in static equilibrium
         V.theta_3_IC = V.theta_3_eq;
         V.theta_4_IC = 0;

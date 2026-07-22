@@ -31,11 +31,11 @@ methods
         % but xd_sol is optional, so fill unset portion of xd_sol with nan
         if ~isempty(xd_sol) && size(xd_sol,1)~=size(xd_sol,1); warning("mismatching inputs"); end
         if ~isempty(xd_sol) && size(x_sol ,2)~=size(xd_sol,2); warning("mismatching inputs"); end
-        
+
         tmp_xd_sol = nan(size(x_sol));
         tmp_xd_sol(1:size(xd_sol,1), 1:size(xd_sol,2)) = xd_sol;
         xd_sol = tmp_xd_sol;
-        
+
         % Validate input: match length of time coords
         if length(t_sol)~=size(x_sol,2)
             % Try transpose
@@ -49,13 +49,13 @@ methods
                 error("mismatching inputs");
             end
         end
-        
+
         % Validate input: match length of state vector
         if length(sys.params.x)~=size(xd_sol,1)
             % Try toggle lagrange multipliers
             if sys.params.x_mode=="withLambda"; try_xMode="withoutLambda"; else; try_xMode="withLambda"; end
             sys.params.SetStateVectorMode(try_xMode);
-            
+
             % Try validate again
             if length(sys.params.x)==size(xd_sol,1)
                 % Toggle works
@@ -65,18 +65,18 @@ methods
                 error("mismatching inputs");
             end
         end
-        
+
         % Save solution time
         this.t = t_sol;
-        
+
         % Sort x into arrays for q_free and lambda
         [x_underlying, d_offset, type] = sys.params.x.ParamUnderlying;
-        
+
         this.q_free = unique(x_underlying(strcmp(type, "CDS_Param_Free")), 'stable');
         if any(strcmp(type, "CDS_Param_Lambda"))
             this.q_lambda = unique(x_underlying(strcmp(type, "CDS_Param_Lambda")), 'stable');
         end
-        
+
         % Save solution data in arrays with index corresponding to object array
         for idxX = 1:length(x_underlying)
             if strcmp(type(idxX), "CDS_Param_Free")
@@ -94,7 +94,7 @@ methods
                 this.ql_d(idxL,:) = xd_sol(idxX,:);
             end
         end
-        
+
         % Generate input
         %   TODO: In CDS_Param_Input, make an interface to always allow vectorised inputs
         %   Maybe should also detect that the solver has finished and use the saved values?
@@ -113,10 +113,10 @@ methods
                 this.qi_dd(idxU,idxT) = this.q_input(idxU).q_dd(t_sol(idxT), x_sol(:,idxT));
             end
         end
-        
+
         this.CalcEnergy(sys);
         this.CalcTransforms(sys);
-        
+
         this.chains = sys.chains;
     end
 end
@@ -129,14 +129,14 @@ methods (Access=private)
         xSol = [this.qf; this.qf_d];
         uSol = [this.qi; this.qi_d; this.qi_dd];
         cNum = sys.params.const.Num;
-        
+
         % Plot system energy
         %   DIM: (energy, time)
         GenEquations = CDS_Solver_GenerateEquations;
         [K_sym, V_sym, this.p_mass] = GenEquations.Energy(sys);
         V_semiNum = subs(V_sym, c,cNum);
         K_semiNum = subs(K_sym, c,cNum);
-        
+
         % Tested matlabFunction is ~10x faster than subs
         % Loop because of bug in matlabFunction when one of the values in the array is a constant (vertcat error)
         mNum = length(this.p_mass);
@@ -148,14 +148,14 @@ methods (Access=private)
             this.V(idx,:) = V_h([this.t; xSol; uSol]);
             this.K(idx,:) = K_h([this.t; xSol; uSol]);
         end
-        
+
         % Total system energy
         tmp = this.K + this.V;
-        
+
         % Sum energy of all masses
         this.E = sum(tmp, 1);
     end
-    
+
     function CalcTransforms(this, sys)
         x = [this.q_free.Sym; this.q_free.Sym(1)];
         u = [this.q_input.Sym; this.q_input.Sym(1); this.q_input.Sym(2)];
@@ -163,11 +163,11 @@ methods (Access=private)
         xSol = [this.qf; this.qf_d];
         uSol = [this.qi; this.qi_d; this.qi_dd];
         cNum = sys.params.const.Num;
-        
+
         % Save point objects
         points = sys.points.all;
         this.p_all = points;
-        
+
         % Evaluate positions
         this.Px = zeros(length(points), length(this.t));
         this.Py = zeros(length(points), length(this.t));

@@ -24,7 +24,7 @@ methods
     function this = CDS_Param_Const(varargin)
         this@CDS_Param(varargin);
     end
-    
+
     %**********************************************************************
     % Interface: Set
     %***********************************
@@ -32,7 +32,7 @@ methods
     function this = SetNum(this, numIn)
         this.num = numIn;
     end
-    
+
     %**********************************************************************
     % Interface: Get
     %***********************************

@@ -16,7 +16,7 @@ methods
         % Call superclass constructor
         this@CDSm_C3(varargin{:});
     end
-    
+
     function sys = Build_SystemDescription(this)
         %**********************************************************************
         % User input
@@ -29,13 +29,13 @@ methods
 
         % Point I: True or equilibrium
         %Flag_pointI_truePosition = this.Flag_pointI_truePosition;
-        
+
         %**********************************************************************
         % Check input
         %***********************************
         mustNotBeZero = [V.mass_K; V.mass_M; V.inertia_K(:); V.inertia_M(:)];
         if any(mustNotBeZero==0); error("Some mass & inertia values are zero, but for this model they must be set"); end
-        
+
         %**********************************************************************
         % Define Geometry - Parameters
         %***********************************
@@ -196,7 +196,7 @@ methods
         %   Note: all uses of C differentiate => no need to specify const
         L_rope = simplify(expand(L_rope));
         sys.SetConstraint(L_rope);
-        
+
         %**********************************************************************
         % Save output
         %***********************************

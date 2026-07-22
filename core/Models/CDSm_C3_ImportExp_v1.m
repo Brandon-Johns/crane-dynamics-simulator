@@ -14,13 +14,13 @@ methods
     function this = CDSm_C3_ImportExp_v1(Values)
         this.Values = Values;
     end
-    
+
     function SS = Build_Solution(this, FileName)
         %**********************************************************************
         % User input
         %***********************************
         V = this.Values;
-        
+
         % Read in the CSV
         ExpDataRaw = readmatrix(FileName);
         t = ExpDataRaw(:, 1);
@@ -123,7 +123,7 @@ methods
             tmpSS.Py(idxF, idx_time) - tmpSS.Py(idxC, idx_time);
             tmpSS.Pz(idxF, idx_time) - tmpSS.Pz(idxC, idx_time)];
         a_DE_assuming2D = sqrt(norm(P_CF_measureWorld)^2 - (V.L_CD - V.L_EF)^2);
-        
+
         % Reference zero angle/length joint configuration
         a_DE_zero = 0;
         theta_3_zero = 0;
@@ -132,7 +132,7 @@ methods
         theta_6_zero = 0;
         theta_7_zero = 0;
         a_DE_initialGuess = a_DE_assuming2D;
-        
+
         % Start of chain in world frame
         R_0_BH = reshape(raw_BH_R(idx_time,:), 3,3).';
         P_0_BH = raw_BH_P(idx_time,:);
@@ -181,13 +181,13 @@ methods
         body_E3E4 = rigidBody("E3E4"); body_E3E4.Joint = joint_E4; robot.addBody(body_E3E4,'E2E3');
         body_E4F  = rigidBody("E4F");  body_E4F.Joint  = joint_F;  robot.addBody(body_E4F,'E3E4');
         body_FJ1  = rigidBody("FJ1");  body_FJ1.Joint  = joint_J1; robot.addBody(body_FJ1,'E4F');
-        
+
         % Solve IK
         ik = inverseKinematics('RigidBodyTree',robot);
         weights = [1,1,1, 1,1,1]; % Estimated pose error weights [orientation, position]
         configGuess = robot.homeConfiguration;
         configGuess(string({configGuess.JointName})=="E1").JointPosition = a_DE_initialGuess;
-        
+
         [configSol,ikSolInfo] = ik('FJ1',double(T_w_frameJ1.T),weights,configGuess);
 
         % Check IK solver output info
@@ -201,7 +201,7 @@ methods
         V.theta_5_IC = configSol(string({configSol.JointName})=="E2").JointPosition;
         V.theta_6_IC = configSol(string({configSol.JointName})=="E4").JointPosition;
         V.theta_7_IC = configSol(string({configSol.JointName})=="F").JointPosition;
-        
+
         % Assume starting in equilibrium
         V.a_DE_eq = V.a_DE_IC;
         V.theta_3_eq = V.theta_3_IC;
@@ -228,7 +228,7 @@ methods
         %fprintf("theta_5_IC = %f (deg)\n", rad2deg(V.theta_5_IC));
         %fprintf("theta_6_IC = %f (deg)\n", rad2deg(V.theta_6_IC));
         %fprintf("theta_7_IC = %f (deg)\n", rad2deg(V.theta_7_IC));
-        
+
         %robot.showdetails;
         %configSol
         %robot.show;

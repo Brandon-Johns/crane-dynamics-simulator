@@ -15,11 +15,11 @@ properties(SetAccess=private)
 
     % Built by AddTrial()
     trialDescriptions(:,:) table
-    
+
     % Created by BuildSolution()
     Values(:,1) CDSv_C3
     Solutions(:,1) CDS_Solution
-    
+
     % Map options
     %   Syntax: Map(input, output)
     MAPp = containers.Map(["PL","PH"], [3,4]); % Payload readable    -> CDSvb_C3_Builder
@@ -33,13 +33,13 @@ methods
         this.dataBasePath = dataBasePath;
         this.cacheBasePath = cacheBasePath;
         this.sunResultsBasePath = sunResultsBasePath;
-        
+
         % Create empty table
         vNames = ["exDate","exPayload","exMotion","exConfig","simConfig","usePointMass","sunResultsDir","sunResultsPrepend"];
         vTypes = ["string","string",   "double",  "string",  "string",   "logical",     "string",       "string"];
         this.trialDescriptions = table('Size',[0,length(vNames)], 'VariableTypes',vTypes, 'VariableNames',vNames);
     end
-    
+
     % Add experimental trial:   4 inputs
     % Add simulation trial:     5 inputs (1:4 describe the experiment to mimic)
     % Add sun simulation trial: 6 inputs (1:5 describe the exported system)
@@ -59,10 +59,10 @@ methods
         logical_usePointMass = MAP_usePointMass(usePointMass);
         this.trialDescriptions(end+1,:) = {exDate,exPayload,exMotion,exConfig,simConfig,logical_usePointMass,sunResultsDir,sunResultsPrepend};
     end
-    
+
     function S = BuildSolution(this)
         E = this.trialDescriptions;
-        
+
         V = CDSv_C3.empty;
         S = CDS_Solution.empty;
         for idx = 1:height(E)
@@ -77,12 +77,12 @@ methods
                 S(idx) = this.BuildSolution_Sun(E(idx,:), V(idx), SE);
             end
         end
-        
+
         % Store results
         this.Values = V;
         this.Solutions = S;
     end
-    
+
     function ExportSun(this, sunGenBasePath)
         arguments
             this(1,1)
@@ -90,14 +90,14 @@ methods
         end
         E = this.trialDescriptions;
         if size(E,1)~=1; error("Export 1 at a time"); end
-        
+
         % Path to export results to
         sunGenDir = this.GenSunDir(E);
         exportPath = fullfile(sunGenBasePath, sunGenDir);
 
         % Retrieve experimental data
         [SE, V] = this.BuildSolution_Exp(E);
-        
+
         % Model builder
         MB = this.InitialiseModelBuilder(E.simConfig, V);
         MB.Flag_2D = this.MAPm_2DPermitted(E.exMotion);
@@ -112,7 +112,7 @@ methods
         S = CDS_Solver(SO);
         S.Solve(sys, "sundials");
     end
-    
+
     %**********************************************************************
     % Interface: Output utilities
     %***********************************
@@ -121,7 +121,7 @@ methods
     %   Access as results.I{idxRows}(valY,valX)
     function results = ChangeCoordinates(this)
         Sg = CDS_Solution_GetData(this.Solutions);
-        
+
         R = struct("I",{},"K",{},"M",{}, "I_relImesA2",{},"K_relImesA2",{},"M_relImesA2",{});
         time = this.Solutions(1).t;
 
@@ -151,7 +151,7 @@ methods
         end
         results = struct2table(R);
     end
-    
+
     function out = LegendStr(this, mode)
         arguments
             this(1,1)
@@ -159,7 +159,7 @@ methods
         end
         E = this.trialDescriptions;
         out = strings(size(E.simConfig));
-        
+
         for idx = 1:length(mode)
             if     mode(idx)=="Payload"
                 out = out + E.exPayload;
@@ -176,11 +176,11 @@ methods
                 out(idxExp) = out(idxExp) + "Exp";
                 out(~idxExp) = out(~idxExp) + "Sim";
             end
-            
+
             if idx~=length(mode); out=out+"-"; end
         end
     end
-    
+
     function out = FigFileNameBase(this, figBasePath)
         arguments
             this(1,1)
@@ -193,11 +193,11 @@ methods
         pointMassStr(E.usePointMass) ="pm";
 
         figDir = "Exp"+E.exDate(1);
-        
+
         motionStr = "Motion"+E.exMotion(1);
         specificsStr = strjoin(compose("%s%s%s%s",E.exPayload,E.exConfig,simConfigStr,pointMassStr),"_");
         fileName = motionStr+"_"+specificsStr;
-        
+
         out = fullfile(figBasePath, figDir, fileName);
     end
 
@@ -230,7 +230,7 @@ methods (Access=private)
         usePointMassName = this.MAP_usePointMassName(E.usePointMass);
         sunGenDir = "Exp"+E.exDate+"_Motion"+E.exMotion+"_"+E.exPayload+"_Exp"+E.exConfig+"_Sim"+E.simConfig+sim2DName+usePointMassName;
     end
-    
+
     function sunResultsFileName = SunResultsFileName(this, E)
         arguments
             this(1,1)
@@ -240,7 +240,7 @@ methods (Access=private)
         fileNamePart2 = this.GenSunDir(E);
         sunResultsFileName = fileNamePart1+"-"+fileNamePart2;
     end
-    
+
     function [SE, V] = BuildSolution_Exp(this, E)
         arguments
             this(1,1)
@@ -249,16 +249,16 @@ methods (Access=private)
         % Data path
         dataFileName = "raw_motion"+E.exMotion+"_"+E.exPayload+"_"+E.exConfig+".csv";
         dataFullPath = fullfile(this.dataBasePath,E.exDate,dataFileName);
-        
+
         % Retrieve parameters
         VB = CDSvb_C3_Builder( this.MAPp(E.exPayload), this.MAPm(E.exMotion) );
         if E.usePointMass; VB.SetPointMass; end
         V = VB.Values_Exp;
-        
+
         % Retrieve experimental data
         SB = CDSm_C3_ImportExp_v1(V);
         SE = SB.Build_Solution(dataFullPath);
-        
+
         % Check results
         SEg = CDS_Solution_GetData(SE);
         % L & L2 should be coincident
@@ -268,7 +268,7 @@ methods (Access=private)
             warning("Large error in L/L2");
         end
     end
-    
+
     function [SS, V] = BuildSolution_Sun(this, E, V, SE)
         arguments
             this(1,1)
@@ -279,24 +279,24 @@ methods (Access=private)
         % Data path
         sunResultsFileName = this.SunResultsFileName(E);
         sunResultsFullPath = fullfile(this.sunResultsBasePath,E.sunResultsDir,sunResultsFileName);
-        
+
         % Load preset numerical values: constants, ICs, inputs, etc.
         sim2D = this.MAPm_2DPermitted(E.exMotion);
-        
+
         % Model builder
         MB = this.InitialiseModelBuilder(E.simConfig, V);
         MB.Flag_2D = sim2D;
         %MB.Flag_pointI_truePosition = false; % Not implemented
         MB.Build_SystemDescription;
-        
+
         % Retrieve data
         SS_import = MB.ImportSolution_Sundials(sunResultsFullPath);
-        
+
         % Interpolate data
         SS = CDS_SolutionInterpolated(SS_import, SE.t);
     end
-    
-    
+
+
     function [SS, V] = BuildSolution_Sim(this, E, V, SE)
         arguments
             this(1,1)
@@ -308,7 +308,7 @@ methods (Access=private)
         sim2D = this.MAPm_2DPermitted(E.exMotion);
         sim2DName = this.MAP_Sim2D_optToText(sim2D);
         usePointMassName = this.MAP_usePointMassName(E.usePointMass);
-        
+
         % Model builder
         MB = this.InitialiseModelBuilder(E.simConfig, V);
         MB.Flag_2D = sim2D;

@@ -42,7 +42,7 @@ methods
 
         SS = CDS_SolutionSim(this.sys, t,x,xd);
     end
-    
+
     function SS = ImportSolution_Sundials(this, fileName)
         arguments
             this

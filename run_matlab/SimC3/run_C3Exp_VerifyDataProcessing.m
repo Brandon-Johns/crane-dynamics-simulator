@@ -71,7 +71,7 @@ end
 fprintf("Data From " + dataFrom + "\n");
 if dataFrom=="Tracker"
     ExpDataRaw = readmatrix( dataPaths.exp_results("2021-12-16", "bj_stationary45up_2021_12_16_v1.csv"), 'NumHeaderLines',5 );
-    
+
     frames = ExpDataRaw(:, 1);
     idxStartT = 3;
     % Boom head
@@ -86,12 +86,12 @@ if dataFrom=="Tracker"
     raw_HB_eulerXYZ = ExpDataRaw(:, idxStartT:idxStartT+2);
     raw_HB_P = ExpDataRaw(:, idxStartT+3:idxStartT+5);
     idxStartT=idxStartT+6;
-    
+
     t = (frames-1)/100;
     raw_BH_R = CDS_SolutionExp.eulerXYZ_to_R_rowMajor(raw_BH_eulerXYZ);
     raw_HB_R = CDS_SolutionExp.eulerXYZ_to_R_rowMajor(raw_HB_eulerXYZ);
     raw_PP_R = CDS_SolutionExp.eulerXYZ_to_R_rowMajor(raw_PP_eulerXYZ);
-    
+
 elseif dataFrom=="VDS_withoutT" || dataFrom=="VDS_withT"
     if dataFrom=="VDS_withoutT"
         ExpDataRaw = readmatrix( dataPaths.exp_results("2021-12-16", "raw_Stationary_PL_withoutT.csv") );
@@ -218,21 +218,21 @@ for sheet = ["Px", "Py", "Pz"]
     compare1 = readmatrix(dataPathProcessed+filesep+"compare_Tracker.xlsx", "Sheet",sheet);
     compare2 = readmatrix(dataPathProcessed+filesep+"compare_withoutT.xlsx", "Sheet",sheet);
     compare3 = readmatrix(dataPathProcessed+filesep+"compare_withT.xlsx", "Sheet",sheet);
-    
+
     % Downsample Tracker data
     compare1_ds = compare1(floor(linspace(1,size(compare1,1),size(compare2,1))), :);
-    
+
     % The files are not in sync
     % They do not start at the same point in the recording
     % => can only compare by standard deviation or range etc.
     errorMax = [...
         max(compare2-compare3, [],'all'),...
         max(compare1_ds-compare3, [],'all')]
-    
+
     errorStandardDev = [...
         max(std(compare2-compare3,0, 1)),...
         max(std(compare1_ds-compare3,0, 1))]
-    
+
     standardDev = [...
         max(std(compare1,0, 1)),...
         max(std(compare2,0, 1)),...

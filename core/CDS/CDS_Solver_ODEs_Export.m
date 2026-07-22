@@ -15,7 +15,7 @@ properties
     sys CDS_SystemDescription
     ODEs CDS_Solver_ODEs
     options CDS_Solver_Options
-    
+
     subExpr_expr
     subExpr_var
 end
@@ -24,21 +24,21 @@ methods
         this.sys = sys;
         this.ODEs = ODEs;
         this.options = options;
-        
+
         % Swap variables for short names
         this.GenShortNames;
         paramsSwap = [this.sys.params.x; this.sys.params.u; this.sys.params.const];
         this.Swap(paramsSwap.Sym, paramsSwap.SymShort);
-        
+
         % Sub sin & cos for pre-evaluated variables
         [this.subExpr_expr, this.subExpr_var] = this.GenSubExpr_Trig([this.sys.params.q; this.sys.params.const]);
         this.Swap(this.subExpr_expr, this.subExpr_var);
-        
+
         % Display substitutions
         %[paramsSwap.Sym,paramsSwap.SymShort]
         %[this.subExpr_expr, this.subExpr_var]
     end
-    
+
     function Export_Matlab(this, solverName)
         arguments
             this(1,1)
@@ -56,27 +56,27 @@ methods
         FileHelper = CDS_Helper_StrOut();
         fileName = FileHelper.MakePathToFile(fileName);
         FileHelper.ClearFile(fileName);
-        
+
         % Macros
         strE = @(str) FileHelper.StrToTxt(str, fileName, "exact");
         strEn = @(str) FileHelper.StrToTxt(str, fileName, "exactN");
         symTr = @(str) FileHelper.SymToTxt(str, fileName, "terminate", "removeWS");
-        
+
         % Clear file
         strEn("% Generated Code");
         strEn("");
-        
+
         % Solver inputs
         strEn("t_span = " + mat2str(this.options.time, 16) + ";");
         strEn("x0 = " + mat2str(this.sys.params.x.x0, 16) + ";");
         strEn("");
-        
+
         strEn("opt = odeset('RelTol', " + compose("%.15G", this.options.RelTol) + ");");
         strEn("opt = odeset(opt, 'AbsTol', " + compose("%.15G", this.options.AbsTol) + ");");
         strEn("opt = odeset(opt, 'Stats','on');");
         strEn("[t_sol,x_sol] = " + solverName + "(@ODEs, t_span, x0, opt);");
         strEn("");
-        
+
         % Excel out
         strEn("fileName = 'solvetimeTxt_excel.xlsx';");
         strEn("values = [t_sol,x_sol];");
@@ -84,22 +84,22 @@ methods
         strEn("data = array2table(values, 'VariableNames',names);");
         strEn("writetable(data, fileName, 'WriteMode','replacefile', 'Range','A1', 'UseExcel',0);");
         strEn("");
-        
+
         % Function start
         strEn("%####################################################################################");
         strEn("function [sys_xd] = ODEs(t,sys_x)");
-        
+
         % Constants
         c = this.sys.params.const;
         strEn(compose("%s = %.15G;", c.StrShort, c.Num));
         strEn("");
-        
+
         % x
         x = this.sys.params.x;
         idx_x = (1:length(x)).';
         strEn(compose("%s = sys_x(%d);", x.StrShort, idx_x));
         strEn("");
-        
+
         % u
         qIn = this.sys.params.q_input;
         for idx = 1:length(qIn)
@@ -117,18 +117,18 @@ methods
             end
         end
         strEn("");
-        
+
         % Common subexpressions
         strEn(compose("%s = %s;", string(this.subExpr_var), string(this.subExpr_expr)));
         strEn("");
-        
+
         % ODE segments
         strE("sys_M_order2 = "); symTr(this.ODEs.M_order2);
         strE("sys_f_b = "); symTr(this.ODEs.f_b);
         strE("sys_f_c = "); symTr(this.ODEs.f_c);
         strE("sys_f_dT = "); symTr(this.ODEs.f_dT);
         strE("sys_f_e = "); symTr(this.ODEs.f_e);
-        
+
         % ODE solving
         if ~isempty(this.sys.params.lambda)
             strEn("sys_f_mb = sys_M_order2\sys_f_b;");
@@ -144,11 +144,11 @@ methods
         % Function end
         strEn("");
         strEn("end");
-        
+
         % Compile
         %mcc -mv fileName
     end
-    
+
     function Export_Sundials(this)
         arguments
             this(1,1)
@@ -157,11 +157,11 @@ methods
         baseFilePath = this.options.exportPath;
         [~,~,pathEx] = fileparts(baseFilePath);
         if pathEx~=""; error("Bad input: path should be to a directory, not a file"); end
-        
+
         fileNames_noPath = ["crane_head_shared"; "crane_head"; "crane_x"; "crane_inputs"; "crane_ode"];
         fileNames = fullfile(baseFilePath, fileNames_noPath);
         FileHelper = CDS_Helper_StrOut();
-        
+
         % Validate and create file path
         for idx = 1:length(fileNames)
             if ~endsWith(fileNames(idx), ".cpp")
@@ -170,14 +170,14 @@ methods
             fileNames(idx) = FileHelper.MakePathToFile(fileNames(idx));
             FileHelper.ClearFile(fileNames(idx));
         end
-        
+
         % Swap pi (sym number -> sym string)
         this.Swap(sym(pi), sym('pi'));
 
         % FIRST FILE
         idxFile = 1;
         strEn = @(str) FileHelper.StrToTxt(str, fileNames(idxFile), "exactN");
-        
+
         strEn("//####################################################################################");
         strEn("// Macros & Global Vars (Shared)");
         strEn("//##########################################");
@@ -188,11 +188,11 @@ methods
         c = this.sys.params.const;
         strEn(compose("constexpr sunrealtype %s = %.15G;\t\t// %s", c.StrShort, c.Num, c.NameReadable));
         strEn("");
-        
+
         % NEXT FILE
         idxFile = 2;
         strEn = @(str) FileHelper.StrToTxt(str, fileNames(idxFile), "exactN");
-        
+
         strEn("//####################################################################################");
         strEn("// Macros & Global Vars");
         strEn("//##########################################");
@@ -210,11 +210,11 @@ methods
         strEn("// Initial conditions");
         strEn("const sunrealtype x_ICs[] = {" + strjoin(compose("%.15G",x.x0),",") + "};");
         strEn("");
-        
+
         % NEXT FILE
         idxFile = 3;
         strEn = @(str) FileHelper.StrToTxt(str, fileNames(idxFile), "exactN");
-        
+
         strEn("//####################################################################################");
         strEn("// Part of function to evaluate the ODEs (1/3)");
         strEn("//##########################################");
@@ -223,11 +223,11 @@ methods
         idx_x = (1:length(x)).';
         strEn(compose("sunrealtype %s = Ith(sys_x, %d); // %s", x.StrShort, idx_x, x.NameReadable));
         strEn("");
-        
+
         % NEXT FILE
         idxFile = 4;
         strEn = @(str) FileHelper.StrToTxt(str, fileNames(idxFile), "exactN");
-        
+
         strEn("//####################################################################################");
         strEn("// Part of function to evaluate the ODEs (2/3)");
         strEn("//##########################################");
@@ -244,7 +244,7 @@ methods
                     % Swap pi (sym number -> sym string)
                     tmp_qIn = qIn.q_Sym(d_offset);
                     tmp_qIn = subs(tmp_qIn, sym(pi), sym('pi'));
-        
+
                     strEn(compose("sunrealtype %s = %s // %s",...
                         qIn.StrShort(d_offset),...
                         regexprep(ccode( tmp_qIn ), '^.*= ', ''),...
@@ -270,7 +270,7 @@ methods
                         tmp_qIn = qIn.q_Sym(d_offset);
                         tmp_qIn = tmp_qIn(idxPiece);
                         tmp_qIn = subs(tmp_qIn, sym(pi), sym('pi'));
-                        
+
                         strEn(compose("    %s = %s",...
                             qIn.StrShort(d_offset),...
                             regexprep(ccode( tmp_qIn ), '^.*= ', '')...
@@ -290,14 +290,14 @@ methods
             end
         end
         strEn("");
-        
+
         % NEXT FILE
         idxFile = 5;
         strF = @(str) FileHelper.StrToTxt(str, fileNames(idxFile), "format");
         strE = @(str) FileHelper.StrToTxt(str, fileNames(idxFile), "exact");
         strEn = @(str) FileHelper.StrToTxt(str, fileNames(idxFile), "exactN");
         symB = @(str) FileHelper.SymToTxt(str, fileNames(idxFile), "bare");
-        
+
         % Common subexpressions
         strEn("//####################################################################################");
         strEn("// Part of function to evaluate the ODEs (3/3)");
@@ -305,7 +305,7 @@ methods
         strEn("// Common subexpressions");
         strEn(compose("sunrealtype %s = %s;", string(this.subExpr_var), string(this.subExpr_expr)));
         strEn("");
-        
+
         strEn("// ODE segments");
         % Using ccode():
         %   Matrix input: Output is formatted using name of input variable
@@ -323,7 +323,7 @@ methods
             symB(ccode(sys_f_c)); strF("\n\n");
             symB(ccode(sys_f_dT)); strF("\n\n");
             strE("sys_f_e[0][0] ="); symB(regexprep(ccode(sys_f_e), '^.+=', '')); strF("\n\n");
-            
+
         else % No constraints to solve
             if ~isscalar(sys_M_order2)
                 symB(ccode(sys_M_order2)); strF("\n\n");
@@ -334,19 +334,19 @@ methods
             end
         end
     end
-    
+
 end
 methods (Access=private)
     % Rename variables with alphabet
     function GenShortNames(this)
         params = this.sys.params;
-        
+
         % Check not too many variables - limitation of this function
         if length(params.q) > 'z'-'a'-1 ... % skip 't' for time
             || length(params.const) > 'Z'-'A'
             error('too many vars')
         end
-        
+
         % Choose new names
         %   'u' is first for consistency between similar systems
         %   which all take same u, but different number of x
@@ -354,19 +354,19 @@ methods (Access=private)
         q = [params.q_input; params.q_free];
         for idx = 1:length(q)
             q(idx).SetSymShort(char(idxChar));
-            
+
             % Get next letter (skip 't' for time)
             idxChar=idxChar+1;
             if idxChar==double('t'); idxChar=idxChar+1; end
         end
-        
+
         idxChar = double('A');
         for idx = 1:length(params.const)
             params.const(idx).SetSymShort(char(idxChar));
             idxChar=idxChar+1;
         end
     end
-    
+
     %{
     Substitute common expressions with temp vars
         Sx = sin(x)
@@ -379,11 +379,11 @@ methods (Access=private)
         end
         % List sub expressions
         expr = [sin(param.SymShort); cos(param.SymShort)];
-        
+
         % Generate variables to replace the sub expressions: sin(x), cos(x)
         var = sym([strcat("S",param.StrShort); strcat("C",param.StrShort)]);
     end
-    
+
     % Helper: rename variables
     function Swap(this, swap_old, swap_new, mode)
         arguments
@@ -397,7 +397,7 @@ methods (Access=private)
         this.ODEs.f_c = subs(this.ODEs.f_c, swap_old, swap_new);
         this.ODEs.f_dT = subs(this.ODEs.f_dT, swap_old, swap_new);
         this.ODEs.f_e = subs(this.ODEs.f_e, swap_old, swap_new);
-        
+
         if ~strcmp(mode, "notInput")
             error("TODO")
         end

@@ -27,7 +27,7 @@ methods
 
         % Point I: True or equilibrium
         %Flag_pointI_truePosition = this.Flag_pointI_truePosition;
-        
+
         %**********************************************************************
         % Check input
         %***********************************
@@ -35,7 +35,7 @@ methods
         mustNotBeZero_3D = [V.mass_K; V.mass_M; V.inertia_K(:); V.inertia_M(:)];
         if  Flag_2D && any(mustNotBeZero_2D==0); error("Some mass & inertia values are zero, but for this model they must be set"); end
         if ~Flag_2D && any(mustNotBeZero_3D==0); error("Some mass & inertia values are zero, but for this model they must be set"); end
-        
+
         %**********************************************************************
         % Define Geometry - Parameters
         %***********************************
@@ -187,7 +187,7 @@ methods
         %   Specify as 0=C
         %   Note: all uses of C differentiate => no need to specify const
         %(none)
-        
+
         %**********************************************************************
         % Save output
         %***********************************

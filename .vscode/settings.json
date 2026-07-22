@@ -1,0 +1,35 @@
+{
+	"[matlab]": {
+		"files.trimTrailingWhitespace": true,
+		"editor.insertSpaces": true,
+		"editor.tabSize": 4,
+		"editor.detectIndentation": false,
+	},
+	"[powershell]": {
+		"files.trimTrailingWhitespace": true,
+		"editor.insertSpaces": false,
+		"editor.tabSize": 4,
+		"editor.detectIndentation": false,
+	},
+	"[shellscript]": {
+		"files.trimTrailingWhitespace": true,
+		"editor.insertSpaces": false,
+		"editor.tabSize": 4,
+		"editor.detectIndentation": false,
+	},
+	"[cmake]": {
+		"files.trimTrailingWhitespace": true,
+		"editor.insertSpaces": false,
+		"editor.tabSize": 4,
+		"editor.detectIndentation": false,
+	},
+	"[cpp]": {
+		"files.trimTrailingWhitespace": true,
+		"editor.insertSpaces": false,
+		"editor.tabSize": 4,
+		"editor.detectIndentation": false,
+	},
+	"[markdown]": {
+		"files.trimTrailingWhitespace": true,
+	}
+}
