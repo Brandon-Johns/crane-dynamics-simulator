@@ -19,9 +19,9 @@ set(INCLUDES_DIR
 	${OPENBLAS_INC_DIR}
 )
 
-set(INCLUDES_LOCAL_DIR 
+set(INCLUDES_LOCAL_DIR )
 	#${CMAKE_CURRENT_LIST_DIR}
-)
+#)
 
 ####################################################################################
 # Build

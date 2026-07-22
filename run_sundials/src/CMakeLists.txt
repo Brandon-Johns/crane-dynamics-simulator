@@ -73,11 +73,11 @@ if(WIN32)
 # MonARCH
 elseif(EXISTS "/mnt/lustre/projects")
 	# C++ Compiler
-	#	Flag "-lm" for math.h library 
+	#	Flag "-lm" for math.h library
 	set(CMAKE_CXX_COMPILER "/usr/local/gcc/8.1.0/bin/gcc")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_USE_CXX11_ABI=0")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lm -lstdc++ -I/usr/local/gcc/8.1.0/include")
-	
+
 	# Paths to: Libraries, Includes (library header files), Packages
 	set(CDS_LIB_DIR "${CDS_PROJECT_DIR}/lib_ubuntu/install" CACHE PATH "dir lib root")
 	# SUNDIALS

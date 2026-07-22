@@ -32,7 +32,7 @@ $CDS_Root = Resolve-Path( Join-Path $PSScriptRoot ".." )
 # Automated
 ################################
 # Locations
-$CDS_LibRoot   = (Join-Path $CDS_Root "lib_windows/install")
+$CDS_LibRoot = (Join-Path $CDS_Root "lib_windows/install")
 
 # Find exe
 if ( -not $exeName.EndsWith(".exe") ) { $exeName += ".exe" }
@@ -47,7 +47,7 @@ else { throw "input file not found" }
 $DLL_Directories = (Get-ChildItem $CDS_LibRoot *.dll -Recurse).DirectoryName | Get-Unique
 $DLL_Directories | ForEach-Object {
 	# Don't add if already on path (from multiple runs of this script)
-	if(-not ( $env:PATH.Contains($_) )) { $env:PATH  += ";" + $_ }
+	if(-not ( $env:PATH.Contains($_) )) { $env:PATH += ";" + $_ }
 }
 
 # Run exe

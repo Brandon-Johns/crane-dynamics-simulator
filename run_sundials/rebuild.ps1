@@ -9,8 +9,8 @@
 #	./rebuild.ps1
 
 # WARNING:
-#   This script contains a hard coded path to Visual Studio Community 2022
-#   If you are running any other version, then the script will fail and you will need to change the path
+#	This script contains a hard coded path to Visual Studio Community 2022
+#	If you are running any other version, then the script will fail and you will need to change the path
 
 
 ################################################################
@@ -50,7 +50,7 @@ if(-not (Test-Path $Project_bin) )   { New-Item -ItemType "directory" -Path $Pro
 $DLL_Directories = (Get-ChildItem $CDS_LibRoot *.dll -Recurse).DirectoryName | Get-Unique
 $DLL_Directories | ForEach-Object {
 	# Don't add if already on path (from multiple runs of this script)
-	if(-not ( $env:PATH.Contains($_) )) { $env:PATH  += ";" + $_ }
+	if(-not ( $env:PATH.Contains($_) )) { $env:PATH += ";" + $_ }
 }
 
 # Empty /build

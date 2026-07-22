@@ -157,7 +157,7 @@ int main()
 	// Options to experiment with more
 	//##########################################
 	// Maximum internal steps between each solver return
-	//   -1=Disable, 500=Default
+	//	-1=Disable, 500=Default
 	long int MaxNumInternalSteps = 10000; // Only roughly chosen. Any bigger takes much too long before failing
 	retval = CVodeSetMaxNumSteps(cvode_mem, MaxNumInternalSteps);
 	if(Check_SunReturnValue(&retval, "CVodeSetMaxNumSteps", 1)) return(1);

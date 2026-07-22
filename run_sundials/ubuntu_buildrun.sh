@@ -50,15 +50,15 @@ resultsFolder='tmp'
 declare -a targetNames=()
 flagHelp=''
 while getopts 'hcber:t:' flag; do
-  case "${flag}" in
-	h) flagHelp='true' ;;
-    c) flagCache='true' ;;
-    b) flagBuild='true' ;;
-    e) flagExecute='true' ;;
-    r) resultsFolder="${OPTARG}" ;;
-    t) targetNames+=("${OPTARG}") ;;
-    *) error "Unexpected option ${flag}"; exit 1 ;;
-  esac
+	case "${flag}" in
+		h) flagHelp='true' ;;
+		c) flagCache='true' ;;
+		b) flagBuild='true' ;;
+		e) flagExecute='true' ;;
+		r) resultsFolder="${OPTARG}" ;;
+		t) targetNames+=("${OPTARG}") ;;
+		*) error "Unexpected option ${flag}"; exit 1 ;;
+	esac
 done
 ## If no options input -> set help flag
 if [ $OPTIND -eq 1 ]; then flagHelp='true'; fi
@@ -74,7 +74,7 @@ if [[ "${flagExecute}" ]]; then echo "FLAG: Execute" ; fi
 if [[ "${targetAll}"   ]]; then echo "Targets: (All)" ; fi
 
 for ExeName in "${targetNames[@]}"; do
-  echo "Targets: ${ExeName}"
+	echo "Targets: ${ExeName}"
 done
 
 ################################################################
