@@ -1,9 +1,16 @@
+![Static Badge](https://img.shields.io/badge/license-BSD--3--Clause--Clear-darkgreen)
+![Static Badge](https://img.shields.io/badge/tested-MATLAB_R2022b-blue)
+![Static Badge](https://img.shields.io/badge/version-1.0.0-blue)
+![Static Badge](https://img.shields.io/badge/NO_AI-rebeccapurple)
+
 # Crane Dynamics Simulator
 A MATLAB and C++ package to generate and solve equations of motion.
 
 Mainly intended for the dynamical modelling of construction cranes, this package can solve systems with closed kinematic chains, holonomic algebraic constraints, and arbitrary external inputs (including use of state feedback).
 
 The software architecture is designed around homogeneous transformation matrices. To simulate a system, the user specifies the kinematic chain of the system as the sequence of transformations between each joint. The package then symbolically generates the equation of motion through the Euler-Lagrange formulation with Lagrange multipliers. The package can then solve these equations in MATLAB, or export them to C++. Tools provided to visualise the results automatically calculate the joint space trajectories, task space trajectories, and system energies.
+
+This package does not contain any AI generated content.
 
 DOC LINKS:
 - [Tutorial](./README-Tutorial.md)
@@ -25,9 +32,10 @@ EXAMPLES:
     - Set initial conditions
 
 **Matlab**
+- MATLAB (Tested on version 2022b. Other versions may or may not work)
 - Symbolic Math Toolbox
 - Robotics System Toolbox
-- Signal Processing Toolbox (used in some input files)
+- Signal Processing Toolbox (non-essential. Only used in some input files)
 
 **C++**
 - C++ is only required if using the [SUNDIALS solver](https://computing.llnl.gov/projects/sundials) instead of the MATLAB ODE solvers
@@ -45,10 +53,21 @@ EXAMPLES:
 
 
 ## Citation
-This work is companion to [our publication](https://doi.org/10.1007/s43452-023-00702-x)
+Please cite this work as
 ```bibtex
-@Article{citeKey,
-  author  = {Johns, Brandon and Abdi, Elahe and Arashpour, Mehrdad},
+@Software{BrandonJohnsCDS,
+  author  = {Brandon Johns},
+  title   = {Crane Dynamics Simulator},
+  url     = {https://github.com/Brandon-Johns/crane-dynamics-simulator},
+  version = {1.0.0},
+  year    = {2024},
+}
+```
+
+Version 1.0.0 of this work is companion to [our publication](https://doi.org/10.1007/s43452-023-00702-x)
+```bibtex
+@Article{BrandonJohnsCDS1,
+  author  = {Brandon Johns and Elahe Abdi and Mehrdad Arashpour},
   journal = {Archives of Civil and Mechanical Engineering},
   title   = {Dynamical modelling of boom tower crane rigging systems: model selection for construction},
   year    = {2023},
@@ -65,11 +84,11 @@ You can find me here: [twitter](https://twitter.com/BrandonJohns96), [linkedin](
 
 
 ## Acknowledgments
-This research was supported by an Australian Government Research Training Program (RTP) Scholarship.
+Version 1.0.0 of this research was supported by an Australian Government Research Training Program (RTP) Scholarship.
 
 
 ## License
-This work is distributed under the [BSD-3-Clause License](./LICENSE.txt)
+This work is distributed under the [BSD-3-Clause-Clear License](./LICENSE.txt)
 
 The data, user guide, and documentation are distributed under the [Creative Commons CC BY 4.0 license](https://creativecommons.org/licenses/by/4.0/)
 
