@@ -1,0 +1,917 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<!--Page info-->
+	<title>CDS_Solution_Plot | Crane Dynamics Simulator</title>
+	<link rel="canonical" href="https://Brandon-Johns.github.io/crane-dynamics-simulator/reference/CDS-Solution-Plot.html"/>
+
+	<!-- Traditional (Google), Open Graph (Facebook, Linkedin), Twitter Card -->
+	<meta property="og:type" content="website"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta property="og:url" content="https://Brandon-Johns.github.io/crane-dynamics-simulator/reference/CDS-Solution-Plot.html"/>
+	<meta name="twitter:url" content="https://Brandon-Johns.github.io/crane-dynamics-simulator/reference/CDS-Solution-Plot.html"/>
+	<meta name="title" content="CDS_Solution_Plot | Crane Dynamics Simulator"/>
+	<meta property="og:title" content="CDS_Solution_Plot | Crane Dynamics Simulator"/>
+	<meta name="twitter:title" content="CDS_Solution_Plot | Crane Dynamics Simulator"/>
+	<meta name="description" content="Crane Dynamics Simulator Documentation: CDS_Solution_Plot API Reference"/>
+	<meta property="og:description" content="Crane Dynamics Simulator Documentation: CDS_Solution_Plot API Reference"/>
+	<meta name="twitter:description" content="Crane Dynamics Simulator Documentation: CDS_Solution_Plot API Reference"/>
+	<meta property="og:image" content="/crane-dynamics-simulator/embed.png"/>
+	<meta name="twitter:image" content="/crane-dynamics-simulator/embed.png"/>
+	<meta property="og:image:width" content="1200"/>
+	<meta property="og:image:height" content="627"/>
+	<meta property="og:image:alt" content=""/>
+	<meta name="twitter:image:alt" content=""/>
+	<meta property="og:locale" content="en_GB"/>
+	<meta property="og:site_name" content="Crane Dynamics Simulator Documentation"/>
+
+	<!--Favicon-->
+	
+	<link rel="icon" type="image/png" href="/crane-dynamics-simulator/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/crane-dynamics-simulator/favicon.svg" />
+	<link rel="shortcut icon" href="/crane-dynamics-simulator/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/crane-dynamics-simulator/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="Crane Dynamics Simulator" />
+	<link rel="manifest" href="/crane-dynamics-simulator/site.webmanifest" />
+
+	<!--Viewpoint-->
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!--Disable auto telephone number detection-->
+	<meta name="format-detection" content="telephone=no">
+
+	<!--Google webmasters site verification-->
+	<!--<meta name="google-site-verification" content="" />-->
+
+	<!--Fonts-->
+
+	<!--First party-->
+	<!--Script load must either be as a module, or with defer-->
+	<link rel="preload" as="style" href="/crane-dynamics-simulator/assets/app-compiled.css">
+	<link rel="stylesheet" href="/crane-dynamics-simulator/assets/app-compiled.css">
+	<link rel="modulepreload" as="script" href="/crane-dynamics-simulator/assets/layout-main.js">
+	<script type="module" src="/crane-dynamics-simulator/assets/layout-main.js"></script>
+
+	<!--Third Party: MathJax-->
+	<!--Script loading allows async because it internally sets defer on calling the library-->
+	<link rel="preload" as="script" href="/crane-dynamics-simulator/assets/load-mathjax.js">
+	<script async src="/crane-dynamics-simulator/assets/load-mathjax.js"></script>
+
+	<!--Third Party: highlight.js-->
+	<!--Script loading must defer because it calls the library directly-->
+	<link rel="preload" as="script" href="/crane-dynamics-simulator/assets/highlight/highlight.min.js">
+	<script defer src="/crane-dynamics-simulator/assets/highlight/highlight.min.js"></script>
+</head>
+
+<body lang="en-gb">
+	<!--Header-->
+	<!--Has open/close button for mobile menu-->
+	<header id="js-header" class="header">
+		<div class="header-title">Crane Dynamics Simulator</div>
+		<button id="js-contrast-toggle" class="contrast-toggle">Dim Screen</button>
+		<button id="js-header-switch" class="header-switch header-switch-mobile" type="button" aria-label="toggle navigation menu" aria-expanded="false">
+			<!--Toggle which image is shown-->
+			<!--Menu-Mobile-Open-->
+			<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-header-img-open" aria-hidden="true" width="50" height="50">
+				<g fill="none" stroke-linecap="round" stroke-width="10">
+					<path d="m10 20h80"/>
+					<path d="m10 50h80"/>
+					<path d="m10 80h80"/>
+				</g>
+			</svg>
+			<!--Menu-Mobile-Close-->
+			<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-header-img-close" class="hidden" aria-hidden="true" width="50" height="50">
+				<g fill="none" stroke-linecap="round" stroke-width="20">
+					<path d="m12 12 76 76"/>
+					<path d="m12 88 76-76"/>
+				</g>
+			</svg>
+		</button>
+	</header>
+
+	<!--Sidebar and nav-->
+	<div class="container-outer">
+		<aside id="js-aside" class="menu">
+			<button id="js-aside-switch" class="header-switch header-switch-desktop" type="button" aria-label="toggle navigation menu" aria-expanded="false">
+				<!--Menu-Desktop-->
+				<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-aside-img" aria-hidden="true" width="50" height="50">
+					<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20">
+						<path d="M35 20 L65 50 L35 80"/>
+					</g>
+				</svg>
+			</button>
+			<nav id="js-nav">
+				<ul>
+					<li class="menu-h1">Main</li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/">Home</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/tutorial.html">Tutorial</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/how-to-guides.html">How-To Guides</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/sundials.html">C++ Code Generation</a></li>
+					<li class="menu-core"><a target="_blank" href="/crane-dynamics-simulator/crane-dynamics-simulator-maths-and-physics.pdf">Physics &amp; Maths (pdf)</a></li>
+					<li class="menu-h1">Code</li>
+					<li class="menu-core"><a target="_blank" rel="noopener noreferrer" class="ex-link" href="https://github.com/Brandon-Johns/crane-dynamics-simulator">GitHub<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="ex-link-icon"><path d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z" /></svg></a></li>
+					<li class="menu-h1">API Reference</li>
+					<li><a href="/crane-dynamics-simulator/reference-home.html">API Reference Home</a></li>
+					<li><a href="/crane-dynamics-simulator/repository-layout.html">Repository Layout</a></li>
+					<li class="menu-h2">System Description</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Params.html">CDS_Params</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-NamedItem.html">CDS_NamedItem</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param.html">CDS_Param</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Const.html">CDS_Param_Const</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Free.html">CDS_Param_Free</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Input.html">CDS_Param_Input</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Lambda.html">CDS_Param_Lambda</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Point.html">CDS_Point</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-LinearSpring.html">CDS_Component_LinearSpring</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-TorsionSpring.html">CDS_Component_TorsionSpring</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-LinearDamper.html">CDS_Component_LinearDamper</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-GeneralisedForce.html">CDS_Component_GeneralisedForce</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-PointForce.html">CDS_Component_PointForce</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-Constraint.html">CDS_Component_Constraint</a></li>
+					<li class="menu-h2">Solving</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-Solver.html">CDS_Solver</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solver-Options.html">CDS_Solver_Options</a></li>
+					<li class="menu-h2">Post-Processing</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-Solution.html">CDS_Solution</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionSim.html">CDS_SolutionSim</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionExp.html">CDS_SolutionExp</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionInterpolated.html">CDS_SolutionInterpolated</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionSaved.html">CDS_SolutionSaved</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Plot.html">CDS_Solution_Plot</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Animate.html">CDS_Solution_Animate</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-GetData.html">CDS_Solution_GetData</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Export.html">CDS_Solution_Export</a></li>
+					<li class="menu-h2">Misc</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Calc-Energy.html">CDS_Calc_Energy</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Helper-StrOut.html">CDS_Helper_StrOut</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-GetDataLocations.html">CDS_GetDataLocations</a></li>
+				</ul>
+			</nav>
+		</aside>
+		<script>
+			// Desktop: prevent flicker from time taken for constructor to open the menu
+			if(localStorage.getItem("CDS-sidebarPinned") === "true") {
+				document.getElementById("js-aside-switch").classList.add("pinned");
+				document.getElementById("js-nav").classList.add("open");
+			}
+		</script>
+
+		<main class="container">
+			<div class="container-inner">
+				<!--Main content-->
+				
+
+
+<h1 class="ref-h1">CDS_Solution_Plot</h1>
+
+<p class="ref-superclass">&#xFE64;<span class="tk-type">handle</span></p>
+
+
+
+<h4 class="text-comment">PURPOSE</h4><pre class="text-comment text-comment-indent">Plot the solution as a function of time</pre><h4 class="text-comment">LIMITATIONS</h4><pre class="text-comment text-comment-indent">Partial support for solutions built with CDS_SolutionExp</pre><pre class="text-comment text-comment-indent">In cases of non-support: either no plot will be produced, or an error will be thrown</pre>
+
+
+
+
+
+
+<h2>Methods</h2>
+<table class="ref-summary-methods">
+	<thead>
+		<tr>
+			<th scope="col">Inherited From</th>
+			<th scope="col">Call Style</th>
+			<th scope="col">Returns</th>
+			<th scope="col">Name(Arguments)</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td><span class="tk-type">this</span></td>
+	<td><span class="tk-method">CDS_Solution_Plot</span><span class="tk-paren-o">(</span><span class="tk-normal">solution</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotSymExpr</span><span class="tk-paren-o">(</span><span class="tk-normal">symExprs</span><span class="tk-comma">,</span> <span class="tk-normal">idx_time</span><span class="tk-comma">,</span> <span class="tk-nv-name">ax</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-comma">,</span> <span class="tk-nv-name">legendStr</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotConstraintViolation</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotEnergyTotal</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotEnergyAll</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotPowerError</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotPowerTotal</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotPowerAll</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotConfigSpace</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotLambda</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotInput</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotTaskSpace</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-comma">,</span> <span class="tk-nv-name">dim</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-comma">,</span> <span class="tk-nv-name">points</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotTaskSpace_Mass</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-comma">,</span> <span class="tk-nv-name">dim</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotTaskSpace_All</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-comma">,</span> <span class="tk-nv-name">dim</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotForces</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td></td>
+	<td><span class="tk-method">PlotComponentLengths</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+<!--<h2>Methods</h2>-->
+
+
+<h3><span class="tk-method">CDS_Solution_Plot</span><span class="tk-paren-o">(</span><span class="tk-normal">solution</span><span class="tk-paren-c">)</span></h3>
+
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		
+		
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">solution</span></td>
+	<td><span class="tk-dim-keyword">any</span></td>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Solution.html">CDS_Solution</a></td>
+	
+	
+	<td><p class="text-comment">The solution to plot</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">this</span></td>
+	<td><span class="tk-dim-keyword">any</span></td>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Solution-Plot.html">CDS_Solution_Plot</a></td>
+	<td></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">PlotSymExpr</span><span class="tk-paren-o">(</span><span class="tk-normal">symExprs</span><span class="tk-comma">,</span> <span class="tk-normal">idx_time</span><span class="tk-comma">,</span> <span class="tk-nv-name">ax</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-comma">,</span> <span class="tk-nv-name">legendStr</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">Plot an arbitrary input symbolic expression, as evaluated at the solution by CDS_Solution.EvaluateSymExpr_atTimeIdx()</p>
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with plot of time vs symExprs</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">symExprs</span></td>
+	<td><span class="tk-dim-keyword">any</span></td>
+	<td><span class="tk-type">symbolic expression</span></td>
+	<td><span class="tk-function"></span></td>
+	<td></td>
+	<td><p class="text-comment">Expressions to evaluate</p></td>
+</tr>
+<tr>
+	<td><span class="tk-normal">idx_time</span></td>
+	<td><span class="tk-dim-keyword">col</span></td>
+	<td><span class="tk-type">uint64</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-numeric">1</span><span class="tk-colon">:</span><span class="tk-function">length</span><span class="tk-paren-o">(</span><span class="tk-type">this</span><span class="tk-dot">.</span><span class="tk-function">SS</span><span class="tk-dot">.</span><span class="tk-function">t</span><span class="tk-paren-c">)</span></td>
+	<td><p class="text-comment">Time coordinates by index, according the time in this.t</p></td>
+</tr>
+<tr>
+	<td><span class="tk-nv-name">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+<tr>
+	<td><span class="tk-nv-name">legendStr</span></td>
+	<td><span class="tk-dim-keyword">any</span></td>
+	<td><span class="tk-type">string</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">string</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Legend entries for the additional expressions</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+<h3><span class="tk-method">PlotConstraintViolation</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></h3>
+
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with plot of time vs constraint equation violation</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+<h3><span class="tk-method">PlotEnergyTotal</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></h3>
+
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with plot of total system energy vs time</pre>
+<pre class="text-comment text-comment-indent">Plot is offset to start at 0</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+<h3><span class="tk-method">PlotEnergyAll</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></h3>
+
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with overlaid plots of each energy component and total system energy vs time</pre>
+<pre class="text-comment text-comment-indent">Plots offset to start with 0 gravitational potential energy</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+<h3><span class="tk-method">PlotPowerError</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></h3>
+
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with plot of time vs the difference between</pre>
+<pre class="text-comment text-comment-indent">    Rate of change of total system energy</pre>
+<pre class="text-comment text-comment-indent">    Rate of work done on system</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+<h3><span class="tk-method">PlotPowerTotal</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></h3>
+
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with</pre>
+<pre class="text-comment text-comment-indent">    Plot of rate of change of total system energy vs time</pre>
+<pre class="text-comment text-comment-indent">    Plot of rate of work done on system vs time</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+<h3><span class="tk-method">PlotPowerAll</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">TODO: add missing power components</p>
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with each component of power and work vs time</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+<h3><span class="tk-method">PlotConfigSpace</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></h3>
+
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with overlaid plots of all free generalised coordinates vs time</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+<h3><span class="tk-method">PlotLambda</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></h3>
+
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with overlaid plots of all constraint state variables (lambda) vs time</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+<h3><span class="tk-method">PlotInput</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></h3>
+
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with overlaid plots of all input generalised coordinates vs time</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+<h3><span class="tk-method">PlotTaskSpace</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-comma">,</span> <span class="tk-nv-name">dim</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-comma">,</span> <span class="tk-nv-name">points</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-paren-c">)</span></h3>
+
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with plot of coordinates in task space</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+<tr>
+	<td><span class="tk-nv-name">dim</span></td>
+	<td></td>
+	<td></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-paren-o">[</span><span class="tk-string">&quot;x&quot;</span><span class="tk-comma">,</span>&nbsp;<span class="tk-string">&quot;y&quot;</span><span class="tk-comma">,</span>&nbsp;<span class="tk-string">&quot;z&quot;</span><span class="tk-paren-c">]</span></td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td><span class="tk-dim-keyword">row</span></td>
+	<td><span class="tk-string">&quot;x&quot;</span></td>
+	<td></td>
+	<td></td>
+	<td><p class="text-comment">plot the x coordinate data</p></td>
+</tr>
+<tr>
+	<td></td>
+	<td><span class="tk-dim-keyword">row</span></td>
+	<td><span class="tk-string">&quot;y&quot;</span></td>
+	<td></td>
+	<td></td>
+	<td><p class="text-comment">plot the y coordinate data</p></td>
+</tr>
+<tr>
+	<td></td>
+	<td><span class="tk-dim-keyword">row</span></td>
+	<td><span class="tk-string">&quot;z&quot;</span></td>
+	<td></td>
+	<td></td>
+	<td><p class="text-comment">plot the z coordinate data</p></td>
+</tr>
+<tr>
+	<td><span class="tk-nv-name">points</span></td>
+	<td></td>
+	<td></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">this</span><span class="tk-dot">.</span><span class="tk-function">SS</span><span class="tk-dot">.</span><span class="tk-function">sys</span><span class="tk-dot">.</span><span class="tk-function">points</span><span class="tk-dot">.</span><span class="tk-function">GetIfHasMass</span></td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td><span class="tk-dim-keyword">col</span></td>
+	<td><span class="tk-type">string</span></td>
+	<td></td>
+	<td></td>
+	<td><p class="text-comment">Name of the points to plot. Values matching CDS_Point.Name</p></td>
+</tr>
+<tr>
+	<td></td>
+	<td><span class="tk-dim-keyword">col</span></td>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Point.html">CDS_Point</a></td>
+	<td></td>
+	<td></td>
+	<td><p class="text-comment">The points to plot</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+<h3><span class="tk-method">PlotTaskSpace_Mass</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-comma">,</span> <span class="tk-nv-name">dim</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-paren-c">)</span></h3>
+
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with plot of coordinates in task space</pre>
+<pre class="text-comment text-comment-indent">Variant that plots only the points with mass</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+<tr>
+	<td><span class="tk-nv-name">dim</span></td>
+	<td><span class="tk-dim-keyword">row</span></td>
+	<td><span class="tk-type">string</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-paren-o">[</span><span class="tk-string">&quot;x&quot;</span><span class="tk-comma">,</span>&nbsp;<span class="tk-string">&quot;y&quot;</span><span class="tk-comma">,</span>&nbsp;<span class="tk-string">&quot;z&quot;</span><span class="tk-paren-c">]</span></td>
+	<td><p class="text-comment">&quot;x&quot;: plot the x coordinate data</p>
+<p class="text-comment">&quot;y&quot;: plot the y coordinate data</p>
+<p class="text-comment">&quot;z&quot;: plot the z coordinate data</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+<h3><span class="tk-method">PlotTaskSpace_All</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-comma">,</span> <span class="tk-nv-name">dim</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-paren-c">)</span></h3>
+
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with plot of coordinates in task space</pre>
+<pre class="text-comment text-comment-indent">Variant that plots all points</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+<tr>
+	<td><span class="tk-nv-name">dim</span></td>
+	<td><span class="tk-dim-keyword">row</span></td>
+	<td><span class="tk-type">string</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-paren-o">[</span><span class="tk-string">&quot;x&quot;</span><span class="tk-comma">,</span>&nbsp;<span class="tk-string">&quot;y&quot;</span><span class="tk-comma">,</span>&nbsp;<span class="tk-string">&quot;z&quot;</span><span class="tk-paren-c">]</span></td>
+	<td><p class="text-comment">&quot;x&quot;: plot the x coordinate data</p>
+<p class="text-comment">&quot;y&quot;: plot the y coordinate data</p>
+<p class="text-comment">&quot;z&quot;: plot the z coordinate data</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+<h3><span class="tk-method">PlotForces</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></h3>
+
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with the generalised forces that act on the system vs time</pre>
+<pre class="text-comment text-comment-indent">Plotted</pre>
+<pre class="text-comment text-comment-indent">    Generalised forces</pre>
+<pre class="text-comment text-comment-indent">    Equivalent forces from constraints, point forces, springs, dampers, etc.</pre>
+<pre class="text-comment text-comment-indent">    Equivalent forces from input generalised coordinates</pre>
+<pre class="text-comment text-comment-indent">TODO: Not plotted</pre>
+<pre class="text-comment text-comment-indent">    Inertial forces (F=m*a, torque=I*alpha)</pre>
+<pre class="text-comment text-comment-indent">    Reaction forces</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+<h3><span class="tk-method">PlotComponentLengths</span><span class="tk-paren-o">(</span><span class="tk-normal">ax</span><span class="tk-paren-c">)</span></h3>
+
+<h4 class="text-comment">SIDE EFFECTS</h4>
+<pre class="text-comment text-comment-indent">Figure with the lengths/angles of springs/dampers vs time</pre>
+<pre class="text-comment text-comment-indent">Lengths of dampers are only included for instances where this was specified</pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">ax</span></td>
+	<td><span class="tk-dim-keyword">scalar</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">empty</span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span></td>
+	<td><span class="tk-function"></span></td>
+	<td><span class="tk-type">matlab.graphics.axis.Axes</span><span class="tk-dot">.</span><span class="tk-function">empty</span></td>
+	<td><p class="text-comment">Axes object to plot on</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+
+			</div>
+		</main>
+	</div>
+</body>
+</html>
+
+

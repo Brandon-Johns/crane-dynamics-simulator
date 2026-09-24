@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<!--Page info-->
+	<title>Sundials | Crane Dynamics Simulator</title>
+	<link rel="canonical" href="https://Brandon-Johns.github.io/crane-dynamics-simulator/sundials.html"/>
+
+	<!-- Traditional (Google), Open Graph (Facebook, Linkedin), Twitter Card -->
+	<meta property="og:type" content="website"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta property="og:url" content="https://Brandon-Johns.github.io/crane-dynamics-simulator/sundials.html"/>
+	<meta name="twitter:url" content="https://Brandon-Johns.github.io/crane-dynamics-simulator/sundials.html"/>
+	<meta name="title" content="Sundials | Crane Dynamics Simulator"/>
+	<meta property="og:title" content="Sundials | Crane Dynamics Simulator"/>
+	<meta name="twitter:title" content="Sundials | Crane Dynamics Simulator"/>
+	<meta name="description" content="Crane Dynamics Simulator Documentation"/>
+	<meta property="og:description" content="Crane Dynamics Simulator Documentation"/>
+	<meta name="twitter:description" content="Crane Dynamics Simulator Documentation"/>
+	<meta property="og:image" content="/crane-dynamics-simulator/embed.png"/>
+	<meta name="twitter:image" content="/crane-dynamics-simulator/embed.png"/>
+	<meta property="og:image:width" content="1200"/>
+	<meta property="og:image:height" content="627"/>
+	<meta property="og:image:alt" content=""/>
+	<meta name="twitter:image:alt" content=""/>
+	<meta property="og:locale" content="en_GB"/>
+	<meta property="og:site_name" content="Crane Dynamics Simulator Documentation"/>
+
+	<!--Favicon-->
+	
+	<link rel="icon" type="image/png" href="/crane-dynamics-simulator/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/crane-dynamics-simulator/favicon.svg" />
+	<link rel="shortcut icon" href="/crane-dynamics-simulator/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/crane-dynamics-simulator/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="Crane Dynamics Simulator" />
+	<link rel="manifest" href="/crane-dynamics-simulator/site.webmanifest" />
+
+	<!--Viewpoint-->
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!--Disable auto telephone number detection-->
+	<meta name="format-detection" content="telephone=no">
+
+	<!--Google webmasters site verification-->
+	<!--<meta name="google-site-verification" content="" />-->
+
+	<!--Fonts-->
+
+	<!--First party-->
+	<!--Script load must either be as a module, or with defer-->
+	<link rel="preload" as="style" href="/crane-dynamics-simulator/assets/app-compiled.css">
+	<link rel="stylesheet" href="/crane-dynamics-simulator/assets/app-compiled.css">
+	<link rel="modulepreload" as="script" href="/crane-dynamics-simulator/assets/layout-main.js">
+	<script type="module" src="/crane-dynamics-simulator/assets/layout-main.js"></script>
+
+	<!--Third Party: MathJax-->
+	<!--Script loading allows async because it internally sets defer on calling the library-->
+	<link rel="preload" as="script" href="/crane-dynamics-simulator/assets/load-mathjax.js">
+	<script async src="/crane-dynamics-simulator/assets/load-mathjax.js"></script>
+
+	<!--Third Party: highlight.js-->
+	<!--Script loading must defer because it calls the library directly-->
+	<link rel="preload" as="script" href="/crane-dynamics-simulator/assets/highlight/highlight.min.js">
+	<script defer src="/crane-dynamics-simulator/assets/highlight/highlight.min.js"></script>
+</head>
+
+<body lang="en-gb">
+	<!--Header-->
+	<!--Has open/close button for mobile menu-->
+	<header id="js-header" class="header">
+		<div class="header-title">Crane Dynamics Simulator</div>
+		<button id="js-contrast-toggle" class="contrast-toggle">Dim Screen</button>
+		<button id="js-header-switch" class="header-switch header-switch-mobile" type="button" aria-label="toggle navigation menu" aria-expanded="false">
+			<!--Toggle which image is shown-->
+			<!--Menu-Mobile-Open-->
+			<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-header-img-open" aria-hidden="true" width="50" height="50">
+				<g fill="none" stroke-linecap="round" stroke-width="10">
+					<path d="m10 20h80"/>
+					<path d="m10 50h80"/>
+					<path d="m10 80h80"/>
+				</g>
+			</svg>
+			<!--Menu-Mobile-Close-->
+			<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-header-img-close" class="hidden" aria-hidden="true" width="50" height="50">
+				<g fill="none" stroke-linecap="round" stroke-width="20">
+					<path d="m12 12 76 76"/>
+					<path d="m12 88 76-76"/>
+				</g>
+			</svg>
+		</button>
+	</header>
+
+	<!--Sidebar and nav-->
+	<div class="container-outer">
+		<aside id="js-aside" class="menu">
+			<button id="js-aside-switch" class="header-switch header-switch-desktop" type="button" aria-label="toggle navigation menu" aria-expanded="false">
+				<!--Menu-Desktop-->
+				<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-aside-img" aria-hidden="true" width="50" height="50">
+					<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20">
+						<path d="M35 20 L65 50 L35 80"/>
+					</g>
+				</svg>
+			</button>
+			<nav id="js-nav">
+				<ul>
+					<li class="menu-h1">Main</li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/">Home</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/tutorial.html">Tutorial</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/how-to-guides.html">How-To Guides</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/sundials.html">C++ Code Generation</a></li>
+					<li class="menu-core"><a target="_blank" href="/crane-dynamics-simulator/crane-dynamics-simulator-maths-and-physics.pdf">Physics &amp; Maths (pdf)</a></li>
+					<li class="menu-h1">Code</li>
+					<li class="menu-core"><a target="_blank" rel="noopener noreferrer" class="ex-link" href="https://github.com/Brandon-Johns/crane-dynamics-simulator">GitHub<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="ex-link-icon"><path d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z" /></svg></a></li>
+					<li class="menu-h1">API Reference</li>
+					<li><a href="/crane-dynamics-simulator/reference-home.html">API Reference Home</a></li>
+					<li><a href="/crane-dynamics-simulator/repository-layout.html">Repository Layout</a></li>
+					<li class="menu-h2">System Description</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Params.html">CDS_Params</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-NamedItem.html">CDS_NamedItem</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param.html">CDS_Param</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Const.html">CDS_Param_Const</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Free.html">CDS_Param_Free</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Input.html">CDS_Param_Input</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Lambda.html">CDS_Param_Lambda</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Point.html">CDS_Point</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-LinearSpring.html">CDS_Component_LinearSpring</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-TorsionSpring.html">CDS_Component_TorsionSpring</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-LinearDamper.html">CDS_Component_LinearDamper</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-GeneralisedForce.html">CDS_Component_GeneralisedForce</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-PointForce.html">CDS_Component_PointForce</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-Constraint.html">CDS_Component_Constraint</a></li>
+					<li class="menu-h2">Solving</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-Solver.html">CDS_Solver</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solver-Options.html">CDS_Solver_Options</a></li>
+					<li class="menu-h2">Post-Processing</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-Solution.html">CDS_Solution</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionSim.html">CDS_SolutionSim</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionExp.html">CDS_SolutionExp</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionInterpolated.html">CDS_SolutionInterpolated</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionSaved.html">CDS_SolutionSaved</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Plot.html">CDS_Solution_Plot</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Animate.html">CDS_Solution_Animate</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-GetData.html">CDS_Solution_GetData</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Export.html">CDS_Solution_Export</a></li>
+					<li class="menu-h2">Misc</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Calc-Energy.html">CDS_Calc_Energy</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Helper-StrOut.html">CDS_Helper_StrOut</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-GetDataLocations.html">CDS_GetDataLocations</a></li>
+				</ul>
+			</nav>
+		</aside>
+		<script>
+			// Desktop: prevent flicker from time taken for constructor to open the menu
+			if(localStorage.getItem("CDS-sidebarPinned") === "true") {
+				document.getElementById("js-aside-switch").classList.add("pinned");
+				document.getElementById("js-nav").classList.add("open");
+			}
+		</script>
+
+		<main class="container">
+			<div class="container-inner">
+				<!--Main content-->
+				
+
+
+<h1>C++ Code Generation for Solving with SUNDIALS</h1>
+<div class="text-aside">
+	<p>NOTE: Code generation is currently limited to systems with 0 or 1 kinematic constraint equations (instances of <a href="/crane-dynamics-simulator/reference/CDS-Component-Constraint.html">CDS_Component_Constraint</a>). The exported equations mirror the equations used by solveMode <span class="tk-string">&quot;solveTime2&quot;</span>.</p>
+</div>
+
+<p>The software can export the system equations (the ODE) to C++, in a format ready for solving with the <a target="_blank" rel="noopener noreferrer" class="ex-link" href="https://computing.llnl.gov/projects/sundials">SUNDIALS<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="ex-link-icon"><path d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z" /></svg></a> CVODE solver.</p>
+
+<p>General workflow:</p>
+<ol>
+	<li><b>MATLAB:</b> Define the system description as usual, and then export the system equations instead of solving them.</li>
+	<li><b>CMake/C++:</b> Edit CMakeList.txt to include the exported equations.</li>
+	<li><b>CMake/C++:</b> Build the CMake project, and execute the compiled file to solve the equations.</li>
+	<li><b>MATLAB:</b> Import the solution from the text file, and continue as if it were the output of calling solve.</li>
+</ol>
+
+<h2>Setup / Install</h2>
+<p>Follow the installation instructions for your operating system</p>
+<ul>
+	<li><span class="file">lib_ubuntu/instructions/Install_Instructions_Ubuntu.txt</span></li>
+	<li><span class="file">lib_windows/instructions/Install_Instructions_Windows.txt</span></li>
+</ul>
+
+<h2>Step 1: Code Generation</h2>
+<p>In MATLAB, define the system description as usual, continuing up to when you would usually call <a href="/crane-dynamics-simulator/reference/CDS-Solver.html">CDS_Solver</a><span class="tk-dot">.</span><span class="tk-function">Solve</span>. Then, set the export path in the solver options and call <span class="tk-dot">.</span><span class="tk-function">Solve</span> with the solveMode <span class="tk-string">&quot;sundials&quot;</span>. This will generate the equations and export them to C++ instead of solving them.</p>
+<p>The generated code is required to be placed in a subdirectory of <span class="file">data/sundials_generated/</span>. Use <a href="/crane-dynamics-simulator/reference/CDS-GetDataLocations.html">CDS_GetDataLocations</a> to help form this directory path.</p>
+<pre class="code-example"><code><span class="text-comment text-comment-line">% Given:</span>
+<span class="text-comment text-comment-line">%   The generated code is desired to be created in &quot;data/sundials_generated/myModels/myPendulum/&quot;</span>
+<span class="text-comment text-comment-line">%       where the subdirectory depth and names &quot;myModels/myPendulum/&quot; may be changed as desired</span>
+<span class="text-comment text-comment-line">%   SO = CDS_Solver_Options</span>
+<span class="text-comment text-comment-line">%   sys = CDS_SystemDescription</span>
+
+<span class="tk-normal">exportPath</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-GetDataLocations.html">CDS_GetDataLocations</a><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">sun_generated</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;myModels&quot;</span><span class="tk-comma">,</span> <span class="tk-string">&quot;myPendulum&quot;</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">SO</span><span class="tk-dot">.</span><span class="tk-function">exportPath</span> <span class="tk-equals">=</span> <span class="tk-normal">exportPath</span><span class="tk-semi">;</span>
+
+<span class="tk-normal">S</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-Solver.html">CDS_Solver</a><span class="tk-paren-o">(</span><span class="tk-normal">SO</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">S</span><span class="tk-dot">.</span><span class="tk-function">Solve</span><span class="tk-paren-o">(</span><span class="tk-normal">sys</span><span class="tk-comma">,</span> <span class="tk-string">&quot;sundials&quot;</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<p>As a result of this, the following files will be created:</p>
+<ul>
+	<li><span class="file">data/sundials_generated/myModels/myPendulum/crane_head_shared.cpp</span></li>
+	<li><span class="file">data/sundials_generated/myModels/myPendulum/crane_head.cpp</span></li>
+	<li><span class="file">data/sundials_generated/myModels/myPendulum/crane_inputs.cpp</span></li>
+	<li><span class="file">data/sundials_generated/myModels/myPendulum/crane_ode.cpp</span></li>
+	<li><span class="file">data/sundials_generated/myModels/myPendulum/crane_x.cpp</span></li>
+</ul>
+
+<p>These files collectively define the ODE. If you open these files, you will see that the variable names have been minified. The comments next to the variables display the names that you specified while building the system description.</p>
+
+<h2>Step 2: Configure CMake</h2>
+<p>Edit <span class="file">run_sundials/src/SimC3/CMakeLists.txt</span>, setting the variable <code class="language-cmake">SunGenerated_Includes</code> to the path to the directory holding the generated code. Specify this path as relative to <span class="file">data/sundials_generated/</span>. List the paths to all the models that you wish to solve.</p>
+<pre class="code-example"><code class="language-cmake">
+# CMake
+set(SunGenerated_Includes
+    "myModels/myPendulum"
+    "myModels/myDoublePendulum"
+    "myModels/myLinkage"
+)
+</code></pre>
+
+<h2>Step 3: Build and execute the C++</h2>
+<p>Build and execute the CMake project with your preferred CMake and C++ tooling.</p>
+
+<p>When running the executable, the SUNDIALS and OpenBLAS shared library files must either be on the system path, or copies of them must be placed in the same directory as the built executable. Specifically, <span class="file">sundials_cvode.dll</span> and <span class="file">libopenblas.dll</span>. The provided helper scripts automatically modify the system path for you (the modification is temporary and local to the lifetime of the current PowerShell session).</p>
+
+<p>The built executable prints the results to standard out in csv format, with solver statistics appended. These results should be echoed into a text file, ready for importing back into MATLAB. Any filename and path is fine, but the nominal path is in a subdirectory of <span class="file">data/sundials_results/</span>, using the same name as the executable file. For example:</p>
+<pre class="code-example code-console"><code class="language-powershell">
+# BASH or PowerShell
+#   Run commands from the root CDS directory
+
+# To run without using the helper scripts
+# Given:
+#   The required dll files are on the system path, or otherwise in "run_sundials/bin/"
+#   The generated executable is "run_sundials/bin/myModels-myPendulum.exe"
+#   The results are desired to be created in "data/sundials_results/myResults/myModels-myPendulum.txt"
+#       where the subdirectory and file names "myResults/myModels-myPendulum.txt" may be changed as desired
+& "./run_sundials/bin/myModels-myPendulum.exe" > "./data/sundials_results/myResults/myModels-myPendulum.txt"
+</code></pre>
+
+<p>In the results, the first column is the solution time. The remaining columns are the state derivative followed by the state. The csv header row uses the variable names that you specified while building the system description. Example results:</p>
+<pre class="code-example code-console"><code class="language-text">
+t,theta_1 [d],theta_2 [d],theta_1,theta_2
+2.000000e-02,-5.822970e-05,5.785055e-05,-3.958976e-07,3.941549e-07
+4.000000e-02,-2.315077e-04,2.265941e-04,-3.101418e-06,3.058664e-06
+6.000000e-02,-5.181504e-04,4.952741e-04,-1.041057e-05,1.011886e-05
+...
+1.500000e+01,-2.705615e-01,-2.822419e-02,-8.785475e-02,-5.238121e-03
+
+CDS_INFO: Solver Statistics
+	Steps     = 961
+	ODE Evals = 1035
+	Jacobian Evals = 17
+	Linear Evals   = 170
+	Linear Solve Setups        = 60
+	Local error Test Fails     = 3
+	Nonlinear Solve Iters      = 1032
+	Nonlinear Solve Conv Fails = 0
+	User Root Function Evals   = 0
+
+CDS_INFO: Final CVODE retval = 0
+</code></pre>
+
+<p>Specific instructions for various operating systems and build systems follow:</p>
+
+<h3>Ubuntu</h3>
+<p>Helper script</p>
+<ul>
+	<li><span class="file">run_sundials/ubuntu_buildrun.sh</span></li>
+</ul>
+<pre class="code-example code-console"><code class="language-bash">
+# BASH
+#   Run commands from the root CDS directory
+
+# View script help text for details and examples
+./run_sundials/ubuntu_buildrun.sh -h
+
+# To build and execute the pendulum example
+chmod +x "./run_sundials/ubuntu_buildrun.sh"
+./run_sundials/ubuntu_buildrun.sh -cbe -r myResults -t myModels-myPendulum
+</code></pre>
+
+<p>The solution will be created at <span class="file">data/sundials_results/myResults/myModels-myPendulum.txt</span></p>
+
+<h3>Windows (Visual Studio via CLI)</h3>
+<p>Helper scripts</p>
+<ul>
+	<li><span class="file">run_sundials/clearBuild.ps1</span></li>
+	<li><span class="file">run_sundials/rebuild.ps1</span></li>
+	<li><span class="file">run_sundials/runExe.ps1</span></li>
+</ul>
+<pre class="code-example code-console"><code class="language-powershell">
+# PowerShell
+#   Run commands from the root CDS directory
+
+# View script help text for details and examples
+Get-Help run_sundials/clearBuild.ps1
+Get-Help run_sundials/rebuild.ps1
+Get-Help run_sundials/runExe.ps1
+
+# To build and execute the pendulum example
+# NOTE: It may be necessary to edit rebuild.ps1 to match the path to the compiler to your version of Visual Studio
+./run_sundials/rebuild.ps1
+./run_sundials/runExe.ps1 "myModels-myPendulum" > "./data/sundials_results/myResults/myModels-myPendulum.txt"
+</code></pre>
+
+<p>The solution will be created at <span class="file">data/sundials_results/myResults/myModels-myPendulum.txt</span></p>
+
+<h3>Windows (Visual Studio via GUI)</h3>
+<ol>
+	<li>Open the CMake project from within Visual Studio:
+		<ol>
+			<li>File > Open > CMake...</li>
+			<li>Choose <span class="file">run_sundials\src\CMakeLists.txt</span></li>
+		</ol>
+	</li>
+	<li>Generate the CMake cache: CMake > Cache > Generate</li>
+	<li>Build: CMake > Build Only > ...</li>
+</ol>
+
+<p>After building, the executable must be run with PowerShell.
+<pre class="code-example code-console"><code class="language-powershell">
+# PowerShell
+#   Run commands from the root CDS directory
+
+# To build and execute the pendulum example
+./run_sundials/runExe.ps1 "myModels-myPendulum" > "./data/sundials_results/myResults/myModels-myPendulum.txt"
+</code></pre>
+
+<p>The solution will be created at <span class="file">data/sundials_results/myResults/myModels-myPendulum.txt</span></p>
+
+
+<p>To edit the build settings, open <span class="file">run_sundials\src\CMakeSettings.json</span> from within Visual Studio, while the project is open.</p>
+
+<p>It may be necessary to delete the CMake cache between builds.</p>
+
+
+<h2>Step 4: Load the Solution into MATLAB</h2>
+<p>The solution data should be loaded directly into MATLAB, and then passed to <a href="/crane-dynamics-simulator/reference/CDS-Solution.html">CDS_Solution</a>, just as it would if it had been output by calling <a href="/crane-dynamics-simulator/reference/CDS-Solver.html">CDS_Solver</a><span class="tk-dot">.</span><span class="tk-function">Solve</span> normally. Before importing the solution, you are required to recreate an identical copy of the <a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a> that generated the exported solution. It is assumed that this is exactly identical, and this assumption is not automatically verified. To do this, it is suggested to simply reuse the same MATLAB script that generated the C++ output, but with the <span class="tk-dot">.</span><span class="tk-function">Solve</span> command commented out and replaced with a <span class="tk-function">readmatrix</span> command.</p>
+
+<p>Additionally, the command <span class="tk-dot">.</span><span class="tk-function">params</span><span class="tk-dot">.</span><span class="tk-function">SetStateVectorMode</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;withoutLambda&quot;</span><span class="tk-paren-c">)</span> should be run to specify that the SUNDIALS solution does not include the lagrange multipliers in the state vector or solution data. This command should always be called when using a SUNDIALS solution.</p>
+
+<pre class="code-example"><code><span class="text-comment text-comment-line">% Given:</span>
+<span class="text-comment text-comment-line">%   The solution is in &quot;data/sundials_results/myResults/myModels-myPendulum.txt&quot;</span>
+<span class="text-comment text-comment-line">%   sys = CDS_SystemDescription</span>
+
+<span class="text-comment text-comment-line">% Read in the txt/csv results</span>
+<span class="tk-normal">importPath</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-GetDataLocations.html">CDS_GetDataLocations</a><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">sun_results</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;myResults&quot;</span><span class="tk-comma">,</span> <span class="tk-string">&quot;myModels-myPendulum.txt&quot;</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">dataRaw</span> <span class="tk-equals">=</span> <span class="tk-function">readmatrix</span><span class="tk-paren-o">(</span><span class="tk-normal">importPath</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">t_import</span> <span class="tk-equals">=</span> <span class="tk-normal">dataRaw</span><span class="tk-paren-o">(</span><span class="tk-colon">:</span><span class="tk-comma">,</span> <span class="tk-numeric">1</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span>&#39;<span class="tk-semi">;</span>
+<span class="tk-normal">x_import</span> <span class="tk-equals">=</span> <span class="tk-normal">dataRaw</span><span class="tk-paren-o">(</span><span class="tk-colon">:</span><span class="tk-comma">,</span> <span class="tk-numeric">2</span><span class="tk-colon">:</span><span class="tk-keyword">end</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span>&#39;<span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% Remove the solver stats</span>
+<span class="tk-normal">t</span> <span class="tk-equals">=</span> <span class="tk-normal">t_import</span><span class="tk-paren-o">(</span><span class="tk-normal">isfinite</span><span class="tk-paren-o">(</span><span class="tk-normal">t_import</span><span class="tk-paren-c">)</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">x</span> <span class="tk-equals">=</span> <span class="tk-normal">x_import</span><span class="tk-paren-o">(</span><span class="tk-colon">:</span><span class="tk-comma">,</span> <span class="tk-normal">isfinite</span><span class="tk-paren-o">(</span><span class="tk-normal">t_import</span><span class="tk-paren-c">)</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% Build the solution object</span>
+<span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">params</span><span class="tk-dot">.</span><span class="tk-function">SetStateVectorMode</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;withoutLambda&quot;</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">SS</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-SolutionSim.html">CDS_SolutionSim</a><span class="tk-paren-o">(</span><span class="tk-normal">sys</span><span class="tk-comma">,</span> <span class="tk-normal">t</span><span class="tk-comma">,</span> <span class="tk-normal">x</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+
+			</div>
+		</main>
+	</div>
+</body>
+</html>
+
+

@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<!--Page info-->
+	<title>CDS_Component_GeneralisedForce | Crane Dynamics Simulator</title>
+	<link rel="canonical" href="https://Brandon-Johns.github.io/crane-dynamics-simulator/reference/CDS-Component-GeneralisedForce.html"/>
+
+	<!-- Traditional (Google), Open Graph (Facebook, Linkedin), Twitter Card -->
+	<meta property="og:type" content="website"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta property="og:url" content="https://Brandon-Johns.github.io/crane-dynamics-simulator/reference/CDS-Component-GeneralisedForce.html"/>
+	<meta name="twitter:url" content="https://Brandon-Johns.github.io/crane-dynamics-simulator/reference/CDS-Component-GeneralisedForce.html"/>
+	<meta name="title" content="CDS_Component_GeneralisedForce | Crane Dynamics Simulator"/>
+	<meta property="og:title" content="CDS_Component_GeneralisedForce | Crane Dynamics Simulator"/>
+	<meta name="twitter:title" content="CDS_Component_GeneralisedForce | Crane Dynamics Simulator"/>
+	<meta name="description" content="Crane Dynamics Simulator Documentation: CDS_Component_GeneralisedForce API Reference"/>
+	<meta property="og:description" content="Crane Dynamics Simulator Documentation: CDS_Component_GeneralisedForce API Reference"/>
+	<meta name="twitter:description" content="Crane Dynamics Simulator Documentation: CDS_Component_GeneralisedForce API Reference"/>
+	<meta property="og:image" content="/crane-dynamics-simulator/embed.png"/>
+	<meta name="twitter:image" content="/crane-dynamics-simulator/embed.png"/>
+	<meta property="og:image:width" content="1200"/>
+	<meta property="og:image:height" content="627"/>
+	<meta property="og:image:alt" content=""/>
+	<meta name="twitter:image:alt" content=""/>
+	<meta property="og:locale" content="en_GB"/>
+	<meta property="og:site_name" content="Crane Dynamics Simulator Documentation"/>
+
+	<!--Favicon-->
+	
+	<link rel="icon" type="image/png" href="/crane-dynamics-simulator/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/crane-dynamics-simulator/favicon.svg" />
+	<link rel="shortcut icon" href="/crane-dynamics-simulator/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/crane-dynamics-simulator/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="Crane Dynamics Simulator" />
+	<link rel="manifest" href="/crane-dynamics-simulator/site.webmanifest" />
+
+	<!--Viewpoint-->
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!--Disable auto telephone number detection-->
+	<meta name="format-detection" content="telephone=no">
+
+	<!--Google webmasters site verification-->
+	<!--<meta name="google-site-verification" content="" />-->
+
+	<!--Fonts-->
+
+	<!--First party-->
+	<!--Script load must either be as a module, or with defer-->
+	<link rel="preload" as="style" href="/crane-dynamics-simulator/assets/app-compiled.css">
+	<link rel="stylesheet" href="/crane-dynamics-simulator/assets/app-compiled.css">
+	<link rel="modulepreload" as="script" href="/crane-dynamics-simulator/assets/layout-main.js">
+	<script type="module" src="/crane-dynamics-simulator/assets/layout-main.js"></script>
+
+	<!--Third Party: MathJax-->
+	<!--Script loading allows async because it internally sets defer on calling the library-->
+	<link rel="preload" as="script" href="/crane-dynamics-simulator/assets/load-mathjax.js">
+	<script async src="/crane-dynamics-simulator/assets/load-mathjax.js"></script>
+
+	<!--Third Party: highlight.js-->
+	<!--Script loading must defer because it calls the library directly-->
+	<link rel="preload" as="script" href="/crane-dynamics-simulator/assets/highlight/highlight.min.js">
+	<script defer src="/crane-dynamics-simulator/assets/highlight/highlight.min.js"></script>
+</head>
+
+<body lang="en-gb">
+	<!--Header-->
+	<!--Has open/close button for mobile menu-->
+	<header id="js-header" class="header">
+		<div class="header-title">Crane Dynamics Simulator</div>
+		<button id="js-contrast-toggle" class="contrast-toggle">Dim Screen</button>
+		<button id="js-header-switch" class="header-switch header-switch-mobile" type="button" aria-label="toggle navigation menu" aria-expanded="false">
+			<!--Toggle which image is shown-->
+			<!--Menu-Mobile-Open-->
+			<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-header-img-open" aria-hidden="true" width="50" height="50">
+				<g fill="none" stroke-linecap="round" stroke-width="10">
+					<path d="m10 20h80"/>
+					<path d="m10 50h80"/>
+					<path d="m10 80h80"/>
+				</g>
+			</svg>
+			<!--Menu-Mobile-Close-->
+			<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-header-img-close" class="hidden" aria-hidden="true" width="50" height="50">
+				<g fill="none" stroke-linecap="round" stroke-width="20">
+					<path d="m12 12 76 76"/>
+					<path d="m12 88 76-76"/>
+				</g>
+			</svg>
+		</button>
+	</header>
+
+	<!--Sidebar and nav-->
+	<div class="container-outer">
+		<aside id="js-aside" class="menu">
+			<button id="js-aside-switch" class="header-switch header-switch-desktop" type="button" aria-label="toggle navigation menu" aria-expanded="false">
+				<!--Menu-Desktop-->
+				<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-aside-img" aria-hidden="true" width="50" height="50">
+					<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20">
+						<path d="M35 20 L65 50 L35 80"/>
+					</g>
+				</svg>
+			</button>
+			<nav id="js-nav">
+				<ul>
+					<li class="menu-h1">Main</li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/">Home</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/tutorial.html">Tutorial</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/how-to-guides.html">How-To Guides</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/sundials.html">C++ Code Generation</a></li>
+					<li class="menu-core"><a target="_blank" href="/crane-dynamics-simulator/crane-dynamics-simulator-maths-and-physics.pdf">Physics &amp; Maths (pdf)</a></li>
+					<li class="menu-h1">Code</li>
+					<li class="menu-core"><a target="_blank" rel="noopener noreferrer" class="ex-link" href="https://github.com/Brandon-Johns/crane-dynamics-simulator">GitHub<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="ex-link-icon"><path d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z" /></svg></a></li>
+					<li class="menu-h1">API Reference</li>
+					<li><a href="/crane-dynamics-simulator/reference-home.html">API Reference Home</a></li>
+					<li><a href="/crane-dynamics-simulator/repository-layout.html">Repository Layout</a></li>
+					<li class="menu-h2">System Description</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Params.html">CDS_Params</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-NamedItem.html">CDS_NamedItem</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param.html">CDS_Param</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Const.html">CDS_Param_Const</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Free.html">CDS_Param_Free</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Input.html">CDS_Param_Input</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Lambda.html">CDS_Param_Lambda</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Point.html">CDS_Point</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-LinearSpring.html">CDS_Component_LinearSpring</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-TorsionSpring.html">CDS_Component_TorsionSpring</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-LinearDamper.html">CDS_Component_LinearDamper</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-GeneralisedForce.html">CDS_Component_GeneralisedForce</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-PointForce.html">CDS_Component_PointForce</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-Constraint.html">CDS_Component_Constraint</a></li>
+					<li class="menu-h2">Solving</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-Solver.html">CDS_Solver</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solver-Options.html">CDS_Solver_Options</a></li>
+					<li class="menu-h2">Post-Processing</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-Solution.html">CDS_Solution</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionSim.html">CDS_SolutionSim</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionExp.html">CDS_SolutionExp</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionInterpolated.html">CDS_SolutionInterpolated</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionSaved.html">CDS_SolutionSaved</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Plot.html">CDS_Solution_Plot</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Animate.html">CDS_Solution_Animate</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-GetData.html">CDS_Solution_GetData</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Export.html">CDS_Solution_Export</a></li>
+					<li class="menu-h2">Misc</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Calc-Energy.html">CDS_Calc_Energy</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Helper-StrOut.html">CDS_Helper_StrOut</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-GetDataLocations.html">CDS_GetDataLocations</a></li>
+				</ul>
+			</nav>
+		</aside>
+		<script>
+			// Desktop: prevent flicker from time taken for constructor to open the menu
+			if(localStorage.getItem("CDS-sidebarPinned") === "true") {
+				document.getElementById("js-aside-switch").classList.add("pinned");
+				document.getElementById("js-nav").classList.add("open");
+			}
+		</script>
+
+		<main class="container">
+			<div class="container-inner">
+				<!--Main content-->
+				
+
+
+<h1 class="ref-h1">CDS_Component_GeneralisedForce</h1>
+
+<p class="ref-superclass">&#xFE64;<a href="/crane-dynamics-simulator/reference/CDS-NamedItem.html">CDS_NamedItem</a> &#xFE64; <span class="tk-type">handle</span></p>
+
+
+
+<h4 class="text-comment">PURPOSE</h4><pre class="text-comment text-comment-indent">A Generalised force acting on the system</pre><h4 class="text-comment">DETAILS</h4><pre class="text-comment text-comment-indent">This class is not the total generalised force, it applies a generalised force in addition to any others</pre><pre class="text-comment text-comment-indent">Each instance of this class is one component of the generalised force, acting along a single degree of freedom only</pre><h4 class="text-comment">THEORY</h4><pre class="text-comment text-comment-indent">Q(q, qd, t) : Generalised force</pre><pre class="text-comment text-comment-indent">q           : Generalised coordinate along which the force acts (acting in the positive direction)</pre><pre class="text-comment text-comment-indent">Key equations</pre><pre class="text-comment text-comment-indent">    The Euler-Lagrange formulation</pre><pre class="text-comment text-comment-indent">    sum(Q) = d[dL/d[qd]]/dt - dL/dq</pre><h4 class="text-comment">EXAMPLE</h4><pre class="code-example"><code><span class="text-comment text-comment-line">% Given:</span>
+<span class="text-comment text-comment-line">%   x1: CDS_Param_Free</span>
+<span class="text-comment text-comment-line">%   sys: CDS_SystemDescription</span>
+<span class="text-comment text-comment-line">% Apply a force on x1, and name this force &quot;Q1&quot;. The force has a value of 20 Newtons, as measured in the world frame</span>
+<span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreateGeneralisedForce</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;Q1&quot;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetLocation</span><span class="tk-paren-o">(</span><span class="tk-normal">x1</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetQ</span><span class="tk-paren-o">(</span><span class="tk-numeric">20</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+
+
+
+
+
+<h2>Methods</h2>
+<table class="ref-summary-methods">
+	<thead>
+		<tr>
+			<th scope="col">Inherited From</th>
+			<th scope="col">Call Style</th>
+			<th scope="col">Returns</th>
+			<th scope="col">Name(Arguments)</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td><span class="tk-type">this</span></td>
+	<td><span class="tk-method">SetQ</span><span class="tk-paren-o">(</span><span class="tk-normal">Q</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td><span class="tk-type">this</span></td>
+	<td><span class="tk-method">SetLocation</span><span class="tk-paren-o">(</span><span class="tk-normal">q_free</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">NameReadable</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">Q_scalar</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">q</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">Power_dWdt</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">Q</span><span class="tk-paren-o">(</span><span class="tk-normal">sys</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">Qf</span><span class="tk-paren-o">(</span><span class="tk-normal">sys</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-NamedItem.html">CDS_NamedItem</a></td>
+	<td>Array Call</td>
+	<td>varargout</td>
+	<td><span class="tk-method">eq</span><span class="tk-paren-o">(</span><span class="tk-repeating">varargin</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-NamedItem.html">CDS_NamedItem</a></td>
+	<td>Array Call</td>
+	<td>varargout</td>
+	<td><span class="tk-method">ne</span><span class="tk-paren-o">(</span><span class="tk-repeating">varargin</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-NamedItem.html">CDS_NamedItem</a></td>
+	<td>Array Call</td>
+	<td>varargout</td>
+	<td><span class="tk-method">findobj</span><span class="tk-paren-o">(</span><span class="tk-repeating">varargin</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-NamedItem.html">CDS_NamedItem</a></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">Name</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-NamedItem.html">CDS_NamedItem</a></td>
+	<td>Array Call</td>
+	<td>result</td>
+	<td><span class="tk-method">Contains</span><span class="tk-paren-o">(</span><span class="tk-normal">names</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-NamedItem.html">CDS_NamedItem</a></td>
+	<td>Array Call</td>
+	<td>selfSubset</td>
+	<td><span class="tk-method">Subset</span><span class="tk-paren-o">(</span><span class="tk-normal">namesIn</span><span class="tk-comma">,</span> <span class="tk-nv-name">warnMissing</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-comma">,</span> <span class="tk-nv-name">warnDuplicates</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-comma">,</span> <span class="tk-nv-name">keepDuplicates</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-NamedItem.html">CDS_NamedItem</a></td>
+	<td>Array Call</td>
+	<td>idxMatches</td>
+	<td><span class="tk-method">SubsetIdx</span><span class="tk-paren-o">(</span><span class="tk-normal">namesIn</span><span class="tk-comma">,</span> <span class="tk-nv-name">warnMissing</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-comma">,</span> <span class="tk-nv-name">warnDuplicates</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-comma">,</span> <span class="tk-nv-name">keepDuplicates</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-comma">,</span> <span class="tk-nv-name">matchQuery</span><span class="tk-nv-equals">=</span><span class="tk-nv-val">...</span><span class="tk-paren-c">)</span></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+<!--<h2>Methods</h2>-->
+
+
+<h3><span class="tk-method">SetQ</span><span class="tk-paren-o">(</span><span class="tk-normal">Q</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">Value of the force</p>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		
+		
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">Q</span></td>
+	<td><span class="tk-dim-keyword">scalar</span></td>
+	<td><span class="tk-type">symbolic expression</span></td>
+	
+	
+	<td><p class="text-comment">Permits values from [CDS_Params.const.Sym; CDS_Params.q.Sym; CDS_Params.q.Sym(1); sym(&#39;t&#39;,&#39;real&#39;)]</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">this</span></td>
+	<td><span class="tk-dim-keyword">any</span></td>
+	<td></td>
+	<td></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">SetLocation</span><span class="tk-paren-o">(</span><span class="tk-normal">q_free</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">The degree of freedom along which the force is applied</p>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		
+		
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">q_free</span></td>
+	<td></td>
+	<td></td>
+	
+	
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td><span class="tk-dim-keyword">scalar</span></td>
+	<td><span class="tk-type">string</span></td>
+	
+	
+	<td><p class="text-comment">Value from CDS_Params.q_free.Str</p></td>
+</tr>
+<tr>
+	<td></td>
+	<td><span class="tk-dim-keyword">scalar</span></td>
+	<td><span class="tk-type">symbolic variable</span></td>
+	
+	
+	<td><p class="text-comment">Value from CDS_Params.q_free.Sym</p></td>
+</tr>
+<tr>
+	<td></td>
+	<td><span class="tk-dim-keyword">scalar</span></td>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Param-Free.html">CDS_Param_Free</a></td>
+	
+	
+	<td><p class="text-comment">Value from CDS_Params.q_free</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">this</span></td>
+	<td><span class="tk-dim-keyword">any</span></td>
+	<td></td>
+	<td></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">NameReadable</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></h3>
+
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">out</span></td>
+	<td><span class="tk-function">size</span><span class="tk-paren-o">(</span><span class="tk-type">this</span><span class="tk-paren-c">)</span></td>
+	<td><span class="tk-type">string</span></td>
+	<td></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">Q_scalar</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></h3>
+
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">out</span></td>
+	<td><span class="tk-function">size</span><span class="tk-paren-o">(</span><span class="tk-type">this</span><span class="tk-paren-c">)</span></td>
+	<td><span class="tk-type">symbolic expression</span></td>
+	<td></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">q</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">Corresponds to this.SetLocation()</p>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">out</span></td>
+	<td><span class="tk-function">size</span><span class="tk-paren-o">(</span><span class="tk-type">this</span><span class="tk-paren-c">)</span></td>
+	<td><span class="tk-type">symbolic variable</span></td>
+	<td></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">Power_dWdt</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">Time-rate of work done on the system</p>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">out</span></td>
+	<td><span class="tk-function">size</span><span class="tk-paren-o">(</span><span class="tk-type">this</span><span class="tk-paren-c">)</span></td>
+	<td><span class="tk-type">symbolic expression</span></td>
+	<td></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">Q</span><span class="tk-paren-o">(</span><span class="tk-normal">sys</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">The force exerted on the system,</p>
+<p class="text-comment">as a generalised force vector, ordered with respect to sys.params.q</p>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">sys</span></td>
+	<td><span class="tk-dim-keyword">scalar</span></td>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a></td>
+	
+	<td><span class="tk-type">this</span><span class="tk-paren-o">(</span><span class="tk-numeric">1</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">sys</span></td>
+	<td><p class="text-comment">Required input if &#39;this&#39; can be empty, otherwise optional</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">out</span></td>
+	<td><span class="tk-paren-o">[</span><span class="tk-function">length</span><span class="tk-paren-o">(</span><span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">params</span><span class="tk-dot">.</span><span class="tk-function">q</span><span class="tk-paren-c">)</span><span class="tk-comma">,</span>&nbsp;<span class="tk-function">size</span><span class="tk-paren-o">(</span><span class="tk-type">this</span><span class="tk-paren-c">)</span><span class="tk-paren-c">]</span></td>
+	<td><span class="tk-type">symbolic expression</span></td>
+	<td><p class="text-comment">Using convention (tensor dims, batch dims)</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">Qf</span><span class="tk-paren-o">(</span><span class="tk-normal">sys</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">The force exerted on the system,</p>
+<p class="text-comment">as a generalised force vector, in the free generalised coordinates, ordered with respect to sys.params.q_free</p>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		
+		<th scope="col">Default Value</th>
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">sys</span></td>
+	<td><span class="tk-dim-keyword">scalar</span></td>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a></td>
+	
+	<td><span class="tk-type">this</span><span class="tk-paren-o">(</span><span class="tk-numeric">1</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">sys</span></td>
+	<td><p class="text-comment">Required input if &#39;this&#39; can be empty, otherwise optional</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">out</span></td>
+	<td><span class="tk-paren-o">[</span><span class="tk-function">length</span><span class="tk-paren-o">(</span><span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">params</span><span class="tk-dot">.</span><span class="tk-function">q_free</span><span class="tk-paren-c">)</span><span class="tk-comma">,</span>&nbsp;<span class="tk-function">size</span><span class="tk-paren-o">(</span><span class="tk-type">this</span><span class="tk-paren-c">)</span><span class="tk-paren-c">]</span></td>
+	<td><span class="tk-type">symbolic expression</span></td>
+	<td><p class="text-comment">Using convention (tensor dims, batch dims)</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+			</div>
+		</main>
+	</div>
+</body>
+</html>
+
+

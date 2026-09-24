@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<!--Page info-->
+	<title>CDS_T | Crane Dynamics Simulator</title>
+	<link rel="canonical" href="https://Brandon-Johns.github.io/crane-dynamics-simulator/reference/CDS-T.html"/>
+
+	<!-- Traditional (Google), Open Graph (Facebook, Linkedin), Twitter Card -->
+	<meta property="og:type" content="website"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta property="og:url" content="https://Brandon-Johns.github.io/crane-dynamics-simulator/reference/CDS-T.html"/>
+	<meta name="twitter:url" content="https://Brandon-Johns.github.io/crane-dynamics-simulator/reference/CDS-T.html"/>
+	<meta name="title" content="CDS_T | Crane Dynamics Simulator"/>
+	<meta property="og:title" content="CDS_T | Crane Dynamics Simulator"/>
+	<meta name="twitter:title" content="CDS_T | Crane Dynamics Simulator"/>
+	<meta name="description" content="Crane Dynamics Simulator Documentation: CDS_T API Reference"/>
+	<meta property="og:description" content="Crane Dynamics Simulator Documentation: CDS_T API Reference"/>
+	<meta name="twitter:description" content="Crane Dynamics Simulator Documentation: CDS_T API Reference"/>
+	<meta property="og:image" content="/crane-dynamics-simulator/embed.png"/>
+	<meta name="twitter:image" content="/crane-dynamics-simulator/embed.png"/>
+	<meta property="og:image:width" content="1200"/>
+	<meta property="og:image:height" content="627"/>
+	<meta property="og:image:alt" content=""/>
+	<meta name="twitter:image:alt" content=""/>
+	<meta property="og:locale" content="en_GB"/>
+	<meta property="og:site_name" content="Crane Dynamics Simulator Documentation"/>
+
+	<!--Favicon-->
+	
+	<link rel="icon" type="image/png" href="/crane-dynamics-simulator/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/crane-dynamics-simulator/favicon.svg" />
+	<link rel="shortcut icon" href="/crane-dynamics-simulator/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/crane-dynamics-simulator/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="Crane Dynamics Simulator" />
+	<link rel="manifest" href="/crane-dynamics-simulator/site.webmanifest" />
+
+	<!--Viewpoint-->
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!--Disable auto telephone number detection-->
+	<meta name="format-detection" content="telephone=no">
+
+	<!--Google webmasters site verification-->
+	<!--<meta name="google-site-verification" content="" />-->
+
+	<!--Fonts-->
+
+	<!--First party-->
+	<!--Script load must either be as a module, or with defer-->
+	<link rel="preload" as="style" href="/crane-dynamics-simulator/assets/app-compiled.css">
+	<link rel="stylesheet" href="/crane-dynamics-simulator/assets/app-compiled.css">
+	<link rel="modulepreload" as="script" href="/crane-dynamics-simulator/assets/layout-main.js">
+	<script type="module" src="/crane-dynamics-simulator/assets/layout-main.js"></script>
+
+	<!--Third Party: MathJax-->
+	<!--Script loading allows async because it internally sets defer on calling the library-->
+	<link rel="preload" as="script" href="/crane-dynamics-simulator/assets/load-mathjax.js">
+	<script async src="/crane-dynamics-simulator/assets/load-mathjax.js"></script>
+
+	<!--Third Party: highlight.js-->
+	<!--Script loading must defer because it calls the library directly-->
+	<link rel="preload" as="script" href="/crane-dynamics-simulator/assets/highlight/highlight.min.js">
+	<script defer src="/crane-dynamics-simulator/assets/highlight/highlight.min.js"></script>
+</head>
+
+<body lang="en-gb">
+	<!--Header-->
+	<!--Has open/close button for mobile menu-->
+	<header id="js-header" class="header">
+		<div class="header-title">Crane Dynamics Simulator</div>
+		<button id="js-contrast-toggle" class="contrast-toggle">Dim Screen</button>
+		<button id="js-header-switch" class="header-switch header-switch-mobile" type="button" aria-label="toggle navigation menu" aria-expanded="false">
+			<!--Toggle which image is shown-->
+			<!--Menu-Mobile-Open-->
+			<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-header-img-open" aria-hidden="true" width="50" height="50">
+				<g fill="none" stroke-linecap="round" stroke-width="10">
+					<path d="m10 20h80"/>
+					<path d="m10 50h80"/>
+					<path d="m10 80h80"/>
+				</g>
+			</svg>
+			<!--Menu-Mobile-Close-->
+			<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-header-img-close" class="hidden" aria-hidden="true" width="50" height="50">
+				<g fill="none" stroke-linecap="round" stroke-width="20">
+					<path d="m12 12 76 76"/>
+					<path d="m12 88 76-76"/>
+				</g>
+			</svg>
+		</button>
+	</header>
+
+	<!--Sidebar and nav-->
+	<div class="container-outer">
+		<aside id="js-aside" class="menu">
+			<button id="js-aside-switch" class="header-switch header-switch-desktop" type="button" aria-label="toggle navigation menu" aria-expanded="false">
+				<!--Menu-Desktop-->
+				<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-aside-img" aria-hidden="true" width="50" height="50">
+					<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20">
+						<path d="M35 20 L65 50 L35 80"/>
+					</g>
+				</svg>
+			</button>
+			<nav id="js-nav">
+				<ul>
+					<li class="menu-h1">Main</li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/">Home</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/tutorial.html">Tutorial</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/how-to-guides.html">How-To Guides</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/sundials.html">C++ Code Generation</a></li>
+					<li class="menu-core"><a target="_blank" href="/crane-dynamics-simulator/crane-dynamics-simulator-maths-and-physics.pdf">Physics &amp; Maths (pdf)</a></li>
+					<li class="menu-h1">Code</li>
+					<li class="menu-core"><a target="_blank" rel="noopener noreferrer" class="ex-link" href="https://github.com/Brandon-Johns/crane-dynamics-simulator">GitHub<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="ex-link-icon"><path d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z" /></svg></a></li>
+					<li class="menu-h1">API Reference</li>
+					<li><a href="/crane-dynamics-simulator/reference-home.html">API Reference Home</a></li>
+					<li><a href="/crane-dynamics-simulator/repository-layout.html">Repository Layout</a></li>
+					<li class="menu-h2">System Description</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Params.html">CDS_Params</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-NamedItem.html">CDS_NamedItem</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param.html">CDS_Param</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Const.html">CDS_Param_Const</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Free.html">CDS_Param_Free</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Input.html">CDS_Param_Input</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Lambda.html">CDS_Param_Lambda</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Point.html">CDS_Point</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-LinearSpring.html">CDS_Component_LinearSpring</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-TorsionSpring.html">CDS_Component_TorsionSpring</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-LinearDamper.html">CDS_Component_LinearDamper</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-GeneralisedForce.html">CDS_Component_GeneralisedForce</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-PointForce.html">CDS_Component_PointForce</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-Constraint.html">CDS_Component_Constraint</a></li>
+					<li class="menu-h2">Solving</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-Solver.html">CDS_Solver</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solver-Options.html">CDS_Solver_Options</a></li>
+					<li class="menu-h2">Post-Processing</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-Solution.html">CDS_Solution</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionSim.html">CDS_SolutionSim</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionExp.html">CDS_SolutionExp</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionInterpolated.html">CDS_SolutionInterpolated</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionSaved.html">CDS_SolutionSaved</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Plot.html">CDS_Solution_Plot</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Animate.html">CDS_Solution_Animate</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-GetData.html">CDS_Solution_GetData</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Export.html">CDS_Solution_Export</a></li>
+					<li class="menu-h2">Misc</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Calc-Energy.html">CDS_Calc_Energy</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Helper-StrOut.html">CDS_Helper_StrOut</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-GetDataLocations.html">CDS_GetDataLocations</a></li>
+				</ul>
+			</nav>
+		</aside>
+		<script>
+			// Desktop: prevent flicker from time taken for constructor to open the menu
+			if(localStorage.getItem("CDS-sidebarPinned") === "true") {
+				document.getElementById("js-aside-switch").classList.add("pinned");
+				document.getElementById("js-nav").classList.add("open");
+			}
+		</script>
+
+		<main class="container">
+			<div class="container-inner">
+				<!--Main content-->
+				
+
+
+<h1 class="ref-h1">CDS_T</h1>
+
+<p class="ref-superclass">&#xFE64;<span class="tk-type">handle</span></p>
+
+
+
+<h4 class="text-comment">PURPOSE</h4><pre class="text-comment text-comment-indent">A 4x4 homogeneous transformation matrix</pre><h4 class="text-comment">THEORY</h4><pre class="text-comment text-comment-indent">Transformation matrices can be interpreted in may ways, leading to ambiguities</pre><pre class="text-comment text-comment-indent">See the How-To Reference &quot;Transformation Matrices&quot; for the interpretation and conventions used in this software</pre><h4 class="text-comment">NOTATION</h4><pre class="text-comment text-comment-indent">T:     transformation matrix</pre><pre class="text-comment text-comment-indent">x,y,z: position vector components</pre><pre class="text-comment text-comment-indent">P:     [x,y,z]   position vector</pre><pre class="text-comment text-comment-indent">Ph:    [x,y,z,1] homogeneous position vector</pre><pre class="text-comment text-comment-indent">R:     rotation matrix</pre><pre class="text-comment text-comment-indent">at:    rotation by theta about either the x, y, or z axis</pre><pre class="text-comment text-comment-indent">wxyz:  [w,qx,qy,qz] quaternion</pre><pre class="text-comment text-comment-indent">xyzw:  [qx,qy,qz,w] quaternion</pre><h4 class="text-comment">NOTES</h4><pre class="text-comment text-comment-indent">The properties are hidden because quat() errors for symbolic rotations</pre><pre class="text-comment text-comment-indent">InferiorClasses is used to make the multiplication * operator choose CDS_T.mtimes() instead of sym.mtimes()</pre><h4 class="text-comment">EXAMPLE</h4><pre class="code-example"><code><span class="text-comment text-comment-line">% See the How-To Reference &quot;Transformation Matrices&quot;</span></code></pre>
+
+
+
+<h2>Properties</h2>
+<table class="ref-summary-properties">
+	<thead><tr>
+		<th scope="col">Inherited From</th>
+		<th scope="col">Access</th>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td></td>
+	<td>read only</td>
+	<td class="tk-property">T</td>
+	<td><span class="tk-paren-o">[</span><span class="tk-numeric">4</span><span class="tk-comma">,</span>&nbsp;<span class="tk-numeric">4</span><span class="tk-paren-c">]</span></td>
+	<td><span class="tk-type">symbolic expression</span><span class="tk-pipe">|</span><span class="tk-type">double</span></td>
+	<td><span class="tk-function"></span></td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td>read only</td>
+	<td class="tk-property">P</td>
+	<td><span class="tk-dim-keyword">col</span><span class="tk-paren-o">(</span><span class="tk-numeric">3</span><span class="tk-paren-c">)</span></td>
+	<td><span class="tk-type">symbolic expression</span><span class="tk-pipe">|</span><span class="tk-type">double</span></td>
+	<td><span class="tk-function"></span></td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td>read only</td>
+	<td class="tk-property">Ph</td>
+	<td><span class="tk-dim-keyword">col</span><span class="tk-paren-o">(</span><span class="tk-numeric">4</span><span class="tk-paren-c">)</span></td>
+	<td><span class="tk-type">symbolic expression</span><span class="tk-pipe">|</span><span class="tk-type">double</span></td>
+	<td><span class="tk-function"></span></td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td>read only</td>
+	<td class="tk-property">R</td>
+	<td><span class="tk-paren-o">[</span><span class="tk-numeric">3</span><span class="tk-comma">,</span>&nbsp;<span class="tk-numeric">3</span><span class="tk-paren-c">]</span></td>
+	<td><span class="tk-type">symbolic expression</span><span class="tk-pipe">|</span><span class="tk-type">double</span></td>
+	<td><span class="tk-function"></span></td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td>read only</td>
+	<td class="tk-property">quat_wxyz</td>
+	<td><span class="tk-dim-keyword">row</span><span class="tk-paren-o">(</span><span class="tk-numeric">4</span><span class="tk-paren-c">)</span></td>
+	<td><span class="tk-type">double</span></td>
+	<td><span class="tk-function"></span></td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td>read only</td>
+	<td class="tk-property">quat_xyzw</td>
+	<td><span class="tk-dim-keyword">row</span><span class="tk-paren-o">(</span><span class="tk-numeric">4</span><span class="tk-paren-c">)</span></td>
+	<td><span class="tk-type">double</span></td>
+	<td><span class="tk-function"></span></td>
+	<td></td>
+</tr>
+	</tbody>
+</table>
+
+
+<table class="ref-properties">
+	<tbody>
+		<tr>
+			<td colspan="2"  class="text-comment"><p class="text-comment">The transformation matrix</p></td>
+		</tr>
+		<tr>
+			<td class="tk-property">T</td>
+			<td class="text-comment"></td>
+		</tr>
+	</tbody>
+</table>
+<table class="ref-properties">
+	<tbody>
+		<tr>
+			<td colspan="2"  class="text-comment"><p class="text-comment">Deconstruct the transformation matrix into position and rotation</p></td>
+		</tr>
+		<tr>
+			<td class="tk-property">P</td>
+			<td class="text-comment">Position vector</td>
+		</tr>
+		<tr>
+			<td class="tk-property">Ph</td>
+			<td class="text-comment">Homogeneous position vector</td>
+		</tr>
+		<tr>
+			<td class="tk-property">R</td>
+			<td class="text-comment">Rotation matrix</td>
+		</tr>
+		<tr>
+			<td class="tk-property">quat_wxyz</td>
+			<td class="text-comment">Quaternion as [w,x,y,z] (for numeric T only)</td>
+		</tr>
+		<tr>
+			<td class="tk-property">quat_xyzw</td>
+			<td class="text-comment">Quaternion as [x,y,z,w] (for numeric T only)</td>
+		</tr>
+	</tbody>
+</table>
+
+
+
+<h2>Methods</h2>
+<table class="ref-summary-methods">
+	<thead>
+		<tr>
+			<th scope="col">Inherited From</th>
+			<th scope="col">Call Style</th>
+			<th scope="col">Returns</th>
+			<th scope="col">Name(Arguments)</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td></td>
+	<td>Single Instance</td>
+	<td><span class="tk-type">this</span></td>
+	<td><span class="tk-method">CDS_T</span><span class="tk-paren-o">(</span><span class="tk-repeating">varargin</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">x</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">y</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">z</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">Inv</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">batch_T</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">batch_P</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">batch_Ph</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">batch_R</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">batch_quat_wxyz</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">batch_quat_xyzw</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">page_P</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>out</td>
+	<td><span class="tk-method">page_Ph</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td><span class="tk-paren-o">[</span>T_mean<span class="tk-comma">,</span>P_std<span class="tk-comma">,</span>quat_std<span class="tk-paren-c">]</span></td>
+	<td><span class="tk-method">Mean</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Array Call</td>
+	<td>c</td>
+	<td><span class="tk-method">mtimes</span><span class="tk-paren-o">(</span><span class="tk-normal">a</span><span class="tk-comma">,</span> <span class="tk-normal">b</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Static</td>
+	<td>builtObjects</td>
+	<td><span class="tk-method">Zeros</span><span class="tk-paren-o">(</span><span class="tk-repeating">size</span><span class="tk-paren-c">)</span></td>
+</tr>
+<tr>
+	<td></td>
+	<td>Static</td>
+	<td>builtObjects</td>
+	<td><span class="tk-method">NaN</span><span class="tk-paren-o">(</span><span class="tk-repeating">size</span><span class="tk-paren-c">)</span></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+<!--<h2>Methods</h2>-->
+
+
+<h3><span class="tk-method">CDS_T</span><span class="tk-paren-o">(</span><span class="tk-repeating">varargin</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">Create new transformation matrix</p>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		
+		
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-repeating">varargin</span></td>
+	<td><span class="tk-dim-keyword">any</span></td>
+	<td></td>
+	
+	
+	<td><p class="text-comment">See the HowTo Reference &quot;Use the transformation matrix class CDS_T&quot;</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">this</span></td>
+	<td><span class="tk-dim-keyword">any</span></td>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a></td>
+	<td></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">x</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span><br><span class="tk-method">y</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span><br><span class="tk-method">z</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">Position coordinate</p>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">out</span></td>
+	<td><span class="tk-function">size</span><span class="tk-paren-o">(</span><span class="tk-type">this</span><span class="tk-paren-c">)</span></td>
+	<td><span class="tk-type">symbolic expression</span><span class="tk-pipe">|</span><span class="tk-type">double</span></td>
+	<td></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">Inv</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">Inverse transformation</p>
+<h4 class="text-comment">NOTE</h4>
+<pre class="text-comment text-comment-indent">Uses mathematical properties of T =&gt; more efficient than T^-1</pre>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">out</span></td>
+	<td><span class="tk-function">size</span><span class="tk-paren-o">(</span><span class="tk-type">this</span><span class="tk-paren-c">)</span></td>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a></td>
+	<td></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">batch_T</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span><br><span class="tk-method">batch_P</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span><br><span class="tk-method">batch_Ph</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span><br><span class="tk-method">batch_R</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span><br><span class="tk-method">batch_quat_wxyz</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span><br><span class="tk-method">batch_quat_xyzw</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></h3>
+
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">out</span></td>
+	<td><span class="tk-paren-o">[</span><span class="tk-function">size</span><span class="tk-paren-o">(</span><span class="tk-normal">property</span><span class="tk-paren-c">)</span><span class="tk-comma">,</span>&nbsp;<span class="tk-function">size</span><span class="tk-paren-o">(</span><span class="tk-type">this</span><span class="tk-paren-c">)</span><span class="tk-paren-c">]</span></td>
+	<td><span class="tk-type">symbolic expression</span><span class="tk-pipe">|</span><span class="tk-type">double</span></td>
+	<td><p class="text-comment">Using convention (tensor dims, batch dims)</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">page_P</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span><br><span class="tk-method">page_Ph</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">Batch properties, but treating the property as a 2D matrix instead of a vector</p>
+<h4 class="text-comment">NOTE</h4>
+<pre class="text-comment text-comment-indent">For use with pagemtimes()</pre>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">out</span></td>
+	<td><span class="tk-paren-o">[</span><span class="tk-function">size</span><span class="tk-paren-o">(</span><span class="tk-normal">property</span><span class="tk-paren-c">)</span><span class="tk-comma">,</span>&nbsp;<span class="tk-numeric">1</span><span class="tk-comma">,</span>&nbsp;<span class="tk-function">size</span><span class="tk-paren-o">(</span><span class="tk-type">this</span><span class="tk-paren-c">)</span><span class="tk-paren-c">]</span></td>
+	<td><span class="tk-type">symbolic expression</span><span class="tk-pipe">|</span><span class="tk-type">double</span></td>
+	<td><p class="text-comment">Using convention (tensor dims, batch dims)</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">Mean</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">Mean transformation, and standard deviation, of an array of transformations</p>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">T_mean</span></td>
+	<td><span class="tk-dim-keyword">scalar</span></td>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a></td>
+	<td><p class="text-comment">Mean transformation</p></td>
+</tr>
+<tr>
+	<td><span class="tk-normal">P_std</span></td>
+	<td><span class="tk-dim-keyword">col</span><span class="tk-paren-o">(</span><span class="tk-numeric">3</span><span class="tk-paren-c">)</span></td>
+	<td><span class="tk-type">double</span></td>
+	<td><p class="text-comment">Standard deviations of position [position units]</p></td>
+</tr>
+<tr>
+	<td><span class="tk-normal">quat_std</span></td>
+	<td><span class="tk-dim-keyword">scalar</span></td>
+	<td><span class="tk-type">double</span></td>
+	<td><p class="text-comment">Standard deviation by angular distance between the quaternion representations [rad]</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">mtimes</span><span class="tk-paren-o">(</span><span class="tk-normal">a</span><span class="tk-comma">,</span> <span class="tk-normal">b</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">Matrix multiplication with the * operator</p>
+<h4 class="text-comment">CALL MODES</h4>
+<pre class="text-comment text-comment-indent">matrix correspondence (not necessarily input sizes)</pre>
+<pre class="text-comment text-comment-indent">    c(n,m) = a(n,m)*b(n,m)    Multiply corresponding matrices</pre>
+<pre class="text-comment text-comment-indent">    c(n,m) = a(1,1)*b(n,m)    Multiply a by (each of b)</pre>
+<pre class="text-comment text-comment-indent">    c(n,m) = a(n,m)*b(1,1)    Multiply (each of a) by b</pre>
+<pre class="text-comment text-comment-indent">Type &amp; size</pre>
+<pre class="text-comment text-comment-indent">    a(n,m) CDS_T</pre>
+<pre class="text-comment text-comment-indent">    a(4,4) sym|double</pre>
+<pre class="text-comment text-comment-indent">    b(n,m) CDS_T</pre>
+<pre class="text-comment text-comment-indent">    b(4,4) sym|double</pre>
+<pre class="text-comment text-comment-indent">    b(1,4) sym|double    This case requires a(1,1) CDS_T, and return is c(4,1) sym|double</pre>
+<h4 class="text-comment">EXAMPLE</h4>
+<pre class="code-example"><code><span class="tk-normal">a</span><span class="tk-equals">=</span><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-semi">;</span> <span class="tk-normal">b</span><span class="tk-equals">=</span><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-semi">;</span> <span class="tk-normal">c</span><span class="tk-equals">=</span><span class="tk-normal">a</span><span class="tk-times">*</span><span class="tk-normal">b</span>
+<span class="tk-normal">a</span><span class="tk-equals">=</span><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-semi">;</span> <span class="tk-normal">b</span><span class="tk-equals">=</span><span class="tk-paren-o">[</span><span class="tk-numeric">1</span><span class="tk-semi">;</span><span class="tk-numeric">2</span><span class="tk-semi">;</span><span class="tk-numeric">3</span><span class="tk-comma">,</span><span class="tk-numeric">1</span><span class="tk-paren-c">]</span><span class="tk-semi">;</span> <span class="tk-normal">c</span><span class="tk-equals">=</span><span class="tk-normal">a</span><span class="tk-times">*</span><span class="tk-normal">b</span></code></pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		
+		
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">a</span></td>
+	<td><span class="tk-dim-keyword">any</span></td>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-pipe">|</span><span class="tk-type">symbolic expression</span><span class="tk-pipe">|</span><span class="tk-type">double</span></td>
+	
+	
+	<td><p class="text-comment">Left operand.  Transformation matrices</p></td>
+</tr>
+<tr>
+	<td><span class="tk-normal">b</span></td>
+	<td><span class="tk-dim-keyword">any</span></td>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-pipe">|</span><span class="tk-type">symbolic expression</span><span class="tk-pipe">|</span><span class="tk-type">double</span></td>
+	
+	
+	<td><p class="text-comment">Right operand. Transformation matrices or homogeneous position vector</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">c</span></td>
+	<td><span class="tk-function">size</span><span class="tk-paren-o">(</span><span class="tk-normal">a</span><span class="tk-paren-c">)</span><span class="tk-pipe">|</span><span class="tk-function">size</span><span class="tk-paren-o">(</span><span class="tk-normal">b</span><span class="tk-paren-c">)</span><span class="tk-pipe">|</span><span class="tk-dim-keyword">row</span><span class="tk-paren-o">(</span><span class="tk-numeric">4</span><span class="tk-paren-c">)</span></td>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-pipe">|</span><span class="tk-type">symbolic expression</span><span class="tk-pipe">|</span><span class="tk-type">double</span></td>
+	<td><p class="text-comment">Composed transformation matrices or transformed homogeneous position vector</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">Zeros</span><span class="tk-paren-o">(</span><span class="tk-repeating">size</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">Create an array of identity transformations</p>
+<h4 class="text-comment">EXAMPLE</h4>
+<pre class="code-example"><code><span class="tk-normal">objectArray</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-dot">.</span><span class="tk-function">Zeros</span><span class="tk-paren-o">(</span><span class="tk-paren-o">[</span><span class="tk-numeric">4</span><span class="tk-comma">,</span><span class="tk-numeric">5</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">objectArray</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-dot">.</span><span class="tk-function">Zeros</span><span class="tk-paren-o">(</span><span class="tk-numeric">4</span><span class="tk-comma">,</span><span class="tk-numeric">5</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		
+		
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-repeating">size</span></td>
+	<td><span class="tk-dim-keyword">row</span></td>
+	<td><span class="tk-type">uint64</span></td>
+	
+	
+	<td><p class="text-comment">The size of the array to create. As an array or a comma separated list</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">builtObjects</span></td>
+	<td><span class="tk-function">size</span></td>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a></td>
+	<td><p class="text-comment">Array of identity transformation matrices</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+<h3><span class="tk-method">NaN</span><span class="tk-paren-o">(</span><span class="tk-repeating">size</span><span class="tk-paren-c">)</span></h3>
+<p class="text-comment">Create an array of NaN transformations</p>
+<h4 class="text-comment">EXAMPLE</h4>
+<pre class="code-example"><code><span class="tk-normal">objectArray</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-dot">.</span><span class="tk-function">NaN</span><span class="tk-paren-o">(</span><span class="tk-paren-o">[</span><span class="tk-numeric">4</span><span class="tk-comma">,</span><span class="tk-numeric">5</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">objectArray</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-dot">.</span><span class="tk-function">NaN</span><span class="tk-paren-o">(</span><span class="tk-numeric">4</span><span class="tk-comma">,</span><span class="tk-numeric">5</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		
+		
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-repeating">size</span></td>
+	<td><span class="tk-dim-keyword">row</span></td>
+	<td><span class="tk-type">uint64</span></td>
+	
+	
+	<td><p class="text-comment">The size of the array to create. As an array or a comma separated list</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><span class="tk-normal">builtObjects</span></td>
+	<td><span class="tk-function">size</span></td>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a></td>
+	<td><p class="text-comment">Array of transformation matrices filled with NaN</p></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+
+
+			</div>
+		</main>
+	</div>
+</body>
+</html>
+
+

@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<!--Page info-->
+	<title>API Reference Home | Crane Dynamics Simulator</title>
+	<link rel="canonical" href="https://Brandon-Johns.github.io/crane-dynamics-simulator/reference-home.html"/>
+
+	<!-- Traditional (Google), Open Graph (Facebook, Linkedin), Twitter Card -->
+	<meta property="og:type" content="website"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta property="og:url" content="https://Brandon-Johns.github.io/crane-dynamics-simulator/reference-home.html"/>
+	<meta name="twitter:url" content="https://Brandon-Johns.github.io/crane-dynamics-simulator/reference-home.html"/>
+	<meta name="title" content="API Reference Home | Crane Dynamics Simulator"/>
+	<meta property="og:title" content="API Reference Home | Crane Dynamics Simulator"/>
+	<meta name="twitter:title" content="API Reference Home | Crane Dynamics Simulator"/>
+	<meta name="description" content="Crane Dynamics Simulator Documentation"/>
+	<meta property="og:description" content="Crane Dynamics Simulator Documentation"/>
+	<meta name="twitter:description" content="Crane Dynamics Simulator Documentation"/>
+	<meta property="og:image" content="/crane-dynamics-simulator/embed.png"/>
+	<meta name="twitter:image" content="/crane-dynamics-simulator/embed.png"/>
+	<meta property="og:image:width" content="1200"/>
+	<meta property="og:image:height" content="627"/>
+	<meta property="og:image:alt" content=""/>
+	<meta name="twitter:image:alt" content=""/>
+	<meta property="og:locale" content="en_GB"/>
+	<meta property="og:site_name" content="Crane Dynamics Simulator Documentation"/>
+
+	<!--Favicon-->
+	
+	<link rel="icon" type="image/png" href="/crane-dynamics-simulator/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/crane-dynamics-simulator/favicon.svg" />
+	<link rel="shortcut icon" href="/crane-dynamics-simulator/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/crane-dynamics-simulator/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="Crane Dynamics Simulator" />
+	<link rel="manifest" href="/crane-dynamics-simulator/site.webmanifest" />
+
+	<!--Viewpoint-->
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!--Disable auto telephone number detection-->
+	<meta name="format-detection" content="telephone=no">
+
+	<!--Google webmasters site verification-->
+	<!--<meta name="google-site-verification" content="" />-->
+
+	<!--Fonts-->
+
+	<!--First party-->
+	<!--Script load must either be as a module, or with defer-->
+	<link rel="preload" as="style" href="/crane-dynamics-simulator/assets/app-compiled.css">
+	<link rel="stylesheet" href="/crane-dynamics-simulator/assets/app-compiled.css">
+	<link rel="modulepreload" as="script" href="/crane-dynamics-simulator/assets/layout-main.js">
+	<script type="module" src="/crane-dynamics-simulator/assets/layout-main.js"></script>
+
+	<!--Third Party: MathJax-->
+	<!--Script loading allows async because it internally sets defer on calling the library-->
+	<link rel="preload" as="script" href="/crane-dynamics-simulator/assets/load-mathjax.js">
+	<script async src="/crane-dynamics-simulator/assets/load-mathjax.js"></script>
+
+	<!--Third Party: highlight.js-->
+	<!--Script loading must defer because it calls the library directly-->
+	<link rel="preload" as="script" href="/crane-dynamics-simulator/assets/highlight/highlight.min.js">
+	<script defer src="/crane-dynamics-simulator/assets/highlight/highlight.min.js"></script>
+</head>
+
+<body lang="en-gb">
+	<!--Header-->
+	<!--Has open/close button for mobile menu-->
+	<header id="js-header" class="header">
+		<div class="header-title">Crane Dynamics Simulator</div>
+		<button id="js-contrast-toggle" class="contrast-toggle">Dim Screen</button>
+		<button id="js-header-switch" class="header-switch header-switch-mobile" type="button" aria-label="toggle navigation menu" aria-expanded="false">
+			<!--Toggle which image is shown-->
+			<!--Menu-Mobile-Open-->
+			<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-header-img-open" aria-hidden="true" width="50" height="50">
+				<g fill="none" stroke-linecap="round" stroke-width="10">
+					<path d="m10 20h80"/>
+					<path d="m10 50h80"/>
+					<path d="m10 80h80"/>
+				</g>
+			</svg>
+			<!--Menu-Mobile-Close-->
+			<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-header-img-close" class="hidden" aria-hidden="true" width="50" height="50">
+				<g fill="none" stroke-linecap="round" stroke-width="20">
+					<path d="m12 12 76 76"/>
+					<path d="m12 88 76-76"/>
+				</g>
+			</svg>
+		</button>
+	</header>
+
+	<!--Sidebar and nav-->
+	<div class="container-outer">
+		<aside id="js-aside" class="menu">
+			<button id="js-aside-switch" class="header-switch header-switch-desktop" type="button" aria-label="toggle navigation menu" aria-expanded="false">
+				<!--Menu-Desktop-->
+				<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-aside-img" aria-hidden="true" width="50" height="50">
+					<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20">
+						<path d="M35 20 L65 50 L35 80"/>
+					</g>
+				</svg>
+			</button>
+			<nav id="js-nav">
+				<ul>
+					<li class="menu-h1">Main</li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/">Home</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/tutorial.html">Tutorial</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/how-to-guides.html">How-To Guides</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/sundials.html">C++ Code Generation</a></li>
+					<li class="menu-core"><a target="_blank" href="/crane-dynamics-simulator/crane-dynamics-simulator-maths-and-physics.pdf">Physics &amp; Maths (pdf)</a></li>
+					<li class="menu-h1">Code</li>
+					<li class="menu-core"><a target="_blank" rel="noopener noreferrer" class="ex-link" href="https://github.com/Brandon-Johns/crane-dynamics-simulator">GitHub<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="ex-link-icon"><path d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z" /></svg></a></li>
+					<li class="menu-h1">API Reference</li>
+					<li><a href="/crane-dynamics-simulator/reference-home.html">API Reference Home</a></li>
+					<li><a href="/crane-dynamics-simulator/repository-layout.html">Repository Layout</a></li>
+					<li class="menu-h2">System Description</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Params.html">CDS_Params</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-NamedItem.html">CDS_NamedItem</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param.html">CDS_Param</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Const.html">CDS_Param_Const</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Free.html">CDS_Param_Free</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Input.html">CDS_Param_Input</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Lambda.html">CDS_Param_Lambda</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Point.html">CDS_Point</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-LinearSpring.html">CDS_Component_LinearSpring</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-TorsionSpring.html">CDS_Component_TorsionSpring</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-LinearDamper.html">CDS_Component_LinearDamper</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-GeneralisedForce.html">CDS_Component_GeneralisedForce</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-PointForce.html">CDS_Component_PointForce</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-Constraint.html">CDS_Component_Constraint</a></li>
+					<li class="menu-h2">Solving</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-Solver.html">CDS_Solver</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solver-Options.html">CDS_Solver_Options</a></li>
+					<li class="menu-h2">Post-Processing</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-Solution.html">CDS_Solution</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionSim.html">CDS_SolutionSim</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionExp.html">CDS_SolutionExp</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionInterpolated.html">CDS_SolutionInterpolated</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionSaved.html">CDS_SolutionSaved</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Plot.html">CDS_Solution_Plot</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Animate.html">CDS_Solution_Animate</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-GetData.html">CDS_Solution_GetData</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Export.html">CDS_Solution_Export</a></li>
+					<li class="menu-h2">Misc</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Calc-Energy.html">CDS_Calc_Energy</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Helper-StrOut.html">CDS_Helper_StrOut</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-GetDataLocations.html">CDS_GetDataLocations</a></li>
+				</ul>
+			</nav>
+		</aside>
+		<script>
+			// Desktop: prevent flicker from time taken for constructor to open the menu
+			if(localStorage.getItem("CDS-sidebarPinned") === "true") {
+				document.getElementById("js-aside-switch").classList.add("pinned");
+				document.getElementById("js-nav").classList.add("open");
+			}
+		</script>
+
+		<main class="container">
+			<div class="container-inner">
+				<!--Main content-->
+				
+
+<h1>API Reference Home</h1>
+<p>This API reference includes all functions intended for regular use in run-files. Internal functions are documented through code comments only.</p>
+
+<h2>Classes Summary</h2>
+<p>This summary does not list abstract classes. Inherited properties and methods are coloured darker.</p>
+<table class="ref-class-list">
+	<thead>
+		<tr>
+			<th scope="col">Class Name</th>
+			<th scope="col">Properties and Methods</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a><p class="text-comment">Defines 1 system</p></td>
+	<td><div class="methods-list"><div class="tk-property">params</div>
+<div class="tk-property">points</div>
+<div class="tk-property">linearSprings</div>
+<div class="tk-property">torsionSprings</div>
+<div class="tk-property">linearDampers</div>
+<div class="tk-property">pointForces</div>
+<div class="tk-property">generalisedForces</div>
+<div class="tk-property">constraints</div>
+<div class="tk-property">chains</div>
+<div class="tk-property">g0</div>
+<div class="tk-property">BaumgarteStabilisation_alpha</div>
+<div class="tk-property">BaumgarteStabilisation_beta</div><div class="tk-method">CDS_SystemDescription</div>
+<div class="tk-method">CreatePoint</div>
+<div class="tk-method">CreateLinearSpring</div>
+<div class="tk-method">CreateTorsionSpring</div>
+<div class="tk-method">CreateLinearDamper</div>
+<div class="tk-method">CreatePointForce</div>
+<div class="tk-method">CreateGeneralisedForce</div>
+<div class="tk-method">CreateConstraint</div>
+<div class="tk-method">SetChains</div>
+<div class="tk-method">SetGravity</div>
+<div class="tk-method">SetConstraint_StabilisationFactors</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Params.html">CDS_Params</a><p class="text-comment">Build and access system parameters</p></td>
+	<td><div class="methods-list"><div class="tk-property">const</div>
+<div class="tk-property">q_free</div>
+<div class="tk-property">q_input</div>
+<div class="tk-property">lambda</div><div class="tk-method">CDS_Params</div>
+<div class="tk-method">Create</div>
+<div class="tk-method">All</div>
+<div class="tk-method">q</div>
+<div class="tk-method">Subset</div>
+<div class="tk-method">isConst</div>
+<div class="tk-method">isZeroDifferentialOrder</div>
+<div class="tk-method">isLessThanMaxDifferentialOrder</div>
+<div class="tk-method">TotalDiff</div>
+<div class="tk-method">EvaluateSymExpr_IC</div>
+<div class="tk-method">EvaluateSymExpr_StaticCondition</div>
+<div class="tk-method">EvaluateSymExpr</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Param-Const.html">CDS_Param_Const</a><p class="text-comment">A constant parameter</p></td>
+	<td><div class="methods-list"><div class="tk-method-inherited">Sym</div>
+<div class="tk-method-inherited">Str</div>
+<div class="tk-method-inherited">NameReadable</div>
+<div class="tk-method-inherited">eq</div>
+<div class="tk-method-inherited">ne</div>
+<div class="tk-method-inherited">findobj</div>
+<div class="tk-method-inherited">Name</div>
+<div class="tk-method-inherited">Contains</div>
+<div class="tk-method-inherited">Subset</div>
+<div class="tk-method-inherited">SubsetIdx</div><div class="tk-method">SetNum</div>
+<div class="tk-method">Num</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Param-Free.html">CDS_Param_Free</a><p class="text-comment">A generalised coordinate</p></td>
+	<td><div class="methods-list"><div class="tk-method-inherited">Sym</div>
+<div class="tk-method-inherited">Str</div>
+<div class="tk-method-inherited">NameReadable</div>
+<div class="tk-method-inherited">eq</div>
+<div class="tk-method-inherited">ne</div>
+<div class="tk-method-inherited">findobj</div>
+<div class="tk-method-inherited">Name</div>
+<div class="tk-method-inherited">Contains</div>
+<div class="tk-method-inherited">Subset</div>
+<div class="tk-method-inherited">SubsetIdx</div><div class="tk-method">SetIC</div>
+<div class="tk-method">q0</div>
+<div class="tk-method">q_d0</div>
+<div class="tk-method">q_dd0</div>
+<div class="tk-method">q0_fixed</div>
+<div class="tk-method">q_d0_fixed</div>
+<div class="tk-method">q_dd0_fixed</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Param-Input.html">CDS_Param_Input</a><p class="text-comment">A time-dependent variable system parameter</p></td>
+	<td><div class="methods-list"><div class="tk-method-inherited">Sym</div>
+<div class="tk-method-inherited">Str</div>
+<div class="tk-method-inherited">NameReadable</div>
+<div class="tk-method-inherited">eq</div>
+<div class="tk-method-inherited">ne</div>
+<div class="tk-method-inherited">findobj</div>
+<div class="tk-method-inherited">Name</div>
+<div class="tk-method-inherited">Contains</div>
+<div class="tk-method-inherited">Subset</div>
+<div class="tk-method-inherited">SubsetIdx</div><div class="tk-property">q</div>
+<div class="tk-property">q_d</div>
+<div class="tk-property">q_dd</div>
+<div class="tk-property">mode</div><div class="tk-method">Set_Selector</div>
+<div class="tk-method">SetAnalytic</div>
+<div class="tk-method">SetPiecewise</div>
+<div class="tk-method">SetSpline</div>
+<div class="tk-method">q_Sym</div>
+<div class="tk-method">TransitionTimes</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Param-Lambda.html">CDS_Param_Lambda</a><p class="text-comment">A Lagrange multiplier</p></td>
+	<td><div class="methods-list"><div class="tk-method-inherited">Sym</div>
+<div class="tk-method-inherited">Str</div>
+<div class="tk-method-inherited">NameReadable</div>
+<div class="tk-method-inherited">eq</div>
+<div class="tk-method-inherited">ne</div>
+<div class="tk-method-inherited">findobj</div>
+<div class="tk-method-inherited">Name</div>
+<div class="tk-method-inherited">Contains</div>
+<div class="tk-method-inherited">Subset</div>
+<div class="tk-method-inherited">SubsetIdx</div><div class="tk-method">SetIC</div>
+<div class="tk-method">q0</div>
+<div class="tk-method">q_d0</div>
+<div class="tk-method">q0_fixed</div>
+<div class="tk-method">q_d0_fixed</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Point.html">CDS_Point</a><p class="text-comment">A particle, rigid body, or massless location</p></td>
+	<td><div class="methods-list"><div class="tk-method-inherited">eq</div>
+<div class="tk-method-inherited">ne</div>
+<div class="tk-method-inherited">findobj</div>
+<div class="tk-method-inherited">Name</div>
+<div class="tk-method-inherited">Contains</div>
+<div class="tk-method-inherited">Subset</div>
+<div class="tk-method-inherited">SubsetIdx</div><div class="tk-method">SetT_0n</div>
+<div class="tk-method">SetMass</div>
+<div class="tk-method">SetInertia</div>
+<div class="tk-method">SetInertiaR</div>
+<div class="tk-method">NameReadable</div>
+<div class="tk-method">T_0n</div>
+<div class="tk-method">m</div>
+<div class="tk-method">I_p</div>
+<div class="tk-method">I_n</div>
+<div class="tk-method">R_np</div>
+<div class="tk-method">HasLinearInertia</div>
+<div class="tk-method">HasRotationalInertia</div>
+<div class="tk-method">HasMass</div>
+<div class="tk-method">IsPointMass</div>
+<div class="tk-method">IsRigidBody</div>
+<div class="tk-method">GetIfHasMass</div>
+<div class="tk-method">Energy_V</div>
+<div class="tk-method">Energy_K</div>
+<div class="tk-method">Energy_E</div>
+<div class="tk-method">Hamiltonian_H</div>
+<div class="tk-method">Hamiltonian_Hf</div>
+<div class="tk-method">Hamiltonian_H_nonQuadraticK</div>
+<div class="tk-method">Hamiltonian_Hf_nonQuadraticK</div>
+<div class="tk-method">Hamiltonian_H_velocityDependentV</div>
+<div class="tk-method">Hamiltonian_Hf_velocityDependentV</div>
+<div class="tk-method">Power_dEdt</div>
+<div class="tk-method">Power_dKdt</div>
+<div class="tk-method">Power_dVdt</div>
+<div class="tk-method">Power_dWdt</div>
+<div class="tk-method">Power_dWdt_timeDependent</div>
+<div class="tk-method">Power_dWdt_timeDependentK</div>
+<div class="tk-method">Power_dWdt_timeDependentV</div>
+<div class="tk-method">Power_dWdt_nonQuadraticK</div>
+<div class="tk-method">Power_dWdt_velocityDependentV</div>
+<div class="tk-method">Q</div>
+<div class="tk-method">Q_inertial</div>
+<div class="tk-method">Q_CentrifugalAndCoriolis</div>
+<div class="tk-method">Q_timeDependentK</div>
+<div class="tk-method">Q_potential</div>
+<div class="tk-method">Q_velocityDependentV</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Component-LinearSpring.html">CDS_Component_LinearSpring</a><p class="text-comment">A linear spring (F = k*x)</p></td>
+	<td><div class="methods-list"><div class="tk-method-inherited">eq</div>
+<div class="tk-method-inherited">ne</div>
+<div class="tk-method-inherited">findobj</div>
+<div class="tk-method-inherited">Name</div>
+<div class="tk-method-inherited">Contains</div>
+<div class="tk-method-inherited">Subset</div>
+<div class="tk-method-inherited">SubsetIdx</div><div class="tk-method">SetLength</div>
+<div class="tk-method">SetConnections</div>
+<div class="tk-method">SetNaturalLength</div>
+<div class="tk-method">SetSpringConstant</div>
+<div class="tk-method">NameReadable</div>
+<div class="tk-method">Length</div>
+<div class="tk-method">SpringConstant</div>
+<div class="tk-method">NaturalLength</div>
+<div class="tk-method">Connections</div>
+<div class="tk-method">Energy_V</div>
+<div class="tk-method">Energy_E</div>
+<div class="tk-method">Hamiltonian_H</div>
+<div class="tk-method">Hamiltonian_Hf</div>
+<div class="tk-method">Hamiltonian_H_velocityDependentV</div>
+<div class="tk-method">Hamiltonian_Hf_velocityDependentV</div>
+<div class="tk-method">Power_dEdt</div>
+<div class="tk-method">Power_dVdt</div>
+<div class="tk-method">Power_dWdt</div>
+<div class="tk-method">Power_dWdt_timeDependentV</div>
+<div class="tk-method">Power_dWdt_velocityDependentV</div>
+<div class="tk-method">Q</div>
+<div class="tk-method">Q_potential</div>
+<div class="tk-method">Q_velocityDependentV</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Component-TorsionSpring.html">CDS_Component_TorsionSpring</a><p class="text-comment">A linear torsion spring (torque = k*theta)</p></td>
+	<td><div class="methods-list"><div class="tk-method-inherited">eq</div>
+<div class="tk-method-inherited">ne</div>
+<div class="tk-method-inherited">findobj</div>
+<div class="tk-method-inherited">Name</div>
+<div class="tk-method-inherited">Contains</div>
+<div class="tk-method-inherited">Subset</div>
+<div class="tk-method-inherited">SubsetIdx</div><div class="tk-method">SetAngle</div>
+<div class="tk-method">SetNaturalAngle</div>
+<div class="tk-method">SetSpringConstant</div>
+<div class="tk-method">NameReadable</div>
+<div class="tk-method">Angle</div>
+<div class="tk-method">SpringConstant</div>
+<div class="tk-method">NaturalAngle</div>
+<div class="tk-method">Energy_V</div>
+<div class="tk-method">Energy_E</div>
+<div class="tk-method">Hamiltonian_H</div>
+<div class="tk-method">Hamiltonian_Hf</div>
+<div class="tk-method">Hamiltonian_H_velocityDependentV</div>
+<div class="tk-method">Hamiltonian_Hf_velocityDependentV</div>
+<div class="tk-method">Power_dEdt</div>
+<div class="tk-method">Power_dVdt</div>
+<div class="tk-method">Power_dWdt</div>
+<div class="tk-method">Power_dWdt_timeDependentV</div>
+<div class="tk-method">Power_dWdt_velocityDependentV</div>
+<div class="tk-method">Q</div>
+<div class="tk-method">Q_potential</div>
+<div class="tk-method">Q_velocityDependentV</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Component-LinearDamper.html">CDS_Component_LinearDamper</a><p class="text-comment">A linear damper (F = -k*v)</p></td>
+	<td><div class="methods-list"><div class="tk-method-inherited">eq</div>
+<div class="tk-method-inherited">ne</div>
+<div class="tk-method-inherited">findobj</div>
+<div class="tk-method-inherited">Name</div>
+<div class="tk-method-inherited">Contains</div>
+<div class="tk-method-inherited">Subset</div>
+<div class="tk-method-inherited">SubsetIdx</div><div class="tk-method">SetLength</div>
+<div class="tk-method">SetVelocity</div>
+<div class="tk-method">SetConnections</div>
+<div class="tk-method">SetDampingConstant</div>
+<div class="tk-method">NameReadable</div>
+<div class="tk-method">Length</div>
+<div class="tk-method">Velocity</div>
+<div class="tk-method">DampingConstant</div>
+<div class="tk-method">Connections</div>
+<div class="tk-method">Energy_D</div>
+<div class="tk-method">Power_dWdt</div>
+<div class="tk-method">Q</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Component-GeneralisedForce.html">CDS_Component_GeneralisedForce</a><p class="text-comment">A Generalised force acting on the system</p></td>
+	<td><div class="methods-list"><div class="tk-method-inherited">eq</div>
+<div class="tk-method-inherited">ne</div>
+<div class="tk-method-inherited">findobj</div>
+<div class="tk-method-inherited">Name</div>
+<div class="tk-method-inherited">Contains</div>
+<div class="tk-method-inherited">Subset</div>
+<div class="tk-method-inherited">SubsetIdx</div><div class="tk-method">SetQ</div>
+<div class="tk-method">SetLocation</div>
+<div class="tk-method">NameReadable</div>
+<div class="tk-method">Q_scalar</div>
+<div class="tk-method">q</div>
+<div class="tk-method">Power_dWdt</div>
+<div class="tk-method">Q</div>
+<div class="tk-method">Qf</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Component-PointForce.html">CDS_Component_PointForce</a><p class="text-comment">A force acting on the system, as applied to a point in task space</p></td>
+	<td><div class="methods-list"><div class="tk-method-inherited">eq</div>
+<div class="tk-method-inherited">ne</div>
+<div class="tk-method-inherited">findobj</div>
+<div class="tk-method-inherited">Name</div>
+<div class="tk-method-inherited">Contains</div>
+<div class="tk-method-inherited">Subset</div>
+<div class="tk-method-inherited">SubsetIdx</div><div class="tk-method">SetF</div>
+<div class="tk-method">SetLocation</div>
+<div class="tk-method">NameReadable</div>
+<div class="tk-method">Point</div>
+<div class="tk-method">Fx</div>
+<div class="tk-method">Fy</div>
+<div class="tk-method">Fz</div>
+<div class="tk-method">F</div>
+<div class="tk-method">Power_dWdt</div>
+<div class="tk-method">Q</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Component-Constraint.html">CDS_Component_Constraint</a><p class="text-comment">Holonomic constraint</p></td>
+	<td><div class="methods-list"><div class="tk-method-inherited">eq</div>
+<div class="tk-method-inherited">ne</div>
+<div class="tk-method-inherited">findobj</div>
+<div class="tk-method-inherited">Name</div>
+<div class="tk-method-inherited">Contains</div>
+<div class="tk-method-inherited">Subset</div>
+<div class="tk-method-inherited">SubsetIdx</div><div class="tk-method">SetConstraint</div>
+<div class="tk-method">NameReadable</div>
+<div class="tk-method">C</div>
+<div class="tk-method">Lambda</div>
+<div class="tk-method">Power_dWdt</div>
+<div class="tk-method">Q</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Solver.html">CDS_Solver</a><p class="text-comment">Generate and solve equations of motion from system descriptions</p></td>
+	<td><div class="methods-list"><div class="tk-method">CDS_Solver</div>
+<div class="tk-method">Solve</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Solver-Options.html">CDS_Solver_Options</a><p class="text-comment">Pass miscellaneous options to CDS_Solver</p></td>
+	<td><div class="methods-list"><div class="tk-property">time</div>
+<div class="tk-property">EventsIsActive</div>
+<div class="tk-property">RelTol</div>
+<div class="tk-property">AbsTol</div>
+<div class="tk-property">Stats</div>
+<div class="tk-property">Events</div>
+<div class="tk-property">exportPath</div><div class="tk-method">myEventsFcn</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Solution.html">CDS_Solution</a><p class="text-comment">Post processed solution data</p></td>
+	<td><div class="methods-list"><div class="tk-property">sys</div>
+<div class="tk-property">t</div>
+<div class="tk-property">qf</div>
+<div class="tk-property">qf_d</div>
+<div class="tk-property">qf_dd</div>
+<div class="tk-property">qi</div>
+<div class="tk-property">qi_d</div>
+<div class="tk-property">qi_dd</div>
+<div class="tk-property">ql</div>
+<div class="tk-property">ql_d</div>
+<div class="tk-property">Px</div>
+<div class="tk-property">Py</div>
+<div class="tk-property">Pz</div>
+<div class="tk-property">E</div>
+<div class="tk-property">K_mass</div>
+<div class="tk-property">V_mass</div>
+<div class="tk-property">V_linearSprings</div>
+<div class="tk-property">V_torsionSprings</div><div class="tk-method">t_idx</div>
+<div class="tk-method">EvaluateSymExpr_atTimeIdx</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-SolutionSim.html">CDS_SolutionSim</a><p class="text-comment">Post-process simulation solution data</p></td>
+	<td><div class="methods-list"><div class="tk-property-inherited">sys</div>
+<div class="tk-property-inherited">t</div>
+<div class="tk-property-inherited">qf</div>
+<div class="tk-property-inherited">qf_d</div>
+<div class="tk-property-inherited">qf_dd</div>
+<div class="tk-property-inherited">qi</div>
+<div class="tk-property-inherited">qi_d</div>
+<div class="tk-property-inherited">qi_dd</div>
+<div class="tk-property-inherited">ql</div>
+<div class="tk-property-inherited">ql_d</div>
+<div class="tk-property-inherited">Px</div>
+<div class="tk-property-inherited">Py</div>
+<div class="tk-property-inherited">Pz</div>
+<div class="tk-property-inherited">E</div>
+<div class="tk-property-inherited">K_mass</div>
+<div class="tk-property-inherited">V_mass</div>
+<div class="tk-property-inherited">V_linearSprings</div>
+<div class="tk-property-inherited">V_torsionSprings</div><div class="tk-method-inherited">t_idx</div>
+<div class="tk-method-inherited">EvaluateSymExpr_atTimeIdx</div><div class="tk-method">CDS_SolutionSim</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-SolutionExp.html">CDS_SolutionExp</a><p class="text-comment">Post-process experimental solution data; results from real-world experimental trials</p></td>
+	<td><div class="methods-list"><div class="tk-property-inherited">sys</div>
+<div class="tk-property-inherited">t</div>
+<div class="tk-property-inherited">qf</div>
+<div class="tk-property-inherited">qf_d</div>
+<div class="tk-property-inherited">qf_dd</div>
+<div class="tk-property-inherited">qi</div>
+<div class="tk-property-inherited">qi_d</div>
+<div class="tk-property-inherited">qi_dd</div>
+<div class="tk-property-inherited">ql</div>
+<div class="tk-property-inherited">ql_d</div>
+<div class="tk-property-inherited">Px</div>
+<div class="tk-property-inherited">Py</div>
+<div class="tk-property-inherited">Pz</div>
+<div class="tk-property-inherited">E</div>
+<div class="tk-property-inherited">K_mass</div>
+<div class="tk-property-inherited">V_mass</div>
+<div class="tk-property-inherited">V_linearSprings</div>
+<div class="tk-property-inherited">V_torsionSprings</div><div class="tk-method-inherited">t_idx</div>
+<div class="tk-method-inherited">EvaluateSymExpr_atTimeIdx</div><div class="tk-property">points_calculationMethod</div><div class="tk-method">CDS_SolutionExp</div>
+<div class="tk-method">CalculatePointTrajectory_Analytic</div>
+<div class="tk-method">CalculatePointTrajectory_Exp</div>
+<div class="tk-method">eulerXYZ_to_R_rowMajor</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-SolutionInterpolated.html">CDS_SolutionInterpolated</a><p class="text-comment">Interpolate the post-processed solution data at different time coordinates</p></td>
+	<td><div class="methods-list"><div class="tk-property-inherited">sys</div>
+<div class="tk-property-inherited">t</div>
+<div class="tk-property-inherited">qf</div>
+<div class="tk-property-inherited">qf_d</div>
+<div class="tk-property-inherited">qf_dd</div>
+<div class="tk-property-inherited">qi</div>
+<div class="tk-property-inherited">qi_d</div>
+<div class="tk-property-inherited">qi_dd</div>
+<div class="tk-property-inherited">ql</div>
+<div class="tk-property-inherited">ql_d</div>
+<div class="tk-property-inherited">Px</div>
+<div class="tk-property-inherited">Py</div>
+<div class="tk-property-inherited">Pz</div>
+<div class="tk-property-inherited">E</div>
+<div class="tk-property-inherited">K_mass</div>
+<div class="tk-property-inherited">V_mass</div>
+<div class="tk-property-inherited">V_linearSprings</div>
+<div class="tk-property-inherited">V_torsionSprings</div><div class="tk-method-inherited">t_idx</div>
+<div class="tk-method-inherited">EvaluateSymExpr_atTimeIdx</div><div class="tk-method">CDS_SolutionInterpolated</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-SolutionSaved.html">CDS_SolutionSaved</a><p class="text-comment">Import post-processed solution data</p></td>
+	<td><div class="methods-list"><div class="tk-property-inherited">sys</div>
+<div class="tk-property-inherited">t</div>
+<div class="tk-property-inherited">qf</div>
+<div class="tk-property-inherited">qf_d</div>
+<div class="tk-property-inherited">qf_dd</div>
+<div class="tk-property-inherited">qi</div>
+<div class="tk-property-inherited">qi_d</div>
+<div class="tk-property-inherited">qi_dd</div>
+<div class="tk-property-inherited">ql</div>
+<div class="tk-property-inherited">ql_d</div>
+<div class="tk-property-inherited">Px</div>
+<div class="tk-property-inherited">Py</div>
+<div class="tk-property-inherited">Pz</div>
+<div class="tk-property-inherited">E</div>
+<div class="tk-property-inherited">K_mass</div>
+<div class="tk-property-inherited">V_mass</div>
+<div class="tk-property-inherited">V_linearSprings</div>
+<div class="tk-property-inherited">V_torsionSprings</div><div class="tk-method-inherited">t_idx</div>
+<div class="tk-method-inherited">EvaluateSymExpr_atTimeIdx</div><div class="tk-method">CDS_SolutionSaved</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Solution-Plot.html">CDS_Solution_Plot</a><p class="text-comment">Plot the solution as a function of time</p></td>
+	<td><div class="methods-list"><div class="tk-method">CDS_Solution_Plot</div>
+<div class="tk-method">PlotSymExpr</div>
+<div class="tk-method">PlotConstraintViolation</div>
+<div class="tk-method">PlotEnergyTotal</div>
+<div class="tk-method">PlotEnergyAll</div>
+<div class="tk-method">PlotPowerError</div>
+<div class="tk-method">PlotPowerTotal</div>
+<div class="tk-method">PlotPowerAll</div>
+<div class="tk-method">PlotConfigSpace</div>
+<div class="tk-method">PlotLambda</div>
+<div class="tk-method">PlotInput</div>
+<div class="tk-method">PlotTaskSpace</div>
+<div class="tk-method">PlotTaskSpace_Mass</div>
+<div class="tk-method">PlotTaskSpace_All</div>
+<div class="tk-method">PlotForces</div>
+<div class="tk-method">PlotComponentLengths</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Solution-Animate.html">CDS_Solution_Animate</a><p class="text-comment">Plot or animate the solution as a line drawing of task space</p></td>
+	<td><div class="methods-list"><div class="tk-method">CDS_Solution_Animate</div>
+<div class="tk-method">Set_View_Predefined</div>
+<div class="tk-method">Add_Curve</div>
+<div class="tk-method">PlotFrame</div>
+<div class="tk-method">Animate</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Solution-GetData.html">CDS_Solution_GetData</a><p class="text-comment">Extract solution data by querying CDS_Solution with the names of parameters/points</p></td>
+	<td><div class="methods-list"><div class="tk-method">CDS_Solution_GetData</div>
+<div class="tk-method">q</div>
+<div class="tk-method">qd</div>
+<div class="tk-method">qdd</div>
+<div class="tk-method">Px</div>
+<div class="tk-method">Py</div>
+<div class="tk-method">Pz</div>
+<div class="tk-method">P</div>
+<div class="tk-method">xyz</div>
+<div class="tk-method">xyzTable</div>
+<div class="tk-method">xyzTable_t</div>
+<div class="tk-method">AbsDistance</div>
+<div class="tk-method">AngleFromVertical</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Solution-Export.html">CDS_Solution_Export</a><p class="text-comment">Export the solution to an excel file in human readable format</p></td>
+	<td><div class="methods-list"><div class="tk-method">CDS_Solution_Export</div>
+<div class="tk-method">DataToExcel</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><p class="text-comment">A 4x4 homogeneous transformation matrix</p></td>
+	<td><div class="methods-list"><div class="tk-property">T</div>
+<div class="tk-property">P</div>
+<div class="tk-property">Ph</div>
+<div class="tk-property">R</div>
+<div class="tk-property">quat_wxyz</div>
+<div class="tk-property">quat_xyzw</div><div class="tk-method">CDS_T</div>
+<div class="tk-method">x</div>
+<div class="tk-method">y</div>
+<div class="tk-method">z</div>
+<div class="tk-method">Inv</div>
+<div class="tk-method">batch_T</div>
+<div class="tk-method">batch_P</div>
+<div class="tk-method">batch_Ph</div>
+<div class="tk-method">batch_R</div>
+<div class="tk-method">batch_quat_wxyz</div>
+<div class="tk-method">batch_quat_xyzw</div>
+<div class="tk-method">page_P</div>
+<div class="tk-method">page_Ph</div>
+<div class="tk-method">Mean</div>
+<div class="tk-method">mtimes</div>
+<div class="tk-method">Zeros</div>
+<div class="tk-method">NaN</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Calc-Energy.html">CDS_Calc_Energy</a><p class="text-comment">Generate expressions of total system energy/power</p></td>
+	<td><div class="methods-list"><div class="tk-method">CDS_Calc_Energy</div>
+<div class="tk-method">V</div>
+<div class="tk-method">K</div>
+<div class="tk-method">D</div>
+<div class="tk-method">E</div>
+<div class="tk-method">V0</div>
+<div class="tk-method">K0</div>
+<div class="tk-method">E0</div>
+<div class="tk-method">dEdt</div>
+<div class="tk-method">dWdt</div>
+<div class="tk-method">dWdt_input</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-Helper-StrOut.html">CDS_Helper_StrOut</a><p class="text-comment">Validate filepaths. Create and write to text files</p></td>
+	<td><div class="methods-list"><div class="tk-method">CDS_Helper_StrOut</div>
+<div class="tk-method">MakePathToFile</div>
+<div class="tk-method">ValidateFileExtension</div>
+<div class="tk-method">CheckFileExists</div>
+<div class="tk-method">ValidateFileExists</div>
+<div class="tk-method">ValidatePath</div>
+<div class="tk-method">ClearFile</div>
+<div class="tk-method">StrToTxt</div>
+<div class="tk-method">SymToTxt</div></div></td>
+</tr>
+<tr>
+	<td><a href="/crane-dynamics-simulator/reference/CDS-GetDataLocations.html">CDS_GetDataLocations</a><p class="text-comment">Form paths to subdirectories of data/</p></td>
+	<td><div class="methods-list"><div class="tk-method">CDS_GetDataLocations</div>
+<div class="tk-method">root</div>
+<div class="tk-method">exp_results</div>
+<div class="tk-method">cache</div>
+<div class="tk-method">fig</div>
+<div class="tk-method">sun_generated</div>
+<div class="tk-method">sun_results</div></div></td>
+</tr>
+	</tbody>
+</table>
+
+
+
+			</div>
+		</main>
+	</div>
+</body>
+</html>
+
+

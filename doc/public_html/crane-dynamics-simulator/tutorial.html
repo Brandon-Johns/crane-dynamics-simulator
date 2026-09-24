@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<!--Page info-->
+	<title>Tutorial | Crane Dynamics Simulator</title>
+	<link rel="canonical" href="https://Brandon-Johns.github.io/crane-dynamics-simulator/tutorial.html"/>
+
+	<!-- Traditional (Google), Open Graph (Facebook, Linkedin), Twitter Card -->
+	<meta property="og:type" content="website"/>
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta property="og:url" content="https://Brandon-Johns.github.io/crane-dynamics-simulator/tutorial.html"/>
+	<meta name="twitter:url" content="https://Brandon-Johns.github.io/crane-dynamics-simulator/tutorial.html"/>
+	<meta name="title" content="Tutorial | Crane Dynamics Simulator"/>
+	<meta property="og:title" content="Tutorial | Crane Dynamics Simulator"/>
+	<meta name="twitter:title" content="Tutorial | Crane Dynamics Simulator"/>
+	<meta name="description" content="Crane Dynamics Simulator Documentation"/>
+	<meta property="og:description" content="Crane Dynamics Simulator Documentation"/>
+	<meta name="twitter:description" content="Crane Dynamics Simulator Documentation"/>
+	<meta property="og:image" content="/crane-dynamics-simulator/embed.png"/>
+	<meta name="twitter:image" content="/crane-dynamics-simulator/embed.png"/>
+	<meta property="og:image:width" content="1200"/>
+	<meta property="og:image:height" content="627"/>
+	<meta property="og:image:alt" content=""/>
+	<meta name="twitter:image:alt" content=""/>
+	<meta property="og:locale" content="en_GB"/>
+	<meta property="og:site_name" content="Crane Dynamics Simulator Documentation"/>
+
+	<!--Favicon-->
+	
+	<link rel="icon" type="image/png" href="/crane-dynamics-simulator/favicon-96x96.png" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="/crane-dynamics-simulator/favicon.svg" />
+	<link rel="shortcut icon" href="/crane-dynamics-simulator/favicon.ico" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/crane-dynamics-simulator/apple-touch-icon.png" />
+	<meta name="apple-mobile-web-app-title" content="Crane Dynamics Simulator" />
+	<link rel="manifest" href="/crane-dynamics-simulator/site.webmanifest" />
+
+	<!--Viewpoint-->
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!--Disable auto telephone number detection-->
+	<meta name="format-detection" content="telephone=no">
+
+	<!--Google webmasters site verification-->
+	<!--<meta name="google-site-verification" content="" />-->
+
+	<!--Fonts-->
+
+	<!--First party-->
+	<!--Script load must either be as a module, or with defer-->
+	<link rel="preload" as="style" href="/crane-dynamics-simulator/assets/app-compiled.css">
+	<link rel="stylesheet" href="/crane-dynamics-simulator/assets/app-compiled.css">
+	<link rel="modulepreload" as="script" href="/crane-dynamics-simulator/assets/layout-main.js">
+	<script type="module" src="/crane-dynamics-simulator/assets/layout-main.js"></script>
+
+	<!--Third Party: MathJax-->
+	<!--Script loading allows async because it internally sets defer on calling the library-->
+	<link rel="preload" as="script" href="/crane-dynamics-simulator/assets/load-mathjax.js">
+	<script async src="/crane-dynamics-simulator/assets/load-mathjax.js"></script>
+
+	<!--Third Party: highlight.js-->
+	<!--Script loading must defer because it calls the library directly-->
+	<link rel="preload" as="script" href="/crane-dynamics-simulator/assets/highlight/highlight.min.js">
+	<script defer src="/crane-dynamics-simulator/assets/highlight/highlight.min.js"></script>
+</head>
+
+<body lang="en-gb">
+	<!--Header-->
+	<!--Has open/close button for mobile menu-->
+	<header id="js-header" class="header">
+		<div class="header-title">Crane Dynamics Simulator</div>
+		<button id="js-contrast-toggle" class="contrast-toggle">Dim Screen</button>
+		<button id="js-header-switch" class="header-switch header-switch-mobile" type="button" aria-label="toggle navigation menu" aria-expanded="false">
+			<!--Toggle which image is shown-->
+			<!--Menu-Mobile-Open-->
+			<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-header-img-open" aria-hidden="true" width="50" height="50">
+				<g fill="none" stroke-linecap="round" stroke-width="10">
+					<path d="m10 20h80"/>
+					<path d="m10 50h80"/>
+					<path d="m10 80h80"/>
+				</g>
+			</svg>
+			<!--Menu-Mobile-Close-->
+			<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-header-img-close" class="hidden" aria-hidden="true" width="50" height="50">
+				<g fill="none" stroke-linecap="round" stroke-width="20">
+					<path d="m12 12 76 76"/>
+					<path d="m12 88 76-76"/>
+				</g>
+			</svg>
+		</button>
+	</header>
+
+	<!--Sidebar and nav-->
+	<div class="container-outer">
+		<aside id="js-aside" class="menu">
+			<button id="js-aside-switch" class="header-switch header-switch-desktop" type="button" aria-label="toggle navigation menu" aria-expanded="false">
+				<!--Menu-Desktop-->
+				<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="js-aside-img" aria-hidden="true" width="50" height="50">
+					<g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20">
+						<path d="M35 20 L65 50 L35 80"/>
+					</g>
+				</svg>
+			</button>
+			<nav id="js-nav">
+				<ul>
+					<li class="menu-h1">Main</li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/">Home</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/tutorial.html">Tutorial</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/how-to-guides.html">How-To Guides</a></li>
+					<li class="menu-core"><a href="/crane-dynamics-simulator/sundials.html">C++ Code Generation</a></li>
+					<li class="menu-core"><a target="_blank" href="/crane-dynamics-simulator/crane-dynamics-simulator-maths-and-physics.pdf">Physics &amp; Maths (pdf)</a></li>
+					<li class="menu-h1">Code</li>
+					<li class="menu-core"><a target="_blank" rel="noopener noreferrer" class="ex-link" href="https://github.com/Brandon-Johns/crane-dynamics-simulator">GitHub<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="ex-link-icon"><path d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z" /></svg></a></li>
+					<li class="menu-h1">API Reference</li>
+					<li><a href="/crane-dynamics-simulator/reference-home.html">API Reference Home</a></li>
+					<li><a href="/crane-dynamics-simulator/repository-layout.html">Repository Layout</a></li>
+					<li class="menu-h2">System Description</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Params.html">CDS_Params</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-NamedItem.html">CDS_NamedItem</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param.html">CDS_Param</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Const.html">CDS_Param_Const</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Free.html">CDS_Param_Free</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Input.html">CDS_Param_Input</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Param-Lambda.html">CDS_Param_Lambda</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Point.html">CDS_Point</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-LinearSpring.html">CDS_Component_LinearSpring</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-TorsionSpring.html">CDS_Component_TorsionSpring</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-LinearDamper.html">CDS_Component_LinearDamper</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-GeneralisedForce.html">CDS_Component_GeneralisedForce</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-PointForce.html">CDS_Component_PointForce</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Component-Constraint.html">CDS_Component_Constraint</a></li>
+					<li class="menu-h2">Solving</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-Solver.html">CDS_Solver</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solver-Options.html">CDS_Solver_Options</a></li>
+					<li class="menu-h2">Post-Processing</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-Solution.html">CDS_Solution</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionSim.html">CDS_SolutionSim</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionExp.html">CDS_SolutionExp</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionInterpolated.html">CDS_SolutionInterpolated</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-SolutionSaved.html">CDS_SolutionSaved</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Plot.html">CDS_Solution_Plot</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Animate.html">CDS_Solution_Animate</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-GetData.html">CDS_Solution_GetData</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Solution-Export.html">CDS_Solution_Export</a></li>
+					<li class="menu-h2">Misc</li>
+					<li><a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Calc-Energy.html">CDS_Calc_Energy</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-Helper-StrOut.html">CDS_Helper_StrOut</a></li>
+<li><a href="/crane-dynamics-simulator/reference/CDS-GetDataLocations.html">CDS_GetDataLocations</a></li>
+				</ul>
+			</nav>
+		</aside>
+		<script>
+			// Desktop: prevent flicker from time taken for constructor to open the menu
+			if(localStorage.getItem("CDS-sidebarPinned") === "true") {
+				document.getElementById("js-aside-switch").classList.add("pinned");
+				document.getElementById("js-nav").classList.add("open");
+			}
+		</script>
+
+		<main class="container">
+			<div class="container-inner">
+				<!--Main content-->
+				
+
+<h1>Tutorial: Create and Run Your First Model</h1>
+<p>This tutorial is recommended as an introduction to all users.</p>
+<p>You will learn how to use this package to simulate a triple pendulum.</p>
+<p>Steps:</p>
+<ol>
+	<li>Define the model on paper</li>
+	<li>Create a new run-file</li>
+	<li>Define the model in code</li>
+	<li>Run the solver</li>
+	<li>Post-process the solution</li>
+</ol>
+<p>The full code of this example is <span class="file">run_matlab/Examples/E8_TriplePendulum.m</span></p>
+
+<h2>Define the Model on paper</h2>
+<p>To define your model:</p>
+<ul>
+	<li>Draw the kinematic chain</li>
+	<li>Assign constant parameters (e.g. gravity, link lengths)</li>
+	<li>Assign generalised coordinates (e.g. joint angles, lengths of prismatic joints)</li>
+	<li>Assign a coordinate frame to every joint and centre of mass location</li>
+	<li>Attach mass and/or moment of inertia to the coordinate frames</li>
+</ul>
+<p>There is no need to write equations. A labelled diagram is sufficient.</p>
+
+
+<svg class="kinematic-diagram" viewBox="0 0 970 870" xmlns="http://www.w3.org/2000/svg" width="450">
+	<defs>
+		<marker id="dot" viewBox="0 0 20 20" refX="10" refY="10" markerWidth="10" markerHeight="10">
+			<circle cx="10" cy="10" r="5" fill="#9193a5"></circle>
+		</marker>
+	</defs>
+	<g stroke-linecap="round" stroke-linejoin="round" fill="none">
+		<path stroke="#9c9eb0" stroke-width="5" d="M 850 150 v 100 l 20 -30 m -20 30 l -20 -30"></path>
+		<path stroke="#9c9eb0" stroke-width="8" d="M 100 200 L 227 472 L 457 665 L 747 743"></path>
+		<path stroke="#808080" stroke-width="4" stroke-dasharray="15 11" d="M 100 400 L 100 200 L 311 653 M 227 472 L 610 793"></path>
+		<path stroke="#808080" stroke-width="4" d="M 100 320 A 120 120 0 0 0 151 309 M 277 581 A 120 120 0 0 0 319 549  M 549 742 A 120 120 0 0 0 573 696"></path>
+		<path stroke="#228833" stroke-width="15" d="M 100 100 L 100 200 L 191 158 M 227 472 L 291 395 M 457 665 L 483 568 M 747 743 L 773 646"></path>
+		<path stroke="#bb5566" stroke-width="15" d="M 200 200 L 100 200 L 142 291 M 227 472 L 304 536 M 457 665 L 554 691 M 747 743 L 844 769"></path>
+		<path stroke="none" stroke-width="5" marker-start="url(#dot)" marker-mid="url(#dot)" marker-end="url(#dot)" fill="none" d="M 100 200 L 227 472 L 457 665 L 747 743"></path>
+	</g>
+	<g stroke="none" fill="#9c9eb0" font-size="50" text-anchor="middle" dominant-baseline="middle">
+		<text x="850" y="100">g</text>
+		<g fill="#af888e">
+			<text x="250" y="200">x<tspan baseline-shift="sub" font-size="30">O</tspan></text>
+			<text x="182" y="257">x<tspan baseline-shift="sub" font-size="30">O2</tspan></text>
+			<text x="325" y="489">x<tspan baseline-shift="sub" font-size="30">A</tspan></text>
+			<text x="554" y="639">x<tspan baseline-shift="sub" font-size="30">B</tspan></text>
+			<text x="892.5" y="782">x<tspan baseline-shift="sub" font-size="30">C</tspan></text>
+		</g>
+		<g fill="#84a88b">
+			<text x="323" y="356.5">y<tspan baseline-shift="sub" font-size="30">A</tspan></text>
+			<text x="236.5" y="137">y<tspan baseline-shift="sub" font-size="30">O2</tspan></text>
+			<text x="100" y="50">y<tspan baseline-shift="sub" font-size="30">O</tspan></text>
+			<text x="496" y="519.5">y<tspan baseline-shift="sub" font-size="30">B</tspan></text>
+			<text x="786" y="597.5">y<tspan baseline-shift="sub" font-size="30">C</tspan></text>
+		</g>
+		<g fill="#808080">
+			<text x="134" y="356">θ<tspan baseline-shift="sub" font-size="30">1</tspan></text>
+			<text x="325" y="598">θ<tspan baseline-shift="sub" font-size="30">2</tspan></text>
+			<text x="599" y="739">θ<tspan baseline-shift="sub" font-size="30">3</tspan></text>
+		</g>
+		<g fill="#9c9eb0">
+			<text x="50" y="200">O</text>
+			<text x="195" y="510">A</text>
+			<text x="444" y="713">B</text>
+			<text x="734" y="791">C</text>
+		</g>
+	</g>
+</svg>
+
+<p>For the triple pendulum, I have used</p>
+<ul>
+	<li>Constants
+		<ul>
+			<li><span class="tk-normal">g</span> <span class="tk-equals">=</span> <span class="tk-numeric">9.8</span>, magnitude of gravitational acceleration</li>
+			<li><span class="tk-normal">L_1</span> <span class="tk-equals">=</span> <span class="tk-numeric">1</span>, link length from <span class="tk-normal">O</span> to <span class="tk-normal">A</span></li>
+			<li><span class="tk-normal">L_2</span> <span class="tk-equals">=</span> <span class="tk-numeric">1</span>, link length from <span class="tk-normal">A</span> to <span class="tk-normal">B</span></li>
+			<li><span class="tk-normal">L_3</span> <span class="tk-equals">=</span> <span class="tk-numeric">1</span>, link length from <span class="tk-normal">B</span> to <span class="tk-normal">C</span></li>
+		</ul>
+	</li>
+	<li>Generalised coordinates
+		<ul>
+			<li><span class="tk-normal">theta_1</span>, with initial conditions <tex>\theta_1 = \pi/4</tex> and <tex>\dot{\theta}_1 = 0</tex></li>
+			<li><span class="tk-normal">theta_2</span>, with initial conditions <tex>\theta_2 = 0</tex> and <tex>\dot{\theta}_2 = 0</tex></li>
+			<li><span class="tk-normal">theta_3</span>, with initial conditions <tex>\theta_3 = 0</tex> and <tex>\dot{\theta}_3 = 0</tex></li>
+		</ul>
+	</li>
+	<li>Frames
+		<ul>
+			<li><span class="tk-normal">O</span>: World frame at top of pendulum</li>
+			<li><span class="tk-normal">O2</span>: First joint</li>
+			<li><span class="tk-normal">A</span>: Second Joint</li>
+			<li><span class="tk-normal">B</span>: Third Joint</li>
+			<li><span class="tk-normal">C</span>: End of final link</li>
+		</ul>
+	</li>
+	<li>Mass and moment of inertia
+		<ul>
+			<li>At <span class="tk-normal">A</span>: <tex>m_A = 1</tex> and <tex>I_A = 0_{3,3}</tex></li>
+			<li>At <span class="tk-normal">B</span>: <tex>m_B = 1</tex> and <tex>I_B = 0_{3,3}</tex></li>
+			<li>At <span class="tk-normal">C</span>: <tex>m_C = 1</tex> and <tex>I_C = 0_{3,3}</tex></li>
+		</ul>
+	</li>
+</ul>
+
+<h2>Create a new run-file</h2>
+<p>Initial Setup</p>
+<ul>
+	<li>Download this repository</li>
+	<li>Create a new directory within <span class="file">run_matlab</span>
+		<ul>
+			<li>e.g. <span class="file">run_matlab/MyProject</span></li>
+		</ul>
+	</li>
+	<li>Copy in a <span class="file">CDS_FindIncludes.m</span> file from one of the other folders within <span class="file">run_matlab</span></li>
+	<li>Edit this file so that it adds <span class="file">core/includes_matlab/</span> to the MATLAB path</li>
+</ul>
+
+<p>Create a run-file</p>
+<ul>
+	<li>In the new directory, create a new matlab script (I call this a run-file, because it runs the simulator)
+		<ul>
+			<li>e.g. <span class="file">run_matlab/MyProject/TriplePendulum.m</span></li>
+		</ul>
+	</li>
+	<li>At the top of the run-file, add the code</li>
+</ul>
+<pre class="code-example"><code><span class="tk-normal">CDS_FindIncludes</span><span class="tk-semi">;</span>
+<span class="tk-normal">CDS_IncludeSimulator</span><span class="tk-semi">;</span></code></pre>
+
+<p>You should now have created</p>
+<ul>
+	<li><span class="file">run_matlab/MyProject/CDS_FindIncludes.m</span></li>
+	<li><span class="file">run_matlab/MyProject/TriplePendulum.m</span></li>
+</ul>
+
+<h2>Define the Model in code</h2>
+<p>Continuing editing the run-file, incrementally adding in the code snippets that follow</p>
+
+<h3>System Description</h3>
+<p>The <a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a> object holds and manages the information required to simulate a given system.</p>
+<p>Exactly one of these should be created for each system being defined.</p>
+<pre class="code-example"><code><span class="text-comment text-comment-line">% System description</span>
+<span class="text-comment text-comment-line">% This contains all of the information required to simulate the system</span>
+<span class="tk-normal">sys</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<p>This is a handle object, it is passed by reference. It is not possible to clone this object because it internally contains and manages references to the many objects the collectively define the system.</p>
+
+<p>The <a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a> is a builder and manager type object. Its methods are called to build the components of the system, and it holds a reference to each object that it builds. Thus, it is also used to retrieve information about the system.</p>
+
+<h3>Parameters</h3>
+<p>Each <a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a> holds a single instance of <a href="/crane-dynamics-simulator/reference/CDS-Params.html">CDS_Params</a>, which is a builder / manager object for system parameters:</p>
+<ul>
+	<li>Constants</li>
+	<li>Free variables (generalised coordinates)</li>
+	<li>Driven variables (system inputs)</li>
+</ul>
+
+<p>All parameters must be created with this single <a href="/crane-dynamics-simulator/reference/CDS-Params.html">CDS_Params</a> instance by calling <span class="tk-dot">.</span><span class="tk-function">Create</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span>.</p>
+<p>Appropriate <span class="tk-dot">.</span><span class="tk-function">Set</span> methods can optionally be chained to the output.</p>
+<pre class="code-example"><code><span class="text-comment text-comment-line">% Builder/manager object</span>
+<span class="tk-normal">params</span> <span class="tk-equals">=</span> <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">params</span><span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% System parameters</span>
+<span class="text-comment text-comment-line">%   Define and set the numeric value</span>
+<span class="tk-normal">params</span><span class="tk-dot">.</span><span class="tk-function">Create</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;const&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;L_1&#39;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetNum</span><span class="tk-paren-o">(</span><span class="tk-numeric">1</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">params</span><span class="tk-dot">.</span><span class="tk-function">Create</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;const&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;L_2&#39;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetNum</span><span class="tk-paren-o">(</span><span class="tk-numeric">1</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">params</span><span class="tk-dot">.</span><span class="tk-function">Create</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;const&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;L_3&#39;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetNum</span><span class="tk-paren-o">(</span><span class="tk-numeric">1</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">params</span><span class="tk-dot">.</span><span class="tk-function">Create</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;const&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;g&#39;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetNum</span><span class="tk-paren-o">(</span><span class="tk-numeric">9.8</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% Generalised coordinates</span>
+<span class="text-comment text-comment-line">%   Define and set the initial conditions</span>
+<span class="tk-normal">params</span><span class="tk-dot">.</span><span class="tk-function">Create</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;free&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;theta_1&#39;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetIC</span><span class="tk-paren-o">(</span><span class="tk-function">pi</span><span class="tk-divide">/</span><span class="tk-numeric">4</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">params</span><span class="tk-dot">.</span><span class="tk-function">Create</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;free&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;theta_2&#39;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetIC</span><span class="tk-paren-o">(</span><span class="tk-numeric">0</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">params</span><span class="tk-dot">.</span><span class="tk-function">Create</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;free&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;theta_3&#39;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetIC</span><span class="tk-paren-o">(</span><span class="tk-numeric">0</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<div class="text-aside">
+	<p><em>Aside:</em> This syntax is known as <a target="_blank" rel="noopener noreferrer" class="ex-link" href="https://en.wikipedia.org/wiki/Method_chaining">method chaining<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="ex-link-icon"><path d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z" /></svg></a>, and it can be understood as the combination of</p>
+<pre class="code-example"><code><span class="tk-normal">tmp</span> <span class="tk-equals">=</span> <span class="tk-normal">params</span><span class="tk-dot">.</span><span class="tk-function">Create</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;const&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;myVar&#39;</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">tmp</span><span class="tk-dot">.</span><span class="tk-function">SetNum</span><span class="tk-paren-o">(</span><span class="tk-numeric">1</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+</div>
+
+<p>Note that <a href="/crane-dynamics-simulator/reference/CDS-Params.html">CDS_Params</a><span class="tk-dot">.</span><span class="tk-function">Create</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;myType&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;myVar&#39;</span><span class="tk-paren-c">)</span> has the side effect of calling <span class="tk-function">syms</span> <span class="tk-normal">myVar</span> in the current workspace.</p>
+
+<h3>Points / Kinematic Chains</h3>
+<p>The geometry of the system can now be described, in terms of the parameters, as a set of homogeneous transformation matrices</p>
+<pre class="code-example"><code><span class="text-comment text-comment-line">% Forward kinematics between the frames</span>
+<span class="text-comment text-comment-line">% NOTE: Using shorthand notation. See the aside for explanation</span>
+<span class="tk-normal">T_OO2</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-paren-o">(</span><span class="tk-string">&#39;atP&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;z&#39;</span><span class="tk-comma">,</span> <span class="tk-normal">theta_1</span><span class="tk-minus">-</span><span class="tk-type">sym</span><span class="tk-paren-o">(</span><span class="tk-function">pi</span><span class="tk-paren-c">)</span><span class="tk-divide">/</span><span class="tk-numeric">2</span><span class="tk-comma">,</span> <span class="tk-paren-o">[</span><span class="tk-numeric">0</span><span class="tk-semi">;</span><span class="tk-numeric">0</span><span class="tk-semi">;</span><span class="tk-numeric">0</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">T_O2A</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-paren-o">(</span><span class="tk-string">&#39;atP&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;z&#39;</span><span class="tk-comma">,</span> <span class="tk-normal">theta_2</span><span class="tk-comma">,</span> <span class="tk-paren-o">[</span><span class="tk-normal">L_1</span><span class="tk-semi">;</span><span class="tk-numeric">0</span><span class="tk-semi">;</span><span class="tk-numeric">0</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">T_AB</span>  <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-paren-o">(</span><span class="tk-string">&#39;atP&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;z&#39;</span><span class="tk-comma">,</span> <span class="tk-normal">theta_3</span><span class="tk-comma">,</span> <span class="tk-paren-o">[</span><span class="tk-normal">L_2</span><span class="tk-semi">;</span><span class="tk-numeric">0</span><span class="tk-semi">;</span><span class="tk-numeric">0</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">T_BC</span>  <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-paren-o">(</span><span class="tk-string">&#39;atP&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;z&#39;</span><span class="tk-comma">,</span> <span class="tk-numeric">0</span><span class="tk-comma">,</span> <span class="tk-paren-o">[</span><span class="tk-normal">L_3</span><span class="tk-semi">;</span><span class="tk-numeric">0</span><span class="tk-semi">;</span><span class="tk-numeric">0</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% Combine to obtain the transformation to each frame as relative to the base frame</span>
+<span class="tk-normal">T_OA</span> <span class="tk-equals">=</span> <span class="tk-normal">T_OO2</span> <span class="tk-times">*</span> <span class="tk-normal">T_O2A</span><span class="tk-semi">;</span>
+<span class="tk-normal">T_OB</span> <span class="tk-equals">=</span> <span class="tk-normal">T_OA</span> <span class="tk-times">*</span> <span class="tk-normal">T_AB</span><span class="tk-semi">;</span>
+<span class="tk-normal">T_OC</span> <span class="tk-equals">=</span> <span class="tk-normal">T_OB</span> <span class="tk-times">*</span> <span class="tk-normal">T_BC</span><span class="tk-semi">;</span></code></pre>
+
+<p>The notation <span class="tk-normal">T_AB</span> means the transformation matrix that satisfies the relation <span class="tk-normal">P_A</span> <span class="tk-equals">=</span> <span class="tk-normal">T_AB</span> <span class="tk-times">*</span> <span class="tk-normal">P_B</span> where <span class="tk-normal">P_A</span> is a point as measured in frame A, and <span class="tk-normal">P_B</span> is the same point as measured in frame B.</p>
+
+<div class="text-aside">
+	<p><em>Aside:</em> <a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span> accepts shorthand inputs as well as full 4x4 transformation matrices</p>
+<pre class="code-example"><code><span class="text-comment text-comment-line">% These are equivalent (&#39;P&#39; means point)</span>
+<a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-paren-o">(</span><span class="tk-string">&#39;P&#39;</span><span class="tk-comma">,</span> <span class="tk-paren-o">[</span><span class="tk-normal">x</span><span class="tk-semi">;</span><span class="tk-normal">y</span><span class="tk-semi">;</span><span class="tk-normal">z</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-paren-o">(</span><span class="tk-paren-o">[</span><span class="tk-numeric">1</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-normal">x</span><span class="tk-semi">;</span> <span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">1</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-normal">y</span><span class="tk-semi">;</span> <span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">1</span><span class="tk-comma">,</span><span class="tk-normal">z</span><span class="tk-semi">;</span> <span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">1</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% These are equivalent (&#39;at&#39; means rotation about the x, y, or z axis by theta)</span>
+<a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-paren-o">(</span><span class="tk-string">&#39;at&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;z&#39;</span> <span class="tk-normal">theta</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span> <span class="text-comment">% Rotation about the z axis</span>
+<a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-paren-o">(</span><span class="tk-paren-o">[</span><span class="tk-numeric">1</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-semi">;</span> <span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-function">cos</span><span class="tk-paren-o">(</span><span class="tk-normal">theta</span><span class="tk-paren-c">)</span><span class="tk-comma">,</span><span class="tk-minus">-</span><span class="tk-function">sin</span><span class="tk-paren-o">(</span><span class="tk-normal">theta</span><span class="tk-paren-c">)</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-semi">;</span> <span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-function">sin</span><span class="tk-paren-o">(</span><span class="tk-normal">theta</span><span class="tk-paren-c">)</span><span class="tk-comma">,</span><span class="tk-function">cos</span><span class="tk-paren-o">(</span><span class="tk-normal">theta</span><span class="tk-paren-c">)</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-semi">;</span> <span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">1</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% These are equivalent (Combination of the above)</span>
+<a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-paren-o">(</span><span class="tk-string">&#39;atP&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;z&#39;</span><span class="tk-comma">,</span> <span class="tk-normal">theta</span><span class="tk-comma">,</span> <span class="tk-paren-o">[</span><span class="tk-normal">x</span><span class="tk-semi">;</span><span class="tk-normal">y</span><span class="tk-semi">;</span><span class="tk-normal">z</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-paren-o">(</span><span class="tk-paren-o">[</span><span class="tk-numeric">1</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-normal">x</span><span class="tk-semi">;</span> <span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-function">cos</span><span class="tk-paren-o">(</span><span class="tk-normal">theta</span><span class="tk-paren-c">)</span><span class="tk-comma">,</span><span class="tk-minus">-</span><span class="tk-function">sin</span><span class="tk-paren-o">(</span><span class="tk-normal">theta</span><span class="tk-paren-c">)</span><span class="tk-comma">,</span><span class="tk-normal">y</span><span class="tk-semi">;</span> <span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-function">sin</span><span class="tk-paren-o">(</span><span class="tk-normal">theta</span><span class="tk-paren-c">)</span><span class="tk-comma">,</span><span class="tk-function">cos</span><span class="tk-paren-o">(</span><span class="tk-normal">theta</span><span class="tk-paren-c">)</span><span class="tk-comma">,</span><span class="tk-normal">z</span><span class="tk-semi">;</span> <span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-comma">,</span><span class="tk-numeric">1</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+</div>
+
+<p>Next, all particles and rigid bodies must be created with the <a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a> by calling <span class="tk-dot">.</span><span class="tk-function">CreatePoint</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetT_0n</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></p>
+<ul>
+	<li>Notation
+		<ul>
+			<li>'0' means the base frame (world frame)</li>
+			<li>'n' means the frame of the current point</li>
+		</ul>
+	</li>
+	<li>Points are locations defined by a transformation matrix (they have both position and orientation)
+		<ul>
+			<li>Particles are points that have mass</li>
+			<li>Rigid bodies are points that have mass and moment of inertia</li>
+		</ul>
+	</li>
+	<li>Uses
+		<ul>
+			<li>Only particles and rigid bodies influence the solution dynamics</li>
+			<li>Other points may be optionally defined by omitting the mass and moment of inertia inputs</li>
+			<li>The locations of all points are calculated after solving, so that their values may be queried or plotted</li>
+		</ul>
+	</li>
+</ul>
+<pre class="code-example"><code><span class="text-comment text-comment-line">% SYNTAX: .CreatePoint(&#39;Name&#39;, mass, inertia)</span>
+<span class="tk-normal">O</span> <span class="tk-equals">=</span> <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreatePoint</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;O&#39;</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">A</span> <span class="tk-equals">=</span> <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreatePoint</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;A&#39;</span><span class="tk-comma">,</span> <span class="tk-numeric">1</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetT_0n</span><span class="tk-paren-o">(</span><span class="tk-normal">T_OA</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">B</span> <span class="tk-equals">=</span> <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreatePoint</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;B&#39;</span><span class="tk-comma">,</span> <span class="tk-numeric">1</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetT_0n</span><span class="tk-paren-o">(</span><span class="tk-normal">T_OB</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">C</span> <span class="tk-equals">=</span> <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreatePoint</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;C&#39;</span><span class="tk-comma">,</span> <span class="tk-numeric">1</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetT_0n</span><span class="tk-paren-o">(</span><span class="tk-normal">T_OC</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<p>The structure of the kinematic chain is then declared as a set of arrays.</p>
+<ul>
+	<li>This has no effect on the physics of the problem; it does not effect the solution</li>
+	<li>It is only used for plotting the animation</li>
+	<li>The plotter will draw animated lines joining the points in each array</li>
+</ul>
+<pre class="code-example"><code><span class="text-comment text-comment-line">% Kinematic chains (used only for plotting the animation)</span>
+<span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">SetChains</span><span class="tk-paren-o">(</span><span class="tk-paren-o">[</span><span class="tk-normal">O</span><span class="tk-comma">,</span><span class="tk-normal">A</span><span class="tk-comma">,</span><span class="tk-normal">B</span><span class="tk-comma">,</span><span class="tk-normal">C</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<h3>Gravity</h3>
+<p>The magnitude and direction of gravity should be defined as an acceleration vector, as measured in the base frame.</p>
+
+<p>In this case, I have chosen y as up in the base frame, with gravity pointing in the negative y direction.</p>
+<pre class="code-example"><code><span class="text-comment text-comment-line">% Direction of gravity in base frame</span>
+<span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">SetGravity</span><span class="tk-paren-o">(</span><span class="tk-paren-o">[</span><span class="tk-numeric">0</span><span class="tk-semi">;</span> <span class="tk-minus">-</span><span class="tk-normal">g</span><span class="tk-semi">;</span> <span class="tk-numeric">0</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<p>This completes description of our triple pendulum system.</p>
+
+
+<h2>Run the Solver</h2>
+<p>Now that the system has been completely defined, the package can automatically generate and solve the equations of motion</p>
+
+<p>The final options to choose are:</p>
+<ul>
+	<li>The time to solve over
+		<ul>
+			<li>Specified either as a range, or a set of values to evaluate</li>
+			<li>This does not influence the values that the solver uses internally, only the values that are output</li>
+		</ul>
+	</li>
+	<li>The integration tolerances</li>
+	<li>The solver
+		<ul>
+			<li><span class="tk-dot">.</span><span class="tk-function">Solve</span><span class="tk-paren-o">(</span><span class="tk-normal">sys</span><span class="tk-paren-c">)</span> (Automatic)</li>
+			<li><span class="tk-dot">.</span><span class="tk-function">Solve</span><span class="tk-paren-o">(</span><span class="tk-normal">sys</span><span class="tk-comma">,</span> <span class="tk-string">&quot;ode89&quot;</span><span class="tk-paren-c">)</span> Specify a MATLAB ODE solver</li>
+			<li><span class="tk-dot">.</span><span class="tk-function">Solve</span><span class="tk-paren-o">(</span><span class="tk-normal">sys</span><span class="tk-comma">,</span> <span class="tk-string">&quot;drawIC&quot;</span><span class="tk-paren-c">)</span> Skip solving and just plot the initial conditions</li>
+			<li><span class="tk-dot">.</span><span class="tk-function">Solve</span><span class="tk-paren-o">(</span><span class="tk-normal">sys</span><span class="tk-comma">,</span> <span class="tk-string">&quot;sundials&quot;</span><span class="tk-paren-c">)</span> Export the equations to C++ for solving with SUNDIALS</li>
+		</ul>
+	</li>
+	<li>The equation formulation method
+		<ul>
+			<li>For almost all cases, the best option is to use the automatic mode</li>
+		</ul>
+	</li>
+</ul>
+<pre class="code-example"><code><span class="tk-normal">SO</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-Solver-Options.html">CDS_Solver_Options</a><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">SO</span><span class="tk-dot">.</span><span class="tk-function">time</span> <span class="tk-equals">=</span> <span class="tk-numeric">0</span> <span class="tk-colon">:</span> <span class="tk-numeric">0.02</span> <span class="tk-colon">:</span> <span class="tk-numeric">20</span><span class="tk-semi">;</span>
+<span class="tk-normal">SO</span><span class="tk-dot">.</span><span class="tk-function">RelTol</span> <span class="tk-equals">=</span> <span class="tk-numeric">1e</span><span class="tk-minus">-</span><span class="tk-numeric">10</span><span class="tk-semi">;</span>
+<span class="tk-normal">SO</span><span class="tk-dot">.</span><span class="tk-function">AbsTol</span> <span class="tk-equals">=</span> <span class="tk-numeric">1e</span><span class="tk-minus">-</span><span class="tk-numeric">10</span><span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% Generate and solve equation of motion</span>
+<span class="tk-normal">S</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-Solver.html">CDS_Solver</a><span class="tk-paren-o">(</span><span class="tk-normal">SO</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-paren-o">[</span><span class="tk-normal">t</span><span class="tk-comma">,</span><span class="tk-normal">x</span><span class="tk-comma">,</span><span class="tk-normal">xd</span><span class="tk-paren-c">]</span> <span class="tk-equals">=</span> <span class="tk-normal">S</span><span class="tk-dot">.</span><span class="tk-function">Solve</span><span class="tk-paren-o">(</span><span class="tk-normal">sys</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<p>This results in the solution to the differential equation, in the traditional form that is output by an ODE solver</p>
+<ul>
+	<li><span class="tk-normal">t</span> The time that the solution is sampled at</li>
+	<li><span class="tk-normal">x</span> The values of the state vector at these times</li>
+	<li><span class="tk-normal">xd</span> The values of the state vector derivative at these times</li>
+</ul>
+<p>Where the automatically generated state vector can be viewed with</p>
+<pre class="code-example code-console"><code><span class="tk-prompt">&gt;&gt;</span> <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">params</span><span class="tk-dot">.</span><span class="tk-function">x</span><span class="tk-dot">.</span><span class="tk-function">Sym</span>
+<span class="tk-prompt">ans</span> <span class="tk-equals">=</span>
+<span class="tk-normal">theta_1d</span>
+<span class="tk-normal">theta_2d</span>
+<span class="tk-normal">theta_3d</span>
+ <span class="tk-normal">theta_1</span>
+ <span class="tk-normal">theta_2</span>
+ <span class="tk-normal">theta_3</span></code></pre>
+
+<p>The variables</p>
+<ul>
+	<li><span class="tk-normal">theta_1</span>, <span class="tk-normal">theta_2</span>, and <span class="tk-normal">theta_3</span> are as we defined.
+		<ul>
+			<li>Recall that each parameter was named during its creation; when <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">params</span><span class="tk-dot">.</span><span class="tk-function">Create</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span> was called</li>
+		</ul>
+	</li>
+	<li>with the suffix <span class="tk-normal">d</span> are their time derivatives (velocity), as have been automatically created.</li>
+	<li>with the suffix <span class="tk-normal">dd</span> are their double time derivatives (acceleration), as have been automatically created.</li>
+</ul>
+
+<p>Given that we requested the solution time as <span class="tk-normal">SO</span><span class="tk-dot">.</span><span class="tk-function">time</span> <span class="tk-equals">=</span> <span class="tk-numeric">0</span> <span class="tk-colon">:</span> <span class="tk-numeric">0.02</span> <span class="tk-colon">:</span> <span class="tk-numeric">20</span><span class="tk-semi">;</span>, then the sizes of the solution arrays are</p>
+<ul>
+	<li><span class="tk-normal">t</span><span class="tk-paren-o">(</span><span class="tk-numeric">1</span><span class="tk-comma">,</span><span class="tk-numeric">1001</span><span class="tk-paren-c">)</span> <span class="tk-type">double</span></li>
+	<li><span class="tk-normal">x</span><span class="tk-paren-o">(</span><span class="tk-numeric">6</span><span class="tk-comma">,</span><span class="tk-numeric">1001</span><span class="tk-paren-c">)</span> <span class="tk-type">double</span></li>
+	<li><span class="tk-normal">xd</span><span class="tk-paren-o">(</span><span class="tk-numeric">6</span><span class="tk-comma">,</span><span class="tk-numeric">1001</span><span class="tk-paren-c">)</span> <span class="tk-type">double</span></li>
+</ul>
+<p>Thus, you can now use the solution however you usually would, having it in the traditional form that is output by an ODE solver.</p>
+<p>Or you can use the provided tools to automate performing various calculations and creating plots of the solution.</p>
+
+
+<h2>Post-Process the Solution</h2>
+<p>The <a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a> holds the description of the system, in the terms that we defined it.</p>
+<p>This is a perfect match for automating the creation of plots in terms of these same variables.</p>
+
+<p>In post-processing, the <a href="/crane-dynamics-simulator/reference/CDS-SystemDescription.html">CDS_SystemDescription</a> is used to generate equations, and the solution <span class="tk-normal">t</span><span class="tk-comma">,</span> <span class="tk-normal">x</span><span class="tk-comma">,</span> <span class="tk-normal">xd</span> is fed into these equations.</p>
+<p>We can</p>
+<ul>
+	<li>Query the values of generalised coordinates by name</li>
+	<li>Calculate and query the position of each point by name</li>
+	<li>Calculate and query the energies of each particle / rigid body by name</li>
+	<li>Generate plots</li>
+	<li>Generate a real-time animation of the motion</li>
+</ul>
+<pre class="code-example"><code><span class="tk-normal">SS</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-SolutionSim.html">CDS_SolutionSim</a><span class="tk-paren-o">(</span><span class="tk-normal">sys</span><span class="tk-comma">,</span> <span class="tk-normal">t</span><span class="tk-comma">,</span><span class="tk-normal">x</span><span class="tk-comma">,</span><span class="tk-normal">xd</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">SSp</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-Solution-Plot.html">CDS_Solution_Plot</a><span class="tk-paren-o">(</span><span class="tk-normal">SS</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">SSa</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-Solution-Animate.html">CDS_Solution_Animate</a><span class="tk-paren-o">(</span><span class="tk-normal">SS</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+
+<span class="tk-normal">SSp</span><span class="tk-dot">.</span><span class="tk-function">PlotConfigSpace</span>
+<span class="tk-normal">SSp</span><span class="tk-dot">.</span><span class="tk-function">PlotLambda</span>
+<span class="tk-normal">SSp</span><span class="tk-dot">.</span><span class="tk-function">PlotInput</span>
+<span class="tk-normal">SSp</span><span class="tk-dot">.</span><span class="tk-function">PlotEnergyTotal</span>
+<span class="tk-normal">SSp</span><span class="tk-dot">.</span><span class="tk-function">PlotEnergyAll</span>
+<span class="tk-normal">SSp</span><span class="tk-dot">.</span><span class="tk-function">PlotTaskSpace</span>
+
+
+<span class="tk-normal">SSa</span><span class="tk-dot">.</span><span class="tk-function">Set_View_Predefined</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;front&quot;</span><span class="tk-paren-c">)</span>
+<span class="tk-normal">SSa</span><span class="tk-dot">.</span><span class="tk-function">PlotFrame</span>
+<span class="tk-normal">SSa</span><span class="tk-dot">.</span><span class="tk-function">Animate</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;play&quot;</span><span class="tk-paren-c">)</span> <span class="text-comment">% Click the &quot;Repeat&quot; button on the figure to play the animation!</span>
+<span class="text-comment text-comment-line">%SSa.Animate(&quot;gif&quot;)</span>
+<span class="text-comment text-comment-line">%SSa.Animate(&quot;video&quot;)</span></code></pre>
+
+<p>The post-processed data can be exported to excel in a human readable format</p>
+<pre class="code-example"><code><span class="text-comment text-comment-line">% Export</span>
+<span class="tk-normal">SSe</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-Solution-Export.html">CDS_Solution_Export</a><span class="tk-paren-o">(</span><span class="tk-normal">SS</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">SSe</span><span class="tk-dot">.</span><span class="tk-function">DataToExcel</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;mySolution.xlsx&quot;</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<p>The post-processed data can also be queried by using the names of the parameters / points</p>
+<ul>
+	<li>Recall that each parameter / point was named during its creation; when <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">params</span><span class="tk-dot">.</span><span class="tk-function">Create</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span> or <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreatePoint</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span> was called</li>
+</ul>
+<pre class="code-example"><code><span class="tk-normal">SSg</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-Solution-GetData.html">CDS_Solution_GetData</a><span class="tk-paren-o">(</span><span class="tk-normal">SS</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% Get the value of theta_2, and its derivatives at the time 3.8 seconds</span>
+<span class="tk-normal">idx</span> <span class="tk-equals">=</span> <span class="tk-normal">SS</span><span class="tk-dot">.</span><span class="tk-function">t_idx</span><span class="tk-paren-o">(</span><span class="tk-numeric">3.8</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">fprintf</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;theta_2 at 3.8s = %g\n&quot;</span><span class="tk-comma">,</span>           <span class="tk-normal">SSg</span><span class="tk-dot">.</span><span class="tk-function">q</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;theta_2&quot;</span><span class="tk-comma">,</span> <span class="tk-normal">idx</span><span class="tk-paren-c">)</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">fprintf</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;d[theta_2]/dt at 3.8s = %g\n&quot;</span><span class="tk-comma">,</span>     <span class="tk-normal">SSg</span><span class="tk-dot">.</span><span class="tk-function">qd</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;theta_2&quot;</span><span class="tk-comma">,</span> <span class="tk-normal">idx</span><span class="tk-paren-c">)</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">fprintf</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;d^2[theta_2]/dt^2 at 3.8s = %g\n&quot;</span><span class="tk-comma">,</span> <span class="tk-normal">SSg</span><span class="tk-dot">.</span><span class="tk-function">qdd</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;theta_2&quot;</span><span class="tk-comma">,</span> <span class="tk-normal">idx</span><span class="tk-paren-c">)</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% Get the x,y,z locations of point C at this same time</span>
+<span class="tk-normal">fprintf</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;x coordinate of point C at 3.8s = %g\n&quot;</span><span class="tk-comma">,</span> <span class="tk-normal">SSg</span><span class="tk-dot">.</span><span class="tk-function">Px</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;C&quot;</span><span class="tk-comma">,</span> <span class="tk-normal">idx</span><span class="tk-paren-c">)</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">fprintf</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;y coordinate of point C at 3.8s = %g\n&quot;</span><span class="tk-comma">,</span> <span class="tk-normal">SSg</span><span class="tk-dot">.</span><span class="tk-function">Py</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;C&quot;</span><span class="tk-comma">,</span> <span class="tk-normal">idx</span><span class="tk-paren-c">)</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">fprintf</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;z coordinate of point C at 3.8s = %g\n&quot;</span><span class="tk-comma">,</span> <span class="tk-normal">SSg</span><span class="tk-dot">.</span><span class="tk-function">Pz</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;C&quot;</span><span class="tk-comma">,</span> <span class="tk-normal">idx</span><span class="tk-paren-c">)</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<h2>Experiment with the Code</h2>
+<p>Explore the properties of the variable <span class="tk-normal">SS</span></p>
+
+<p>Try changing the</p>
+<ul>
+	<li>model parameters (lengths, mass, moment of inertia)</li>
+	<li>initial conditions (initial angle, initial angular velocity)</li>
+	<li>solve options</li>
+</ul>
+
+<h3>Add a Constraint</h3>
+<p>Using <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreateConstraint</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;name&quot;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetConstraint</span><span class="tk-paren-o">(</span><span class="tk-normal">C</span><span class="tk-paren-c">)</span> specifies that the solution must satisfy the algebraic equation <tex>C=0</tex>.</p>
+
+<p>Try different constraints by adding the following to the system description, before calling solve</p>
+<pre class="code-example"><code><span class="text-comment text-comment-line">% This constraint can fix the linkage to slide along a rail</span>
+<span class="text-comment text-comment-line">% Enable only one at a time!</span>
+<span class="text-comment text-comment-line">%sys.CreateConstraint(&quot;Bx&quot;).SetConstraint(T_OB.x, &quot;offsetToIC&quot;);</span>
+<span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreateConstraint</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;By&quot;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetConstraint</span><span class="tk-paren-o">(</span><span class="tk-normal">T_OB</span><span class="tk-dot">.</span><span class="tk-function">y</span><span class="tk-comma">,</span> <span class="tk-string">&quot;offsetToIC&quot;</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="text-comment text-comment-line">%sys.CreateConstraint(&quot;Cx&quot;).SetConstraint(T_OC.x, &quot;offsetToIC&quot;);</span>
+<span class="text-comment text-comment-line">%sys.CreateConstraint(&quot;Cy&quot;).SetConstraint(T_OC.y, &quot;offsetToIC&quot;);</span>
+<span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">SetConstraint_StabilisationFactors</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<p>The option <span class="tk-string">&quot;offsetToIC&quot;</span> modifies the input constraint equation to enforce <tex>C=0</tex>. The value of the provided constraint equation (in terms of the system parameters) is calculated at the initial conditions, and then the equation is offset by this value, such that it equals 0 in initial condition. Otherwise, the constraint equation would be inconsistent with the initial conditions, and the system would be unsolvable.</p>
+<p>Internally, this uses the helpful function <span class="tk-dot">.</span><span class="tk-function">params</span><span class="tk-dot">.</span><span class="tk-function">EvaluateSymExpr_IC</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span></p>
+<pre class="code-example code-console"><code><span class="text-comment text-comment-line">% This does not equal 0 in the initial conditions</span>
+<span class="tk-prompt">&gt;&gt;</span> <span class="tk-normal">T_OB</span><span class="tk-dot">.</span><span class="tk-function">y</span>
+<span class="tk-prompt">ans</span> <span class="tk-equals">=</span>
+<span class="tk-minus">-</span> <span class="tk-normal">L_2</span><span class="tk-times">*</span><span class="tk-paren-o">(</span><span class="tk-function">cos</span><span class="tk-paren-o">(</span><span class="tk-normal">theta_1</span><span class="tk-paren-c">)</span><span class="tk-times">*</span><span class="tk-function">cos</span><span class="tk-paren-o">(</span><span class="tk-normal">theta_2</span><span class="tk-paren-c">)</span> <span class="tk-minus">-</span> <span class="tk-function">sin</span><span class="tk-paren-o">(</span><span class="tk-normal">theta_1</span><span class="tk-paren-c">)</span><span class="tk-times">*</span><span class="tk-function">sin</span><span class="tk-paren-o">(</span><span class="tk-normal">theta_2</span><span class="tk-paren-c">)</span><span class="tk-paren-c">)</span> <span class="tk-minus">-</span> <span class="tk-normal">L_1</span><span class="tk-times">*</span><span class="tk-function">cos</span><span class="tk-paren-o">(</span><span class="tk-normal">theta_1</span><span class="tk-paren-c">)</span>
+
+<span class="text-comment text-comment-line">% This is equal to 0 in the initial conditions</span>
+<span class="tk-prompt">&gt;&gt;</span> <span class="tk-normal">T_OB</span><span class="tk-dot">.</span><span class="tk-function">y</span> <span class="tk-minus">-</span> <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">params</span><span class="tk-dot">.</span><span class="tk-function">EvaluateSymExpr_IC</span><span class="tk-paren-o">(</span><span class="tk-normal">T_OB</span><span class="tk-dot">.</span><span class="tk-function">y</span><span class="tk-paren-c">)</span>
+<span class="tk-prompt">ans</span> <span class="tk-equals">=</span>
+<span class="tk-numeric">2</span><span class="tk-hat">^</span><span class="tk-paren-o">(</span><span class="tk-numeric">1</span><span class="tk-divide">/</span><span class="tk-numeric">2</span><span class="tk-paren-c">)</span> <span class="tk-minus">-</span> <span class="tk-normal">L_2</span><span class="tk-times">*</span><span class="tk-paren-o">(</span><span class="tk-function">cos</span><span class="tk-paren-o">(</span><span class="tk-normal">theta_1</span><span class="tk-paren-c">)</span><span class="tk-times">*</span><span class="tk-function">cos</span><span class="tk-paren-o">(</span><span class="tk-normal">theta_2</span><span class="tk-paren-c">)</span> <span class="tk-minus">-</span> <span class="tk-function">sin</span><span class="tk-paren-o">(</span><span class="tk-normal">theta_1</span><span class="tk-paren-c">)</span><span class="tk-times">*</span><span class="tk-function">sin</span><span class="tk-paren-o">(</span><span class="tk-normal">theta_2</span><span class="tk-paren-c">)</span><span class="tk-paren-c">)</span> <span class="tk-minus">-</span> <span class="tk-normal">L_1</span><span class="tk-times">*</span><span class="tk-function">cos</span><span class="tk-paren-o">(</span><span class="tk-normal">theta_1</span><span class="tk-paren-c">)</span></code></pre>
+
+<p>The function <span class="tk-dot">.</span><span class="tk-function">SetConstraint_StabilisationFactors</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span> makes the solver use 'Baumgarte stabilisation'. It makes a trade off to reduce numerical error, at the expense of making the differential equations stiff (more difficult to solve). It is optional to use, and the strength can be tuned.</p>
+
+<h3>Add Explicit Time Dependence</h3>
+<p>The symbolic variable to represent time is always <span class="tk-type">sym</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;t&#39;</span><span class="tk-comma">,</span><span class="tk-string">&#39;real&#39;</span><span class="tk-paren-c">)</span>. There is no need to create a parameter for it; the sym is automatically recognised by the software. To use this sym, you should instance as per the usual with the symbolic toolbox</p>
+<pre class="code-example"><code><span class="tk-function">syms</span> <span class="tk-normal">t</span> <span class="tk-normal">real</span></code></pre>
+
+<p>Let us make the top of the pendulum move according to the trajectory <tex>L_O(t) = sin(t)</tex>. You can imagine that the top of the pendulum is being driven by an externally controlled servomotor. This means that the total system energy will not necessarily be conserved. There are multiple ways to implement this, as follows</p>
+
+<p>It may be necessary to first remove any previously added constraints as to not cause impossible geometry!</p>
+
+<h4>Method 1: Explicitly time dependent Lagrangian</h4>
+<p>Implement the following changes to make the Lagrangian explicitly time dependent</p>
+<pre class="code-example"><code><span class="text-comment text-comment-line">% Change this</span>
+<span class="tk-normal">T_OO2</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-paren-o">(</span><span class="tk-string">&#39;atP&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;z&#39;</span><span class="tk-comma">,</span> <span class="tk-normal">theta_1</span><span class="tk-minus">-</span><span class="tk-type">sym</span><span class="tk-paren-o">(</span><span class="tk-function">pi</span><span class="tk-paren-c">)</span><span class="tk-divide">/</span><span class="tk-numeric">2</span><span class="tk-comma">,</span> <span class="tk-paren-o">[</span><span class="tk-function">sin</span><span class="tk-paren-o">(</span><span class="tk-type">sym</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;t&#39;</span><span class="tk-comma">,</span><span class="tk-string">&#39;real&#39;</span><span class="tk-paren-c">)</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span><span class="tk-numeric">0</span><span class="tk-semi">;</span><span class="tk-numeric">0</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% Change this</span>
+<span class="tk-normal">O</span> <span class="tk-equals">=</span> <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreatePoint</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;O&#39;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetT_0n</span><span class="tk-paren-o">(</span><span class="tk-normal">T_OO2</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<h4>Method 2: Rheonomic constraints</h4>
+<p>Implement the following changes to make the constraint equations explicitly time dependent (rheonomic)</p>
+<pre class="code-example"><code><span class="text-comment text-comment-line">% Add this</span>
+<span class="tk-normal">params</span><span class="tk-dot">.</span><span class="tk-function">Create</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;free&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;L_O&#39;</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">constraint</span> <span class="tk-equals">=</span> <span class="tk-normal">L_O</span> <span class="tk-minus">-</span> <span class="tk-function">sin</span><span class="tk-paren-o">(</span><span class="tk-type">sym</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;t&#39;</span><span class="tk-comma">,</span><span class="tk-string">&#39;real&#39;</span><span class="tk-paren-c">)</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreateConstraint</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;top&quot;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetConstraint</span><span class="tk-paren-o">(</span><span class="tk-normal">constraint</span><span class="tk-comma">,</span> <span class="tk-string">&quot;offsetToIC&quot;</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">SetConstraint_StabilisationFactors</span><span class="tk-paren-o">(</span><span class="tk-numeric">100</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% Change this</span>
+<span class="tk-normal">T_OO2</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-paren-o">(</span><span class="tk-string">&#39;atP&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;z&#39;</span><span class="tk-comma">,</span> <span class="tk-normal">theta_1</span><span class="tk-minus">-</span><span class="tk-type">sym</span><span class="tk-paren-o">(</span><span class="tk-function">pi</span><span class="tk-paren-c">)</span><span class="tk-divide">/</span><span class="tk-numeric">2</span><span class="tk-comma">,</span> <span class="tk-paren-o">[</span><span class="tk-normal">L_O</span><span class="tk-semi">;</span><span class="tk-numeric">0</span><span class="tk-semi">;</span><span class="tk-numeric">0</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% Change this</span>
+<span class="tk-normal">O</span> <span class="tk-equals">=</span> <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreatePoint</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;O&#39;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetT_0n</span><span class="tk-paren-o">(</span><span class="tk-normal">T_OO2</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<h4>Method 3: Inputs</h4>
+<p>Inputs are parameters that vary with time according to a predefined function. Note that using inputs indirectly makes the Lagrangian time dependent.</p>
+
+<p>Implement the following changes to specify an input</p>
+<pre class="code-example"><code><span class="text-comment text-comment-line">% Add this</span>
+<span class="tk-normal">params</span><span class="tk-dot">.</span><span class="tk-function">Create</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;input&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;L_O&#39;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetAnalytic</span><span class="tk-paren-o">(</span><span class="tk-function">sin</span><span class="tk-paren-o">(</span><span class="tk-type">sym</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;t&#39;</span><span class="tk-comma">,</span><span class="tk-string">&#39;real&#39;</span><span class="tk-paren-c">)</span><span class="tk-paren-c">)</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% Change this</span>
+<span class="tk-normal">T_OO2</span> <span class="tk-equals">=</span> <a href="/crane-dynamics-simulator/reference/CDS-T.html">CDS_T</a><span class="tk-paren-o">(</span><span class="tk-string">&#39;atP&#39;</span><span class="tk-comma">,</span> <span class="tk-string">&#39;z&#39;</span><span class="tk-comma">,</span> <span class="tk-normal">theta_1</span><span class="tk-minus">-</span><span class="tk-type">sym</span><span class="tk-paren-o">(</span><span class="tk-function">pi</span><span class="tk-paren-c">)</span><span class="tk-divide">/</span><span class="tk-numeric">2</span><span class="tk-comma">,</span> <span class="tk-paren-o">[</span><span class="tk-normal">L_O</span><span class="tk-semi">;</span><span class="tk-numeric">0</span><span class="tk-semi">;</span><span class="tk-numeric">0</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+
+<span class="text-comment text-comment-line">% Change this</span>
+<span class="tk-normal">O</span> <span class="tk-equals">=</span> <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreatePoint</span><span class="tk-paren-o">(</span><span class="tk-string">&#39;O&#39;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetT_0n</span><span class="tk-paren-o">(</span><span class="tk-normal">T_OO2</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+<p>A key use for inputs instead of explicit time dependence is for to specify a piecewise function of time, or a data-driven trajectory (e.g. cubic spline fit to sampled data points)</p>
+
+<h3>Add Springs, Dampers, and Forces</h3>
+<p>Springs and dampers can have their lengths specified by arbitrary expressions, using the <span class="tk-dot">.</span><span class="tk-function">SetLength</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span> method. Alternatively, the length can be indirectly specified by the <span class="tk-dot">.</span><span class="tk-function">SetConnections</span><span class="tk-paren-o">(</span><span class="tk-paren-c">)</span> method, which defines the length by the locations where it starts and ends.</p>
+
+<p>A point force is specified by the location where it acts, and the value of the force. A generalised force is specified by the generalised coordinate upon which it acts, and the value of the force.</p>
+
+<p>Implement the following changes to add in these components</p>
+<pre class="code-example"><code><span class="text-comment text-comment-line">% Add any combination of these</span>
+<span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreateLinearSpring</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;AC&quot;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetSpringConstant</span><span class="tk-paren-o">(</span><span class="tk-numeric">7</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetConnections</span><span class="tk-paren-o">(</span><span class="tk-normal">A</span><span class="tk-comma">,</span><span class="tk-normal">C</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreateLinearDamper</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;OC&quot;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetDampingConstant</span><span class="tk-paren-o">(</span><span class="tk-numeric">2</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetConnections</span><span class="tk-paren-o">(</span><span class="tk-normal">O</span><span class="tk-comma">,</span><span class="tk-normal">C</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreatePointForce</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;Cx&quot;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetLocation</span><span class="tk-paren-o">(</span><span class="tk-normal">C</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetF</span><span class="tk-paren-o">(</span><span class="tk-paren-o">[</span><span class="tk-numeric">10</span><span class="tk-comma">,</span><span class="tk-numeric">30</span><span class="tk-comma">,</span><span class="tk-numeric">0</span><span class="tk-paren-c">]</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span>
+<span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreateGeneralisedForce</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;B&quot;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetLocation</span><span class="tk-paren-o">(</span><span class="tk-normal">theta_2</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetQ</span><span class="tk-paren-o">(</span><span class="tk-numeric">8</span><span class="tk-paren-c">)</span><span class="tk-semi">;</span></code></pre>
+
+
+			</div>
+		</main>
+	</div>
+</body>
+</html>
+
+
