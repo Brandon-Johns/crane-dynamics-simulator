@@ -1,17 +1,19 @@
 %{
 PURPOSE
+    Import post-processed solution data
+
+DETAILS
     Load the previously solved solution that was exported with CDS_Solution_Export
-    Hold the post processed solution data
 
 NOTES
     Reimporting the solution requires rebuilding the CDS_SystemDescription object.
     It is your responsibility to ensure that this object is identical to the one that created the exported solution
 
-    Alternatively to this workflow, you may wish to simply export your solution as a .mat file.
+    Alternatively to this workflow, you may wish to simply export your solution to a .mat file.
     Then you can later import the .mat file
 
 EXAMPLE
-    % See the HowTo Reference "Export/Import the post-processed solution"
+    % See the HowTo Reference "Export/Import the Processed Solution"
 %}
 
 classdef CDS_SolutionSaved < CDS_Solution
@@ -20,8 +22,12 @@ methods
     % Interface - Create & Initialise
     %***********************************
     % INPUT
-    %   sys: CDS_SystemDescription instance that exactly matches the one that created the exported solution
-    %   fileName: path to the file that holds the exported solution
+    %   sys
+    %       The system to corresponding to the solution data being loaded
+    %       It must exactly match the system that created the exported solution
+    %       It will not be strictly verified that the solution matches the system description
+    %   fileName
+    %       Relative path to the file that holds the exported solution
     function this = CDS_SolutionSaved(sys, fileName)
         arguments
             sys(1,1) CDS_SystemDescription
@@ -32,13 +38,12 @@ methods
         fileName = FileHelper.ValidateFileExtension(fileName, ".xlsx");
         fileName = FileHelper.ValidateFileExists(fileName);
 
-        % Extract params & points
-        this.q_free = sys.params.q_free;
-        %q_lambda = [];
-        this.q_input = sys.params.q_input;
-        this.p_mass = sys.points.all.GetIfHasMass;
-        this.p_all = sys.points.all;
-        this.chains = sys.chains;
+        % Save system description
+        this.sys = sys;
+
+        % TODO: Why was lambda not imported? Set it to be imported
+        % Don't import lambda
+        sys.params.SetStateVectorMode("withoutLambda");
 
         % Read in the xlsx results
         sheetNames = sheetnames(fileName);
@@ -51,19 +56,36 @@ methods
         this.qi_dd = this.ImportFromExcel(fileName, sheetNames, 'qi_dd');
         %this.ql    = this.ImportFromExcel(fileName, sheetNames, 'ql');
         %this.ql_d  = this.ImportFromExcel(fileName, sheetNames, 'ql_d');
-        this.K     = this.ImportFromExcel(fileName, sheetNames, 'K');
-        this.V     = this.ImportFromExcel(fileName, sheetNames, 'V');
-        this.E     = this.ImportFromExcel(fileName, sheetNames, 'E');
+        this.ql    = double.empty(0, numel(this.t));
+        this.ql_d  = double.empty(0, numel(this.t));
         this.Px    = this.ImportFromExcel(fileName, sheetNames, 'Px');
         this.Py    = this.ImportFromExcel(fileName, sheetNames, 'Py');
         this.Pz    = this.ImportFromExcel(fileName, sheetNames, 'Pz');
+        E          = this.ImportFromExcel(fileName, sheetNames, 'E');
+        this.K_mass           = this.ImportFromExcel(fileName, sheetNames, 'K_mass');
+        this.V_mass           = this.ImportFromExcel(fileName, sheetNames, 'V_mass');
+        this.V_linearSprings  = this.ImportFromExcel(fileName, sheetNames, 'V_linearSprings');
+        this.V_torsionSprings = this.ImportFromExcel(fileName, sheetNames, 'V_torsionSprings');
+
+        if isempty(E)
+            this.E = nan(1,numel(this.t)); % This causes a lot of fun (match to CDS_SolutionExp)
+        else
+            this.E = E;
+        end
+
+        % Compatibility with exports from previous version
+        if isempty(this.K_mass) && isempty(this.V_mass)
+            this.K_mass = this.ImportFromExcel(fileName, sheetNames, 'K');
+            this.V_mass = this.ImportFromExcel(fileName, sheetNames, 'V');
+        end
     end
 end
 methods (Access=private)
-    function val = ImportFromExcel(~, fileName, sheetNames, sheetName)
-        % Allow empty
+    function val = ImportFromExcel(this, fileName, sheetNames, sheetName)
         if ~ismember(sheetName, sheetNames)
-            val=[];
+            % Allow missing
+            % Initialise empty arrays with consistent sizes
+            val = double.empty(0, numel(this.t));
             return
         end
 

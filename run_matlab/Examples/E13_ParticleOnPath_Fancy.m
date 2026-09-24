@@ -1,7 +1,7 @@
 %{
 Written By: Brandon Johns
 Date Version Created: 2023-11-21
-Date Last Edited: 2024-04-06
+Date Last Edited: 2024-10-06
 Status: Complete
 Simulator: CDS
 
@@ -32,7 +32,7 @@ CDS_FindIncludes;
 CDS_IncludeSimulator;
 
 
-syms L_OA theta_1
+syms L_OA theta_1 real
 
 Run( L_OA - 1 );                             % Circle
 Run( L_OA*50 - theta_1 - theta_1^2 );        % Roller coaster - slanted
@@ -51,8 +51,8 @@ function Run(constraint)
     %**********************************************************************
     % Define System
     %***********************************
-    params = CDS_Params();
-    points = CDS_Points(params);
+    sys = CDS_SystemDescription();
+    params = sys.params;
 
     % Generalised coordinates and system parameters
     params.Create('free', 'L_OA'); % Constrained link. Defer setting IC
@@ -69,22 +69,21 @@ function Run(constraint)
     %   Particles are points that have mass
     %   Rigid bodies are points that have mass and moment of inertia
     mass = 1;
-    O = points.Create('O');
-    A = points.Create('A', mass).SetT_0n(T_OA);
+    O = sys.CreatePoint('O');
+    A = sys.CreatePoint('A', mass).SetT_0n(T_OA);
 
     % Kinematic chains (used only for plotting the animation)
-    chains = {[O,A]};
+    sys.SetChains(A);
 
     % Direction of gravity in base frame
-    g0 = [0; -g; 0];
+    sys.SetGravity([0; -g; 0]);
 
-    sys = CDS_SystemDescription(params, points, chains, g0);
-    sys.SetConstraint(constraint);
+    sys.CreateConstraint("path").SetConstraint(constraint);
 
     % Initial conditions should be consistent with the constraint
     constraint_L = solve(constraint, L_OA);
     path_L_fun = matlabFunction(constraint_L, "Vars",theta_1);
-    params.Param("L_OA").SetIC(path_L_fun(params.Param("theta_1").q0));
+    params.Subset("L_OA").SetIC(path_L_fun(params.Subset("theta_1").q0));
 
 
     %**********************************************************************
@@ -107,9 +106,6 @@ function Run(constraint)
     SSa = CDS_Solution_Animate(SS);
     SSg = CDS_Solution_GetData(SS);
 
-    SSa.Set_View_Predefined("front")
-    SSa.Animate
-
     % Plot constraint path
     min_theta = min(SSg.q("theta_1"));
     max_theta = max(SSg.q("theta_1"));
@@ -121,9 +117,11 @@ function Run(constraint)
     path_L = double(path_L_fun(path_theta));
     path_x = double(path_x_fun(path_L, path_theta));
     path_y = double(path_y_fun(path_L, path_theta));
+    path_z = zeros(size(path_x));
 
-    hold on
-    plot(path_x, path_y)
+    SSa.Add_Curve(path_x, path_y, path_z);
+    SSa.Set_View_Predefined("front")
+    SSa.Animate
 end
 
 

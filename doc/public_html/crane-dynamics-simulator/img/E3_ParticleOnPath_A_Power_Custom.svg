@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="250.87061mm" height="163.51237mm" version="1.2" viewBox="0 0 711.12902 463.49996" xmlns="http://www.w3.org/2000/svg">
+  <title>Qt SVG Document</title>
+  <desc>MATLAB, The MathWorks, Inc. Version 25.1.0.2973910 R2025a Update 1</desc>
+  <g transform="translate(-43.505001)" fill="none" fill-rule="evenodd" stroke="#000" stroke-linecap="square" stroke-linejoin="bevel">
+    <g font-family="'MS Shell Dlg 2'" font-size="8.25px" font-weight="400">
+      <g transform="matrix(.6615161 0 0 .75 43.504587 0)" fill="#131313" stroke="none">
+        <path d="m0 0h1075v618h-1075v-618" fill-rule="evenodd"/>
+      </g>
+      <g transform="scale(7.5e-5)" fill="#121212" stroke="none">
+        <path d="m1.4e6 4.6e5v5.03e6h8.32e6v-5.03e6h-8.32e6" fill-rule="evenodd"/>
+      </g>
+      <g transform="scale(.75)" fill="none" fill-opacity=".25098" stroke="#fff" stroke-linecap="butt" stroke-linejoin="round" stroke-opacity=".25098" stroke-width=".666667">
+        <polyline points="140 46 140 549"/>
+        <polyline points="223.2 46 223.2 549"/>
+        <polyline points="306.4 46 306.4 549"/>
+        <polyline points="389.6 46 389.6 549"/>
+        <polyline points="472.8 46 472.8 549"/>
+        <polyline points="556 46 556 549"/>
+        <polyline points="639.2 46 639.2 549"/>
+        <polyline points="722.4 46 722.4 549"/>
+        <polyline points="805.6 46 805.6 549"/>
+        <polyline points="888.8 46 888.8 549"/>
+        <polyline points="972 46 972 549"/>
+        <polyline points="140 549 972 549"/>
+        <polyline points="140 486.125 972 486.125"/>
+        <polyline points="140 423.25 972 423.25"/>
+        <polyline points="140 360.375 972 360.375"/>
+        <polyline points="140 297.5 972 297.5"/>
+        <polyline points="140 234.625 972 234.625"/>
+        <polyline points="140 171.75 972 171.75"/>
+        <polyline points="140 108.875 972 108.875"/>
+        <polyline points="140 46 972 46"/>
+      </g>
+    </g>
+    <g font-family="Helvetica" font-size="21px" stroke="#bbbcc4" stroke-linecap="square">
+      <g font-weight="400">
+        <g transform="matrix(.75 0 0 .75 387.75 450.95)" fill="#bbbcc4" stroke-linejoin="bevel">
+          <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">Time (s)</text>
+        </g>
+        <g transform="scale(.75)" fill="none" stroke-linejoin="round" stroke-width=".666667">
+          <polyline points="140 549 972 549"/>
+          <polyline points="140 549 140 540.68"/>
+          <polyline points="223.2 549 223.2 540.68"/>
+          <polyline points="306.4 549 306.4 540.68"/>
+          <polyline points="389.6 549 389.6 540.68"/>
+          <polyline points="472.8 549 472.8 540.68"/>
+          <polyline points="556 549 556 540.68"/>
+          <polyline points="639.2 549 639.2 540.68"/>
+          <polyline points="722.4 549 722.4 540.68"/>
+          <polyline points="805.6 549 805.6 540.68"/>
+          <polyline points="888.8 549 888.8 540.68"/>
+          <polyline points="972 549 972 540.68"/>
+        </g>
+        <g fill="#bbbcc4" stroke-linejoin="bevel">
+          <g transform="matrix(.75 0 0 .75 100.5 431.95)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">0</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 156.15 431.95)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">0.2</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 218.55 431.95)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">0.4</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 280.95 431.95)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">0.6</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 343.35 431.95)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">0.8</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 412.5 431.95)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">1</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 468.15 431.95)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">1.2</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 530.55 431.95)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">1.4</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 592.95 431.95)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">1.6</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 655.35 431.95)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">1.8</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 724.5 431.95)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">2</text>
+          </g>
+          <g transform="matrix(0 -.75 .75 0 69.8 260.625)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">Power (W)</text>
+          </g>
+        </g>
+        <g transform="scale(.75)" fill="none" stroke-linejoin="round" stroke-width=".666667">
+          <polyline points="140 549 140 46"/>
+          <polyline points="140 549 148.32 549"/>
+          <polyline points="140 486.125 148.32 486.125"/>
+          <polyline points="140 423.25 148.32 423.25"/>
+          <polyline points="140 360.375 148.32 360.375"/>
+          <polyline points="140 297.5 148.32 297.5"/>
+          <polyline points="140 234.625 148.32 234.625"/>
+          <polyline points="140 171.75 148.32 171.75"/>
+          <polyline points="140 108.875 148.32 108.875"/>
+          <polyline points="140 46 148.32 46"/>
+        </g>
+        <g fill="#bbbcc4" stroke-linejoin="bevel">
+          <g transform="matrix(.75 0 0 .75 76.55 417.375)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">-20</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 76.55 370.219)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">-15</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 76.55 323.063)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">-10</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 85.55 275.906)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">-5</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 90.8 228.75)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">0</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 90.8 181.594)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">5</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 81.8 134.438)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">10</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 81.8 87.2813)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">15</text>
+          </g>
+          <g transform="matrix(.75 0 0 .75 81.8 40.125)">
+            <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">20</text>
+          </g>
+        </g>
+      </g>
+      <g transform="matrix(.75 0 0 .75 260.625 27.75)" fill="#bbbcc4" font-weight="700" stroke-linejoin="bevel">
+        <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="700" stroke="none" xml:space="preserve">Time-Rate of Change of System Energeis</text>
+      </g>
+    </g>
+    <g fill="none" font-family="Helvetica" font-size="21px" font-weight="700" stroke-linecap="butt" stroke-linejoin="round" stroke-width="2.66667">
+      <g transform="scale(.75)" stroke="#fff">
+        <polyline points="140 174.265 146.933 174.542 153.867 175.382 160.8 176.789 167.733 178.751 174.667 181.241 181.6 184.219 188.533 187.632 195.467 191.415 202.4 195.497 209.333 199.803 216.267 204.257 223.2 208.786 230.133 213.323 237.067 217.808 244 222.19 250.933 226.426 257.867 230.484 264.8 234.338 271.733 237.973 278.667 241.379 285.6 244.553 292.533 247.496 299.467 250.214 306.4 252.715 313.333 255.009 320.267 257.11 327.2 259.031 334.133 260.786 341.067 262.391 348 263.861 354.933 265.213 361.867 266.464 368.8 267.632 375.733 268.737 382.667 269.798 389.6 270.841 396.533 271.891 403.467 272.979 410.4 274.138 417.333 275.408 424.267 276.833 431.2 278.457 438.133 280.326 445.067 282.472 452 284.905 458.933 287.588 465.867 290.41 472.8 293.157 479.733 295.509 486.667 297.072 493.6 297.474 500.533 296.512 507.467 294.252 514.4 291.044 521.333 287.4 528.267 283.832 535.2 280.716 542.133 278.254 549.067 276.496 556 275.39 562.933 274.836 569.867 274.718 576.8 274.927 583.733 275.372 590.667 275.977 597.6 276.684 604.533 277.448 611.467 278.239 618.4 279.031 625.333 279.809 632.267 280.561 639.2 281.28 646.133 281.961 653.067 282.6 660 283.196 666.933 283.749 673.867 284.258 680.8 284.725 687.733 285.149 694.667 285.532 701.6 285.875 708.533 286.179 715.467 286.444 722.4 286.67 729.333 286.86 736.267 287.012 743.2 287.127 750.133 287.205 757.067 287.246 764 287.249 770.933 287.215 777.867 287.143 784.8 287.035 791.733 286.893 798.667 286.723 805.6 286.535 812.533 286.35 819.467 286.202 826.4 286.157 833.333 286.323 840.267 286.88 847.2 288.091 854.133 290.231 861.067 293.286 868 296.337 874.933 297.479 881.867 295.653 888.8 292.181 895.733 289.043 902.667 287.075 909.6 286.172 916.533 285.975 923.467 286.178 930.4 286.586 937.333 287.083 944.267 287.606 951.2 288.121 958.133 288.611 965.067 289.068 972 289.491 972 289.491" fill="none"/>
+      </g>
+      <g transform="scale(.75)" stroke="#da3" stroke-dasharray="8, 8">
+        <polyline points="140 174.265 146.933 174.542 153.867 175.382 160.8 176.789 167.733 178.751 174.667 181.241 181.6 184.219 188.533 187.632 195.467 191.415 202.4 195.497 209.333 199.803 216.267 204.257 223.2 208.786 230.133 213.323 237.067 217.808 244 222.19 250.933 226.426 257.867 230.484 264.8 234.338 271.733 237.973 278.667 241.379 285.6 244.553 292.533 247.496 299.467 250.214 306.4 252.715 313.333 255.009 320.267 257.11 327.2 259.031 334.133 260.786 341.067 262.391 348 263.861 354.933 265.213 361.867 266.464 368.8 267.632 375.733 268.737 382.667 269.798 389.6 270.841 396.533 271.891 403.467 272.979 410.4 274.138 417.333 275.408 424.267 276.833 431.2 278.457 438.133 280.326 445.067 282.472 452 284.905 458.933 287.588 465.867 290.41 472.8 293.157 479.733 295.509 486.667 297.072 493.6 297.474 500.533 296.512 507.467 294.252 514.4 291.044 521.333 287.4 528.267 283.832 535.2 280.716 542.133 278.254 549.067 276.496 556 275.39 562.933 274.836 569.867 274.718 576.8 274.927 583.733 275.372 590.667 275.977 597.6 276.684 604.533 277.448 611.467 278.239 618.4 279.031 625.333 279.809 632.267 280.561 639.2 281.28 646.133 281.961 653.067 282.6 660 283.196 666.933 283.749 673.867 284.258 680.8 284.725 687.733 285.149 694.667 285.532 701.6 285.875 708.533 286.179 715.467 286.444 722.4 286.67 729.333 286.86 736.267 287.012 743.2 287.127 750.133 287.205 757.067 287.246 764 287.249 770.933 287.215 777.867 287.143 784.8 287.035 791.733 286.893 798.667 286.723 805.6 286.535 812.533 286.35 819.467 286.202 826.4 286.157 833.333 286.323 840.267 286.88 847.2 288.091 854.133 290.231 861.067 293.286 868 296.337 874.933 297.479 881.867 295.653 888.8 292.181 895.733 289.043 902.667 287.075 909.6 286.172 916.533 285.975 923.467 286.178 930.4 286.586 937.333 287.083 944.267 287.606 951.2 288.121 958.133 288.611 965.067 289.068 972 289.491 972 289.491" fill="none"/>
+      </g>
+      <g transform="scale(.75)" stroke="#b56">
+        <polyline points="140 297.5 146.933 297.762 153.867 298.499 160.8 299.625 167.733 301.047 174.667 302.662 181.6 304.357 188.533 306.02 195.467 307.534 202.4 308.791 209.333 309.686 216.267 310.128 223.2 310.037 230.133 309.351 237.067 308.023 244 306.022 250.933 303.332 257.867 299.955 264.8 295.902 271.733 291.197 278.667 285.874 285.6 279.974 292.533 273.546 299.467 266.64 306.4 259.316 313.333 251.633 320.267 243.655 327.2 235.447 334.133 227.081 341.067 218.628 348 210.166 354.933 201.778 361.867 193.554 368.8 185.592 375.733 178 382.667 170.901 389.6 164.433 396.533 158.758 403.467 154.058 410.4 150.548 417.333 148.475 424.267 148.128 431.2 149.833 438.133 153.954 445.067 160.881 452 171.002 458.933 184.653 465.867 202.039 472.8 223.136 479.733 247.579 486.667 274.595 493.6 303.033 500.533 331.524 507.467 358.726 514.4 383.558 521.333 405.318 528.267 423.671 535.2 438.56 542.133 450.106 549.067 458.527 556 464.088 562.933 467.068 569.867 467.746 576.8 466.381 583.733 463.217 590.667 458.471 597.6 452.338 604.533 444.99 611.467 436.579 618.4 427.237 625.333 417.079 632.267 406.209 639.2 394.714 646.133 382.674 653.067 370.158 660 357.227 666.933 343.938 673.867 330.341 680.8 316.481 687.733 302.402 694.667 288.143 701.6 273.743 708.533 259.239 715.467 244.669 722.4 230.071 729.333 215.484 736.267 200.951 743.2 186.519 750.133 172.24 757.067 158.177 764 144.402 770.933 131.002 777.867 118.087 784.8 105.795 791.733 94.3046 798.667 83.8532 805.6 74.7603 812.533 67.4674 819.467 62.5968 826.4 61.0422 833.333 64.1032 840.267 73.6684 847.2 92.399 854.133 123.679 861.067 170.67 868 233.535 874.933 305.851 881.867 375.744 888.8 433.382 895.733 475.627 902.667 504.02 909.6 521.523 916.533 530.901 923.467 534.298 930.4 533.278 937.333 528.953 944.267 522.119 951.2 513.35 958.133 503.066 965.067 491.577 972 479.121 972 479.121" fill="none"/>
+      </g>
+      <g transform="scale(.75)" stroke="#048">
+        <polyline points="140 174.265 146.933 174.28 153.867 174.384 160.8 174.664 167.733 175.203 174.667 176.079 181.6 177.362 188.533 179.113 195.467 181.381 202.4 184.206 209.333 187.617 216.267 191.629 223.2 196.249 230.133 201.472 237.067 207.285 244 213.668 250.933 220.594 257.867 228.029 264.8 235.936 271.733 244.276 278.667 253.005 285.6 262.079 292.533 271.451 299.467 281.073 306.4 290.899 313.333 300.876 320.267 310.955 327.2 321.084 334.133 331.205 341.067 341.263 348 351.195 354.933 360.935 361.867 370.41 368.8 379.541 375.733 388.237 382.667 396.398 389.6 403.908 396.533 410.633 403.467 416.421 410.4 421.09 417.333 424.433 424.267 426.205 431.2 426.124 438.133 423.872 445.067 419.09 452 411.403 458.933 400.435 465.867 385.871 472.8 367.521 479.733 345.43 486.667 319.977 493.6 291.942 500.533 262.488 507.467 233.026 514.4 204.986 521.333 179.583 528.267 157.661 535.2 139.656 542.133 125.648 549.067 115.469 556 108.803 562.933 105.267 569.867 104.472 576.8 106.046 583.733 109.655 590.667 115.006 597.6 121.846 604.533 129.958 611.467 139.16 618.4 149.295 625.333 160.23 632.267 171.853 639.2 184.066 646.133 196.787 653.067 209.942 660 223.469 666.933 237.311 673.867 251.417 680.8 265.744 687.733 280.247 694.667 294.889 701.6 309.632 708.533 324.439 715.467 339.274 722.4 354.099 729.333 368.876 736.267 383.561 743.2 398.108 750.133 412.465 757.067 426.569 764 440.348 770.933 453.713 777.867 466.557 784.8 478.741 791.733 490.089 798.667 500.37 805.6 509.275 812.533 516.382 819.467 521.105 826.4 522.614 833.333 519.72 840.267 510.712 847.2 493.192 854.133 464.052 861.067 420.116 868 360.302 874.933 289.128 881.867 217.41 888.8 156.299 895.733 110.916 902.667 80.5549 909.6 62.1491 916.533 52.5743 923.467 49.3802 930.4 50.8085 937.333 55.6303 944.267 62.9867 951.2 72.2705 958.133 83.0451 965.067 94.9908 972 107.87 972 107.87" fill="none"/>
+      </g>
+    </g>
+    <g font-family="Helvetica" font-size="21px" font-weight="700">
+      <g transform="scale(7.5e-5)" fill="#121212" stroke="none">
+        <path d="m1.71e6 4.27e6v1.01e6h1.9e6v-1.01e6h-1.9e6" fill-rule="evenodd"/>
+      </g>
+      <g stroke-linecap="butt" stroke-linejoin="round" stroke-width="2.66667">
+        <g transform="scale(.75)" fill="#fff" stroke="#fff">
+          <polyline points="175 440.931 215 440.931" fill="none"/>
+        </g>
+        <g transform="scale(.75)" fill="#da3" stroke="#da3" stroke-dasharray="8, 8">
+          <polyline points="175 465.31 215 465.31" fill="none"/>
+        </g>
+        <g transform="scale(.75)" fill="#b56" stroke="#b56">
+          <polyline points="175 489.69 215 489.69" fill="none"/>
+        </g>
+        <g transform="scale(.75)" fill="#048" stroke="#048">
+          <polyline points="175 514.069 215 514.069" fill="none"/>
+        </g>
+      </g>
+    </g>
+    <g fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="#bbbcc4" stroke-linecap="square" stroke-linejoin="bevel">
+      <g transform="matrix(.75 0 0 .75 163.5 336.323)">
+        <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">(dEdt) Point A</text>
+      </g>
+      <g transform="matrix(.75 0 0 .75 163.5 354.608)">
+        <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">(dWdt) Point A</text>
+      </g>
+      <g transform="matrix(.75 0 0 .75 163.5 372.892)">
+        <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">(dKdt) Point A</text>
+      </g>
+      <g transform="matrix(.75 0 0 .75 163.5 391.177)">
+        <text fill="#bbbcc4" font-family="Helvetica" font-size="21px" font-weight="400" stroke="none" xml:space="preserve">(dVdt) Point A</text>
+      </g>
+    </g>
+    <g transform="scale(.75)" fill="none" font-family="Helvetica" font-size="21px" font-weight="400" stroke="#bbbcc4" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="2" stroke-width=".666667">
+      <path d="m171 528v-101h190v101h-190" fill-rule="evenodd"/>
+    </g>
+  </g>
+</svg>

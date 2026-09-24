@@ -32,8 +32,8 @@ CDS_IncludeSimulator;
 %**********************************************************************
 % Define System
 %***********************************
-params = CDS_Params();
-points = CDS_Points(params);
+sys = CDS_SystemDescription();
+params = sys.params;
 
 % Generalised coordinates and system parameters
 params.Create('free', 'Lx').SetIC(0.9);
@@ -53,24 +53,21 @@ T_OA = CDS_T('P', [Lx;Ly;Lz]);
 %   Particles are points that have mass
 %   Rigid bodies are points that have mass and moment of inertia
 mass = 1; % [kg]
-A = points.Create('A', mass).SetT_0n(T_OA);
+A = sys.CreatePoint('A', mass).SetT_0n(T_OA);
 
 % Kinematic chains (used only for plotting the animation)
-chains = {A};
+sys.SetChains(A);
 
 % Direction of gravity in base frame
-g0 = [0; 0; -g];
-
-% This holds the complete system description
-sys = CDS_SystemDescription(params, points, chains, g0);
+sys.SetGravity([0; 0; -g]);
 
 % Apply the constraint equation
-sys.SetConstraint(constraint);
+sys.CreateConstraint("surface").SetConstraint(constraint);
 
 % Initial conditions should be consistent with the constraint
 constraint_z = solve(constraint, Lz);
 path_z_fun = matlabFunction(constraint_z, "Vars",[Lx,Ly]);
-params.Param("Lz").SetIC( path_z_fun(params.Param("Lx").q0, params.Param("Ly").q0) );
+params.Subset("Lz").SetIC( path_z_fun(params.Subset("Lx").q0, params.Subset("Ly").q0) );
 
 
 %**********************************************************************
@@ -97,6 +94,7 @@ SSa = CDS_Solution_Animate(SS);
 SSg = CDS_Solution_GetData(SS);
 
 SSp.PlotConfigSpace
+SSp.PlotConstraintViolation
 SSp.PlotEnergyTotal
 SSp.PlotEnergyAll
 SSp.PlotTaskSpace

@@ -37,8 +37,8 @@ methods
         %**********************************************************************
         % Define Geometry - Parameters
         %***********************************
-        params = CDS_Params();
-        points = CDS_Points(params);
+        sys = CDS_SystemDescription();
+        params = sys.params;
 
         params.Create('const', 'phi_1').SetNum(V.phi_1);
         params.Create('const', 'L_AB').SetNum(V.L_AB);
@@ -127,8 +127,7 @@ methods
         imagRope_sym = norm(P_AJ_eq - P_AI);
 
         % Evaluate at time=0, x=x(t=0)
-        u_handle = params.u.q;
-        u0 = u_handle(0, params.x.x0);
+        u0 = params.u.q(0);
         imagRope = double(subs(imagRope_sym,...
             [params.const.Sym; params.u.Sym], ...
             [params.const.Num; u0]));
@@ -164,22 +163,15 @@ methods
         %**********************************************************************
         % Define Geometry - Other
         %***********************************
-        % Points and chains
-        A = points.Create('A');
-        I = points.Create('I').SetT_0n(T_AI);
-        J = points.Create('J').SetT_0n(T_AJ);
-        K = points.Create('K', V.mass_K, V.inertia_K).SetT_0n(T_AK);
-        L = points.Create('L').SetT_0n(T_AL);
-        M = points.Create('M', V.mass_M, V.inertia_M).SetT_0n(T_AM);
+        A = sys.CreatePoint('A');
+        I = sys.CreatePoint('I').SetT_0n(T_AI);
+        J = sys.CreatePoint('J').SetT_0n(T_AJ);
+        K = sys.CreatePoint('K', V.mass_K, V.inertia_K).SetT_0n(T_AK);
+        L = sys.CreatePoint('L').SetT_0n(T_AL);
+        M = sys.CreatePoint('M', V.mass_M, V.inertia_M).SetT_0n(T_AM);
 
-        chains = {[A,I,J,K,L,M]};
-
-        %***********************************
-        % Direction of gravity in base frame
-        g0 = [0; -g; 0];
-
-        %***********************************
-        sys = CDS_SystemDescription(params, points, chains, g0);
+        sys.SetChains([A,I,J,K,L,M]);
+        sys.SetGravity([0; -g; 0]);
 
         % Constraints
         %   Specify as 0=C

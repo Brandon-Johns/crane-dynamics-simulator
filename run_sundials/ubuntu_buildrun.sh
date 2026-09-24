@@ -1,25 +1,12 @@
 #!/bin/bash
 ## Written By: Brandon Johns
 ## Date Version Created: 2022-02-22
-## Date Last Edited: 2022-02-24
+## Date Last Edited: 2026-09-14 (edited help command only)
 ## Purpose: Compile my code, which uses Sundials & Armadillo, on Ubuntu
 ## Status: Complete
 
 ## HELP:
 ##	./ubuntu_buildrun.sh -h
-
-## EXAMPLE (1):
-## Run these sequentially
-## 1) Rebuild cache
-## 2) List targets
-## 3) Build and execute specific target
-##	./ubuntu_buildrun.sh -c
-##	./ubuntu_buildrun.sh -h
-##	./ubuntu_buildrun.sh -be -r MyResultsFolder -t MyTarget1 -t MyTarget2 -t MyTarget3
-
-## EXAMPLE (2):
-## 1) Cache, build all, run all
-##	./ubuntu_buildrun.sh -cbe -r MyResultsFolder
 
 
 ## Error action (exit!=0 or unbound var) -> terminate script
@@ -89,23 +76,34 @@ Project_bin="${Project_Root}/bin" ## Path to output generated exe
 
 if [[ "${flagExecute}" ]]; then echo "Results @ ${CDS_sunResultsPath}"; fi
 
-## Validate location of CMakeLists.txt
-if [[ ! -f "${Project_src}/CMakeLists.txt" ]]; then echo "CDS_ERROR: CMakeLists.txt not found"; exit 1 ; fi
-
 if [[ "${flagHelp}" ]]
 then
 	echo "HELP"
 	echo "COMMANDS"
-	echo "    -h = print this help"
-	echo "    -c = Rebuild Cache"
+	echo "    -h = print this help. Includes list of all currently built targets"
+	echo "    -c = rebuild cache"
 	echo "    -b = build"
 	echo "    -e = execute (all build targets will be executed)"
 	echo "    -r = name of folder to place results in (not a path, just 1 folder name)"
 	echo "    -t <targetName> = names of targets to build (unspecified = all)"
+	echo "EXAMPLE"
+	echo "    ## Run these sequentially"
+	echo "    ## 1) Rebuild cache"
+	echo "    ## 2) List targets"
+	echo "    ## 3) Build and execute specific targets"
+	echo "    ./ubuntu_buildrun.sh -c"
+	echo "    ./ubuntu_buildrun.sh -h"
+	echo "    ./ubuntu_buildrun.sh -be -r MyResultsFolder -t MyTarget1 -t MyTarget2 -t MyTarget3"
+	echo "EXAMPLE"
+	echo "    ## 1) Cache, build all, execute all"
+	echo "    ./ubuntu_buildrun.sh -cbe -r MyResultsFolder"
 	echo "TARGETS IN CACHE"
 	make help -C "${Project_build}"
 	exit 0
 fi
+
+## Validate location of CMakeLists.txt
+if [[ ! -f "${Project_src}/CMakeLists.txt" ]]; then echo "CDS_ERROR: CMakeLists.txt not found"; exit 1 ; fi
 
 ## Add libraries to path
 ##	Temporarily allow using unset variables (no the +&- are not reversed...)

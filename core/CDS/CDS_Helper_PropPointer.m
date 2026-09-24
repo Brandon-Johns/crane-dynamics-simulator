@@ -26,6 +26,10 @@ methods
     end
 
     function SetProp(this, prop)
+        arguments
+            this(1,1)
+            prop
+        end
         this.prop = this.ValidateProp(prop);
     end
 
@@ -35,27 +39,30 @@ methods
 end
 methods (Access=private)
     % Helper to allow using functions with an array of objects
-    % NOTE: Only intended for 1D arrays
-    % Input: List of properties
-    % OUTPUT: Array of properties corresponding to the object
-    % EXAMPLE: this.PropArray(this.prop)
+    % NOTE
+    %   Only intended for 1D arrays
+    % INPUT
+    %   List of properties
+    % OUTPUT
+    %   Array of properties corresponding to the object
+    % EXAMPLE
+    %   this.PropArray(this.prop)
     function propArray = PropArray(this, varargin)
         propArray = reshape([varargin{:}],size(this));
     end
 
     function prop = ValidateProp(this, prop)
-        try % First check if type exactly matches
-            mustBeA(prop, this.type)
+        % First check if type exactly matches
+        if isa(prop, this.type)
             return
-        catch
-            % Try next option
         end
+        % Try next option
         try % Then try to cast it
             if strcmp(this.type, "string")
                 prop = string(prop);
                 return
             elseif strcmp(this.type, "sym")
-                prop = sym(prop);
+                prop = sym(prop, 'real');
                 return
             end
 

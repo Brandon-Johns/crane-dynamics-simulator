@@ -1,0 +1,55 @@
+{{--Include into layoutMain as inner--}}
+
+
+<h1 class="ref-h1">{{h1}}</h1>
+{{@super}}
+<p class="ref-superclass">{{super}}</p>
+{{/super}}
+
+{{@description}}
+{{description}}
+{{/description}}
+
+{{@summaryProperties}}
+<h2>Properties</h2>
+<table class="ref-summary-properties">
+	<thead><tr>
+		<th scope="col">Inherited From</th>
+		<th scope="col">Access</th>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		<th scope="col">Constraints</th>
+		<th scope="col">Default Value</th>
+	</tr></thead>
+	<tbody>
+		{{summaryProperties}}
+	</tbody>
+</table>
+{{/summaryProperties}}
+{{@properties}}
+{{properties}}
+{{/properties}}
+
+{{@summaryMethods}}
+<h2>Methods</h2>
+<table class="ref-summary-methods">
+	<thead>
+		<tr>
+			<th scope="col">Inherited From</th>
+			<th scope="col">Call Style</th>
+			<th scope="col">Returns</th>
+			<th scope="col">Name(Arguments)</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{summaryMethods}}
+	</tbody>
+</table>
+{{/summaryMethods}}
+
+{{@methods}}
+<!--<h2>Methods</h2>-->
+{{methods}}
+{{/methods}}
+

@@ -35,8 +35,8 @@ methods(Static)
         theta_IC = 0.9*pi;
         L_OA_num = 1.5;
 
-        params = CDS_Params();
-        points = CDS_Points(params);
+        sys = CDS_SystemDescription();
+        params = sys.params;
         params.Create('free', 'theta_1').SetIC(theta_IC);
         params.Create('const', 'L_OA').SetNum(L_OA_num);
         params.Create('const', 'g').SetNum(gravity);
@@ -46,12 +46,11 @@ methods(Static)
 
         T_OA = T_OO2*T_O2A;
 
-        O = points.Create('O');
-        A = points.Create('A', mass).SetT_0n(T_OA);
+        O = sys.CreatePoint('O');
+        A = sys.CreatePoint('A', mass).SetT_0n(T_OA);
 
-        chains = {[O,A]};
-        g0 = [0; -g; 0];
-        sys = CDS_SystemDescription(params, points, chains, g0);
+        sys.SetChains([O,A]);
+        sys.SetGravity([0; -g; 0]);
 
         %**********************************************************************
         % Solve
@@ -93,24 +92,28 @@ methods(Static)
         %AssertTol_default(xd(1,:), theta_dd_true) % Not analytically found
         AssertTol_default(abs(xd(2,:)), theta_d_true_abs)
 
+        % Test system structure
+        IntegrationTest.AssertEqual_unordered(SS.sys.params.q_free.Str, "theta_1")
+        assert(isempty(SS.sys.params.q_input))
+        assert(isempty(SS.sys.params.lambda))
+        IntegrationTest.AssertEqual_unordered(SS.sys.points.Name, ["O";"A"])
+        IntegrationTest.AssertEqual_unordered(SS.sys.points.GetIfHasMass.Name, "A")
+        assert(isempty(SS.sys.linearSprings))
+        assert(isempty(SS.sys.torsionSprings))
+
         % Test solution structure
         IntegrationTest.AssertEqual(t, SS.t)
-        IntegrationTest.AssertEqual_unordered(SS.q_free.Str, "theta_1")
         AssertTol_default(SSg.q("theta_1"), theta_true)
         AssertTol_default(abs(SSg.qd("theta_1")), theta_d_true_abs)
         %AssertTol_default(SSg.qdd("theta_1"), theta_dd_true) % Not analytically found
-        assert(isempty(SS.q_input))
         assert(isempty(SS.qi))
         assert(isempty(SS.qi_d))
         assert(isempty(SS.qi_dd))
-        assert(isempty(SS.q_lambda))
         assert(isempty(SS.ql))
         assert(isempty(SS.ql_d))
-        IntegrationTest.AssertEqual_unordered(SS.p_mass.NameShort, "A")
-        AssertTol_default(SS.K, Ek_true)
-        AssertTol_default(SS.V, Ev_true)
+        AssertTol_default(SS.K_mass, Ek_true)
+        AssertTol_default(SS.V_mass, Ev_true)
         AssertTol_default(SS.E, E_true)
-        IntegrationTest.AssertEqual_unordered(SS.p_all.NameShort, ["O", "A"])
         AssertTol_zeros(SSg.Px("O"))
         AssertTol_zeros(SSg.Py("O"))
         AssertTol_default(SSg.Px("A"), x_true)

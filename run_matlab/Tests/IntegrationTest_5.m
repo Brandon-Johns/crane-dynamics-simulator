@@ -37,8 +37,8 @@ methods(Static)
         L_BC_num = 2.63;
         L_AD_num = L_BC_num;
 
-        params = CDS_Params();
-        points = CDS_Points(params);
+        sys = CDS_SystemDescription();
+        params = sys.params;
         params.Create('free', 'theta_1').SetIC(theta_IC);
         params.Create('free', 'theta_2').SetIC(theta_IC);
         params.Create('const', 'L_AB').SetNum(L_AB_num);
@@ -73,23 +73,22 @@ methods(Static)
         T_AC = T_AB*T_BC;
         T_AD = T_AC*T_CC2*T_C2D;
         T_AG = T_AB*T_BG;
-        A = points.Create('A');
-        B = points.Create('B').SetT_0n(T_AB);
-        C = points.Create('C').SetT_0n(T_AC);
-        D = points.Create('D').SetT_0n(T_AD);
-        G = points.Create('G', mass).SetT_0n(T_AG);
+        A = sys.CreatePoint('A');
+        B = sys.CreatePoint('B').SetT_0n(T_AB);
+        C = sys.CreatePoint('C').SetT_0n(T_AC);
+        D = sys.CreatePoint('D').SetT_0n(T_AD);
+        G = sys.CreatePoint('G', mass).SetT_0n(T_AG);
 
-        chains = {[A, B, C, D]};
-        g0 = [0; -g; 0];
-        sys = CDS_SystemDescription(params, points, chains, g0);
+        sys.SetChains([A, B, C, D]);
+        sys.SetGravity([0; -g; 0]);
 
         % Using this as a constraint allows the bars to invert when passing through singularity (@theta1 = 0.5*pi)
         %   Technically feasible, but not what I'm after
         %   Safe to enable for: theta_IC < 0.5*pi
-        sys.SetConstraint(a_CD);
+        sys.CreateConstraint("lenCD").SetConstraint(a_CD);
 
         % Simpler constraint, but prevents the linkage from inverting and still tests the formulation fine
-        %sys.SetConstraint(theta_1-theta_2);
+        %sys.CreateConstraint("angle12").SetConstraint(theta_1-theta_2);
 
         %**********************************************************************
         % Solve

@@ -33,17 +33,16 @@ methods(Static)
         gravity = 9.8;
         duration = 2.2;
 
-        params = CDS_Params();
-        points = CDS_Points(params);
+        sys = CDS_SystemDescription();
+        params = sys.params;
         params.Create('free', 'Ly').SetIC(0);
         params.Create('const', 'g').SetNum(gravity);
 
         T_OA = CDS_T('P', [0;Ly;0]);
-        A = points.Create('A', mass).SetT_0n(T_OA);
+        A = sys.CreatePoint('A', mass).SetT_0n(T_OA);
 
-        chains = {};
-        g0 = [0; -g; 0];
-        sys = CDS_SystemDescription(params, points, chains, g0);
+        sys.SetChains();
+        sys.SetGravity([0; -g; 0]);
 
         %**********************************************************************
         % Solve
@@ -82,24 +81,28 @@ methods(Static)
         AssertTol_default(xd(2,:), xd_true)
         AssertTol_default(xd(1,:), xdd_true)
 
+        % Test system structure
+        IntegrationTest.AssertEqual_unordered(SS.sys.params.q_free.Str, "Ly")
+        assert(isempty(SS.sys.params.q_input))
+        assert(isempty(SS.sys.params.lambda))
+        IntegrationTest.AssertEqual_unordered(SS.sys.points.Name, "A")
+        IntegrationTest.AssertEqual_unordered(SS.sys.points.GetIfHasMass.Name, "A")
+        assert(isempty(SS.sys.linearSprings))
+        assert(isempty(SS.sys.torsionSprings))
+
         % Test solution structure
         IntegrationTest.AssertEqual(t, SS.t)
-        IntegrationTest.AssertEqual_unordered(SS.q_free.Str, "Ly")
         AssertTol_default(SS.qf, x_true)
         AssertTol_default(SS.qf_d, xd_true)
         AssertTol_default(SS.qf_dd, xdd_true)
-        assert(isempty(SS.q_input))
         assert(isempty(SS.qi))
         assert(isempty(SS.qi_d))
         assert(isempty(SS.qi_dd))
-        assert(isempty(SS.q_lambda))
         assert(isempty(SS.ql))
         assert(isempty(SS.ql_d))
-        IntegrationTest.AssertEqual_unordered(SS.p_mass.NameShort, "A")
-        AssertTol_default(SS.K, Ek_true)
-        AssertTol_default(SS.V, Ev_true)
+        AssertTol_default(SS.K_mass, Ek_true)
+        AssertTol_default(SS.V_mass, Ev_true)
         AssertTol_zeros(SS.E)
-        IntegrationTest.AssertEqual_unordered(SS.p_all.NameShort, SS.p_mass.NameShort)
         IntegrationTest.AssertZeros(SS.Px)
         AssertTol_default(SS.Py, x_true)
         IntegrationTest.AssertZeros(SS.Pz)

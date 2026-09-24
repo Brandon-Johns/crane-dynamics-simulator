@@ -1,55 +1,25 @@
 ![Static Badge](https://img.shields.io/badge/license-BSD--3--Clause--Clear-darkgreen)
-![Static Badge](https://img.shields.io/badge/tested-MATLAB_R2022b-blue)
-![Static Badge](https://img.shields.io/badge/version-1.0.0-blue)
+![Static Badge](https://img.shields.io/badge/tested-MATLAB_2025a-blue)
+![Static Badge](https://img.shields.io/badge/version-2.0.0-blue)
 ![Static Badge](https://img.shields.io/badge/NO_AI-rebeccapurple)
 
 # Crane Dynamics Simulator
-A MATLAB and C++ package to generate and solve equations of motion.
+A MATLAB package for simulating mechanical systems.
 
-Mainly intended for the dynamical modelling of construction cranes, this package can solve systems with closed kinematic chains, holonomic algebraic constraints, and arbitrary external inputs (including use of state feedback).
+Systems are described through a declarative interface, and the software then symbolically generates the equations of motion using the Euler-Lagrange formulation with Lagrange multipliers. The software can solve these equations in MATLAB, or export them to C++. Tooling is provided to automatically generate, evaluate, and plot symbolic expressions for physical quantities at a per-system-element level, including trajectories, force decompositions, energy decompositions, and power decompositions.
 
-The software architecture is designed around homogeneous transformation matrices. To simulate a system, the user specifies the kinematic chain of the system as the sequence of transformations between each joint. The package then symbolically generates the equation of motion through the Euler-Lagrange formulation with Lagrange multipliers. The package can then solve these equations in MATLAB, or export them to C++. Tools provided to visualise the results automatically calculate the joint space trajectories, task space trajectories, and system energies.
-
-This package does not contain any AI generated content.
-
-DOC LINKS:
-- [Tutorial](./README-Tutorial.md)
-- [How To](./README-HowTo.md)
-- [Reference](./README-Reference.md)
-
-EXAMPLES:
-- `run_matlab/Examples/`
+- This package does not contain any AI generated content.
+- The design philosophy is to provide automation, not abstraction.
+- The underlying maths and physics are accessible to the user, and are presented in a way that mirrors a pen-and-paper derivation.
 
 
-## Requirements
-**Theoretical background of user:**
-- Robotics / Mechanics
-    - Describe mechanical systems with [kinematic chains](https://en.wikipedia.org/wiki/Kinematic_chain)
-    - Describe 3D pose with [4x4 homogeneous transformation matrices](https://robotacademy.net.au/masterclass/3d-geometry/?lesson=102)
-    - Describe system state with [generalised coordinates](https://en.wikipedia.org/wiki/Generalized_coordinates)
-- ODEs
-    - Basic understanding of [ODEs](https://en.wikipedia.org/wiki/Ordinary_differential_equation)
-    - Set initial conditions
+DOCUMENTATION
+- [Documentation Website](https://Brandon-Johns.github.io/crane-dynamics-simulator/)
+- [Maths and Physics Background (pdf)](./doc/public_html/crane-dynamics-simulator/crane-dynamics-simulator-maths-and-physics.pdf)
 
-**Matlab**
-- MATLAB (Tested on version 2022b. Other versions may or may not work)
-- Symbolic Math Toolbox
-- Robotics System Toolbox
-- Signal Processing Toolbox (non-essential. Only used in some input files)
-
-**C++**
-- C++ is only required if using the [SUNDIALS solver](https://computing.llnl.gov/projects/sundials) instead of the MATLAB ODE solvers
-- For dependencies, see setup instructions
-
-
-## Getting Started
-1. Download this repository
-2. Run the tests to validate that the package is working by executing
-    - `run_matlab/Tests/Run_IntegrationTests.m`
-3. Follow the [Tutorial](./README-Tutorial.md) to create and run your first model
-4. Run the examples (`run_matlab/Examples/`) to learn more complex functionality
-5. Review the [How To](./README-HowTo.md)
-6. Review the [Reference](./README-Reference.md)
+KEY DIRECTORIES
+- The simulator: `core/CDS/`
+- Introductory examples: `run_matlab/Examples/`
 
 
 ## Citation
@@ -59,8 +29,17 @@ Please cite this work as
   author  = {Brandon Johns},
   title   = {Crane Dynamics Simulator},
   url     = {https://github.com/Brandon-Johns/crane-dynamics-simulator},
-  version = {1.0.0},
-  year    = {2024},
+  version = {2.0.0},
+  year    = {2026},
+}
+
+@TechReport{BrandonJohnsCDS2,
+  author      = {Brandon Johns},
+  title       = {Crane Dynamics Simulator: Physics and Mathematical Background},
+  url         = {https://github.com/Brandon-Johns/crane-dynamics-simulator},
+  institution = {No Affiliation},
+  note        = {Version 2.0.0},
+  year        = {2026},
 }
 ```
 
@@ -88,9 +67,18 @@ Version 1.0.0 of this research was supported by an Australian Government Researc
 
 
 ## License
-This work is distributed under the [BSD-3-Clause-Clear License](./LICENSE.txt)
+This software is distributed under the [BSD-3-Clause-Clear License](./LICENSE.txt)
 
 The data, user guide, and documentation are distributed under the [Creative Commons CC BY 4.0 license](https://creativecommons.org/licenses/by/4.0/)
+
+The following files are excluded from these licenses. Copyright (c) 2023 Brandon Johns. All rights reserved. Do not redistribute, repurpose, modify, etc.
+- `doc/public_html/crane-dynamics-simulator/apple-touch-icon.png`
+- `doc/public_html/crane-dynamics-simulator/favicon-96x96.png`
+- `doc/public_html/crane-dynamics-simulator/favicon.ico`
+- `doc/public_html/crane-dynamics-simulator/favicon.svg`
+- `doc/public_html/crane-dynamics-simulator/web-app-manifest-192x192.png`
+- `doc/public_html/crane-dynamics-simulator/web-app-manifest-512x512.png`
+- `doc/public_html/crane-dynamics-simulator/embed.png`
 
 
 ## Source Code

@@ -36,8 +36,8 @@ CDS_IncludeSimulator;
 %**********************************************************************
 % Define System
 %***********************************
-params = CDS_Params();
-points = CDS_Points(params);
+sys = CDS_SystemDescription();
+params = sys.params;
 
 % Generalised coordinates and system parameters
 params.Create('free', 'theta_yaw').SetIC(0, 5); % Initial angular velocity
@@ -61,18 +61,15 @@ T_OB = T_OA * T_AB;
 %   Rigid bodies are points that have mass and moment of inertia
 mass = 1; % [kg]
 momentOfInertia = [1,1,1]; % [kg*m^2]
-O = points.Create('O');
-A = points.Create('A', mass, momentOfInertia).SetT_0n(T_OA);
-B = points.Create('B').SetT_0n(T_OB);
+O = sys.CreatePoint('O');
+A = sys.CreatePoint('A', mass, momentOfInertia).SetT_0n(T_OA);
+B = sys.CreatePoint('B').SetT_0n(T_OB);
 
 % Kinematic chains (used only for plotting the animation)
-chains = {[O,A,B]};
+sys.SetChains([O,A,B]);
 
 % Direction of gravity in base frame
-g0 = [0; -g; 0];
-
-% This holds the complete system description
-sys = CDS_SystemDescription(params, points, chains, g0);
+sys.SetGravity([0; -g; 0]);
 
 
 %**********************************************************************
@@ -102,9 +99,5 @@ SSp.PlotConfigSpace
 SSp.PlotEnergyTotal
 SSp.PlotEnergyAll
 SSp.PlotTaskSpace
-
-SSa.Set_View_Predefined("side")
 SSa.Animate
-view([0,4,-20])
-
 

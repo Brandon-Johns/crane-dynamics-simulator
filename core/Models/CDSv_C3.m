@@ -6,7 +6,7 @@ PURPOSE
 %}
 
 classdef CDSv_C3 < CDSv
-properties (Access=public)
+properties
     %**********************************************************************
     % Geometry Preset
     %***********************************

@@ -1,7 +1,7 @@
 %{
 Written By: Brandon Johns
 Date Version Created: 2024-03-31
-Date Last Edited: 2024-03-31
+Date Last Edited: 2024-08-03
 Status: Complete
 Simulator: CDS
 
@@ -34,8 +34,8 @@ methods(Static)
         duration = 2.2;
         gradient = -3/4; % Slope is a 3:4:5 triangle because I can
 
-        params = CDS_Params();
-        points = CDS_Points(params);
+        sys = CDS_SystemDescription();
+        params = sys.params;
         params.Create('free', 'Lx').SetIC(0); % Initial conditions should be consistent with the constraint
         params.Create('free', 'Ly').SetIC(0);
         params.Create('const', 'g').SetNum(gravity);
@@ -43,12 +43,11 @@ methods(Static)
         constraint = Ly - gradient*Lx;
 
         T_OA = CDS_T('P', [Lx;Ly;0]);
-        A = points.Create('A', mass).SetT_0n(T_OA);
+        A = sys.CreatePoint('A', mass).SetT_0n(T_OA);
 
-        chains = {};
-        g0 = [0; -g; 0];
-        sys = CDS_SystemDescription(params, points, chains, g0);
-        sys.SetConstraint(constraint);
+        sys.SetChains();
+        sys.SetGravity([0; -g; 0]);
+        sys.CreateConstraint("path").SetConstraint(constraint);
 
         %**********************************************************************
         % Solve
@@ -100,35 +99,37 @@ methods(Static)
         AssertTol_default(xd(3,:), xd_true)
         AssertTol_default(xd(4,:), yd_true)
 
+        % Test system structure
+        IntegrationTest.AssertEqual_unordered(SS.sys.params.q_free.Str, ["Lx";"Ly"])
+        assert(isempty(SS.sys.params.q_input))
+        assert(numel(SS.sys.params.lambda)==1)
+        IntegrationTest.AssertEqual_unordered(SS.sys.points.Name, "A")
+        IntegrationTest.AssertEqual_unordered(SS.sys.points.GetIfHasMass.Name, "A")
+        assert(isempty(SS.sys.linearSprings))
+        assert(isempty(SS.sys.torsionSprings))
+
         % Test solution structure
         IntegrationTest.AssertEqual(t, SS.t)
-        IntegrationTest.AssertEqual_unordered(SS.q_free.Str, ["Lx","Ly"])
         AssertTol_default(SSg.q("Lx"), x_true)
         AssertTol_default(SSg.q("Ly"), y_true)
         AssertTol_default(SSg.qd("Lx"), xd_true)
         AssertTol_default(SSg.qd("Ly"), yd_true)
         AssertTol_default(SSg.qdd("Lx"), xdd_true)
         AssertTol_default(SSg.qdd("Ly"), ydd_true)
-        assert(isempty(SS.q_input))
         assert(isempty(SS.qi))
         assert(isempty(SS.qi_d))
         assert(isempty(SS.qi_dd))
-        if(IntegrationTest.OutputMayContainLambda(solverArgs))
-            assert(numel(SS.q_lambda)==1)
-            % The solver messes up the first element too much due to not being given good initial conditions
-            % Just verify the size
-            assert(all(size(SS.ql)==size(SS.t)))
+        % The solver messes up the first element too much due to not being given good initial conditions
+        % Just verify the size
+        assert(all(size(SS.ql)==size(SS.t)))
+        if(IntegrationTest.OutputMayContainLambdaD(solverArgs))
             assert(all(size(SS.ql_d)==size(SS.t)))
         else
-            assert(isempty(SS.q_lambda))
-            assert(isempty(SS.ql))
             assert(isempty(SS.ql_d))
         end
-        IntegrationTest.AssertEqual_unordered(SS.p_mass.NameShort, "A")
-        AssertTol_relaxed(SS.K, Ek_true)
-        AssertTol_relaxed(SS.V, Ev_true)
+        AssertTol_relaxed(SS.K_mass, Ek_true)
+        AssertTol_relaxed(SS.V_mass, Ev_true)
         AssertTol_zeros(SS.E)
-        IntegrationTest.AssertEqual_unordered(SS.p_all.NameShort, SS.p_mass.NameShort)
         AssertTol_default(SS.Px, x_true)
         AssertTol_default(SS.Py, y_true)
         IntegrationTest.AssertZeros(SS.Pz)

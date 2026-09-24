@@ -1,7 +1,7 @@
 %{
 Written By: Brandon Johns
 Date Version Created: 2024-04-05
-Date Last Edited: 2024-04-05
+Date Last Edited: 2024-10-06
 Status: Complete
 Simulator: CDS
 
@@ -35,8 +35,8 @@ CDS_IncludeSimulator;
 %**********************************************************************
 % Define System
 %***********************************
-params = CDS_Params();
-points = CDS_Points(params);
+sys = CDS_SystemDescription();
+params = sys.params;
 
 % Generalised coordinates and system parameters
 params.Create('free', 'Lx').SetIC(1);
@@ -44,8 +44,9 @@ params.Create('free', 'Ly'); % Defer setting the initial condition
 params.Create('const', 'g').SetNum(9.8);
 
 % Constraint equation
-%constraint = Ly - Lx^2;
-constraint = Ly - (Lx-.8)*(Lx-.5)*(Lx+.5)*(Lx+.8);
+syms t real
+constraint = Ly - Lx^2*t;
+%constraint = Ly - (Lx-.8)*(Lx-.5)*(Lx+.5)*(Lx+.8);
 %constraint = Ly - sin(Lx) + 0.2*Lx;
 
 % Forward transformations as homogeneous transformation matrices
@@ -55,24 +56,22 @@ T_OA = CDS_T('P', [Lx;Ly;0]);
 %   Particles are points that have mass
 %   Rigid bodies are points that have mass and moment of inertia
 mass = 1; % [kg]
-A = points.Create('A', mass).SetT_0n(T_OA);
+A = sys.CreatePoint('A', mass).SetT_0n(T_OA);
 
 % Kinematic chains (used only for plotting the animation)
-chains = {A};
+sys.SetChains(A);
 
 % Direction of gravity in base frame
-g0 = [0; -g; 0];
-
-% This holds the complete system description
-sys = CDS_SystemDescription(params, points, chains, g0);
+sys.SetGravity([0; -g; 0]);
 
 % Apply the constraint equation
-sys.SetConstraint(constraint);
+sys.CreateConstraint("path").SetConstraint(constraint);
+sys.SetConstraint_StabilisationFactors(500);
 
 % Initial conditions should be consistent with the constraint
 constraint_y = solve(constraint, Ly);
-path_y_fun = matlabFunction(constraint_y, "Vars",Lx);
-params.Param("Ly").SetIC( path_y_fun(params.Param("Lx").q0) );
+path_y_fun = matlabFunction(constraint_y, "Vars",{Lx,sym('t','real')});
+params.Subset("Ly").SetIC( path_y_fun(params.Subset("Lx").q0,0) );
 
 
 %**********************************************************************
@@ -97,21 +96,22 @@ SSe = CDS_Solution_Export(SS);
 SSa = CDS_Solution_Animate(SS);
 SSg = CDS_Solution_GetData(SS);
 
+% Plot constraint path
+minX = min(SS.Px,[],'all');
+maxX = max(SS.Px,[],'all');
+spanX = maxX - minX;
+minX_padded = minX - 0.2*spanX;
+maxX_padded = maxX + 0.2*spanX;
+path_x = linspace(minX_padded, maxX_padded, 100);
+
+path_y_fun_t = @(t_) path_y_fun(path_x, t_);
+path_z = zeros(size(path_x));
+
+SSa.Add_Curve(path_x, path_y_fun_t, path_z);
+
 SSp.PlotConfigSpace
+SSp.PlotConstraintViolation
 SSp.PlotEnergyTotal
 SSp.PlotEnergyAll
 SSp.PlotTaskSpace
 SSa.Animate
-
-
-% Plot constraint path
-min_x = min(SSg.q("Lx"));
-max_x = max(SSg.q("Lx"));
-range_x = max_x - min_x;
-path_x = linspace(min_x-0.1*range_x, max_x+0.1*range_x, 1000);
-
-path_y = double(path_y_fun(path_x));
-
-hold on
-plot(path_x, path_y)
-

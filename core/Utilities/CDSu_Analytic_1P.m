@@ -11,7 +11,7 @@ NOTES
 %}
 
 classdef CDSu_Analytic_1P
-properties (Access=public)
+properties
     % Values added to satisfy mustBePositive (overwritten by constructor)
     LinkLength(1,1) double {mustBePositive} = 1
     gravity(1,1) double {mustBePositive} = 9.8

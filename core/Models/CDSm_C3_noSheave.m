@@ -43,8 +43,8 @@ methods
         %**********************************************************************
         % Define Geometry - Parameters
         %***********************************
-        params = CDS_Params();
-        points = CDS_Points(params);
+        sys = CDS_SystemDescription();
+        params = sys.params;
 
         params.Create('const', 'phi_1').SetNum(V.phi_1);
         params.Create('const', 'L_AB').SetNum(V.L_AB);
@@ -55,7 +55,7 @@ methods
         % START: 0-radius hook block sheaves simplification
         params.Create('const', 'L_FG').SetNum(V.L_FG + V.L_EF + V.L_GH);
         params.Create('const', 'L_GH').SetNum(0);
-        params.Create('const', 'L_FJ').SetNum(params.Param("L_FG").Num / 2 );
+        params.Create('const', 'L_FJ').SetNum(params.Subset("L_FG").Num / 2 );
         % END: Simplification
 
         params.Create('const', 'L_JK').SetNum(V.L_JK);
@@ -183,35 +183,28 @@ methods
         %**********************************************************************
         % Define Geometry - Other
         %***********************************
-        % Points and chains
-        A = points.Create('A');
-        B = points.Create('B').SetT_0n(T_AB);
-        C = points.Create('C').SetT_0n(T_AC);
-        D = points.Create('D').SetT_0n(T_AD);
-        E = points.Create('E').SetT_0n(T_AE);
-        F = points.Create('F').SetT_0n(T_AF);
-        G = points.Create('G').SetT_0n(T_AG);
-        H = points.Create('H').SetT_0n(T_AH);
-        I = points.Create('I').SetT_0n(T_AI);
-        J = points.Create('J').SetT_0n(T_AJ);
-        K = points.Create('K', V.mass_K, V.inertia_K).SetT_0n(T_AK);
-        L = points.Create('L').SetT_0n(T_AL);
-        M = points.Create('M', V.mass_M, V.inertia_M).SetT_0n(T_AM);
+        A = sys.CreatePoint('A');
+        B = sys.CreatePoint('B').SetT_0n(T_AB);
+        C = sys.CreatePoint('C').SetT_0n(T_AC);
+        D = sys.CreatePoint('D').SetT_0n(T_AD);
+        E = sys.CreatePoint('E').SetT_0n(T_AE);
+        F = sys.CreatePoint('F').SetT_0n(T_AF);
+        G = sys.CreatePoint('G').SetT_0n(T_AG);
+        H = sys.CreatePoint('H').SetT_0n(T_AH);
+        I = sys.CreatePoint('I').SetT_0n(T_AI);
+        J = sys.CreatePoint('J').SetT_0n(T_AJ);
+        K = sys.CreatePoint('K', V.mass_K, V.inertia_K).SetT_0n(T_AK);
+        L = sys.CreatePoint('L').SetT_0n(T_AL);
+        M = sys.CreatePoint('M', V.mass_M, V.inertia_M).SetT_0n(T_AM);
 
-        chains = {[A,B,C,D,E,F,G,H,B], [I,J,K,L,M]};
-
-        %***********************************
-        % Direction of gravity in base frame
-        g0 = [0; -g; 0];
-
-        %***********************************
-        sys = CDS_SystemDescription(params, points, chains, g0);
+        sys.SetChains([A,B,C,D,E,F,G,H,B], [I,J,K,L,M]);
+        sys.SetGravity([0; -g; 0]);
 
         % Constraints
         %   Specify as 0=C
         %   Note: all uses of C differentiate => no need to specify const
         L_rope = simplify(expand(L_rope));
-        sys.SetConstraint(L_rope);
+        sys.CreateConstraint("rope").SetConstraint(L_rope);
 
         %**********************************************************************
         % Save output

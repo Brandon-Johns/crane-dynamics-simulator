@@ -103,7 +103,7 @@ methods
         % u
         qIn = this.sys.params.q_input;
         for idx = 1:length(qIn)
-            if any(qIn(idx).mode == ["analytic", "analyticFeedback"])
+            if qIn(idx).mode == "analytic"
                 % Note: regexprep() removes the function handle head "@(t,x)"
                 regexPattern="@\(.*?\)";
                 strEn(qIn(idx).StrShort(0) + " = " + regexprep(func2str(qIn(idx).q),regexPattern,"") + ";");
@@ -238,7 +238,7 @@ methods
         qIn_array = this.sys.params.q_input;
         for idx = 1:length(qIn_array)
             qIn = qIn_array(idx);
-            if any(qIn.mode == ["analytic", "analyticFeedback"])
+            if qIn.mode == "analytic"
                 for d_offset = 0:2
                     % Retrieve qIn at current offset
                     % Swap pi (sym number -> sym string)
@@ -252,13 +252,15 @@ methods
                         ));
                 end
             elseif qIn.mode == "analyticPiecewise"
+                warning( "Export of 'analyticPiecewise' inputs not fully tested. Manually check output of:" + qIn.NameReadable )
+
                 nPieces = length(qIn.q_Sym);
                 Name_tSwitch = "t_switch_" + qIn.StrShort;
                 strEn("// " + qIn.NameReadable);
-                strEn("sunrealtype " + Name_tSwitch + " = {" + strjoin(compose("%.15G",qIn.switchTimes),",") + "};");
+                strEn("sunrealtype " + Name_tSwitch + " = {" + strjoin(compose("%.15G",qIn.TransitionTimes),",") + "};");
                 strEn("sunrealtype "+qIn.StrShort(0)+", "+qIn.StrShort(1)+", "+qIn.StrShort(2)+";");
                 for idxPiece = nPieces:-1:1
-                    % Note: idxPiece-2 for C++ indexing and switchTimes is 1 shorter
+                    % Note: idxPiece-2 for C++ indexing and TransitionTimes is 1 shorter
                     if     idxPiece==nPieces; strEn("if     (t >= " + Name_tSwitch + "[" + (idxPiece-2) + "]) {");
                     elseif idxPiece~=1;       strEn("else if(t >= " + Name_tSwitch + "[" + (idxPiece-2) + "]) {");
                     else;                     strEn("else {");
@@ -296,7 +298,6 @@ methods
         strF = @(str) FileHelper.StrToTxt(str, fileNames(idxFile), "format");
         strE = @(str) FileHelper.StrToTxt(str, fileNames(idxFile), "exact");
         strEn = @(str) FileHelper.StrToTxt(str, fileNames(idxFile), "exactN");
-        symB = @(str) FileHelper.SymToTxt(str, fileNames(idxFile), "bare");
 
         % Common subexpressions
         strEn("//####################################################################################");
@@ -318,19 +319,19 @@ methods
         sys_f_dT=this.ODEs.f_dT;
         sys_f_e=this.ODEs.f_e;
         if ~isempty(sys_f_e)
-            symB(ccode(sys_M_order2)); strF("\n\n");
-            symB(ccode(sys_f_b)); strF("\n\n");
-            symB(ccode(sys_f_c)); strF("\n\n");
-            symB(ccode(sys_f_dT)); strF("\n\n");
-            strE("sys_f_e[0][0] ="); symB(regexprep(ccode(sys_f_e), '^.+=', '')); strF("\n\n");
+            strE(ccode(sys_M_order2)); strF("\n\n");
+            strE(ccode(sys_f_b)); strF("\n\n");
+            strE(ccode(sys_f_c)); strF("\n\n");
+            strE(ccode(sys_f_dT)); strF("\n\n");
+            strE("sys_f_e[0][0] ="); strE(regexprep(ccode(sys_f_e), '^.+=', '')); strF("\n\n");
 
         else % No constraints to solve
             if ~isscalar(sys_M_order2)
-                symB(ccode(sys_M_order2)); strF("\n\n");
-                symB(ccode(sys_f_c)); strF("\n\n");
+                strE(ccode(sys_M_order2)); strF("\n\n");
+                strE(ccode(sys_f_c)); strF("\n\n");
             else
-                strE("sys_M_order2[0][0] ="); symB(regexprep(ccode(sys_M_order2), '^.+=', '')); strF("\n\n");
-                strE("sys_f_c[0][0] ="); symB(regexprep(ccode(sys_f_c), '^.+=', '')); strF("\n\n");
+                strE("sys_M_order2[0][0] ="); strE(regexprep(ccode(sys_M_order2), '^.+=', '')); strF("\n\n");
+                strE("sys_f_c[0][0] ="); strE(regexprep(ccode(sys_f_c), '^.+=', '')); strF("\n\n");
             end
         end
     end
@@ -381,26 +382,21 @@ methods (Access=private)
         expr = [sin(param.SymShort); cos(param.SymShort)];
 
         % Generate variables to replace the sub expressions: sin(x), cos(x)
-        var = sym([strcat("S",param.StrShort); strcat("C",param.StrShort)]);
+        var = sym([strcat("S",param.StrShort); strcat("C",param.StrShort)], 'real');
     end
 
     % Helper: rename variables
-    function Swap(this, swap_old, swap_new, mode)
+    function Swap(this, swap_old, swap_new)
         arguments
             this(1,1)
             swap_old(1,:) sym
             swap_new(1,:) sym
-            mode(1,1) string = "notInput"
         end
         this.ODEs.M_order2 = subs(this.ODEs.M_order2, swap_old, swap_new);
         this.ODEs.f_b = subs(this.ODEs.f_b, swap_old, swap_new);
         this.ODEs.f_c = subs(this.ODEs.f_c, swap_old, swap_new);
         this.ODEs.f_dT = subs(this.ODEs.f_dT, swap_old, swap_new);
         this.ODEs.f_e = subs(this.ODEs.f_e, swap_old, swap_new);
-
-        if ~strcmp(mode, "notInput")
-            error("TODO")
-        end
     end
 end
 end

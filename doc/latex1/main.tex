@@ -1,0 +1,1796 @@
+%********************************************************************************
+% Core headers
+%****************************************
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[australian]{babel}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} % Solves some font availability problems
+\usepackage{microtype}
+
+\usepackage{xcolor}
+\definecolor{brandonblue}{RGB}{0,0,192}  %% Colour for hyperlinks
+\definecolor{brandondarkgrey}{RGB}{25,25,25}  %% Colour for footer
+
+\usepackage{hyperref}
+
+%********************************************************************************
+% Page dimensions, margins, line spacing, header, footer, headings
+%****************************************
+\usepackage{setspace}
+\usepackage[
+  a4paper,
+  hmargin=15mm,
+  vmargin=15mm,
+  includeheadfoot, %% Contain within header and footer within the margins
+  nohead,
+]{geometry}
+
+%% Line and paragraph spacing
+\raggedbottom
+\setstretch{1.2}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex}
+\makeatletter
+\setlength{\topskip}{1\topskip \@plus 5\p@}
+\makeatother
+
+\usepackage{titlesec} % Heading formatting (title, section, etc.)
+\titleformat{\section}[block]{\normalfont\bfseries\Large}{\thesection.}{0.5em}{}
+\titlespacing*{\section}{0em}{1ex}{-1ex}
+\titlespacing*{\subsection}{0em}{1ex}{-1ex}
+\titlespacing*{\subsubsection}{0em}{1ex}{-1ex}
+\renewcommand{\bottomtitlespace}{8\baselineskip} % Minimum distance between a section heading and the bottom of a page
+
+\usepackage{fancyhdr}
+%\fancyhfinit{\color{brandondarkgrey}} %% Change colour of header & footer
+
+
+%********************************************************************************
+% Text formatting, paragraph pagination
+%****************************************
+\usepackage[lining]{nunito} % Font choice
+
+\hyphenpenalty=10000 %% Prevent hyphenation (Part 1/2)
+\exhyphenpenalty=10000 %% Prevent hyphenation (Part 2/2)
+\doublehyphendemerits=10000 %% No consecutive line hyphens.
+\brokenpenalty=10000 %% No broken words across columns/pages.
+\widowpenalty=9999 %% Almost no widows at bottom of page.
+\clubpenalty=9999 %% Almost no orphans at top of page.
+\interfootnotelinepenalty=9999 %% Almost never break footnotes.
+
+\emergencystretch 3em %% Having disabled hyphenation, drop long words to the next line instead of overflowing
+\hfuzz=2.0em %% Suppress warnings for \hbox overflow ("overfull \hbox") by up to given length
+\hbadness=4000 %% range=[0,10000] Suppress warnings for underfull \hbox up to given badness level
+
+\setlength{\footnotesep}{1\baselineskip} %% Space between footnotes
+\setlength{\skip\footins}{1\baselineskip} %% Space between the text body and the footnotes
+
+%% Hyperlinks
+\hypersetup{pdfpagemode={UseNone},pdfstartview={FitV},pdfpagelayout={SinglePage},unicode,bookmarksopen=false,colorlinks,allcolors={brandonblue},breaklinks=true} % Hyperlinks
+%% (Part of hyperref) When setting metadata and such, replace instances of "\\" with " "
+\pdfstringdefDisableCommands{\let\\\space}
+
+
+%********************************************************************************
+%% Float pagination
+%****************************************
+%% https://robjhyndman.com/hyndsight/latex-floats/index.html
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{.85}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\dbltopfraction}{.85}
+\renewcommand{\floatpagefraction}{0.75}
+\renewcommand{\dblfloatpagefraction}{.75}
+\setcounter{topnumber}{9}
+\setcounter{bottomnumber}{9}
+\setcounter{totalnumber}{20}
+\setcounter{dbltopnumber}{9}
+
+
+%********************************************************************************
+% Maths
+%****************************************
+\usepackage{amsmath,amssymb,amsfonts} % Equations
+\usepackage{bm} % apply bold to special symbols (only use on Greek letters, not normal letters)
+\usepackage{commath} % derivatives, brackets
+\usepackage{tensor} % left subscripts / superscripts
+\usepackage{textcomp, gensymb} % Symbol: \degree
+\usepackage{mathtools} % Symbol: \coloneqq
+\usepackage{accents} % Improved placement of \dddot
+
+\usepackage[math]{cellspace} % Change space between matrix cells
+\setlength\cellspacetoplimit{3pt} % Change space between matrix cells
+\setlength\cellspacebottomlimit{3pt} % Change space between matrix cells
+
+% Change spacing before and after equation and align environments
+% Notes: equation automatically chooses \abovedisplayskip or \abovedisplayshortskip based on if there is a double new line before the environment or not. However, align always uses \abovedisplayskip
+% But even equation has differences between the two. \abovedisplayshortskip seems to be more intelligent and adaptive
+% So there is no choice but to never include a double new line before the environments.
+\newlength{\myeqskip}
+\setlength{\myeqskip}{11pt}
+\expandafter\def\expandafter\normalsize\expandafter{%
+    \normalsize%
+    \setlength\abovedisplayskip{\myeqskip}
+    \setlength\belowdisplayskip{\myeqskip}%
+    \setlength\abovedisplayshortskip{\myeqskip-\baselineskip}%
+    \setlength\belowdisplayshortskip{\myeqskip}
+}
+
+% For debugging: colour all maths
+% \usepackage{color}\definecolor{bjmath}{RGB}{192,0,0}\everymath{\color{bjmath}}
+% \usepackage{etoolbox}\AtBeginEnvironment{equation}{\color{bjmath}}
+
+
+%********************************************************************************
+% Images & Tables
+%****************************************
+\usepackage{graphicx}
+\usepackage{placeins} % \FloatBarrier
+\usepackage{threeparttable}
+\usepackage{makecell}
+
+% Improvements to figures, extends functionality with more options
+\usepackage[
+  justification=centerlast,
+  font={small,stretch=1.3},
+  labelfont={bf},
+]{caption}
+\setlength{\captionmargin}{20pt}
+
+
+%********************************************************************************
+% Formatted Blocks of Text
+%****************************************
+\usepackage{enumitem} %% More control of lists
+\setlist{topsep=0pt,beginpenalty=10000,first=\interlinepenalty10000}
+
+\usepackage{csquotes} % Block quotations
+\usepackage[multiple]{footmisc} % Multiple comma separated footnote marks to one person
+
+
+%********************************************************************************
+% Citations & Bibliography
+%****************************************
+\usepackage[style=numeric, sorting=none, isbn=false, url=true,sortcites=true,maxbibnames=99]{biblatex}
+
+%% Prevent paragraph break in bib https://tex.stackexchange.com/a/43275
+%% Prevent "et al." in \fullcite https://tex.stackexchange.com/a/267089
+\patchcmd{\bibsetup}{\interlinepenalty=5000}{\interlinepenalty=10000}{}{}
+\preto\fullcite{\AtNextCite{\defcounter{maxnames}{99}}}
+
+\addbibresource{CutBib.bib}
+
+% Figure & table ref
+\renewcommand{\figref}[1]{Figure~\ref{#1}}
+\newcommand{\tbref}[1]{Table~\ref{#1}}
+\renewcommand{\secref}[1]{Section~\ref{#1}}
+\newcommand{\secrefTwo}[2]{Sections~\ref{#1} and~\ref{#2}}
+\renewcommand{\appref}[1]{Appendix~\ref{#1}}
+
+
+%********************************************************************************
+% Other / article specific
+%****************************************
+% Command definition
+\usepackage{xargs} % Define commands with multiple optional arguments as key values pairs
+%%% Maths
+% Generalised Coordinates (index, exponent)
+\newcommandx*{\q}[2][1={}, 2={}]{
+    q^{#2}_{#1}
+}
+\newcommandx*{\qD}[2][1={}, 2={}]{
+    \dot{q}^{#2}_{#1}
+}
+\newcommandx*{\qDD}[2][1={}, 2={}]{
+    \ddot{q}^{#2}_{#1}
+}
+\newcommandx*{\qVec}[2][1={}, 2={}]{
+    \mathbf{q}^{#2}_{#1}
+}
+\newcommandx*{\qVecD}[2][1={}, 2={}]{
+    \dot{\mathbf{q}}^{#2}_{#1}
+}
+\newcommandx*{\qVecDD}[2][1={}, 2={}]{
+    \ddot{\mathbf{q}}^{#2}_{#1}
+}
+\newcommandx*{\qVecDDD}[2][1={}, 2={}]{
+    \dddot{\mathbf{q}}^{#2}_{#1}
+}
+% Derivatives (numerator, denominator1, denominator2)
+\newcommand{\oD}[2]{
+    \frac{\mathrm{d}\mspace{1mu}#1}{\mathrm{d}\mspace{1mu}#2}
+}
+\newcommand{\oDD}[2]{
+    \frac{\mathrm{d}^{2}\mspace{1mu}#1}{\mathrm{d}\mspace{1mu}#2^2}
+}
+\newcommand{\pD}[2]{
+    \frac{\partial\mspace{1mu}#1}{\partial\mspace{1mu}#2}
+}
+\newcommand{\pDDtt}[2]{
+    \frac{\partial{^{\mspace{1mu}2}}\mspace{1mu}#1}{\partial\mspace{1mu}#2^2}
+}
+\newcommand{\pDD}[3]{
+    \frac{\partial{^{\mspace{1mu}2}}\mspace{1mu}#1}{\partial\mspace{1mu}#2\mspace{1mu}\partial\mspace{1mu}#3}
+}
+% For aligning underbraces. Adds zero-width vertical space according to the height of the content of the \vphantom
+\newcommand{\underbraceA}[1]{
+    \underbrace{\vphantom{\pD{\q}{\q}}#1}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Start
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\pagestyle{fancy}
+\fancyhf{}%% Clear header and footer
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[R]{\color{brandondarkgrey} \footnotesize \thepage}
+
+% Title with double rule
+%   Lengths: r1=1.6, gap=1.6, r2=0.4, txtGap=0.5\baselineskip
+\begin{center}
+    {\LARGE Crane Dynamics Simulator: Physics and Mathematical Background}\\[0.5\baselineskip]
+    Brandon Johns\footnotemark[1] \href{https://orcid.org/0000-0002-8761-5432}{\includegraphics[height=2ex]{ORCIDiD_iconvector.pdf}}\\[0.3\baselineskip]
+    \footnotemark[1]No Affiliation, Victoria, Australia\\
+    %\href{mailto:}{}\\
+    \rule{\textwidth}{1.6pt}\vspace*{-1\baselineskip}\vspace*{2pt} % r1, gap+r2
+    \rule{\textwidth}{0.4pt}\\[0.5\baselineskip] % r2, txtGap
+\end{center}
+
+\vspace*{-1\baselineskip}{ \footnotesize July 2026. }
+
+\vspace*{-0.8\baselineskip}
+\begin{displayquote}
+\textbf{\textit{Abstract} \textemdash}
+This document describes the physics and mathematics used in Crane Dynamics Simulator. First, the branches of theory are linked into a single consistent formalisation. Second, the mathematical expressions that are used by the simulator are formed.
+\end{displayquote}
+\vspace*{-1\baselineskip}
+\rule{\textwidth}{0.4pt}\vspace*{-1\baselineskip}\vspace{3.2pt} % r2, gap+r1
+\rule{\textwidth}{1.6pt}
+
+{\small\textbf{\textit{Please cite this as} \textemdash} \fullcite{BJ-04-maths}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{spacing}{0.8}
+    \tableofcontents
+\end{spacing}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction} \label{sec:intro}
+Crane Dynamics Simulator is a set of tools to support the solving of dynamical systems in conjunction with the conventional pencil-and-paper methods. The purpose is not to provide abstraction, but to provide automation; the user should be able to interact with the low-level equations, and these equations should be presented as would be expected to be seen in a pencil-and-paper derivation, all in terms of how the user specified the system. The style of the mathematical expressions used in the simulator reflects this goal.
+
+A baseline level of knowledge is assumed of the user, and the reader of this document. They should be familiar with applying Lagrangian mechanics by pencil-and-paper method to describe and solve simple systems, e.g. a pendulum-cart.
+
+Beyond the assumed baseline knowledge, the software uses some more advanced and less commonly encountered concepts. \secref{sec:textbooks} links to textbooks that provide introduction to these concepts.
+
+\secref{sec:f} briefly introduces and links together the used concepts. This was necessary because some of the concepts are either uncommonly formalised, or uncommonly used together.
+
+\secref{sec:d} uses these formalisations to produce the equations that are used directly in the software.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Background Reading} \label{sec:textbooks}
+This section recommends resources for background and introductory reading.
+
+Analytical mechanics is a broad subject; no one book can cover everything in full detail. When combining different topics, and especially when details come from different sources, the gaps and overlaps need to be carefully considered. For example, to check if explicit time dependence is accounted for, or to avoid the double-inclusion of a force as both a generalised force and a potential function.
+
+For the general topic of analytical mechanics, we highly recommend \cite{RFb-07}. Additionally, \cite{RFb-02} is very precise, and \cite{RFb-05} provides many application details and examples. We chose these from various books on analytical mechanics that we surveyed, some selected for their renown \cite{RFb-05,RFb-06,RFb-07,RFb-08,RFb-09,RFb-10,RFb-12}, and others chosen for being recently published \cite{RFb-01,RFb-02,RFb-03,RFb-04}. Most of these books strongly focus on conservative systems. Time is commonly shown to be an argument of the equations, but its uses are not commonly detailed. Constraints and Lagrange multipliers are commonly introduced, but rheonomic and nonholonomic constraints are not commonly detailed. Dissipation functions are only introduced by \cite{RFb-05,RFb-07,RFb-10,RFb-12}. Force-driven systems are given significantly more attention than position- or velocity-driven systems. Section 7.9.1 from \cite{RFb-05} is notable for being one of the few examples detailing a velocity-driven system.
+
+For the theory of differential algebraic equations (DAEs), we recommend \cite{RFb-11}. This book also briefly discusses the constrained Euler-Lagrange equations in the context of DAEs. For the theory of explicit ODEs, \cite{RFb-02} includes an appendix on initial value problems (IVPs), including the reduction of order technique.
+
+For computational methods to solve rigid body dynamics problems, we highly recommend \cite{RFb-13}. This resource describes methods that are more advanced than our software currently implements.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Notation and Matrix Derivatives} \label{sec:notation}
+The notation in this document writes scalars in non-bold, vectors in bold-lowercase, and matrices (including some vectors) in bold-uppercase. Right-superscripts are used only for powers or for the matrix transpose. Right-subscripts of $i$, $j$, or $k$ denote an arbitrary index to a parent vector, matrix, or set. Other right-subscripts contextually either denote a specific index, or distinguish between variables.
+
+Centred dots above variables denote the single, $\dot{a}$, and double, $\ddot{a}$, time derivatives.
+
+Square brackets contextually notate matrix concatenation or the argument of a derivative operator. Where otherwise ambiguous, $a(b)$ notates a function and its arguments. Hence, $a \cdot b$ contextually represents either multiplication by a scalar or the dot product. In unambiguous cases, $ab$ represents the Kronecker product (including multiplication by a scalar). The Hadamard product is represented by $a \odot b$.
+
+The matrix derivatives $\dot{\mathbf{C}}$ and $\pD{\mathbf{C}}{a}$ are element-wise operations. Likewise, when the matrix is in the denominator. For example, submatrices of the gradient, Hessian, and Jacobian are
+\begin{equation}
+\everymath{\displaystyle} %% Set all maths in this environment to use \displaystyle
+    \pD{c}{\mathbf{a}}
+    \equiv \begin{bmatrix}
+        \pD{c}{a_1} \\
+        \vdots  \\
+        \pD{c}{a_n} \\
+    \end{bmatrix}
+    ,\quad
+    \pDD{c}{\mathbf{a}}{\mathbf{b}^{\mathrm{T}}}
+    \equiv \begin{bmatrix}
+        \pDD{c}{a_1}{b_1} & \cdots & \pDD{c}{a_1}{b_n} \\
+        \vdots & \ddots & \vdots  \\
+        \pDD{c}{a_m}{b_1} & \cdots & \pDD{c}{a_m}{b_n}
+    \end{bmatrix}
+    ,\quad
+    \pD{\mathbf{c}}{\mathbf{a}^{\mathrm{T}}}
+    \equiv \begin{bmatrix}
+        \pD{c_1}{a_1} & \cdots & \pD{c_1}{a_n} \\
+        \vdots & \ddots & \vdots  \\
+        \pD{c_m}{a_1} & \cdots & \pD{c_m}{a_n}
+    \end{bmatrix}
+\end{equation}
+where $n$ and $m$ are the sizes of the vectors that they are subscripts of. 
+
+The partial derivative of a matrix with respect to a vector follows the same notation, i.e. $\pD{\mathbf{C}}{\mathbf{a}}$, and this results in a rank-3 tensor. This operation is avoided, however, as it introduces a requirement to use Einstein summation notation to disambiguate any operations performed on it.
+
+Expanding total derivatives is useful for algebraic equation solving, and it also enables efficient symbolic evaluation by a computer. The chain rule for scalar-valued multivariate functions can be written as
+\begin{equation}
+    \oD{c(a,b,\dots,t)}{t}
+    = \pD{c}{a}\oD{a}{t} + \pD{c}{b}\oD{b}{t} + \dots + \pD{c}{t}\oD{t}{t}
+\end{equation}
+
+Note that $\oD{t}{t}=1$. If the function is a vector, then the chain rule is element-wise. Using a shorthand notation to include vectors in the argument list, where $c(\mathbf{a},\mathbf{b},\dots,t)=c(a_1,\dots,a_n,b_1,\dots,b_n,\dots,t)$, the chain rule can be written in summation or matrix form. Hence, the chain rule for vector-valued multivariate functions is
+\begin{align} \label{eq:n:chain-rule}
+    \oD{\mathbf{c}(\mathbf{a},\mathbf{b},\dots,t)}{t}
+    =& \sum_{i} \del{\pD{\mathbf{c}}{a_i}\oD{a_i}{t}} + \sum_{j} \del{\pD{\mathbf{c}}{b_j}\oD{b_j}{t}} + \dots + \pD{\mathbf{c}}{t} \nonumber\\
+    =& \pD{\mathbf{c}}{\mathbf{a}^{\mathrm{T}}}\cdot\oD{\mathbf{a}}{t} + \pD{\mathbf{c}}{\mathbf{b}^{\mathrm{T}}}\cdot\oD{\mathbf{b}}{t} + \dots + \pD{\mathbf{c}}{t}
+\end{align}
+
+This can be applied recursively to eliminate all total derivatives. When using on higher-order derivatives, note that partial differentiation does not change the argument list.
+
+The following well-known matrix transpose identity is applied many times throughout this article.
+\begin{equation} \label{eq:n:transpose-identity}
+    (\mathbf{A}\cdot\mathbf{B}\cdot\mathbf{C})^\mathrm{T} = \mathbf{C}^\mathrm{T}\cdot\mathbf{B}^\mathrm{T}\cdot\mathbf{A}^\mathrm{T}
+\end{equation}
+This identity, and many other useful matrix identities, can be found listed in The Matrix Cookbook \cite{RF1-32}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Formalisation} \label{sec:f}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Constrained Lagrangian Mechanics for Holonomic Systems} \label{ssec:f:constrained}
+For a given holonomic system with $N_{\mathrm{DOF}}$ number of degrees of freedom (DOF), let the state of this system be described by a set of $n$ number of generalised coordinates.
+
+An ideal choice of generalised coordinates has $n=N_{\mathrm{DOF}}$. With this choice, the set of all possible values of the state vector fully describes all possible states of the system, and it is inherently impossible to define a state that violates a constraint. In this case, the basic form of the Euler-Lagrange equations can be written as
+\begin{equation} \label{eq:f:EL-basic}
+    \oD{}{t}\pD{\mathcal{L}}{\qD[i]} 
+    - \pD{\mathcal{L}}{\q[i]}
+    = Q_i
+    ,\quad i\in[1,n]
+\end{equation}
+where $\mathcal{L}(\qVec, \qVecD, t)$ is the Lagrangian, $\qVec$ is the vector of generalised coordinates, $\mathbf{Q}(\qVec, \qVecD, t)$ is the vector of generalised forces, and $t$ is time.
+
+On the other hand, it is sometimes convenient to use $n>N_{\mathrm{DOF}}$, in which case it is possible to define a state vector that violates the system constraints. If the system is holonomic, then the method of Lagrange multipliers can be used, and it is required that exactly $N_c = n - N_{\mathrm{DOF}}$ number of holonomic constraint equations are specified. Holonomic constraint equations are of the form
+\begin{equation} \label{eq:f:C}
+    0 = \mathcal{C}_k(\qVec, t), \quad k\in[1,N_c]
+\end{equation}
+
+The Euler-Lagrange equations with Lagrange multipliers are
+\begin{equation} \label{eq:f:EL-multipliers}
+    \oD{}{t}\pD{\mathcal{L}}{\qD[i]} 
+    - \pD{\mathcal{L}}{\q[i]}
+    + \underbrace{\sum_{k=1}^{N_c} \del{\pD{\mathcal{C}_k}{\q[i]} \lambda_k}}_{-Q_{i,\mathrm{constraint}}}
+    = Q_i
+    ,\quad i\in[1,n]
+\end{equation}
+where $\lambda_k$ are the Lagrange multipliers. For the case of $N_c=0$, this reduces to \eqref{eq:f:EL-basic}.
+
+The meaning of $Q_{i,\mathrm{constraint}}$ can be interpreted by moving it to the other side of the equation and absorbing it into the generalised force term $Q_{i}$ such that the form of the equation becomes \eqref{eq:f:EL-basic}. In this interpretation, the system has $n+N_c$ DOF, and there are no additionally imposed constraints, but the constraint forces $Q_{i,\mathrm{constraint}}$ just happen to have the right values such that the additional constraints hold anyway.
+
+This interpretation shows how numerical solvers see the system, and how numerical error can cause the constraints to be violated e.g. if the value of the constraint force contains error.
+
+When the method of Lagrange multipliers is used, it is only possible to solve \eqref{eq:f:EL-multipliers} by simultaneously solving it with \eqref{eq:f:C}. This is because the unknown $\lambda_k$ also need to be solved for; to solve a system of equations with $n+N_c$ unknowns requires the same number of linearly independent equations.
+
+Despite the disadvantages, a key motivation to use the method of Lagrange multipliers is that it can often be easier to form a constraint equation than to eliminate a linearly dependent generalised coordinate. For example, for systems including closed kinematic chains \cite{BJ-04}. Another use for Lagrange multipliers can be to stabilise numerical error by including an expression for conservation of energy as a constraint \cite{RF1-15}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{External Forces and Non-Conservative Systems} \label{ssec:f:nonConservative}
+% TODO
+% The rayleigh dissipation function can't just be any function of (q,qd,t). Check what the exact restrictions are (one book assumed homogeneously quadratic in qd. Another included explicit t through velocity. Another had a fairly complicated relation that it used in a general dissipation function to represent polynomial damping)
+
+% REMOVED
+%   External influences that are time or generalised velocity dependent are a strong indicator that the force might be non-conservative.
+
+If a generalised force acts in configuration space, then it can be included in $\mathbf{Q}$ directly. However, other forces need to be mapped (projected) onto configuration space. Some common mappings are provided by the software for user convenience, as follows.
+
+A collection of point forces can be mapped from Cartesian coordinates with
+\begin{equation}
+    Q_{i,\mathrm{pointForces}} = \sum_{j=1}^{N_f} \del{\pD{\mathbf{r}_j^{\mathrm{T}}}{\q[i]} \cdot \mathbf{F}_j}
+\end{equation}
+where $N_f$ is the number of point forces, and each point force $\mathbf{F}_j(\qVec, \qVecD, t)$ acts at the location described by the position vector $\mathbf{r}_j(\qVec, t)$.
+
+Dissipation functions provide a convenient means to include various models of friction and drag \cite{RF1-12,RFb-12}. A Rayleigh dissipation function $\mathcal{R}(\qVec, \qVecD, t)$ can be used to include linearly-velocity-dependent forces with
+\begin{equation}
+    Q_{i,\mathrm{Rayleigh}} = -\pD{\mathcal{R}}{\qD[i]}
+\end{equation}
+
+Dissipation functions are subject to restrictions in their definitions; they are not an arbitrary function of $(\qVec, \qVecD, t)$. However, we have not yet verified the exact restrictions. Resultantly, automatic validation in the software may miss some invalid inputs.
+
+Other dissipation functions are not yet implemented. An example of a linearly-velocity-dependent force is that acting on a particle travelling through a fluid at a low Reynolds number (e.g. low-speed) \cite{RFb-12}. Note, however, that for travel through a fluid at a high Reynolds number (e.g. high-speed), the drag changes to being proportional to the square of velocity \cite{RFb-12}. Other friction models include Coulomb friction, stiction, and Stribeck friction, and these can all be combined to improve model accuracy in different scenarios \cite{RF1-22}.
+
+These forces are included as components factored out of $\mathbf{Q}$, in the same way as $\mathbf{Q}_{\mathrm{constraint}}$ is factored out in \secref{ssec:f:constrained}.
+\begin{equation}
+    Q_{i} = Q_{i,\mathrm{other}} + Q_{i,\mathrm{pointForces}} + Q_{i,\mathrm{Rayleigh}}
+\end{equation}
+To follow common convention, this document will continue to write $Q_{i,\mathrm{other}}$ as $Q_{i}$. In each usage, the intended version of $Q_{i}$ should be inferred from the other terms in the equation.
+
+Conservative forces can also be included through $\mathbf{Q}$, but it is usually easier to include them through the potential function, as a part of the Lagrangian. Forces that are included through $\mathbf{Q}$ are usually considered as external forces that act on the system, whereas forces included through the potential function are considered as part of the system. This changes the calculated value of total system energy. Regardless, the description of what is considered to be internal or external to the system is only a matter of perspective, and has no impact on the physics.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Explicit Time Dependence and System Inputs} \label{ssec:f:inputs}
+Explicit time dependence can be useful in describing time-varying external forces, and time-varying system properties, where the function of time that describes the value is predetermined or externally determined.
+
+For example, if the cart in pendulum-cart is driven by an external motor, then the effect of this motor can be modelled as a time-varying force exerted on the cart (force control). In this case, the position of the cart is influenced by the combination of the control force and the forces within the system, thus the position of the cart must be included as a generalised coordinate to be solved for. Alternatively, consider if the motor were a position-controllable servomotor with sufficient performance characteristics that it can track the control trajectory regardless of any other forces acting on it (position control). In this case, the position of the cart is fully determined by the position control, and the generalised coordinate can be eliminated by substituting it for the known function of time.
+
+In the case of force control, the generalised force becomes explicitly time-dependent. In the case of position control, the Lagrangian and/or constraint equations become explicitly time-dependent. Explicitly time-dependent constraints are known as rheonomic constraints (sometimes called moving constraints \cite{RFb-12}). Explicitly time-dependent system parameters are sometimes called ``prescribed functions of time'' \cite{RFb-05} or ``prescribed motions'' \cite{RFb-12}.
+
+% REMOVED (strongly implied. does it need to be directly written?): Clearly, explicit time dependence can generate non-conservative forces (moving the cart according to a prescribed function of time can induce swinging of the pendulum bob).
+
+As a subset of the system parameters that are prescribed functions of time, let those that are geometric parameters be called externally specified generalised coordinates. To distinguish the types of generalised coordinates from each other, let $\qVec[f]$ be the set of $n$ number of free generalised coordinates (which are to be solved for), and let $\qVec[e]$ be the set of $m$ number of externally specified generalised coordinates (which are user inputs).
+
+One approach to solve problems that use externally specified generalised coordinates is to substitute the expressions of time directly into the equations as early as possible, thereby eliminating $\qVec[e]$, and yielding time-dependent equations which can be directly used by \eqref{eq:f:C} and \eqref{eq:f:EL-multipliers}.
+
+Another approach is to delay substituting in the function of time until after all derivatives in the Euler-Lagrange equations have been evaluated. With this, any instances of $\qVec[e]$ that appear in total derivatives need to be differentiated, and thus, any of $(\qVec[e], \qVecD[e], \qVecDD[e])$ can appear in the system equations. The Euler-Lagrange equations with externally specified generalised coordinates are
+\begin{equation}
+    \oD{}{t}\pD{\mathcal{L}(\qVec[f], \qVecD[f], \qVec[e], \qVecD[e], t)}{\qD[i]} 
+    - \pD{\mathcal{L}(\qVec[f], \qVecD[f], \qVec[e], \qVecD[e], t)}{\q[i]}
+    + \sum_{k=1}^{N_c} \del{\pD{\mathcal{C}_k(\qVec[f], \qVec[e], t)}{\q[i]} \lambda_k}
+    = Q_i(\qVec[f], \qVecD[f], \qVec[e], \qVecD[e], t)
+    ,\quad i\in[1,n]
+\end{equation}
+
+Note that this can be trivially reduced to the form \eqref{eq:f:EL-multipliers} by substituting in the known expressions of time $\qVec[e](t)$ and $\qVecD[e](t)$. Thus, the two forms are related by a change of variables.
+
+To simplify the notation, let the combined vector of generalised coordinates be
+\begin{equation}
+    \qVec = \begin{bmatrix} \qVec[f] \\ \qVec[e] \end{bmatrix}
+    = [\q[1] \; \cdots \; \q[n] \; \q[n+1] \; \cdots \; \q[n+m]]^{\mathrm{T}}
+\end{equation}
+
+The Euler-Lagrange equations can then be written as
+\begin{equation} \label{eq:f:EL-multipliers-gc}
+    \oD{}{t}\pD{\mathcal{L}(\qVec, \qVecD, t)}{\qD[i]} 
+    - \pD{\mathcal{L}(\qVec, \qVecD, t)}{\q[i]}
+    + \sum_{k=1}^{N_c} \del{\pD{\mathcal{C}_k(\qVec, t)}{\q[i]} \lambda_k}
+    = Q_i(\qVec, \qVecD, t)
+    ,\quad i\in[1,n]
+\end{equation}
+
+Once again, this form is related to \eqref{eq:f:EL-multipliers} through a change of variables (note that the definition of $\qVec$ is different between them). Given the new definition of $\qVec$, note that the partial derivatives are still only with respect to $\qVec[f]$; the equation is for $i\in[1,n]$, not for $i\in[1,n+m]$.
+
+The values of $\qVec[e](t)$ do not need to be known until they have to be substituted in, which, at the latest, can occur dynamically during solving. This enables use in real-time applications where the value is known only just-in-time. For example, if $\qVec[e](t)$ are the outputs of servomechanisms that are driven in real-time by a human operator, then the values cannot be known ahead of time, but they can be known just-in-time.
+
+Both explicit time dependence and externally specified generalised coordinates are supported by the software. The solver uses just-in-time substitution of prescribed functions of time, thereby permitting more flexible use of the generated equations. While $\qVec[e]$ natively represent position-control; velocity-control can be achieved by integrating the prescribed velocity into a prescribed position.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Hybrid Forward-and-Inverse Dynamics} \label{sssec:f:hybridDynamics}
+With a change in perspective, physical meaning can be attributed to the Euler-Lagrange equations for $i\in[n+1,n+m]$, and it can be shown that there is no difference between $\qVec[f]$ and $\qVec[e]$. Consider the following problem types that are commonly encountered in robotics.
+\begin{itemize}\setlength{\parskip}{0em}
+    \item \emph{Forward dynamics}: the forces acting on the system are known, and it is desired to solve for the motion of the system.
+    \item \emph{Inverse dynamics}: the motion of the system is known, and it is desired to solve for the external forces that caused this motion.
+    \item \emph{Hybrid forward-and-inverse dynamics} (as termed by \cite{RFb-13}): Some forces are known ($\mathbf{Q}_f=[Q_{1} \cdots Q_{n}]$), and some motions are known ($\qVec[e]=[\q[n+1] \cdots \q[n+m]]$). It is desired to find the unknown forces ($\mathbf{Q}_e=[Q_{n+1} \cdots Q_{n+m}]$), and the unknown motions ($\qVec[f]=[\q[1] \cdots \q[n]]$).
+\end{itemize}
+
+If all generalised coordinates are free, then the problem is a forward dynamics problem. If all are externally specified, then the problem has already been solved... if it is also desired to find the forces that caused the motion, then the problem is an inverse dynamics problem. In the mixed case, the problem is a hybrid forward-and-inverse dynamics problem. The Euler-Lagrange equations for $i\in[1,n]$ can be used to solve the motion (how the pendulum-cart system moves), and this solution can then be used in combination with the equations for $i\in[n+1,n+m]$ to find the external forces (what force the servomotor applies to the cart).
+
+Hence, the Euler-Lagrange equations for hybrid forward-and-inverse dynamics are
+\begin{equation} \label{eq:f:EL-hybrid}
+    \oD{}{t}\pD{\mathcal{L}(\qVec, \qVecD, t)}{\qD[i]} 
+    - \pD{\mathcal{L}(\qVec, \qVecD, t)}{\q[i]}
+    + \sum_{k=1}^{N_c} \del{\pD{\mathcal{C}_k(\qVec, t)}{\q[i]} \lambda_k}
+    = Q_i(\qVec, \qVecD, t)
+    ,\quad i\in[1,n+m]
+\end{equation}
+
+To see how the Euler-Lagrange equations apply to all $i\in[1,n+m]$, consider the same system exhibiting the same motion, but where $\qVec[e]$ are no longer prescribed, and the external influences are instead modelled through $\mathbf{Q}_e$, the conjugate generalised forces required to cause the prescribed motion. This causes all the coordinates in $\qVec[e]$ to move into $\qVec[f]$, and the equations reduce to the form \eqref{eq:f:EL-multipliers}, which applies to the full set of generalised coordinates. Since the equations hold under this reinterpretation, it follows that they remain valid even when the motion of $\qVec[e]$ is known prior to solving.
+
+For each $i\in[1,n+m]$, at least one of the conjugate variable pair $(\q[i], Q_i)$ must be known prior to solving: either the motion of the generalised coordinate $\q[i](t)$, or the value of the generalised force that drives it $Q_i(t)$. The goal of solving is then to find the remaining unknown $\q[i]$ and $Q_i$. Note that if no force drives a particular generalised coordinate, then it is known that $Q_i(t)=0$.
+
+In practice, the software first solves the equations $i\in[1,n]$ for the unknown generalised coordinates as an ODE/DAE problem. The unknown generalised forces are then calculated by directly substituting the solution into the equations for $i\in[n+1,n+m]$.
+
+% MAYBE: Examples of generalised forces include force, torque, voltage, fluid pressure, and temperature. Examples of generalised coordinates (and generalised velocities) include: displacement (velocity), angular displacement (angular velocity), electric charge (electric current), fluid volume (volumetric flow rate), and heat (heat rate).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{(Nonlinear) State-Space Representations} \label{ssec:f:stateSpace}
+In matrix form, the Euler-Lagrange equations \eqref{eq:f:EL-multipliers-gc} can be written as
+\begin{equation} \label{eq:f:EL-matrix}
+    \oD{}{t}\pD{\mathcal{L}}{\qVecD[f]} 
+    - \pD{\mathcal{L}}{\qVec[f]}
+    + \pD{\bm{\mathcal{C}}^{\mathrm{T}}}{\qVec[f]} \cdot \bm{\lambda}
+    = \mathbf{Q}_f
+\end{equation}
+where $\bm{\mathcal{C}}=[\mathcal{C}_1 \cdots \mathcal{C}_{N_c}]^{\mathrm{T}}$ and $\bm{\lambda}=[\lambda_1 \cdots \lambda_{N_c}]^{\mathrm{T}}$. Similar matrix equations can also be formed for the inverse dynamics equations, $i\in[n+1,n+m]$, and for the hybrid dynamics equations, \eqref{eq:f:EL-hybrid}. However, only the forward dynamics is required to form the state-space representation.
+
+Following, various state-space representations are introduced, in which the equations in forms can be directly used by common numerical ODE/DAE solvers. The choice of rearrangement and numerical solver can significantly affect the numerical error, and there is no one best choice for all problem types. Therefore, the user can choose what form to generate the equations in.
+
+Moving all terms of \eqref{eq:f:EL-matrix} to the same side of the equation and evaluating the derivatives produces the form $\mathbf{0} = \mathbf{f}_{\mathrm{EL}}(\qVec[f], \qVecD[f], \qVecDD[f], \qVec[e], \qVecD[e], \qVecDD[e], \bm{\lambda}, t)$, where the size of the vector $\mathbf{f}_{\mathrm{EL}}$ is $n$. Due to the use of Lagrange multipliers, it is only possible to solve this by simultaneously solving with the constraint equations \eqref{eq:f:C}. Otherwise, there would be more unknown variables than linearly independent equations. Thus, the constraint equations are appended to the system equations. This results in a second-order implicit differential algebraic equation (DAE).
+\begin{equation}
+    \mathbf{0} = \begin{bmatrix} \mathbf{f}_{\mathrm{EL}}(\qVec[f], \qVecD[f], \qVecDD[f], \qVec[e], \qVecD[e], \qVecDD[e], \bm{\lambda}, t) \\ \bm{\mathcal{C}}(\qVec[f], t) \end{bmatrix}
+\end{equation}
+
+The reduction of order technique can convert this into a system of first-order implicit DAEs:. First, define an intermediate variable $\qVec[fd]=\qVecD[f]$, and then append this relation to the system equations.
+\begin{equation} \label{eq:f:dae-form}
+    \mathbf{0} = \begin{bmatrix} \mathbf{f}_{\mathrm{EL}}(\qVec[f], \qVec[fd], \qVecD[fd], \qVec[e], \qVecD[e], \qVecDD[e], \bm{\lambda}, t) \\ \qVec[fd] - \qVecD[f] \\ \bm{\mathcal{C}}(\qVec[f], \qVec[e], t) \end{bmatrix}
+\end{equation}
+
+This is of the form
+\begin{equation} \label{eq:f:ss-dae-form}
+    \mathbf{0} = \mathbf{f}_{\mathrm{DAE}}(\mathbf{x},\dot{\mathbf{x}},\mathbf{u},t)
+    ,\quad
+    \mathbf{x} = \begin{bmatrix} \qVec[f] \\  \qVec[fd] \\ \bm{\lambda} \end{bmatrix}
+    ,\quad
+    \mathbf{u} = \begin{bmatrix} \qVec[e] \\  \qVecD[e] \\  \qVecDD[e] \end{bmatrix}
+\end{equation}
+where $\mathbf{x}$ is the state vector, the vector of variables to solve for, and $\mathbf{u}$ is the input vector, the vector of variables that are externally specified such that their values can be input during solving.
+
+It is often possible \cite{RF1-13} to rearrange these DAEs into a system of first-order explicit ordinary differential equations (ODEs).
+\begin{equation} \label{eq:f:ss-explicit-form}
+    \dot{\mathbf{x}} = \mathbf{f}_{\mathrm{ODE}}(\mathbf{x}, \mathbf{u}, t)
+\end{equation}
+
+By examining the arguments of the constraint equation in \eqref{eq:f:dae-form}, it can be seen that the Jacobian of \eqref{eq:f:ss-dae-form} with respect to the state vector derivative $\pD{\mathbf{f}_{\mathrm{DAE}}}{\dot{\mathbf{x}}}$ is singular when there are constraint equations. This affects the method of rearranging because the singular matrix cannot be inverted. A common method of rearranging involves eliminating the Lagrange multipliers, which in turn involves double differentiating the appended constraint equation.
+
+To solve \eqref{eq:f:ss-dae-form} or \eqref{eq:f:ss-explicit-form} to find the time evolution of the state $\mathbf{x}(t)$ is classed as an initial value problem (IVP). Solving requires prior knowledge of the initial state $\mathbf{x}(0)$, and external knowledge of the inputs $\mathbf{u}(t)$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Hamiltonian Mechanics and System Energy} \label{ssec:f:hamiltonian}
+While Lagrangian Mechanics is used for solving the system, Hamiltonian Mechanics provides tools which can be better suited to support analysis of the inner workings of the system; specifically, energy analysis and power flow analysis. The following two sections decompose the Hamiltonian Mechanics equations, and attribute meaning to the individual terms. In combination with the equations for the different system elements (\secref{ssec:d:elements}), the equations can be broken down to attribute the contributions from each system element to each term. The resulting analysis tooling is mostly used in post-processing the solution, e.g. to automatically generate plots of per-component energy and power.
+
+Rather than using the Hamiltonian directly, we use the energy function, which is equal to the Hamiltonian but expressed in terms of generalised coordinates and velocities.
+
+The energy function is traditionally defined (in summation or matrix form) as
+\begin{align} \label{eq:f:Hf}
+    \mathcal{H}_f(\qVec, \qVecD, t)
+    =& \sum_{i=1}^{n} \del{\pD{\mathcal{L}(\qVec, \qVecD, t)}{\qD[i]} \qD[i]}
+    - \mathcal{L}(\qVec, \qVecD, t) \nonumber\\
+    =& \pD{\mathcal{L}(\qVec, \qVecD, t)}{\qVecD[f][\mathrm{T}]} \cdot \qVecD[f]
+    - \mathcal{L}(\qVec, \qVecD, t)
+\end{align}
+
+Using the interpretation in \secref{sssec:f:hybridDynamics}, this could alternatively be defined as
+\begin{align} \label{eq:f:H}
+    \mathcal{H}(\qVec, \qVecD, t)
+    =& \sum_{i=1}^{n+m} \del{\pD{\mathcal{L}(\qVec, \qVecD, t)}{\qD[i]} \qD[i]}
+    - \mathcal{L}(\qVec, \qVecD, t) \nonumber\\
+    =& \pD{\mathcal{L}(\qVec, \qVecD, t)}{\qVecD[][\mathrm{T}]} \cdot \qVecD[]
+    - \mathcal{L}(\qVec, \qVecD, t)
+\end{align}
+
+Both $\mathcal{H}_f$ and $\mathcal{H}$ are valid energy functions, but they are of different systems. The boundaries of what is considered as a part of the system are changed between the interpretations; $\mathcal{H}$ includes more in the system. For example, in the pendulum-cart system, if the cart position is included in $\q[e]$, then the kinetic energy of the cart does not contribute to the first term of $\mathcal{H}_f$; it is eliminated by the partial derivative. If it is instead in $\q[f]$, then it does contribute to this term.
+
+To enable decomposing the equations into energy contributions, let the kinetic energy be $\mathcal{K}(\qVec, \qVecD, t)$, and let the potential energy be $\mathcal{V}(\qVec, \qVecD, t)$. The Lagrangian is defined as $\mathcal{L} = \mathcal{K} - \mathcal{V}$. Substituting this into the energy function gives
+\begin{align}
+    \mathcal{H}_f
+    =& \pD{\mathcal{L}}{\qVecD[f][\mathrm{T}]} \cdot \qVecD[f] - \mathcal{L} \nonumber\\
+    =& \pD{\mathcal{K}}{\qVecD[f][\mathrm{T}]} \cdot \qVecD[f]
+        - \pD{\mathcal{V}}{\qVecD[f][\mathrm{T}]} \cdot \qVecD[f]
+         - (\mathcal{K} - \mathcal{V})
+\end{align}
+
+Adding $\mathcal{K}-\mathcal{K}$, which is effectively the same as adding zero, and collecting the terms, gives
+\begin{equation}
+    \mathcal{H}_f
+    = \mathcal{K} + \mathcal{V}
+        + \underbrace{\del{\pD{\mathcal{K}}{\qVecD[f][\mathrm{T}]} \cdot \qVecD[f] - 2\mathcal{K}}}_{\mathcal{H}_{f,\mathrm{nonQuadraticK}}}
+        + \underbrace{\del{- \pD{\mathcal{V}}{\qVecD[f][\mathrm{T}]} \cdot \qVecD[f]}}_{\mathcal{H}_{f,\mathrm{velocityDependentV}}}
+\end{equation}
+
+The term $\mathcal{H}_{f,\mathrm{velocityDependentV}}$ is interpreted as the contribution from any terms in $\mathcal{V}$ that are dependent on generalised velocity. It becomes zero when $\mathcal{V}$ is not a function of generalised velocity.
+
+The term $\mathcal{H}_{f,\mathrm{nonQuadraticK}}$ is interpreted as the contribution from any terms in $\mathcal{K}$ that are not positively homogeneously quadratic in generalised velocity. This stems from Euler's homogeneous function theorem, which can be used to show that this contribution becomes zero when the form of $\mathcal{K}$ is
+\begin{equation}
+    \mathcal{K}_{f,\mathrm{quadratic}} = \sum_{i=1}^{n}\sum_{j=1}^{n}\del{c_{i,j}\qD[i]\qD[j]}
+    ,\quad c_{i,j}(\qVec, \qVecD[e], t)\in\mathbb{R}
+\end{equation}
+
+The equations for the alternative interpretation are likewise found to be
+\begin{equation} \label{eq:f:H_expanded}
+    \mathcal{H}
+    = \mathcal{K} + \mathcal{V}
+        + \underbrace{\del{\pD{\mathcal{K}}{\qVecD[][\mathrm{T}]} \cdot \qVecD - 2\mathcal{K}}}_{\mathcal{H}_{\mathrm{nonQuadraticK}}}
+        + \underbrace{\del{- \pD{\mathcal{V}}{\qVecD[][\mathrm{T}]} \cdot \qVecD}}_{\mathcal{H}_{\mathrm{velocityDependentV}}}
+\end{equation}
+\begin{equation}
+    \mathcal{K}_{\mathrm{quadratic}} = \sum_{i=1}^{n+m}\sum_{j=1}^{n+m}\del{c_{i,j}\qD[i]\qD[j]}
+    ,\quad c_{i,j}(\qVec, t)\in\mathbb{R}
+\end{equation}
+
+The software defines the total system energy as $E = \mathcal{K} + \mathcal{V}$, and the energy function is treated as a separate quantity. Note that this definition can differ between literature. For many cases, these quantities will be equal; however, the difference is important for power flow analysis, and to make relations to the first law of thermodynamics.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Hamiltonian Mechanics and Power} \label{ssec:f:power}
+In this section, let all generalised forces and constraint forces be absorbed into $\mathbf{Q}$ per \secrefTwo{ssec:f:constrained}{ssec:f:nonConservative}. This reduces the complexity of the equations without loss of generality; instances of the term in the resulting equations can be expanded out as needed.
+
+Power flow analysis is an investigation based on the first law of thermodynamics: The rate of change of energy in the system is equal to the rate of work done on the system. This expression can be decomposed into contributions from each system element, and the effects of sources of work and dissipation can be analysed in detail. Thus, power analysis is particularly useful for non-conservative systems.
+
+The core of the power balance expression starts from setting the derivative of the energy function equal to itself $\dot{\mathcal{H}}=\dot{\mathcal{H}}$. We shall expand this into an equation of many terms, and we shall try to end up with terms that are physically intuitive and useful for exploring the behaviour of the system.
+
+Let one side be the derivative of \eqref{eq:f:H_expanded}.
+\begin{equation} \label{eq:f:Hd}
+    \dot{\mathcal{H}}(\qVec, \qVecD, \qVecDD, t)
+    = \dot{\mathcal{K}} + \dot{\mathcal{V}} + \dot{\mathcal{H}}_{\mathrm{nonQuadraticK}} + \dot{\mathcal{H}}_{\mathrm{velocityDependentV}}
+\end{equation}
+
+The other side shall then be expanded by applying the product rule and chain rule, and by substituting in the Euler-Lagrange equations. The matrix form of the Euler-Lagrange equations for hybrid forward-and-inverse dynamics \eqref{eq:f:EL-hybrid}, with the constraint force absorbed into the generalised forces, can be rearranged as
+\begin{align} \label{eq:f:EL-for-sub-into-Hd}
+    \oD{}{t}\pD{\mathcal{L}}{\qVecD} - \pD{\mathcal{L}}{\qVec} = \mathbf{Q} \nonumber\\
+    \implies \oD{}{t}\pD{\mathcal{L}}{\qVecD} = \mathbf{Q} + \pD{\mathcal{L}}{\qVec}
+\end{align}
+
+Thus, the derivative of the energy function \eqref{eq:f:H} expands as follows. First, the derivative is split. Then the product rule is applied to the first term and the chain rule is applied to the second term. Next, \eqref{eq:f:EL-for-sub-into-Hd} is substituted into the first term of the result. Finally, repeated terms are cancelled, resulting in the reduced form.
+\begin{align} \label{eq:f:Hd_work}
+    \dot{\mathcal{H}}(\qVec, \qVecD, \qVecDD, t)
+    =& \oD{}{t}\sbr{\pD{\mathcal{L}}{\qVecD[][\mathrm{T}]} \cdot \qVecD - \mathcal{L}} \nonumber\\
+    =& \oD{}{t}\sbr{\pD{\mathcal{L}}{\qVecD[][\mathrm{T}]} \cdot \qVecD}
+        - \oD{\mathcal{L}}{t} \nonumber\\
+    =& \del{
+            \oD{}{t}\pD{\mathcal{L}}{\qVecD[][\mathrm{T}]} \cdot \qVecD
+            + \pD{\mathcal{L}}{\qVecD[][\mathrm{T}]} \cdot \qVecDD
+        }
+        - \del{
+            \pD{\mathcal{L}}{\qVecD[][\mathrm{T}]} \cdot \qVecDD
+            + \pD{\mathcal{L}}{\qVec[][\mathrm{T}]} \cdot \qVecD
+            + \pD{\mathcal{L}}{t}
+        } \nonumber\\
+    =& \del{\mathbf{Q} + \pD{\mathcal{L}}{\qVec}}^{\mathrm{T}} \cdot \qVecD
+        + \pD{\mathcal{L}}{\qVecD[][\mathrm{T}]} \cdot \qVecDD
+        - \pD{\mathcal{L}}{\qVecD[][\mathrm{T}]} \cdot \qVecDD
+        - \pD{\mathcal{L}}{\qVec[][\mathrm{T}]} \cdot \qVecD
+        - \pD{\mathcal{L}}{t} \nonumber\\
+    =& \mathbf{Q}^{\mathrm{T}} \cdot \qVecD
+        + \pD{\mathcal{L}}{\qVec[][\mathrm{T}]} \cdot \qVecD
+        + \pD{\mathcal{L}}{\qVecD[][\mathrm{T}]} \cdot \qVecDD
+        - \pD{\mathcal{L}}{\qVecD[][\mathrm{T}]} \cdot \qVecDD
+        - \pD{\mathcal{L}}{\qVec[][\mathrm{T}]} \cdot \qVecD
+        - \pD{\mathcal{L}}{t} \nonumber\\
+    =& \mathbf{Q}^{\mathrm{T}} \cdot \qVecD
+        - \pD{\mathcal{L}}{t}
+\end{align}
+
+It is quite remarkable that this equation reduces into such a clean form to test for conservation of the energy function.
+
+Equating the two expansions, \eqref{eq:f:Hd} and \eqref{eq:f:Hd_work}, gives the expression for power balance.
+\begin{equation}
+    \dot{\mathcal{K}} + \dot{\mathcal{V}} + \dot{\mathcal{H}}_{\mathrm{nonQuadraticK}} + \dot{\mathcal{H}}_{\mathrm{velocityDependentV}}
+    = \mathbf{Q}^{\mathrm{T}} \cdot \qVecD - \pD{\mathcal{K}}{t} + \pD{\mathcal{V}}{t}
+\end{equation}
+
+Or, as rearranged according to our definition of total system energy
+\begin{equation} \label{eq:f:power-balance}
+    \dot{\mathcal{K}} + \dot{\mathcal{V}}
+    = \mathbf{Q}^{\mathrm{T}} \cdot \qVecD - \pD{\mathcal{K}}{t} + \pD{\mathcal{V}}{t} - \dot{\mathcal{H}}_{\mathrm{nonQuadraticK}} - \dot{\mathcal{H}}_{\mathrm{velocityDependentV}}
+\end{equation}
+
+\textit{Aside}: In terms of the traditional interpretation with $\mathcal{H}_f$ \eqref{eq:f:Hf} and \eqref{eq:f:EL-multipliers-gc}, the expression of power balance is
+\begin{equation}
+    \dot{\mathcal{K}} + \dot{\mathcal{V}}
+    = \mathbf{Q}_f^{\mathrm{T}} \cdot \qVecD[f]
+        - \pD{\mathcal{L}}{\qVec[e][\mathrm{T}]} \cdot \qVecD[e]
+        - \pD{\mathcal{L}}{\qVecD[e][\mathrm{T}]} \cdot \qVecDD[e]
+        - \pD{\mathcal{L}}{t}
+        - \dot{\mathcal{H}}_{f,\mathrm{nonQuadraticK}}
+        - \dot{\mathcal{H}}_{f,\mathrm{velocityDependentV}}
+\end{equation}
+
+This and \eqref{eq:f:power-balance} are both valid expressions of conservation of power, but they are for different definitions of what is considered to be part of, or external to, the system. Attempting to simplify either expression does not produce any interesting result; depending on the substitutions made, the expression might simplify into either $\dot{\mathcal{H}}=\dot{\mathcal{H}}$, or into the Euler-Lagrange equations.
+
+The meanings of the individual terms in \eqref{eq:f:power-balance} can be interpreted as follows. $\dot{\mathcal{K}}$ and $\dot{\mathcal{V}}$ are the rates of change of the total kinetic and potential energies within the system. The sum $\dot{E}=\dot{\mathcal{K}}+\dot{\mathcal{V}}$ is the rate of change of total system energy. $\pD{\mathcal{K}}{t}$ is the rate of change of kinetic energy due to explicit time dependence, and likewise for $\pD{\mathcal{V}}{t}$. The rate of work done on the system by the combined generalised forces and constraint forces is $\mathbf{Q}^{\mathrm{T}} \cdot \qVecD$. The last two terms describe the rate of work done by velocity-dependent potentials, and by kinetic terms which are not positively homogeneously quadratic in generalised velocity.
+
+The meaning of $\mathbf{Q}^{\mathrm{T}} \cdot \qVecD$ can be further examined by considering the traditional definition of mechanical work as the line integral of generalised force with respect to the generalised displacement. This is a more general version of the well-known $work=force \times displacement$. This can be rearranged into an expression of power as follows.
+\begin{align}
+    W_{i}(\qVec, \qVecD, t) &= \int Q_{i} \mathrm{d}\q[i] \nonumber\\
+    &= \int Q_{i} \qD[i] \mathrm{d}t \nonumber\\
+    \implies \dot{W}_{i} &= Q_{i} \qD[i] ,\quad i\in[1,n+m] \nonumber\\
+    \implies \dot{W} &= \sum_{i}(\dot{W}_{i}) \nonumber\\
+    &= \qVecD[][\mathrm{T}] \cdot \mathbf{Q}
+\end{align}
+
+Each term in the power balance equation \eqref{eq:f:power-balance} can be separated into the sum of contributions from each system element. The work term can be further decomposed into the sum of the work done in the direction of each generalised coordinate, and the generalised force can be separated by type. Combined, this results in
+\begin{align} \label{eq:f:power-balance-full-split}
+    \sum_{j=1}^{N_\mathrm{el}}\del{\dot{\mathcal{K}}_j}
+    + \sum_{j=1}^{N_\mathrm{el}}\del{\dot{\mathcal{V}}_j}
+    =& \sum_{i=1}^{n+m}\sum_{j=1}^{N_\mathrm{el}}\del{\del{Q_{i,j,\mathrm{other}}+Q_{i,j,\mathrm{pointForces}}+Q_{i,j,\mathrm{Rayleigh}}} \cdot \qD[i]}
+    + \sum_{i=1}^{n+m}\sum_{j=1}^{N_c}\del{Q_{i,j,\mathrm{constraint}} \cdot \qD[i]} \nonumber\\
+    &- \sum_{j=1}^{N_\mathrm{el}}\del{\pD{\mathcal{K}_j}{t}}
+    + \sum_{j=1}^{N_\mathrm{el}}\del{\pD{\mathcal{V}_j}{t}}
+    - \sum_{j=1}^{N_\mathrm{el}}\del{\dot{\mathcal{H}}_{j,\mathrm{nonQuadraticK}}}
+    - \sum_{j=1}^{N_\mathrm{el}}\del{\dot{\mathcal{H}}_{j,\mathrm{velocityDependentV}}}
+\end{align}
+
+where $N_\mathrm{el}$ is the number of system elements (springs, dampers, masses, forces, etc.). Note that constraint forces can do work, e.g. for rheonomic constraints.
+
+The key use of \eqref{eq:f:power-balance-full-split} is as a representation of the first law of thermodynamics; it provides full accounting for all energy transfer into and out of the system, and it shows this as separated by contribution from each system element.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Decompositions Summing Over System Elements} \label{ssec:f:decompositions}
+\secref{ssec:f:power} ends with a decomposition which sums over the elements that make up a complete system. This pathway leads very close to some pitfall traps.
+
+\textit{Trap 1}: The balance equation is only valid over the total sum, and should not be expected to hold valid for each system element individually.
+\begin{equation*}
+    \dot{\mathcal{K}}_j + \dot{\mathcal{V}}_j
+    \neq \mathbf{Q}_j^{\mathrm{T}} \cdot \qVecD
+    - \pD{\mathcal{K}_j}{t}
+    + \pD{\mathcal{V}_j}{t}
+    - \dot{\mathcal{H}}_{j,\mathrm{nonQuadraticK}}
+    - \dot{\mathcal{H}}_{j,\mathrm{velocityDependentV}}
+\end{equation*}
+
+\textit{Trap 2}: Some quantities can be calculated by alternative expressions, but the equivalence of these expressions is generally only valid for the total quantity. The contribution to the total quantity, from each system element, may change between expressions. This can lead to ambiguous naming of decomposed terms.
+\begin{equation*}
+    \dot{\mathcal{H}}_{j,\mathrm{LHS}} = \dot{\mathcal{K}}_j + \dot{\mathcal{V}}_j + \dot{\mathcal{H}}_{j,\mathrm{nonQuadraticK}} + \dot{\mathcal{H}}_{j,\mathrm{velocityDependentV}}
+\end{equation*}
+\begin{equation*}
+    \dot{\mathcal{H}}_{j,\mathrm{RHS}} = \mathbf{Q}_j^{\mathrm{T}} \cdot \qVecD - \pD{\mathcal{K}_j}{t} + \pD{\mathcal{V}_j}{t}
+\end{equation*}
+
+But
+\begin{equation*}
+    \dot{\mathcal{H}}_{j,\mathrm{LHS}} \neq \dot{\mathcal{H}}_{j,\mathrm{RHS}}
+\end{equation*}
+
+Thus we have found multiple interpretations for the contribution from the given system element $j$ to the total system Hamiltonian derivative.
+
+For example, consider a simple spring-mass oscillator without any gravitational effects. For this system, $\dot{\mathcal{H}}_{\mathrm{spring},\mathrm{LHS}} = \dot{\mathcal{V}}$ and $\dot{\mathcal{H}}_{\mathrm{mass},\mathrm{LHS}} = \dot{\mathcal{K}}$. However, the RHS terms find $\dot{\mathcal{H}}_{\mathrm{spring},\mathrm{RHS}}=0$ and $\dot{\mathcal{H}}_{\mathrm{mass},\mathrm{RHS}}=0$. Both decompositions are valid and yield the same quantity $\dot{\mathcal{H}}=0$. They just provide different prospectives on what is happening internally. By inspecting the expressions, it can be seen that the LHS provides more insight into energy storage, while the RHS provides more insight into energy dissipation and external interaction.
+
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Forming the Equations} \label{sec:d}
+\subsection{Definitions and Assumptions} \label{ssec:d:defs}
+The previous sections used some context-dependent variable definitions for simplification and gentle introduction to each concept; e.g. $\mathbf{Q}$ is given different definitions between sections. We now begin fresh, and reintroduce everything with single consistent definitions.
+
+From the following table, the assumptions on the arguments of variables restrict the set of permitted arguments; they do not require the arguments to be present. Uses of the derivations may subset the assumed arguments. Note that the arguments of the dependent variables, $\qVec[f]$ and $\bm{\lambda}$, cannot be abritraially chosen.
+
+\begin{center}
+\begin{threeparttable}
+\begin{tabular}{llll}
+    \textbf{Variable} & \textbf{Value} & \textbf{Range} & \textbf{Description}\\
+    \hline
+    $N_{\mathrm{DOF}}(const)$
+        &
+        & $\mathbb{Z} \geq 1$
+        & Number of DOF of the given system. \\
+    $n(const)$
+        & $\geq N_{\mathrm{DOF}}$
+        & $\mathbb{Z} \geq 1$
+        & Number of free generalised coordinates. \\
+    $m(const)$
+        &
+        & $\mathbb{Z} \geq 0$
+        & Number of externally specified generalised coordinates. \\
+    $N_c(const)$
+        & $=n - N_{\mathrm{DOF}}$
+        & $\mathbb{Z} \geq 0$
+        & Number of constraint equations. \\
+    $N_f(const)$
+        &
+        & $\mathbb{Z} \geq 0$
+        & Number of point forces. \\
+    $\qVec[f](t)$
+        & $=[\q[1] \cdots \q[n]]^{\mathrm{T}}$
+        & $\mathbb{R}^{n\times1}$
+        & Set of free generalised coordinates. \\
+    $\qVec[e](t)$
+        & $=[\q[n+1] \cdots \q[n+m]]^{\mathrm{T}}$
+        & $\mathbb{R}^{m\times1}$
+        & Set of externally specified generalised coordinates. \\
+    $\qVec(t)$
+        & $=[\qVec[f][\mathrm{T}] \; \qVec[e][\mathrm{T}]]^{\mathrm{T}}$
+        %& $=[\q[1] \cdots \q[n+m]]^{\mathrm{T}}$
+        & $\mathbb{R}^{(n+m)\times1}$
+        & Combined set of generalised coordinates. \\
+    $\bm{\lambda}(t)$
+        & $=[\lambda_1 \cdots \lambda_{N_c}]^{\mathrm{T}}$
+        & $\mathbb{R}^{N_c\times1}$
+        & Set of Lagrange multipliers. \\
+    $\mathcal{L}(\qVec, \qVecD, t)$
+        &
+        & $\mathbb{R}$
+        & Lagrangian. \\
+    $\bm{\mathcal{C}}(\qVec, t)$
+        & $=[\mathcal{C}_1 \cdots \mathcal{C}_{N_c}]^{\mathrm{T}}$
+        & $\mathbb{R}^{N_c\times1}$
+        & Set of holonomic constraint equations\tnote{1}. \\
+    $\mathbf{Q}(\qVec, \qVecD, t)$
+        & $=[Q_1 \cdots Q_{n+m}]^{\mathrm{T}}$
+        & $\mathbb{R}^{(n+m)\times1}$
+        & Sum of the generalised forces acting on the system\tnote{2}. \\
+    $\mathbf{Q}_f(\qVec, \qVecD, t)$
+        & $=[Q_1 \cdots Q_{n}]^{\mathrm{T}}$
+        & $\mathbb{R}^{n\times1}$
+        & Submatrix of $\mathbf{Q}$ \\
+    $\mathbf{Q}_e(\qVec, \qVecD, t)$
+        & $=[Q_{n+1} \cdots Q_{n+m}]^{\mathrm{T}}$
+        & $\mathbb{R}^{m\times1}$
+        & Submatrix of $\mathbf{Q}$ \\
+    $\mathcal{R}(\qVec, \qVecD, t)$
+        &
+        & $\mathbb{R}$
+        & Rayleigh dissipation function. \\
+    $\mathbf{F}_j(\qVec, \qVecD, t)$
+        & $=[F_{x,j} \; F_{y,j} \; F_{z,j}]^{\mathrm{T}}$
+        & $\mathbb{R}^{3\times1}$
+        & A point force\tnote{3}\ \ \ that acts on the system at the location $\mathbf{r}_j$. \\
+    $\mathbf{r}_j(\qVec, t)$
+        & $=[r_{x,j} \; r_{y,j} \; r_{z,j}]^{\mathrm{T}}$
+        & $\mathbb{R}^{3\times1}$
+        & A position vector\tnote{3}. \\
+\end{tabular}
+\begin{tablenotes}
+    \item[1] As written in the form $\bm{\mathcal{C}}=\mathbf{0}$.
+    \item[2] Excluding those that are described by other means, like by $\bm{\mathcal{C}}$, $\mathcal{R}$ and $\mathbf{F}_j$.
+    \item[3] As measured relative to an inertial coordinate frame.
+\end{tablenotes}
+\end{threeparttable}
+\end{center}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Forward Dynamics} \label{ssec:d:fwdDyn}
+The Euler-Lagrange equations, with all of the extensions introduced in \secref{sec:f} are
+\begin{equation} \label{eq:EL}
+    \oD{}{t}\pD{\mathcal{L}}{\qD[i]} 
+    - \pD{\mathcal{L}}{\q[i]} + \pD{\mathcal{R}}{\qD[i]}
+    + \sum_{k=1}^{N_c} \del{\pD{\mathcal{C}_k}{\q[i]} \lambda_k}
+    = Q_i + \sum_{j=1}^{N_f} \del{\pD{\mathbf{r}_j^{\mathrm{T}}}{\q[i]} \cdot \mathbf{F}_j}
+    ,\quad i\in[1,n]
+\end{equation}
+
+This is now reformed as follows.
+
+The first objective is to expand the total derivative in the first term into partial derivatives with respect to $\qVec$ and $\qVecD$. The chain rule \eqref{eq:n:chain-rule} can be applied to achieve this. First, note that the arguments of the partial derivative of a function are the same, or a subset of, the arguments of the function. To cover the general case, assume that they are the same: Let $f_i(\qVec, \qVecD, t)=\pD{\mathcal{L}(\qVec, \qVecD, t)}{\qD[i]}$. Performing this substitution, the first term in \eqref{eq:EL} expands as
+\begin{align} \label{eq:LFirstExpanded}
+    \oD{}{t}\pD{\mathcal{L}}{\qD[i]}
+    &= \oD{f_i}{t} \nonumber\\
+    &= \sum_{j=1}^{n+m} \del{\pD{f_i}{\qD[j]} \qDD[j]}
+        + \sum_{j=1}^{n+m} \del{\pD{f_i}{\q[j]} \qD[j]}
+        + \pD{f_i}{t} \nonumber\\
+    &= \sum_{j=1}^{n+m} \del{\pDD{\mathcal{L}}{\qD[i]}{\qD[j]} \qDD[j]}
+        + \sum_{j=1}^{n+m} \del{\pDD{\mathcal{L}}{\qD[i]}{\q[j]} \qD[j]}
+        + \pDD{\mathcal{L}}{\qD[i]}{t}
+\end{align}
+
+The next objective is to form the equations into a matrix equation with $\qVecDD[f]$ isolated. The first sum in \eqref{eq:LFirstExpanded} can be split to separate $\qVecDD[f]$ from $\qVecDD[e]$.
+\begin{equation}
+    \sum_{j=1}^{n+m} \del{\pDD{\mathcal{L}}{\qD[i]}{\qD[j]} \qDD[j]}
+    = \sum_{j=1}^{n} \del{\pDD{\mathcal{L}}{\qD[i]}{\qD[j]} \qDD[j]}
+        + \sum_{j=1}^{m} \del{\pDD{\mathcal{L}}{\qD[i]}{\qD[j+n]} \qDD[j+n]}
+\end{equation}
+
+Substituting these back into \eqref{eq:EL}, and expanding the dot product in the external forces term, results in
+\begin{align} \label{eq:EL-expanded}
+    0=&\sum_{j=1}^{n} \del{\pDD{\mathcal{L}}{\qD[i]}{\qD[j]} \qDD[j]}
+    + \sum_{j=1}^{m} \del{\pDD{\mathcal{L}}{\qD[i]}{\qD[j+n]} \qDD[j+n]}
+    + \sum_{j=1}^{n+m} \del{\pDD{\mathcal{L}}{\qD[i]}{\q[j]} \qD[j]}
+    + \pDD{\mathcal{L}}{\qD[i]}{t}
+    - \pD{\mathcal{L}}{\q[i]} \nonumber\\
+    &+ \pD{\mathcal{R}}{\qD[i]}
+    + \sum_{k=1}^{N_c} \del{\pD{\mathcal{C}_k}{\q[i]} \lambda_k}
+    - Q_i
+    - \sum_{j=1}^{N_f} \del{\pD{r_{x,j}}{\q[i]} F_{x,j}}
+    - \sum_{j=1}^{N_f} \del{\pD{r_{y,j}}{\q[i]} F_{y,j}}
+    - \sum_{j=1}^{N_f} \del{\pD{r_{z,j}}{\q[i]} F_{z,j}}
+    ,\quad i\in[1,n]
+\end{align}
+
+This can be rewritten into a matrix equation as
+\begin{align} \label{eq:EL-expanded-matrix}
+    \mathbf{0} =
+    &\pDD{\mathcal{L}}{\qVecD[f]}{\qVecD[f][\mathrm{T}]} \cdot \qVecDD[f]
+    + \pDD{\mathcal{L}}{\qVecD[f]}{\qVecD[e][\mathrm{T}]} \cdot \qVecDD[e]
+    + \pDD{\mathcal{L}}{\qVecD[f]}{\qVec[][\mathrm{T}]} \cdot \qVecD
+    + \pDD{\mathcal{L}}{\qVecD[f]}{t}
+    - \pD{\mathcal{L}}{\qVec[f]} \nonumber\\
+    &+ \pD{\mathcal{R}}{\qVecD[f]}
+    + \pD{\bm{\mathcal{C}}^{\mathrm{T}}}{\qVec[f]} \cdot \bm{\lambda}
+    - \mathbf{Q}_f
+    - \pD{\mathbf{r}_x^{\mathrm{T}}}{\qVec[f]} \cdot \mathbf{F}_x
+    - \pD{\mathbf{r}_y^{\mathrm{T}}}{\qVec[f]} \cdot \mathbf{F}_y
+    - \pD{\mathbf{r}_z^{\mathrm{T}}}{\qVec[f]} \cdot \mathbf{F}_z
+\end{align}
+
+where $\mathbf{F}_x=[F_{x,1} \cdots F_{x,N_f}]^{\mathrm{T}}$ and $\mathbf{r}_x=[r_{x,1} \cdots r_{x,N_f}]^{\mathrm{T}}$ respectively hold the x components of the point forces, and the x components of where they act. Likewise for the $y$ and $z$ components.
+
+Collecting the terms of \eqref{eq:EL-expanded-matrix} together results in
+\begin{equation} \label{eq:EL-collected}
+    \mathbf{0} = \mathbf{M} \cdot \qVecDD[f]
+    + \mathbf{A} \cdot \bm{\lambda}
+    + \mathbf{b}
+\end{equation}
+
+where $\mathbf{M}$, $\mathbf{A}$, and $\mathbf{b}$ are defined in \eqref{eq:MAbh-M}, \eqref{eq:MAbh-A}, and \eqref{eq:MAbh-b}. Solving for $\qVecDD[f]$ gives
+\begin{equation} \label{eq:EL-solved}
+    \qVecDD[f] = - \mathbf{M}^{-1} \cdot \del{\mathbf{A} \cdot \bm{\lambda} + \mathbf{b}}
+\end{equation}
+
+The third objective is to solve for, and eliminate, the Lagrange multipliers. This can be achieved by double differentiating the constraint equations, and then reforming the result with similar methods. As a practical measure to reduce accumulated numerical error during solving, Baumgarte stabilization \cite{RF1-15} is used. This method linearly combines the derivatives of the constraint equation as follows
+\begin{equation} \label{eq:C-stabilised}
+    \mathbf{0} = \oDD{\bm{\mathcal{C}}}{t} + 2\alpha\oD{\bm{\mathcal{C}}}{t} + \beta^2\bm{\mathcal{C}}
+\end{equation}
+
+where $\alpha$ and $\beta$ are positive constants, which can be somewhat-arbitrarily chosen. Because the form of the constraint equation is $\bm{\mathcal{C}}(\qVec, t)=\mathbf{0}$, then the derivatives likewise equal zero; so the method of Baumgarte stabilization reduces to $0=0+2\alpha\cdot0+\beta^2\cdot0$. Therefore, it has no impact on the mathematical validity of the solution. Numerically, however, the effect is similar to applying PID control on the numerical error -- or rather P-D-DD control. This also makes the system equations more stiff (in the sense of ODE stiffness).
+
+In matrix form, the constraint equation is simply $\mathbf{0}=\bm{\mathcal{C}}$. Differentiating this, and applying the chain rule gives (as written in both summation form and matrix form)
+\begin{equation} \label{eq:Cd}
+    0 = \oD{\mathcal{C}_k}{t}
+    = \sum_{j=1}^{n+m} \del{\pD{\mathcal{C}_k}{\q[j]}\qD[j]}
+        + \pD{\mathcal{C}_k}{t}
+    ,\quad k\in[1,N_c]
+\end{equation}
+\begin{equation} \label{eq:Cd-matrix}
+    \mathbf{0} = \oD{\bm{\mathcal{C}}}{t}
+    = \pD{\bm{\mathcal{C}}}{\qVec[][\mathrm{T}]} \cdot \qVecD
+    + \pD{\bm{\mathcal{C}}}{t}
+\end{equation}
+
+Differentiating \eqref{eq:Cd} again, and applying the product rule yields
+\begin{align} \label{eq:Cdd}
+    0 =& \oDD{\mathcal{C}_k}{t} \nonumber\\
+    =& \oD{}{t}\sbr{\sum_{j=1}^{n+m} \del{\pD{\mathcal{C}_k}{\q[j]}\qD[j]}
+        + \pD{\mathcal{C}_k}{t}} \nonumber\\
+    =& \sum_{j=1}^{n+m} \del{\oD{}{t}\sbr{\pD{\mathcal{C}_k}{\q[j]}\qD[j]}}
+        + \oD{}{t}\pD{\mathcal{C}_k}{t} \nonumber\\
+    =& \sum_{j=1}^{n+m} \del{\pD{\mathcal{C}_k}{\q[j]}\qDD[j]}
+        + \sum_{j=1}^{n+m} \del{\oD{}{t}\sbr{\pD{\mathcal{C}_k}{\q[j]}}\qD[j]}
+        + \oD{}{t}\pD{\mathcal{C}_k}{t}
+\end{align}
+
+The first term of \eqref{eq:Cdd} can be split to separate $\qVecDD[f]$ from $\qVecDD[e]$.
+\begin{equation}
+    \sum_{j=1}^{n+m} \del{\pD{\mathcal{C}_k}{\q[j]}\qDD[j]}
+    = \sum_{j=1}^{n} \del{\pD{\mathcal{C}_k}{\q[j]}\qDD[j]}
+        + \sum_{j=1}^{m} \del{\pD{\mathcal{C}_k}{\q[j]}\qDD[j+n]}
+\end{equation}
+
+The arguments of $\pD{\mathcal{C}_k}{\q[j]}$ are the same as of $\mathcal{C}_k$. Thus, let $f_{j,k}(\qVec, t)=\pD{\mathcal{C}_k}{\q[j]}$. Therefore, the chain rule apples to the second term of \eqref{eq:Cdd} as
+\begin{align}
+    \sum_{j=1}^{n+m} \del{\oD{}{t}\sbr{\pD{\mathcal{C}_k}{\q[j]}}\qD[j]}
+    =& \sum_{j=1}^{n+m} \del{\oD{f_{j,k}}{t}\qD[j]} \nonumber\\
+    =& \sum_{j=1}^{n+m} \del{\del{
+            \sum_{i=1}^{n+m} \del{\pD{f_{j,k}}{\q[i]}\qD[i]}
+            + \pD{f_{j,k}}{t}
+        }\qD[j]} \nonumber\\
+    =& \sum_{j=1}^{n+m} \del{\del{
+            \sum_{i=1}^{n+m} \del{\pDD{\mathcal{C}_k}{\q[j]}{\q[i]}\qD[i]}
+            + \pDD{\mathcal{C}_k}{\q[j]}{t}
+        }\qD[j]} \nonumber\\
+    =& \sum_{j=1}^{n+m} \sum_{i=1}^{n+m} \del{\pDD{\mathcal{C}_k}{\q[j]}{\q[i]}\qD[j]\qD[i]}
+            + \sum_{j=1}^{n+m} \del{\pDD{\mathcal{C}_k}{\q[j]}{t}\qD[j]}
+\end{align}
+
+And likewise for the third term of \eqref{eq:Cdd}.
+\begin{equation}
+    \oD{}{t}\pD{\mathcal{C}_k}{t}
+    = \sum_{j=1}^{n+m} \del{\pDD{\mathcal{C}_k}{t}{\q[j]}\qD[j]}
+    + \pDDtt{\mathcal{C}_k}{t}
+\end{equation}
+
+Hence \eqref{eq:Cdd} is expanded to
+\begin{equation} \label{eq:Cdd-expanded}
+    0= \sum_{j=1}^{n} \del{\pD{\mathcal{C}_k}{\q[j]}\qDD[j]}
+        + \sum_{j=1}^{m} \del{\pD{\mathcal{C}_k}{\q[j]}\qDD[j+n]}
+        + \sum_{j=1}^{n+m} \sum_{i=1}^{n+m} \del{\pDD{\mathcal{C}_k}{\q[j]}{\q[i]}\qD[j]\qD[i]}
+        + 2\sum_{j=1}^{n+m} \del{\pDD{\mathcal{C}_k}{\q[j]}{t}\qD[j]}
+        + \pDDtt{\mathcal{C}_k}{t}
+\end{equation}
+
+In matrix form, this is
+\begin{equation} \label{eq:Cdd-matrix}
+    \mathbf{0}= \pD{\bm{\mathcal{C}}}{\qVec[f][\mathrm{T}]} \cdot \qVecDD[f]
+        + \pD{\bm{\mathcal{C}}}{\qVec[e][\mathrm{T}]} \cdot \qVecDD[e]
+        + \pD{}{\qVec[][\mathrm{T}]}\sbr{\pD{\bm{\mathcal{C}}}{\qVec[][\mathrm{T}]} \cdot \qVecD} \cdot \qVecD
+        + 2\pDD{\bm{\mathcal{C}}}{\qVec[][\mathrm{T}]}{t} \cdot \qVecD
+        + \pDDtt{\bm{\mathcal{C}}}{t}
+\end{equation}
+
+Substituting the constraint equation, and it's derivatives, \eqref{eq:Cd-matrix} and \eqref{eq:Cdd-matrix}, into \eqref{eq:C-stabilised}, gives
+\begin{equation}
+    \mathbf{0} = \pD{\bm{\mathcal{C}}}{\qVec[f][\mathrm{T}]} \cdot \qVecDD[f]
+        + \pD{\bm{\mathcal{C}}}{\qVec[e][\mathrm{T}]} \cdot \qVecDD[e]
+        + \pD{}{\qVec[][\mathrm{T}]}\sbr{\pD{\bm{\mathcal{C}}}{\qVec[][\mathrm{T}]} \cdot \qVecD} \cdot \qVecD
+        + 2\pDD{\bm{\mathcal{C}}}{\qVec[][\mathrm{T}]}{t} \cdot \qVecD
+        + \pDDtt{\bm{\mathcal{C}}}{t}
+    +2\alpha\pD{\bm{\mathcal{C}}}{\qVec[][\mathrm{T}]} \cdot \qVecD
+    + 2\alpha\pD{\bm{\mathcal{C}}}{t}
+    + \beta^2\bm{\mathcal{C}}
+\end{equation}
+
+Collecting the terms together results in
+\begin{equation} \label{eq:C-collected}
+    \mathbf{0} = \mathbf{A}^{\mathrm{T}} \cdot \qVecDD[f]
+    + \mathbf{h}
+\end{equation}
+
+where $\mathbf{A}$ and $\mathbf{h}$ are defined in \eqref{eq:MAbh-A} and \eqref{eq:MAbh-h}. Note how the same matrix $\mathbf{A}$ also appears in \eqref{eq:EL-solved}. To solve for $\bm{\lambda}$, \eqref{eq:EL-solved} is substituted into \eqref{eq:C-collected}.
+\begin{align}
+    \mathbf{0} =& \mathbf{A}^{\mathrm{T}} \cdot \del{- \mathbf{M}^{-1} \cdot \del{\mathbf{A} \cdot \bm{\lambda} + \mathbf{b}}} + \mathbf{h} \nonumber\\
+    =& - \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{A} \cdot \bm{\lambda}
+        - \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{b}
+        + \mathbf{h}
+\end{align}
+
+Rearranging then gives
+\begin{equation} \label{eq:lambda-solved}
+    \bm{\lambda} =
+        \del{\mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{A}}^{-1} \cdot
+        \del{\mathbf{h} - \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{b}}
+\end{equation}
+
+Finally, the solution for $\qVecDD[f]$ is obtained by substituting this back into \eqref{eq:EL-solved}
+\begin{equation} \label{eq:qfdd-solved}
+    \qVecDD[f] = \mathbf{M}^{-1} \cdot \mathbf{A} \cdot
+        \del{\mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{A}}^{-1} \cdot
+        \del{\mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{b} - \mathbf{h}}
+        - \mathbf{M}^{-1} \cdot \mathbf{b}
+\end{equation}
+
+where
+\begin{equation} \label{eq:MAbh-M}
+    \mathbf{M}(\qVec, \qVecD, t) = \pDD{\mathcal{L}}{\qVecD[f]}{\qVecD[f][\mathrm{T}]}
+\end{equation}
+\begin{equation} \label{eq:MAbh-A}
+    \mathbf{A}(\qVec, t) = \pD{\bm{\mathcal{C}}^{\mathrm{T}}}{\qVec[f]}
+\end{equation}
+\begin{equation} \label{eq:MAbh-b}
+    \mathbf{b}(\qVec, \qVecD, \qVecDD[e], t) =
+    \pDD{\mathcal{L}}{\qVecD[f]}{\qVecD[e][\mathrm{T}]} \cdot \qVecDD[e]
+    + \pDD{\mathcal{L}}{\qVecD[f]}{\qVec[][\mathrm{T}]} \cdot \qVecD
+    + \pDD{\mathcal{L}}{\qVecD[f]}{t}
+    - \pD{\mathcal{L}}{\qVec[f]}
+    + \pD{\mathcal{R}}{\qVecD[f]}
+    - \mathbf{Q}_f
+    - \pD{\mathbf{r}_x^{\mathrm{T}}}{\qVec[f]} \cdot \mathbf{F}_x
+    - \pD{\mathbf{r}_y^{\mathrm{T}}}{\qVec[f]} \cdot \mathbf{F}_y
+    - \pD{\mathbf{r}_z^{\mathrm{T}}}{\qVec[f]} \cdot \mathbf{F}_z
+\end{equation}
+\begin{equation} \label{eq:MAbh-h}
+    \mathbf{h}(\qVec, \qVecD, \qVecDD[e], t) =
+    \pD{\bm{\mathcal{C}}}{\qVec[e][\mathrm{T}]} \cdot \qVecDD[e]
+    + \pD{}{\qVec[][\mathrm{T}]}\sbr{\pD{\bm{\mathcal{C}}}{\qVec[][\mathrm{T}]} \cdot \qVecD} \cdot \qVecD
+    + 2\pDD{\bm{\mathcal{C}}}{\qVec[][\mathrm{T}]}{t} \cdot \qVecD
+    + \pDDtt{\bm{\mathcal{C}}}{t}
+    +2\alpha\pD{\bm{\mathcal{C}}}{\qVec[][\mathrm{T}]} \cdot \qVecD
+    + 2\alpha\pD{\bm{\mathcal{C}}}{t}
+    + \beta^2\bm{\mathcal{C}}
+\end{equation}
+
+with matrix sizes
+\begin{equation}
+    \mathbf{M} \in \mathbb{R}^{n \times n} ,\quad
+    \mathbf{A} \in \mathbb{R}^{n \times m} ,\quad
+    \mathbf{b} \in \mathbb{R}^{n \times 1} ,\quad
+    \mathbf{h} \in \mathbb{R}^{m \times 1}
+\end{equation}
+
+The arguments of $\mathbf{M}$, $\mathbf{A}$, $\mathbf{b}$, and $\mathbf{h}$ have been deduced from the arguments of the variables in the equations. In practice, the arguments of $\mathbf{M}$ often reduce to $\mathbf{M}(\qVec, t)$ (I have confirmed that this is proven to always occur for non-relativistic mechanical systems of point masses. Likely also proven/provable for rigid bodies).
+
+The procedure to obtain this solution has been known since before 1993 \cite{RF1-13,RFb-13}, but this derivation clarifies and expands on various aspects that were not presented in the previous works. Although, in turn, some other aspects like nonholonomic constraints, contact mechanics, and further considerations for numerical solving have been left out. See \cite{RFb-13} for these details.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Preparation for Solving} \label{sssec:d:fwdDyn:preSolve}
+Let the state vector $\mathbf{x}(t)$ at least contain both $\qVecD[f]$ and $\qVec[f]$, and let $\mathbf{x}_{fd}$ and $\mathbf{x}_{f}$ be submatrices of the state vector that correspond to these e.g. $\mathbf{x} = [\qVecD[f][\mathrm{T}] \; \qVec[f][\mathrm{T}] \; \dots]^{\mathrm{T}}=[\mathbf{x}_{fd}^\mathrm{T} \; \mathbf{x}_{f}^\mathrm{T} \; \dots]^{\mathrm{T}}$. Depending on the solver used, more variables may also need to be included in the state vector.
+
+To enable using the formulation with first-order ODE or DAE solvers, a convenient order reducing equation is
+\begin{align} \label{eq:order-reducing}
+    \qVecD[f] &= \qVecD[f] \nonumber\\
+    \implies \dot{\mathbf{x}}_{f} &= \mathbf{x}_{fd}
+\end{align}
+
+Importantly, one side is treated as a part of the state vector derivative, while the other side is treated as a part of the state vector.
+
+The expressions to be evaluated should be converted to instead take the state vector and time as arguments. For example, \eqref{eq:MAbh-M}, \eqref{eq:MAbh-A}, \eqref{eq:MAbh-b}, and \eqref{eq:MAbh-h} become
+\begin{align}
+    \mathbf{M}(\mathbf{x},t) &= \mathbf{M}\del{
+        \begin{bmatrix}\mathbf{x}_{f}\\\qVec[e](t)\end{bmatrix},
+        \begin{bmatrix}\mathbf{x}_{fd}\\\qVecD[e](t)\end{bmatrix},
+        t
+    },\quad
+    &\mathbf{A}(\mathbf{x},t) = \mathbf{A}\del{
+        \begin{bmatrix}\mathbf{x}_{f}\\\qVec[e](t)\end{bmatrix}
+        , t
+    },\nonumber\\
+    \mathbf{b}(\mathbf{x},t) &= \mathbf{b}\del{
+        \begin{bmatrix}\mathbf{x}_{f}\\\qVec[e](t)\end{bmatrix},
+        \begin{bmatrix}\mathbf{x}_{fd}\\\qVecD[e](t)\end{bmatrix},
+        \qVecDD[e](t),
+        t
+    },\quad
+    &\mathbf{h}(\mathbf{x},t) = \mathbf{h}\del{
+        \begin{bmatrix}\mathbf{x}_{f}\\\qVec[e](t)\end{bmatrix},
+        \begin{bmatrix}\mathbf{x}_{fd}\\\qVecD[e](t)\end{bmatrix},
+        \qVecDD[e](t),
+        t
+    }
+\end{align}
+
+where all partial derivatives are all evaluated \emph{before} any substitutions are performed. This is required because performing a change of variables inside of a partial derivative requires application of the chain rule. For example, consider how in $\pD{\mathcal{L}(\qVec, \qVecD, t)}{\qVec[f]}\neq\pD{\mathcal{L}(\mathbf{x},t)}{\qVec[f]}$, the right hand side will always evaluate to zero.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Solving With a Fully-Implicit DAE Solver} \label{sssec:d:fwdDyn:DAE-fully-implicit}
+To use a solver that is designed to solve functions of the form
+\begin{equation}
+    \mathbf{f}_{\mathrm{DAE-FI}}(\mathbf{x},\dot{\mathbf{x}},t) = \mathbf{0}
+\end{equation}
+
+Specify the state vector as $\mathbf{x} = [\qVecD[f][\mathrm{T}] \; \qVec[f][\mathrm{T}] \; \bm{\lambda}^{\mathrm{T}}]^{\mathrm{T}}=[\mathbf{x}_{fd}^\mathrm{T} \; \mathbf{x}_{f}^\mathrm{T} \; \mathbf{x}_{\lambda}^{\mathrm{T}}]^{\mathrm{T}}$, where $\mathbf{x}_{fd}$, $\mathbf{x}_{f}$, and $\mathbf{x}_{\lambda}$ are submatrices of the state vector with corresponding sizes. The function to pass to the solver is formed by concatenating \eqref{eq:EL-collected}, \eqref{eq:order-reducing}, and \eqref{eq:C-collected} into a single matrix equation.
+\begin{equation}
+    f_{\mathrm{DAE-FI}}(\mathbf{x},\dot{\mathbf{x}},t) =
+    \begin{bmatrix}
+        \mathbf{M} \cdot \dot{\mathbf{x}}_{fd} + \mathbf{A} \cdot \mathbf{x}_{\lambda} + \mathbf{b} \\
+        \dot{\mathbf{x}}_{f} - \mathbf{x}_{fd} \\
+        \mathbf{A}^{\mathrm{T}} \cdot \dot{\mathbf{x}}_{fd} + \mathbf{h}
+    \end{bmatrix}
+    ,\quad \mathrm{where} \quad
+    \mathbf{x} = \begin{bmatrix} \qVecD[f] \\ \qVec[f] \\ \bm{\lambda} \end{bmatrix}
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Solving With a Linearly-Implicit DAE Solver} \label{sssec:d:fwdDyn:DAE-linearly-implicit}
+To use a solver that is designed to solve functions of the form
+\begin{equation}
+    \mathbf{M}_{\mathrm{DAE-LI}}(\mathbf{x},t) \cdot \dot{\mathbf{x}} = \mathbf{f}_{\mathrm{DAE-LI}}(\mathbf{x},t)
+\end{equation}
+
+where $M_{\mathrm{DAE-LI}}$ is singular, specify the state vector in the same way as \secref{sssec:d:fwdDyn:DAE-fully-implicit}. The function to pass to the solver is the same, but rearranged.
+\begin{align}
+    \mathbf{0} =&
+    \begin{bmatrix}
+        \mathbf{M} \cdot \qVecDD[f] + \mathbf{A} \cdot \bm{\lambda} + \mathbf{b} \\
+        \qVecD[f] - \qVecD[f] \\
+        \mathbf{A}^{\mathrm{T}} \cdot \qVecDD[f] + \mathbf{h}
+    \end{bmatrix} \nonumber\\
+    =&
+    \begin{bmatrix}
+        \mathbf{M} \cdot \qVecDD[f] \\
+        \qVecD[f] \\
+        \mathbf{A}^{\mathrm{T}} \cdot \qVecDD[f]
+    \end{bmatrix} + \begin{bmatrix}
+        \mathbf{A} \cdot \bm{\lambda} + \mathbf{b} \\
+        - \qVecD[f] \\
+        \mathbf{h}
+    \end{bmatrix} \nonumber\\
+    =&
+    \begin{bmatrix}
+        \mathbf{M} & \mathbf{0}_{n\times n} & \mathbf{0}_{n\times N_c} \\
+        \mathbf{0}_{n\times n} & \mathbf{1}_{n\times n} & \mathbf{0}_{n\times N_c} \\
+        \mathbf{A}^{\mathrm{T}} & \mathbf{0}_{N_c\times n} & \mathbf{0}_{N_c\times N_c}
+    \end{bmatrix} \cdot \begin{bmatrix}
+        \qVecDD[f] \\ \qVecD[f] \\ \dot{\bm{\lambda}}
+    \end{bmatrix} + \begin{bmatrix}
+        \mathbf{A} \cdot \bm{\lambda} + \mathbf{b} \\
+        - \qVecD[f] \\
+        \mathbf{h}
+    \end{bmatrix}
+\end{align}
+
+where $\mathbf{1}_{n\times n}$ is an identity matrix of size $n\times n$, and $\mathbf{0}_{n\times n}$ is a matrix of zeros. In the steps shown, the first step reverses matrix addition, and the second step reverses matrix multiplication, thereby isolating the state vector derivative to achieve the required form. Hence, the functions to pass to the solver are
+\begin{equation}
+    \mathbf{M}_{\mathrm{DAE-LI}}(\mathbf{x},t) =
+    \begin{bmatrix}
+        \mathbf{M} & \mathbf{0}_{n\times n} & \mathbf{0}_{n\times N_c} \\
+        \mathbf{0}_{n\times n} & \mathbf{1}_{n\times n} & \mathbf{0}_{n\times N_c} \\
+        \mathbf{A}^{\mathrm{T}} & \mathbf{0}_{N_c\times n} & \mathbf{0}_{N_c\times N_c}
+    \end{bmatrix}
+    ,\quad
+    \mathbf{f}_{\mathrm{DAE-LI}}(\mathbf{x},t) =
+    \begin{bmatrix}
+        - \mathbf{A} \cdot \mathbf{x}_{\lambda} - \mathbf{b} \\
+        \mathbf{x}_{fd} \\
+        - \mathbf{h}
+    \end{bmatrix}
+    ,\quad \mathrm{where} \quad
+    \mathbf{x} = \begin{bmatrix} \qVecD[f] \\ \qVec[f] \\ \bm{\lambda} \end{bmatrix}
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Solving With a Semi-Explicit DAE Solver} \label{sssec:d:fwdDyn:DAE-semi-explicit}
+To use a solver that is designed to solve functions of the form
+\begin{equation}
+    \begin{bmatrix}\dot{\mathbf{x}} \\ \mathbf{0} \end{bmatrix} = \mathbf{f}_{\mathrm{DAE-SI}}(\mathbf{x},t)
+\end{equation}
+
+(Warning: This approach is not ideal)
+
+Specify the state vector as $\mathbf{x} = [\qVecD[f][\mathrm{T}] \; \qVec[f][\mathrm{T}]]^{\mathrm{T}}$. A function to pass to the solver can be formed by concatenating \eqref{eq:EL-solved}, \eqref{eq:order-reducing}, and \eqref{eq:Cd-matrix} into a single matrix equation. Note that this method is not compatible with Baumgarte stabilization, and the DAE index will be 2, which the solver might not be happy with.
+
+There are probably better methods to achieve the required form, but whatever.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Solving With an ODE Solver} \label{sssec:d:fwdDyn:ODE}
+To use a solver that is designed to solve functions of the form
+\begin{equation}
+    \dot{\mathbf{x}} = \mathbf{f}_{\mathrm{ODE}}(\mathbf{x},t)
+\end{equation}
+
+Specify the state vector as $\mathbf{x} = [\qVecD[f][\mathrm{T}] \; \qVec[f][\mathrm{T}]]^{\mathrm{T}}$. The function to pass to the solver is formed by concatenating \eqref{eq:qfdd-solved} and \eqref{eq:order-reducing} into a single matrix equation.
+\begin{equation}
+    \mathbf{f}_{\mathrm{ODE}}(\mathbf{x},t) =
+    \begin{bmatrix}
+        \mathbf{M}^{-1} \cdot \mathbf{A} \cdot
+        \del{\mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{A}}^{-1} \cdot
+        \del{\mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{b} - \mathbf{h}}
+        - \mathbf{M}^{-1} \cdot \mathbf{b} \\
+        \mathbf{x}_{fd}
+    \end{bmatrix}
+    ,\quad \mathrm{where} \quad
+    \mathbf{x} = \begin{bmatrix} \qVecD[f] \\ \qVec[f] \end{bmatrix}
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Lagrange Multiplier Derivative} \label{sssec:d:lambdaD}
+This section finds the derivative of the Lagrange multipliers $\dot{\bm{\lambda}}$ for completeness of the DAE state derivative. Although, we do not currently have any use for the result. Starting from \eqref{eq:lambda-solved}, this can be rearranged into
+\begin{equation}
+    \del{\mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{A}} \cdot \bm{\lambda} =
+        \del{\mathbf{h} - \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{b}}
+\end{equation}
+
+Using the method of implicit differentiation, differentiating each side gives
+\begin{equation}
+    \oD{}{t}\sbr{\mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{A} \cdot \bm{\lambda}} =
+        \oD{}{t}\sbr{\mathbf{h} - \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{b}}
+\end{equation}
+
+Applying the product rule results in
+\begin{align}
+    \dot{\mathbf{A}}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{A} \cdot \bm{\lambda}
+    + \mathbf{A}^{\mathrm{T}} \cdot \oD{\mathbf{M}^{-1}}{t} \cdot \mathbf{A} \cdot \bm{\lambda}
+    + \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \dot{\mathbf{A}} \cdot \bm{\lambda}
+    + \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{A} \cdot \dot{\bm{\lambda}} \nonumber\\
+    = \dot{\mathbf{h}}
+    - \dot{\mathbf{A}}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{b}
+    - \mathbf{A}^{\mathrm{T}} \cdot \oD{\mathbf{M}^{-1}}{t} \cdot \mathbf{b}
+    - \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \dot{\mathbf{b}}
+\end{align}
+
+The Matrix Cookbook \cite{RF1-32} provides the identity $\oD{\mathbf{M}^{-1}}{t} = - \mathbf{M}^{-1} \cdot \dot{\mathbf{M}} \cdot \mathbf{M}^{-1}$. Applying this identity, and rearranging, gives
+\begin{align}
+    \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{A} \cdot \dot{\bm{\lambda}}
+    =
+    &\dot{\mathbf{h}}
+    - \dot{\mathbf{A}}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{b}
+    + \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \dot{\mathbf{M}} \cdot \mathbf{M}^{-1} \cdot \mathbf{b}
+    - \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \dot{\mathbf{b}} \nonumber\\
+    &- \dot{\mathbf{A}}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{A} \cdot \bm{\lambda}
+    + \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \dot{\mathbf{M}} \cdot \mathbf{M}^{-1} \cdot \mathbf{A} \cdot \bm{\lambda}
+    - \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \dot{\mathbf{A}} \cdot \bm{\lambda}
+    %\nonumber\\=
+    %&\dot{\mathbf{h}}
+    %- \dot{\mathbf{A}}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \del{\mathbf{A} \cdot \bm{\lambda} + \mathbf{b}}
+    %+ \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \dot{\mathbf{M}} \cdot \mathbf{M}^{-1} \cdot \del{\mathbf{A} \cdot \bm{\lambda} + \mathbf{b}}
+    %- \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \del{\dot{\mathbf{A}} \cdot \bm{\lambda} + \dot{\mathbf{b}}}
+    %\nonumber\\=
+    %&\dot{\mathbf{h}}
+    %+ \del{\mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \dot{\mathbf{M}} - \dot{\mathbf{A}}^{\mathrm{T}}}
+    %\cdot \mathbf{M}^{-1} \cdot \del{\mathbf{A} \cdot \bm{\lambda} + \mathbf{b}}
+    %- \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \del{\dot{\mathbf{A}} \cdot \bm{\lambda} + \dot{\mathbf{b}}}
+\end{align}
+
+Thus, $\dot{\bm{\lambda}}$ can be isolated, and the expression factorised
+\begin{equation} \label{eq:lambda_d}
+\dot{\bm{\lambda}}
+    = \del{\mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \mathbf{A}}^{-1} \cdot
+    \del{
+        \dot{\mathbf{h}}
+        + \del{\mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \dot{\mathbf{M}} - \dot{\mathbf{A}}^{\mathrm{T}}}
+        \cdot \mathbf{M}^{-1} \cdot \del{\mathbf{A} \cdot \bm{\lambda} + \mathbf{b}}
+        - \mathbf{A}^{\mathrm{T}} \cdot \mathbf{M}^{-1} \cdot \del{\dot{\mathbf{A}} \cdot \bm{\lambda} + \dot{\mathbf{b}}}
+    }
+\end{equation}
+
+where the matrix derivatives $\dot{\mathbf{M}}$, $\dot{\mathbf{A}}$, $\dot{\mathbf{b}}$, and $\dot{\mathbf{h}}$ should be found by application of the chain rule \eqref{eq:n:chain-rule}. This increases the highest derivative order of each argument by one.
+\begin{equation}
+    \dot{\mathbf{M}}(\qVec, \qVecD, \qVecDD, t) ,\quad
+    \dot{\mathbf{A}}(\qVec, \qVecD, t) ,\quad
+    \dot{\mathbf{b}}(\qVec, \qVecD, \qVecDD, \qVecDDD[e], t) ,\quad
+    \dot{\mathbf{h}}(\qVec, \qVecD, \qVecDD, \qVecDDD[e], t)
+\end{equation}
+
+For numerical efficiency, \eqref{eq:lambda_d} can be computed using matrix equation solvers rather than direct matrix inversion. Using MATLAB's left and right matrix division operators (or equivalent per your chosen programming language), and defining the intermediate variables $\mathbf{Z}_1$ and $\mathbf{z}_2$, yields the solution in 3 solves.
+\begin{equation}
+\mathbf{Z}_1 = \mathbf{A}^{\mathrm{T}} \mathbin{/} \mathbf{M}
+\end{equation}
+\begin{equation}
+\mathbf{z}_2 = \mathbf{M} \mathbin{\backslash} \del{\mathbf{A} \cdot \bm{\lambda} + \mathbf{b}}
+\end{equation}
+\begin{equation}
+\dot{\bm{\lambda}}
+    = \del{\mathbf{Z}_1 \cdot \mathbf{A}} \mathbin{\backslash}
+    \del{
+        \dot{\mathbf{h}}
+        + \mathbf{Z}_1 \cdot \del{\dot{\mathbf{M}} \cdot \mathbf{z}_2}
+        - \dot{\mathbf{A}}^{\mathrm{T}} \cdot \mathbf{z}_2
+        - \mathbf{Z}_1 \cdot \del{\dot{\mathbf{A}} \cdot \bm{\lambda} + \dot{\mathbf{b}}}
+    }
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Inverse Dynamics} \label{sssec:d:invDyn}
+Consider a change in perspective where the externally specified generalised coordinates are not externally specified. If they instead were free generalised coordinates, then this section answers the inverse dynamics question of: what driving forces $\mathbf{Q}_e$ should be applied to the system in order to make the known motions $\qVec[e]$ occur (what force does the servomechanism apply to the system)?
+
+With this change in perspective, but without changing the definitions of the variables, the Euler-Lagrange equations are
+\begin{equation}
+    \oD{}{t}\pD{\mathcal{L}}{\qD[i]} 
+    - \pD{\mathcal{L}}{\q[i]} + \pD{\mathcal{R}}{\qD[i]}
+    + \sum_{k=1}^{N_c} \del{\pD{\mathcal{C}_k}{\q[i]} \lambda_k}
+    = Q_i + \sum_{j=1}^{N_f} \del{\pD{\mathbf{r}_j^{\mathrm{T}}}{\q[i]} \cdot \mathbf{F}_j}
+    ,\quad i\in[1,n+m]
+\end{equation}
+
+Following the same procedure as in \secref{ssec:d:fwdDyn}, this expands into the matrix equation
+\begin{align} \label{eq:EL-hybrid-matrix}
+    \mathbf{0} =
+    &\pDD{\mathcal{L}}{\qVecD}{\qVecD[f][\mathrm{T}]} \cdot \qVecDD[f]
+    + \pDD{\mathcal{L}}{\qVecD}{\qVecD[e][\mathrm{T}]} \cdot \qVecDD[e]
+    + \pDD{\mathcal{L}}{\qVecD}{\qVec[][\mathrm{T}]} \cdot \qVecD
+    + \pDD{\mathcal{L}}{\qVecD}{t}
+    - \pD{\mathcal{L}}{\qVec} \nonumber\\
+    &+ \pD{\mathcal{R}}{\qVecD}
+    + \pD{\bm{\mathcal{C}}^{\mathrm{T}}}{\qVec} \cdot \bm{\lambda}
+    - \mathbf{Q}
+    - \pD{\mathbf{r}_x^{\mathrm{T}}}{\qVec} \cdot \mathbf{F}_x
+    - \pD{\mathbf{r}_y^{\mathrm{T}}}{\qVec} \cdot \mathbf{F}_y
+    - \pD{\mathbf{r}_z^{\mathrm{T}}}{\qVec} \cdot \mathbf{F}_z
+\end{align}
+
+This matrix equation can be split into parts for $i\in[1,n]$ and $i\in[n+1,n+m]$. The top part is \eqref{eq:EL-expanded-matrix}, and the bottom part is
+\begin{align}
+    \mathbf{0} =
+    &\pDD{\mathcal{L}}{\qVecD[e]}{\qVecD[f][\mathrm{T}]} \cdot \qVecDD[f]
+    + \pDD{\mathcal{L}}{\qVecD[e]}{\qVecD[e][\mathrm{T}]} \cdot \qVecDD[e]
+    + \pDD{\mathcal{L}}{\qVecD[e]}{\qVec[][\mathrm{T}]} \cdot \qVecD
+    + \pDD{\mathcal{L}}{\qVecD[e]}{t}
+    - \pD{\mathcal{L}}{\qVec[e]} \nonumber\\
+    &+ \pD{\mathcal{R}}{\qVecD[e]}
+    + \pD{\bm{\mathcal{C}}^{\mathrm{T}}}{\qVec[e]} \cdot \bm{\lambda}
+    - \mathbf{Q}_e
+    - \pD{\mathbf{r}_x^{\mathrm{T}}}{\qVec[e]} \cdot \mathbf{F}_x
+    - \pD{\mathbf{r}_y^{\mathrm{T}}}{\qVec[e]} \cdot \mathbf{F}_y
+    - \pD{\mathbf{r}_z^{\mathrm{T}}}{\qVec[e]} \cdot \mathbf{F}_z
+\end{align}
+
+This can be trivially rearranged to obtain the solution for $\mathbf{Q}_e$.
+\begin{align}
+    \mathbf{Q}_e =
+    &\pDD{\mathcal{L}}{\qVecD[e]}{\qVecD[f][\mathrm{T}]} \cdot \qVecDD[f]
+    + \pDD{\mathcal{L}}{\qVecD[e]}{\qVecD[e][\mathrm{T}]} \cdot \qVecDD[e]
+    + \pDD{\mathcal{L}}{\qVecD[e]}{\qVec[][\mathrm{T}]} \cdot \qVecD
+    + \pDD{\mathcal{L}}{\qVecD[e]}{t}
+    - \pD{\mathcal{L}}{\qVec[e]} \nonumber\\
+    &+ \pD{\mathcal{R}}{\qVecD[e]}
+    + \pD{\bm{\mathcal{C}}^{\mathrm{T}}}{\qVec[e]} \cdot \bm{\lambda}
+    - \pD{\mathbf{r}_x^{\mathrm{T}}}{\qVec[e]} \cdot \mathbf{F}_x
+    - \pD{\mathbf{r}_y^{\mathrm{T}}}{\qVec[e]} \cdot \mathbf{F}_y
+    - \pD{\mathbf{r}_z^{\mathrm{T}}}{\qVec[e]} \cdot \mathbf{F}_z
+\end{align}
+
+This equation can be used in post-processing, after the solution trajectories for $\qVec[f]$, $\qVecD[f]$, $\qVecDD[f]$, and $\bm{\lambda}$ have been obtained through forward dynamics.
+
+The vector element correspondence between $\qVec$ and $\mathbf{Q}$ is one-to-one, in that any generalised coordinate can be individually converted between free and externally specified by changing which of either $\q[i]$ or $Q_i$ is specified. Procedurally: Given a system where $Q_i$ is externally specified, solve for the solution trajectory of $\q[i]$. Now respecify the system without $Q_i$, and instead set $\q[i]$ as externally specified to exactly follow its previously obtained solution trajectory. The system will then exhibit identical behaviour. This can be thought of as reordering the simultaneous equations and repartitioning the groups $\qVec[f]$ and $\qVec[e]$. Alternatively, this is described by that each $(\q[i], Q_i)$ forms a conjugate variable pair.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Decompositions} \label{sssec:d:decomposition}
+The definitions and assumptions in \secref{ssec:d:defs} begin from a set of already formed variables; e.g. the arguments of the Lagrangian are assumed. The following sections define additional variables, including variables for use to compose these previously assumed expressions. Subscripts are also used to decompose variables into contributions to different physical causes.
+
+Compatibility with the previous assumptions is strictly maintained. This mostly effects the arguments of the variables. In general, the arguments of the newly introduced variables are derived from the combination of their physical units, and from their relations to other variables through equations.
+
+Let $N_\mathrm{el}$ be the total number of system elements (springs, dampers, masses, forces, etc.). This is used to decompose the equations into summations over the system elements. For any term that is not associated with a given type of system element, the value of the term for that element should be set to $0$.
+
+Let the Lagrangian be defined as $\mathcal{L}=\mathcal{K}-\mathcal{V}$.
+
+% NOTE: Notation with "j" indexing chosen to be consistent with the other uses of "j" as an index, in that it is used to sum over system elements.
+\begin{center}
+\begin{threeparttable}
+\begin{tabular}{llll}
+    \textbf{Variable} & \textbf{Value} & \textbf{Range} & \textbf{Description}\\
+    \hline
+    $N_{\mathrm{el}}(const)$
+        &
+        & $\mathbb{Z} \geq 0$
+        & \makecell[tl]{Number of system elements \\(springs, dampers, masses, forces, etc.).} \\
+    $\mathcal{K}_j(\qVec, \qVecD, t)$
+        &
+        & $\mathbb{R}$
+        & Kinetic energy of an element in the system. \\
+    $\mathcal{V}_j(\qVec, \qVecD, t)$
+        &
+        & $\mathbb{R}$
+        & Potential energy of an element in the system. \\
+    $E_j(\qVec, \qVecD, t)$
+        & $=\mathcal{K}_j + \mathcal{V}_j$
+        & $\mathbb{R}$
+        & Mechanical energy of an element in the system. \\
+    $W_j(\qVec, \qVecD, t)$
+        &
+        & $\mathbb{R}$
+        & Work done on an element in the system. \\
+    $\mathcal{H}_j(\qVec, \qVecD, t)$
+        &
+        & $\mathbb{R}$
+        & Hamiltonian of an element in the system. \\
+    $\mathbf{Q}_{j}(\qVec, \qVecD, t)$
+        & $[Q_{1,j} \cdots Q_{(n+m),j}]^{\mathrm{T}}$
+        & $\mathbb{R}^{(n+m)\times1}$
+        & An equivalent generalised force that acts on the system\tnote{1,2}. \\
+    $\mathcal{K}(\qVec, \qVecD, t)$
+        & $=\sum_{j=1}^{N_\mathrm{el}}(\mathcal{K}_j)$
+        & $\mathbb{R}$
+        & Total kinetic energy of the system. \\
+    $\mathcal{V}(\qVec, \qVecD, t)$
+        & $=\sum_{j=1}^{N_\mathrm{el}}(\mathcal{V}_j)$
+        & $\mathbb{R}$
+        & Total potential energy of the system. \\
+    $E(\qVec, \qVecD, t)$
+        & $=\sum_{j=1}^{N_\mathrm{el}}(E_j)$
+        & $\mathbb{R}$
+        & Total mechanical energy of the system. \\
+    $\mathcal{H}(\qVec, \qVecD, t)$
+        & $=\sum_{j=1}^{N_\mathrm{el}}(\mathcal{H}_j)$
+        & $\mathbb{R}$
+        & Total Hamiltonian of the system. \\
+\end{tabular}
+\begin{tablenotes}
+    \item[\textbullet] The function arguments of $\mathcal{K}$ and $\mathcal{V}$ are chosen to be the same as of $\mathcal{L}$.
+    \item[\textbullet] Other function arguments are derived from the arguments of the variables in their defining equations.
+    \item[\textbullet] Not listed: additional subscripts are appended to further decompose variables into summations of parts e.g. $\mathbf{Q}_{j}=\sum\del{\mathbf{Q}_{j,...}}$
+    \item[1] To prevent confusion, let the previously assumed $\mathbf{Q}$ be also written as $\mathbf{Q}_{\mathrm{other}}$, and allow this to be decomposed into $\mathbf{Q}_{\mathrm{other}}=\sum_{j=1}^{N_\mathrm{el}}(\mathbf{Q}_{j,\mathrm{other}})$.
+    \item[2] Be careful to not mistake $\mathbf{Q}_{j}$ for the non-boldface $Q_i$, which is the $i$th vector element of $\mathbf{Q}$.
+\end{tablenotes}
+\end{threeparttable}
+\end{center}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Force Decompositions} \label{sssec:d:decomposition:force}
+Consider a change in perspective where the constraint equations $\bm{\mathcal{C}}$ are not enforced: what driving forces $\mathbf{Q}_{\mathrm{constraint}}$ should be applied to the system such that the constraints just happen to be fulfilled anyway (what reaction force does the constraint surface apply to the system)? Likewise, consider if a spring were removed from the system: what driving forces $\mathbf{Q}_{\mathrm{spring}}$ can exactly replace this to produce identical behaviour? Such a question can be asked of any system element. This section finds the equivalent generalised forces to each system element.
+
+Because the Euler-Lagrange equation has units of generalised force, we can simply replace any term in the equation with an equivalent generalised force. Conceptually, this can be likened to manipulating Euler-Lagrange equation to absorb all terms into the generalised force term, including the conservative and the inertial forces. For further detail, see \secref{ssec:f:nonConservative}. Note that the terms should be moved to the side of the equation for positive $\mathbf{Q}$, which specifies them as forces as acting on the system (rather than as forces exerted by the system).
+
+The hybrid forward-and-inverse dynamics Euler-Lagrange equations \eqref{eq:EL-hybrid-matrix} decompose into
+\begin{align}
+    \mathbf{0} =
+    \sum_{j=1}^{N_\mathrm{el}}\del[4]{
+        \underbrace{-\pDD{\mathcal{K}_j}{\qVecD}{\qVecD[][\mathrm{T}]} \cdot \qVecDD}_{\mathbf{Q}_{j,\mathrm{inertial}}}
+        \underbrace{
+            - \pDD{\mathcal{K}_j}{\qVecD}{\qVec[][\mathrm{T}]} \cdot \qVecD
+            + \pD{\mathcal{K}_j}{\qVec}
+        }_{\mathbf{Q}_{j,\mathrm{centrifugalAndCoriolis}}}
+        + \underbrace{- \pDD{\mathcal{K}_j}{\qVecD}{t}}_{\mathbf{Q}_{j,\mathrm{timeDependentK}}}
+        + \underbrace{
+            \pDD{\mathcal{V}_j}{\qVecD}{\qVecD[][\mathrm{T}]} \cdot \qVecDD
+            + \pDD{\mathcal{V}_j}{\qVecD}{\qVec[][\mathrm{T}]} \cdot \qVecD
+            + \pDD{\mathcal{V}_j}{\qVecD}{t}
+        }_{\mathbf{Q}_{j,\mathrm{velocityDependentV}}}
+    }
+\nonumber\\
+    + \sum_{j=1}^{N_\mathrm{el}}\del[4]{
+        \underbrace{- \pD{\mathcal{V}_j}{\qVec}}_{\mathbf{Q}_{j,\mathrm{potential}}}
+        + \underbrace{- \pD{\mathcal{R}_j}{\qVecD}}_{\mathbf{Q}_{j,\mathrm{Rayleigh}}}
+    }
+    + \sum_{j=1}^{N_c}\del[4]{
+        \underbrace{- \pD{\mathcal{C}_j}{\qVec} \lambda_j}_{\mathbf{Q}_{j,\mathrm{constraint}}}
+    }
+    + \sum_{j=1}^{N_\mathrm{el}}\del[4]{
+        \underbraceA{\mathbf{Q}_j}_{\mathbf{Q}_{j,\mathrm{other}}}
+        +  \underbrace{
+            \pD{r_{x,j}}{\qVec} F_{x,j}
+            + \pD{r_{y,j}}{\qVec} F_{y,j}
+            + \pD{r_{z,j}}{\qVec} F_{z,j}
+        }_{\mathbf{Q}_{j,\mathrm{pointForces}}}
+    }
+\end{align}
+
+This decomposition arises from first decomposing $K$ and $V$ into their respective summations over the system elements, and then rearranging to move the summations out of the derivatives to surround the whole equation.
+
+The equation can be used in post-processing, after the solution trajectories for $\qVec[f]$, $\qVecD[f]$, $\qVecDD[f]$, and $\bm{\lambda}$ have been obtained through forward dynamics. Prior to solving, it can also be useful to explore the terms in the equation symbolically e.g. to explore the relative influence of different system elements on the system dynamics. The terms can be evaluated in a per-system-element basis by individually calculating each term in each summation over $N_\mathrm{el}$, and the effect of the system element can be classified by which terms it contributes to.
+
+The given labels for each term are flexible to interpretation. For example, the term from the velocity-dependent potential that multiplies by $\qVecDD$ can be considered as an inertial term because contributes to the mass matrix.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsubsection{Force Mapping}
+
+%TODO: mapping Q->F
+%   1)
+%    Explicit time dependence may have some impact
+%   2)
+%    Account for the torque with the angular velocity Jacobian. Thus, the wrench [F;M] is being found
+%    Q = transpose(Jacobian of [velocity; angular velocity]) dot Wrench
+%    Note that pseudo-inverse is needed to find solution because not always square
+%    Thus, solution might not be unique or might not be possible for chosen jacobian
+%    The choice of jacobian is somewhat arbitrary (where to apply the forces/torque). Stack jacobians for each rigid body. check rank of jacobian for solution feasibility.
+%Let $\mathbf{J}=\pD{\mathbf{r}}{\qVec[][\mathrm{T}]}$ be the velocity Jacobian of position vector $r(\qVec)$.
+%Generalised forces can be transformed into Cartesian coordinates by using the velocity Jacobian.
+%\begin{align}
+%    \mathbf{Q} =& \mathbf{J}^{\mathrm{T}} \cdot \mathbf{F} \\
+%\end{align}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Energy, Work, and Power Decompositions} \label{sssec:d:decomposition:power}
+Following the derivations and discussion in \secref{ssec:f:hamiltonian}, the software calculates and decomposes the total system energy and the two forms of the Hamiltonian as
+\begin{equation}
+    E = \sum_{j=1}^{N_\mathrm{el}}\del[4]{
+        \underbrace{
+            \mathcal{K}_j + \mathcal{V}_j
+        }_{E_j}
+    }
+\end{equation}
+\begin{equation}
+    \mathcal{H}
+    = \sum_{j=1}^{N_\mathrm{el}}\del[4]{
+        \underbrace{
+            \mathcal{K}_j + \mathcal{V}_j
+            + \underbrace{\del{\pD{\mathcal{K}_j}{\qVecD[][\mathrm{T}]} \cdot \qVecD - 2\mathcal{K}_j}}_{\mathcal{H}_{j,\mathrm{nonQuadraticK}}}
+            + \underbrace{\del{- \pD{\mathcal{V}_j}{\qVecD[][\mathrm{T}]} \cdot \qVecD}}_{\mathcal{H}_{j,\mathrm{velocityDependentV}}}
+        }_{\mathcal{H}_j}
+    }
+\end{equation}
+\begin{equation}
+    \mathcal{H}_{f}
+    = \sum_{j=1}^{N_\mathrm{el}}\del[4]{
+        \underbrace{
+            \mathcal{K}_j + \mathcal{V}_j
+            + \underbrace{\del{\pD{\mathcal{K}_j}{\qVecD[f][\mathrm{T}]} \cdot \qVecD[f] - 2\mathcal{K}_j}}_{\mathcal{H}_{j,f,\mathrm{nonQuadraticK}}}
+            + \underbrace{\del{- \pD{\mathcal{V}_j}{\qVecD[f][\mathrm{T}]} \cdot \qVecD[f]}}_{\mathcal{H}_{j,f,\mathrm{velocityDependentV}}}
+        }_{\mathcal{H}_{j,f}}
+    }
+\end{equation}
+
+where $\mathcal{H}_f$ is defined per the traditional definition of the Euler-Lagrange equation, and $\mathcal{H}$ is defined per the hybrid forward-and-inverse dynamics variant. The decompositions arise from first decomposing $K$ and $V$ into their respective summations over the system elements, and then rearranging to move the summations out of the derivatives to surround the whole equation.
+
+The rates of change of the energy quantities ($\mathcal{K}$, $\mathcal{V}$, $E$, $\mathcal{H}$, $\mathcal{H}_f$, and their per-system-element variations) can be found by application of the chain rule \eqref{eq:n:chain-rule}. The differentiation requires the arguments lists to be extended to include $\qVecDD$. For example
+\begin{equation} \label{eq:dTdt}
+    \dot{\mathcal{K}}_j(\qVec, \qVecD, \qVecDD, t) =
+    \pD{\mathcal{K}_j}{\qVecD[][\mathrm{T}]} \cdot \qVecDD
+    + \pD{\mathcal{K}_j}{\qVec[][\mathrm{T}]} \cdot \qVecD
+    + \pD{\mathcal{K}_j}{t}
+\end{equation}
+
+The software defines work through its rate of change, as according to the first law of thermodynamics: $\dot{W}=\dot{E}$. This implicitly defines what the software considers to be internal or external to the system, with $E=\mathcal{K} + \mathcal{V}$ as the internal system energy, and $\dot{W}$ as the rate of energy transfer through the system boundary. Nevertheless, the choice of system boundaries is just a label, and it has no impact on the physics. Work terms can be relabelled as energy by moving them to the other side of the equation; by taking the negative of the term. The decomposition of this, as was derived in \secref{ssec:f:power}, is
+\begin{align}
+    \sum_{j=1}^{N_\mathrm{el}}\del[4]{
+        \underbraceA{
+            \dot{\mathcal{K}}_j
+            + \dot{\mathcal{V}}_j
+        }_{\dot{E}_{j,\mathrm{mechanical}}}
+    }
+    =& \sum_{i=1}^{n+m}\sum_{j=1}^{N_\mathrm{el}}\del[4]{
+        \underbraceA{Q_{i,j} \qD[i]}_{\dot{W}_{i,j,\mathrm{other}}}
+        + \underbraceA{\pD{\mathbf{r}_j^{\mathrm{T}}}{\q[i]} \cdot \mathbf{F}_j \qD[i]}_{\dot{W}_{i,j,\mathrm{pointForces}}}
+        + \underbraceA{- \pD{\mathcal{R}_j}{\qD[i]} \qD[i]}_{\dot{W}_{i,j,\mathrm{Rayleigh}}}
+    }
+    + \sum_{i=1}^{n+m}\sum_{j=1}^{N_c}\del[4]{
+        \underbraceA{- \pD{\mathcal{C}_j}{\q[i]} \lambda_j \qD[i]}_{\dot{W}_{i,j,\mathrm{constraint}}}
+    }
+\nonumber\\ &
+    + \sum_{j=1}^{N_\mathrm{el}}\del[4]{
+        \underbraceA{
+            - \pD{\mathcal{K}_j}{t}
+            + \pD{\mathcal{V}_j}{t}
+        }_{\dot{W}_{j,\mathrm{timeDependent}}}
+        + \underbraceA{- \dot{\mathcal{H}}_{j,\mathrm{nonQuadraticK}}}_{\dot{W}_{j,\mathrm{nonQuadraticK}}}
+        + \underbraceA{- \dot{\mathcal{H}}_{j,\mathrm{velocityDependentV}}}_{\dot{W}_{j,\mathrm{velocityDependentV}}}
+    }
+\end{align}
+with
+\begin{equation}
+    \dot{\mathcal{H}}_{j,\mathrm{nonQuadraticK}}
+        = \od{}{t}\sbr{\pD{\mathcal{K}_j}{\qVecD[][\mathrm{T}]} \cdot \qVecD - 2\mathcal{K}_j}
+\end{equation}
+\begin{equation}
+    \dot{\mathcal{H}}_{\mathrm{j,velocityDependentV}}
+        = - \od{}{t}\sbr{\pD{\mathcal{V}_j}{\qVecD[][\mathrm{T}]} \cdot \qVecD}
+\end{equation}
+
+This decomposition can be used similarly to the force decomposition; \secref{sssec:d:decomposition:force}. It can be evaluated in post-processing, explored symbolically prior to solving, and the terms can be evaluated in a per-system-element basis.
+
+Integration of the expression $\dot{W}=\dot{E}$ produces an expression for the work done over a time interval $[t_0,t_1]$.
+\begin{equation}
+    W_{t_0,t_1} = \eval[0]{E}_{t=t_1} - \eval[0]{E}_{t=t_0}
+\end{equation}
+
+This can be directly calculated from the calculated values of $E$ at different times.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{System Elements} \label{ssec:d:elements}
+This section lists and manipulates equations that describe system elements which are used for forming the Euler-Lagrange equations and exploring the properties of the system. The properties that are already described by general formula (e.g. $\dot{\mathcal{K}}_j$, $\dot{\mathcal{V}}_j$, $E_j$, $\dot{E}_j$, $\dot{W}_{j,\mathrm{total}}$) are not repeated unless the result is interesting.
+
+In all of the following, the arguments are deduced from the arguments of the variables in the equations.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Rigid Body} \label{ssec:d:elements:massRB}
+% NOTE: Symbol W for world frame conflicts with W for work, but it is in text font instead of maths font...
+
+Let W be an inertial coordinate frame, and let B be a coordinate frame that is attached the the centre of mass of the body and is fixed to rotate with the body.
+
+\begin{center}
+\begin{threeparttable}
+\begin{tabular}{llll}
+    \textbf{Variable} & \textbf{Value} & \textbf{Range} & \textbf{Description}\\
+    \hline
+    $\mathbf{g}(const)$
+        &
+        & $\mathbb{R}^{3\times1}$
+        & Gravitational acceleration vector, relative to W. \\
+    $\mathbf{p}(\qVec, t)$
+        &
+        & $\mathbb{R}^{3\times1}$
+        & Position vector encoding the location of B, relative to W. \\
+    $\mathbf{R}(\qVec, t)$
+        &
+        & $\mathbb{R}^{3\times3}$
+        & Rotation matrix encoding the orientation of B, relative to W. \\
+    $mass(const)$
+        & $\geq 0$
+        & $\mathbb{R}$
+        & Mass of the body. \\
+    $\mathbf{I}(const)$
+        &
+        & $\mathbb{R}^{3\times3}$
+        & Moment of inertia tensor of the body, as measured in B. \\
+\end{tabular}
+\begin{tablenotes}
+    \item[1] $\mathbf{R}$ is orthogonal.
+    \item[2] $\mathbf{I}$ is positive semi-definite.
+\end{tablenotes}
+\end{threeparttable}
+\end{center}
+
+The linear velocity can be found by applying the chain rule \eqref{eq:n:chain-rule}.
+\begin{equation}
+    \dot{\mathbf{p}}(\qVec, \qVecD, t) = \pD{\mathbf{p}}{\qVec[][\mathrm{T}]}\cdot\qVecD + \pD{\mathbf{p}}{t}
+\end{equation}
+
+The angular velocity tensor of the orientation of B, with respect to and as measured in the coordinates of W, can be obtained from the well-known rotation matrix derivative formula \cite{BJ3-43}, and by then applying the chain rule \eqref{eq:n:chain-rule}.
+\begin{align}
+    \bm{\Omega}(\qVec, \qVecD, t) =& \dot{\mathbf{R}} \cdot \mathbf{R}^{\mathrm{T}} \nonumber\\
+    =& \del{\sum_{i=1}^{n+m}\del{\pD{\mathbf{R}}{\q[i]}\cdot\qD[i]} + \pD{\mathbf{R}}{t}} \cdot \mathbf{R}^{\mathrm{T}}
+\end{align}
+
+From this, the angular velocity vector of B, with respect to and as measured in the coordinates of W, can be found by the also well-known decomposition \cite{BJ3-43}.
+\begin{equation}
+    \bm{\omega}(\qVec, \qVecD, t) = \begin{bmatrix}\bm{\Omega}_{3,2} \\ \bm{\Omega}_{1,3} \\ \bm{\Omega}_{2,1}\end{bmatrix}
+\end{equation}
+
+where $\bm{\Omega}_{row,column}$ is the matrix element $(row,column)$ of $\bm{\Omega}$.
+
+The kinetic and potential energies can then be found as
+\begin{equation}
+    \mathcal{V}_j(\qVec, t) = -mass\cdot\mathbf{g}^{\mathrm{T}} \cdot \mathbf{p}
+\end{equation}
+\begin{equation}
+    \mathcal{K}_j(\qVec, \qVecD, t) = \frac{1}{2}mass\cdot\dot{\mathbf{p}}^{\mathrm{T}} \cdot \dot{\mathbf{p}}
+    + \frac{1}{2}\bm{\omega}^{\mathrm{T}}\cdot \mathbf{I} \cdot \bm{\omega}
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Linear Spring} \label{ssec:d:elements:spring}
+\begin{center}
+\begin{threeparttable}
+\begin{tabular}{llll}
+    \textbf{Variable} & \textbf{Value} & \textbf{Range} & \textbf{Description}\\
+    \hline
+    $L(\qVec, t)$
+        &
+        & $\mathbb{R}$
+        & Length of the spring. \\
+    $L_N(const)$
+        &
+        & $\mathbb{R}$
+        & Natural length of the spring. \\
+    $k(const)$
+        &
+        & $\mathbb{R}$
+        & Spring constant. \\
+\end{tabular}
+%\begin{tablenotes}
+%    \item[1] 
+%\end{tablenotes}
+\end{threeparttable}
+\end{center}
+
+Spring pretension can be specified through offsetting the natural length. Springs can be routed along curved paths and this does not change the validity of the equations (it may help to consider the spring to be attached to a bowden cable that is routed through the curved path).
+
+Note the valid edge cases:
+\begin{itemize}\setlength{\parskip}{0em}
+    \item Zero or negative values of $L$ are possible in conical compression springs.
+    \item Zero or negative values of $L_N$ are possible in compression springs with pre-tension, and in inverted conical springs.
+    \item Zero or negative values of $k$ are possible, although, rather unusual.
+\end{itemize}
+
+The potential energy can be found as
+\begin{equation}
+    \mathcal{V}_j(\qVec, t) = \frac{1}{2} k \cdot (L-L_N)^2
+\end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Linear Damper} \label{ssec:d:elements:damper}
+\begin{center}
+\begin{threeparttable}
+\begin{tabular}{llll}
+    \textbf{Variable} & \textbf{Value} & \textbf{Range} & \textbf{Description}\\
+    \hline
+    $L(\qVec, t)$
+        &
+        & $\mathbb{R}$
+        & Length of the damper. \\
+    $k(const)$
+        &
+        & $\mathbb{R}$
+        & Damping constant. \\
+\end{tabular}
+%\begin{tablenotes}
+%    \item[1] 
+%\end{tablenotes}
+\end{threeparttable}
+\end{center}
+
+Note the valid edge cases:
+\begin{itemize}
+    \item Zero or negative values of $k$ are possible, although, rather unusual.
+\end{itemize}
+
+The Rayleigh dissipation function can be found as
+\begin{align}
+    \mathcal{R}_j(\qVec, t) =& \frac{1}{2} k \cdot \dot{L}^2 \nonumber\\
+    =&\frac{1}{2} k \cdot (\pD{L}{\qVec[][\mathrm{T}]}\cdot\qVecD + \pD{L}{t})^2
+\end{align}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Point Mass} \label{ssec:d:elements:mass}
+Same as a rigid body, but set the moment of inertia tensor as equal to the zero matrix.
+
+Point masses are generally considered to not have an orientation, so the orientation and angular velocity can also be set to zero. But it doesn't really matter.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Linear Torsion Spring} \label{ssec:d:elements:springR}
+Same as a linear spring, but replace `length' with `angle'.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Linear Torsional Damper} \label{ssec:d:elements:damperR}
+Same as a linear damper, but replace `length' with `angle'.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Other Forces} \label{ssec:d:elements:force}
+Forces specified as generalised forces are included through $\mathbf{Q}(\qVec, \qVecD, t)$.
+
+Point forces are included through $\mathbf{F}_j(\qVec, \qVecD, t)$ and $\mathbf{r}_j(\qVec, t)$.
+
+
+\FloatBarrier
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\printbibliography
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

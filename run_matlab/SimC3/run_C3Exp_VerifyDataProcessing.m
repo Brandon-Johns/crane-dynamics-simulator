@@ -126,8 +126,8 @@ raw_PP_P = raw_PP_P * 1e-3;
 %**********************************************************************
 % Define Geometry - Parameters
 %***********************************
-params = CDS_Params();
-points = CDS_Points(params);
+sys = CDS_SystemDescription();
+params = sys.params;
 
 params.Create('input', 'theta_1').SetAnalytic(V.theta_1_t);
 params.Create('input', 'theta_2').SetAnalytic(V.theta_2_t);
@@ -136,31 +136,28 @@ params.Create('input', 'theta_10').SetAnalytic(V.theta_10_t);
 %**********************************************************************
 % Define Geometry - Other
 %***********************************
-% Points and chains
-A = points.Create('A');
-I = points.Create('I');
-J = points.Create('J');
-K = points.Create('K', V.mass_K, V.inertia_K);
-L = points.Create('L');
-L2 = points.Create('L2');
-M = points.Create('M', V.mass_M, V.inertia_M);
+A = sys.CreatePoint('A');
+I = sys.CreatePoint('I');
+J = sys.CreatePoint('J');
+K = sys.CreatePoint('K', V.mass_K, V.inertia_K);
+L = sys.CreatePoint('L');
+L2 = sys.CreatePoint('L2');
+M = sys.CreatePoint('M', V.mass_M, V.inertia_M);
 
-chains = {[A,I,J,K,L,M], [L,L2]};
+sys.SetChains([A,I,J,K,L,M], [L,L2]);
 
 %**********************************************************************
 % Build Solution Object
 %***********************************
-SS = CDS_SolutionExp(params, t);
+SS = CDS_SolutionExp(sys, t);
 
-SS.AddPoint_Analytic(A);
-SS.AddPoint_Exp(I, V.T_w0, raw_BH_R, raw_BH_P, V.T_BH_I);
-SS.AddPoint_Exp(J, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_J);
-SS.AddPoint_Exp(K, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_K);
-SS.AddPoint_Exp(L, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_L);
-SS.AddPoint_Exp(L2, V.T_w0, raw_PP_R, raw_PP_P, V.T_PP_L);
-SS.AddPoint_Exp(M, V.T_w0, raw_PP_R, raw_PP_P, V.T_PP_M);
-
-SS.SetChains(chains);
+SS.CalculatePointTrajectory_Analytic(A);
+SS.CalculatePointTrajectory_Exp(I, V.T_w0, raw_BH_R, raw_BH_P, V.T_BH_I);
+SS.CalculatePointTrajectory_Exp(J, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_J);
+SS.CalculatePointTrajectory_Exp(K, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_K);
+SS.CalculatePointTrajectory_Exp(L, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_L);
+SS.CalculatePointTrajectory_Exp(L2, V.T_w0, raw_PP_R, raw_PP_P, V.T_PP_L);
+SS.CalculatePointTrajectory_Exp(M, V.T_w0, raw_PP_R, raw_PP_P, V.T_PP_M);
 
 SSp = CDS_Solution_Plot(SS);
 SSe = CDS_Solution_Export(SS);
@@ -174,7 +171,7 @@ SSp.PlotConfigSpace
 SSp.PlotInput
 SSp.PlotEnergyTotal
 SSp.PlotEnergyAll
-SSp.PlotTaskSpace_Mass
+SSp.PlotTaskSpace
 
 % SSe.DataToExcel
 

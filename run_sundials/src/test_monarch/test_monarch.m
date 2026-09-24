@@ -10,8 +10,6 @@ Referenced files: NA           Version , date
 
 %%% VERSION CHANGES %%%
 
-%%% TODO %%%
-
 %%% NOTES %%%
 
 

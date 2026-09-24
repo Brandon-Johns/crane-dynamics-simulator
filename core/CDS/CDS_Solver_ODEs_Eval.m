@@ -42,12 +42,12 @@ methods
         f_e_semiNum = subs(ODEs.f_e, c, cNum);
 
         % Save as anon functions
-        this.u_h = sys.params.u.q;
-        this.M_order2_h = matlabFunction(M_order2_semiNum,'Vars',{sym('t'), x, u});
-        this.fb_h = matlabFunction(f_b_semiNum,'Vars',{sym('t'), x, u});
-        this.fc_h = matlabFunction(f_c_semiNum,'Vars',{sym('t'), x, u});
-        this.fdT_h = matlabFunction(f_dT_semiNum,'Vars',{sym('t'), x, u});
-        this.fe_h = matlabFunction(f_e_semiNum,'Vars',{sym('t'), x, u});
+        this.u_h = sys.params.u.q_h;
+        this.M_order2_h = matlabFunction(M_order2_semiNum,'Vars',{sym('t','real'), x, u});
+        this.fb_h = matlabFunction(f_b_semiNum,'Vars',{sym('t','real'), x, u});
+        this.fc_h = matlabFunction(f_c_semiNum,'Vars',{sym('t','real'), x, u});
+        this.fdT_h = matlabFunction(f_dT_semiNum,'Vars',{sym('t','real'), x, u});
+        this.fe_h = matlabFunction(f_e_semiNum,'Vars',{sym('t','real'), x, u});
 
         % Set constraint mode
         this.Flag_withConstraint = strcmp(ODEs.modeConstraint, "withConstraint");
@@ -58,7 +58,7 @@ methods
     % Interface - Called by Solver
     %***********************************
     function x_d = Evaluate(this, t, x)
-        u = this.u_h(t, x);
+        u = this.u_h(t);
 
         M_order2 = this.M_order2_h(t, x, u);
         f_b = this.fb_h(t, x, u);

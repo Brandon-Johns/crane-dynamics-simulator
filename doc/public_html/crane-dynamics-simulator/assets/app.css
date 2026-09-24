@@ -1,0 +1,1117 @@
+:root {
+	/*
+	Devices under 350px not supported
+	Hardcoded because media queries don't support var()
+	MUST MATCH VALUE IN layout-main.js
+		size-tablet: 900px;
+		size-mobile: 480px;
+	*/
+
+	/*
+	VSCode colours
+		orange (not used for matlab scheme): #d7ba62
+		blue   (classdef/function keyword, inbuilt type): #569cd6
+		blue   (argument): #9cdcfe
+		pink   (keyword): #c586c0
+		yellow (function): #dcdcaa
+		orange (string): #ce9178
+		green  (super): #4ec9b0
+		green  (comment): #6a9942
+		green  (number): #b5cea8
+	*/
+	--tk-dim: #b9996e;
+	--tk-prompt: #1eb300;
+	--tk-inherited: #8f873e;
+	--tk-type: #3c86c2;
+	--tk-numeric: #a3b897;
+	--tk-function: #b6b68b;
+	--tk-variable: #76b0cf;
+	--tk-keyword: #bb77b5;
+	--tk-string: #be826a;
+	--tk-punctuation: #808080;
+	--tk-punctuation-lighter: #9e9e9e;
+	--tk-comment: #5b803b;
+	--text-file: #be826a;
+
+	--text-default: #9c9eb0;
+	--text-default-lighter1: #a0a1aa;
+	--text-heading: #8d627b;
+	--text-heading-dim: #775067;
+	--text-title: #7e7279;
+	--text-link: #3aa18d;
+	--text-link-dim: #257e6c;
+	--text-link-hover: #9068da;
+	--text-link-current: #b2ca5b;
+
+	--bg-body: #131313;
+	--bg-darker1: #0f0f0f;
+	--bg-darker2: #080808;
+	--bg-lighter1: #18181a;
+	--bg-lighter2: #1d1d1f;
+	--bg-accent1: #152632;
+	--bg-accent2: #112827;
+	--bg-accent3: #242424;
+	--bg-accent-dim: #181d1a;
+
+	--border-default-px: 2px;
+
+	--header-link-height: 3rem;
+	--header-pad-top: 0.8rem;
+	--header-pad-bot: 0.8rem;
+	--header-height: calc(var(--header-link-height) + var(--header-pad-top) + var(--header-pad-bot));
+	--header-height-mobile: 3.5rem;
+	--menu-button-radius: 1rem;
+
+	--margin-top-hp: 0.5rem;
+	--margin-top-pp: 1rem;
+	--margin-top-ph: 2rem;
+	--line-height: 1.25;
+
+	--icon-size: clamp(1.3rem, 2vw, 1.8rem);
+	--font-size: clamp(1rem, 1.6vw, 1.3rem);
+}
+
+
+/*////////////////////////////////////////////////////////////////////*/
+/* GENERIC */
+/*/////////////////////////////////*/
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: sans-serif;
+
+	/* Fun and inconsistent font sizes all over the place (on real phones) */
+	text-size-adjust: none;
+}
+
+video,
+img,
+svg,
+picture {
+	height: auto;
+	width: auto;
+}
+
+picture > img {
+	width: 100%;
+	object-fit: contain;
+}
+
+h1 {
+	font-size: 2rem;
+	line-height: 1.3;
+}
+
+h2 {
+	font-size: 1.8rem;
+	line-height: 1.3;
+}
+
+h3 {
+	font-size: 1.5rem;
+	line-height: 1.3;
+	font-weight: 500;
+}
+
+h1, h2 {
+	color: var(--text-heading-dim);
+}
+
+h3 {
+	color: var(--text-heading);
+}
+
+h4, p, pre, ul, input, textarea, select, label, summary, td, th {
+	font-size: var(--font-size);
+	line-height: var(--line-height);
+}
+
+p + p,
+ol + p,
+ul + p {
+	margin-top: var(--margin-top-pp);
+}
+
+p + h1,
+p + h2,
+p + h3,
+p + h4,
+pre + h1,
+pre + h2,
+pre + h3,
+pre + h4,
+ol + h1,
+ol + h2,
+ol + h3,
+ol + h4,
+ul + h1,
+ul + h2,
+ul + h3,
+ul + h4,
+details + h1,
+details + h2,
+details + h3,
+details + h4 {
+	margin-top: var(--margin-top-ph);
+}
+
+h1 + h2,
+h1 + h3,
+h1 + h4,
+h2 + h3,
+h2 + h4,
+h3 + h4,
+h1 + p,
+h2 + p,
+h3 + p,
+h4 + p,
+h1 + pre,
+h2 + pre,
+h3 + pre,
+h4 + pre {
+	margin-top: var(--margin-top-hp);
+}
+
+a {
+	cursor: pointer;
+	text-decoration: none;
+	color: var(--text-link);
+	transition: color 75ms ease-out;
+
+	&:hover {
+		color: var(--text-link-hover) !important;
+	}
+
+	&.ex-link {
+		display: inline;
+
+		svg.ex-link-icon {
+			margin-left: 0.25em;
+			margin-top: 0.1em;
+			margin-bottom: 0.2em;
+			height: 0.6em;
+			width: 0.6em;
+			fill: currentcolor;
+			opacity: 0.8;
+			display: inline;
+		}
+	}
+}
+
+ol, ul {
+	padding-inline-start: revert; /* Use browser default */
+	display: flow-root; /* Fix margin when next to a float */
+
+	@media screen and (max-width: 480px) {
+		padding-inline-start: 1em;
+	}
+
+	br {
+		content: " ";
+		display: block;
+	}
+}
+
+.ul-no-bullets {
+	list-style-type: none;
+}
+
+.ul-with-margin > li,
+.ul-with-margin > li > br {
+	margin-top: var(--margin-top-pp);
+}
+
+.ul-with-margin > li:first-child {
+	margin-top: calc(var(--margin-top-pp) / 2);
+}
+
+.no-margin-top {
+	margin-top: 0 !important;
+}
+
+
+/*////////////////////////////////////////////////////////////////////*/
+/* CORE */
+/*/////////////////////////////////*/
+body {
+	background-color: var(--bg-body);
+	color: var(--text-default);
+	display: flex;
+	flex-flow: column nowrap;
+	height: 100%;
+	width: 100%;
+	min-height: 100vh;
+	max-width: 100vw;
+	font-weight: 500;
+	font-size: var(--font-size);
+
+	&.high-contrast {
+		/* Using VSCode colours directly, where there are corresponding colours */
+		--tk-dim: #d7ba62;
+		--tk-prompt: #61d64a;
+		--tk-inherited: #b4ad6d;
+		--tk-type: #569cd6;
+		--tk-numeric: #b5cea8;
+		--tk-function: #dcdcaa;
+		--tk-variable: #9cdcfe;
+		--tk-keyword: #c586c0;
+		--tk-string: #ce9178;
+		--tk-punctuation: #a0a098;
+		--tk-punctuation-lighter: #D4D4D4;
+		--tk-comment: #6a9942;
+		--text-file: #ce9178;
+
+		--text-default: #cdcfd8;
+		--text-default-lighter1: #bbbcc4;
+		--text-heading: #c79cb5;
+		--text-heading-dim: #af899f;
+		--text-title: #a3989f;
+		--text-link: #4ec9b0;
+		--text-link-dim: #33a08a;
+		--text-link-hover: #b096e2;
+		--text-link-current: #c9df79;
+
+		--bg-body: #1E1E1E;
+		--bg-darker1: #1a1a1a;
+		--bg-darker2: #161616;
+		--bg-lighter1: #252526;
+		--bg-lighter2: #202020;
+		--bg-accent1: #202f3a;
+		--bg-accent2: #172c2b;
+		--bg-accent3: #3a3a3a;
+		--bg-accent-dim: #1f2521;
+	}
+}
+
+.container-outer {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: stretch;
+
+	/*
+	For hyperlinks with fragments <a href=page#fragmentID>
+	This corrects the scroll jump due to the height of a fixed/sticky header
+	LIMITATION
+		Conflict with lazy load (ios only?)
+	*/
+	scroll-margin-top: calc(var(--header-height) + 2rem);
+
+	@media screen and (max-width: 900px) {
+		/* Must match the header height, because of position:fixed */
+		padding-top: var(--header-height-mobile);
+		scroll-margin-top: calc(var(--header-height-mobile) + 2rem);
+	}
+}
+
+.container {
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	padding-bottom: 5rem;
+	overflow-x: auto;
+	width: 100%;
+
+	.container-inner {
+		/* WARNING: */
+		/* If change widths, check over everything again */
+		position: relative;
+		height: 100%;
+		width: 95%;
+		padding: var(--margin-top-ph) 1rem;
+		margin-top: 1.5rem;
+		margin-bottom: 1.5rem;
+
+		@media screen and (max-width: 900px) {
+			width: 100%; /* Still has padding */
+		}
+	}
+}
+
+
+/*////////////////////////////////////////////////////////////////////*/
+/* MANUALLY AUTHORED PAGES */
+/*/////////////////////////////////*/
+.file {
+	display: inline-block;
+	background-color: var(--bg-lighter1);
+	color: var(--text-file) !important;
+}
+
+.text-aside {
+	margin-left: 2rem;
+	margin-right: 2rem;
+	margin-top: var(--margin-top-hp);
+	margin-bottom: var(--margin-top-ph);
+	padding: 1rem;
+	background-color: var(--bg-accent1);
+
+
+	@media screen and (max-width: 900px) {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	p,em {
+		color: var(--text-default-lighter1);
+	}
+
+	.code-example:last-child {
+		margin-bottom: 0;
+	}
+
+	.file {
+		background: none;
+	}
+}
+
+.kinematic-diagram {
+	border: var(--border-default-px) solid #3b3c42;
+	margin-top: var(--margin-top-hp);
+	margin-bottom: var(--margin-top-pp);
+	max-width: 100%;
+}
+
+details.how-to {
+	--howto-button-colour: var(--bg-accent-dim);
+	--howto-gap: 1.5rem;
+	margin-top: var(--margin-top-hp);
+	margin-bottom: var(--howto-gap);
+
+	summary {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 3ex;
+		padding: 0.5rem 1rem;
+		background-color: var(--howto-button-colour);
+		border-radius: 1.5rem;
+		border: 2px solid var(--howto-button-colour);
+		transition: color, background-color 200ms ease-out;
+		list-style: none;
+		cursor: pointer;
+
+		&::-webkit-details-marker {
+			display: none;
+		}
+
+		h2 {
+			color: var(--text-heading);
+		}
+
+		svg {
+			stroke: var(--text-link-dim);
+			height: var(--icon-size);
+			width: var(--icon-size);
+			flex-shrink: 0;
+			transform: none;
+			transition: transform 500ms;
+		}
+	}
+
+	summary:hover {
+		background-color: var(--bg-accent2);
+
+		h2 {
+			color: var(--text-link-hover);
+		}
+
+		svg {
+			stroke: var(--text-link-hover);
+		}
+
+		@media screen and (max-width: 900px) {
+			/* Undo the hover style for mobile */
+			background-color: var(--howto-button-colour);
+
+			h2 {
+				color: var(--text-heading-dim);
+			}
+
+			svg {
+				stroke: var(--text-link-dim);
+			}
+		}
+	}
+
+	&[open] {
+		margin-bottom: var(--margin-top-ph);
+
+		summary {
+			margin-bottom: var(--margin-top-pp);
+
+			svg {
+				transform: rotateX(180deg);
+			}
+		}
+	}
+}
+
+.home-bullets {
+	li {
+		margin-top: var(--margin-top-pp);
+	}
+}
+
+.home-divider {
+	margin-top: 3rem;
+	padding-top: 1rem;
+	border-top: 5px solid var(--bg-accent3);
+}
+
+.home-text-box {
+	max-width: 60rem;
+}
+
+.home-showcase {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	width: 100%;
+
+	img,
+	video {
+		border: var(--border-default-px) solid #3b3c42;
+		margin: 1% !important;
+		margin: 0;
+		width: 31%;
+		background-color: #131313;
+	}
+}
+
+@media screen and (max-width: 1500px) {
+	.home-showcase {
+		video,
+		img {
+		width: 48%;
+		}
+	}
+}
+
+.home-example {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 1rem;
+
+	.code-example {
+		margin-bottom: 0;
+	}
+
+	.home-example-images {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		place-self: center;
+		justify-content: space-around;
+		height: 100%;
+		gap: 1rem;
+
+		video,
+		svg,
+		img {
+			border: var(--border-default-px) solid #3b3c42;
+			padding: 0;
+			margin: 0;
+			width: 100%;
+			max-width: min(450px, 100%);
+		}
+	}
+}
+
+.home-capabilities {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 4rem;
+	margin-bottom: 3rem;
+}
+
+@media screen and (max-width: 1500px) {
+	.home-example {
+		display: flex;
+		flex-direction: column;
+
+		.code-example {
+			margin-bottom: revert;
+		}
+
+		.home-example-images {
+			flex-direction: row;
+			place-self: center;
+			width: 100%;
+
+			video,
+			svg,
+			img {
+				flex: 1;
+				width: 33%;
+				max-width: unset;
+			}
+
+			/* Image aspect ratios for FlexAR */
+			#img-home-2p-kinematic { flex-grow: 1; }
+			#img-home-2p-video { flex-grow: calc(500/294); }
+			#img-home-2p-power { flex-grow: calc(948/624); }
+		}
+	}
+
+	.home-capabilities {
+		display: block;
+		margin-bottom: 3rem;
+
+		> *:not(:first-child) {
+			margin-top: 3rem;
+		}
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.home-example .home-example-images {
+		flex-direction: column;
+
+		video,
+		svg,
+		img {
+			width: 100%;
+			max-width: min(350px, 100%);
+			flex-grow: 0;
+			flex-shrink: 1;
+			flex-basis: auto;
+		}
+	}
+}
+
+
+
+/*////////////////////////////////////////////////////////////////////*/
+/* API REFERENCE */
+/*/////////////////////////////////*/
+/* Special tokens */
+.tk-dim-keyword         { color: var(--tk-dim); }
+.tk-prompt              { color: var(--tk-prompt); }
+.tk-property-inherited,
+.tk-method-inherited    { color: var(--tk-inherited); }
+
+/* Regular Matlab tokens */
+.tk-type      { color: var(--tk-type); }
+.tk-numeric   { color: var(--tk-numeric); }
+.tk-function,
+.tk-method,
+.tk-property  { color: var(--tk-function); }
+.tk-normal    { color: var(--tk-variable); }
+.tk-repeating,
+.tk-keyword   { color: var(--tk-keyword); }
+.tk-string,
+.tk-nv-name,
+.tk-nv-val    { color: var(--tk-string); }
+.tk-nv-equals,
+.tk-paren-o,
+.tk-paren-c,
+.tk-pipe,
+.tk-semi,
+.tk-comma,
+.tk-colon,
+.tk-equals,
+.tk-plus,
+.tk-minus,
+.tk-times,
+.tk-divide,
+.tk-hat,
+.tk-tilde { color: var(--tk-punctuation); }
+.tk-dot,
+.tk-uncode-times { color: var(--tk-punctuation-lighter); }
+
+/* Layout */
+.tk-type    { white-space: nowrap;}
+.tk-paren-o { padding-right: 0.2ex; }
+.tk-paren-c { padding-left: 0.2ex; }
+.tk-pipe    { padding-left: 0.2ex; padding-right: 0.2ex; }
+.tk-semi,
+.tk-comma   { padding-right: 0.2ex; }
+.tk-plus,
+.tk-minus,
+.tk-times,
+.tk-divide,
+.tk-hat,
+.tk-tilde   { padding-left: 0.1ex; padding-right: 0.1ex; }
+
+
+.code-example {
+	background-color: var(--bg-lighter1);
+	padding: 1rem;
+	margin-top: var(--margin-top-hp);
+	margin-bottom: var(--margin-top-ph);
+
+	&.code-console {
+		background-color: var(--bg-accent-dim);
+		font-size: smaller;
+
+		* {
+			padding: 0;
+			font-family: monospace;
+		}
+	}
+}
+
+.text-comment {
+	color: var(--tk-comment);
+
+	& + p.text-comment {
+		margin-top: 0;
+	}
+}
+
+.text-comment-indent {
+	margin-left: 2ex;
+}
+
+h4.text-comment + pre.text-comment {
+	margin-top: 0;
+}
+
+p.text-comment + h4.text-comment {
+	margin-top: 0.5em;
+}
+
+pre.text-comment + h4.text-comment {
+	margin-top: 0;
+}
+
+@media screen and (max-width: 480px) {
+	p.text-comment,
+	pre.text-comment {
+		white-space: pre-wrap;
+		padding-left: 4ex;
+		text-indent: -4ex;
+	}
+
+	.text-comment-line {
+		display: inline-block;
+		white-space: pre-wrap;
+		padding-left: 4ex !important;
+		text-indent: -4ex;
+	}
+}
+
+.ref-h1,
+.ref-superclass {
+	display: inline-block;
+}
+
+.ref-h1 + .text-comment,
+.ref-superclass + .text-comment {
+	margin-top: var(--margin-top-hp);
+}
+
+.ref-properties {
+	margin-bottom: 1.5rem;
+
+	/* Inter-cell borders */
+	border-spacing: 0;
+
+	&:has(+ *:not(.ref-properties)) {
+		margin-bottom: 5rem;
+	}
+
+	* > tr > td:nth-child(2) {
+		padding-left: 2ex;
+		width: 100%;
+	}
+}
+
+.ref-summary-properties:has(+ .ref-properties) {
+	margin-bottom: 1rem;
+}
+
+.ref-class-list,
+.repo-layout,
+.ref-summary-args,
+.ref-summary-properties,
+.ref-summary-methods {
+	margin-top: var(--margin-top-hp);
+	margin-bottom: 5rem;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	border-top: 2px solid var(--bg-accent3);
+	border-bottom: 2px solid var(--bg-accent3);
+	width: 100%;
+
+	/* Inter-cell borders */
+	border-spacing: 0;
+
+	thead > tr > th {
+		color: var(--text-title);
+		background: var(--bg-darker1);
+		padding-bottom: 0.5rem;
+	}
+
+	* > tr > * {
+		padding: 0 1ex;
+		min-width: max-content;
+		text-align: start;
+	}
+
+	tbody > tr:nth-child(odd) {
+		background: var(--bg-lighter2);
+	}
+
+	tbody > tr:nth-child(even) {
+		background: var(--bg-lighter1);
+	}
+
+	tbody > tr:hover {
+		background: var(--bg-darker1);
+	}
+
+	/* Allow linebreak before pipe */
+	/**:has(+ span.tk-pipe) {
+		display: inline-block;
+	}*/
+
+	/* Force linebreak before pipe on any line with 2 or more pipes */
+	span.tk-pipe ~ span.tk-pipe::before,
+	span.tk-pipe:has(~ span.tk-pipe)::before {
+		content: '';
+		display: block;
+	}
+}
+
+.ref-summary-args {
+	thead > tr > th:last-child {
+		width: 100%;
+	}
+}
+
+.ref-summary-args:has(+ .ref-summary-args) {
+	margin-bottom: 0;
+}
+
+.repo-layout {
+	.file {
+		background: none;
+	}
+
+	tbody > tr > td:nth-child(1) {
+		color: var(--text-file);
+	}
+}
+
+.ref-class-list {
+	tbody > tr > td {
+		vertical-align: top;
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+	}
+
+	tbody > tr > td > p {
+		margin: 0;
+	}
+
+	.methods-list {
+		/* Font slightly smaller */
+		columns: 3;
+		font-size: clamp(0.9rem, 1.4vw, 1.15rem);;
+	}
+
+	/* Table is really pushing the width limits, even fullscreen */
+	@media screen and (max-width: 1900px) {
+		.methods-list {
+			columns: 2;
+		}
+	}
+}
+
+
+/*////////////////////////////////////////////////////////////////////*/
+/* HEADER AND SIDEBAR */
+/*/////////////////////////////////*/
+.header {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem; /* Minimum gap */
+	top: 0;
+	z-index: 99;
+	background-color: var(--bg-darker2);
+	width: 100%;
+	height: var(--header-height);
+
+	@media screen and (max-width: 900px) {
+		/* Related to 'padding-top: var(--header-height-mobile);' on .container */
+		position: fixed;
+		height: var(--header-height-mobile);
+	}
+
+	.header-title {
+		display: flex;
+		height: inherit;
+		padding-left: 2%;
+		align-items: center;
+		justify-content: center;
+		font-size: clamp(1rem, 5vw, 2rem);
+		color: var(--text-title);
+		font-weight: 700;
+		margin-right: auto;
+	}
+
+	.contrast-toggle {
+		height: inherit;
+		margin-right: 2%;
+		border: none;
+		cursor: pointer;
+		box-shadow: none;
+		font-size: var(--font-size);
+		font-weight: 700;
+		color: var(--text-link-dim);
+		background-color: inherit;
+
+		&:hover {
+			color: var(--text-link-hover) !important;
+		}
+
+		@media screen and (max-width: 900px) {
+			margin-right: 0;
+		}
+	}
+}
+
+.header-switch {
+	height: inherit;
+	z-index: 200;
+	background: none;
+	border: none;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	box-shadow: none;
+	padding: 0.6rem;
+	padding-right: 1rem;
+
+	svg {
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
+		stroke: var(--text-link-dim);
+	}
+
+	&:hover svg {
+		stroke: var(--text-link-hover);
+	}
+}
+
+
+.header-switch-mobile {
+	display: none;
+
+	@media screen and (max-width: 900px) {
+		display: flex;
+	}
+
+	svg.hidden {
+		display: none;
+	}
+}
+
+.header-switch-desktop {
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 5rem;
+	width: 5rem;
+	transform: translateX(30%);
+
+	svg {
+		width: 100%;
+		height: 100%;
+		transform: none;
+	}
+
+	&.pinned > svg {
+		transform: rotateY(180deg) translateX(10%);
+	}
+
+	@media screen and (max-width: 900px) {
+		display: none;
+	}
+}
+
+.menu {
+	--min-link-gap: 0rem;
+	background-color: var(--bg-lighter1);
+	padding-left: 2%;
+	padding-right: 2%;
+	padding-top: 1rem;
+	padding-bottom: 10rem;
+
+	/* Everything for sticky to work */
+	position: sticky;
+	top: 0;
+	height: 100vh;
+	height: 100lvh;
+	overflow-y: auto;
+	overflow-x: hidden;
+	align-self: flex-start;
+	min-width: max-content;
+	scrollbar-gutter: stable;
+	scrollbar-color: var(--bg-accent3) var(--bg-lighter1);
+	scrollbar-width: thin;
+	overscroll-behavior: contain;
+
+	/* Desktop toggling */
+	nav {
+		display: none;
+	}
+
+	& > nav.open {
+		display: revert;
+	}
+
+	/* Mobile toggling */
+	/* Although I move top down, I'm not reducing the hight by this because there is sufficient padding anyway */
+	@media screen and (max-width: 900px) {
+		display: none;
+		min-width: 100%;
+		top: var(--header-height-mobile);
+
+		&.open {
+			display: revert;
+		}
+	}
+
+	@media screen and (max-width: 480px) {
+		/* Space link to make then easier targets on touch screens */
+		--min-link-gap: 1rem;
+	}
+
+	& > nav > ul {
+		list-style-type: none;
+		padding-inline-start: 0;
+		font-size: 1rem;
+
+		li {
+			width: max-content;
+			margin-bottom: max(0.1rem, var(--min-link-gap));
+		}
+	}
+
+	.menu-h1 {
+		padding-top: 1.5rem;
+		margin-bottom: 0.3rem;
+		font-size: clamp(1.3rem, 2vw, 1.5rem);
+	}
+
+	.menu-h2 {
+		padding-top: 0.7rem;
+		font-size: 1.1rem;
+	}
+
+	.menu-core {
+		margin-bottom: max(0rem, var(--min-link-gap));
+		font-size: 1.1rem;
+	}
+
+	a.current-page {
+		color: var(--text-link-current);
+	}
+}
+
+
+/*////////////////////////////////////////////////////////////////////*/
+/* HIGHLIGHT JS: vs2015.css */
+/*/////////////////////////////////*/
+/*
+ * Visual Studio 2015 dark style
+ * Author: Nicolas LLOBERA <nllobera@gmail.com>
+ *
+ * Modified By Brandon
+ * - Removed codeblock formatting
+ * - Changed and adjusted colours
+ */
+.hljs {
+  color: var(--tk-punctuation-lighter);
+}
+.hljs-keyword,
+.hljs-literal,
+.hljs-symbol,
+.hljs-name {
+  color: var(--tk-type);
+}
+.hljs-link {
+  color: var(--tk-type);
+  text-decoration: underline;
+}
+.hljs-built_in,
+.hljs-type {
+  color: var(--tk-function);
+}
+.hljs-number,
+.hljs-class {
+  color: var(--tk-numeric);
+}
+.hljs-string,
+.hljs-meta .hljs-string {
+  color: var(--tk-string);
+}
+.hljs-regexp,
+.hljs-template-tag {
+  color: #9A5334;
+}
+.hljs-subst,
+.hljs-function,
+.hljs-title,
+.hljs-params,
+.hljs-formula {
+  color: #DCDCDC;
+}
+.hljs-comment,
+.hljs-quote {
+  color: var(--tk-comment);
+  font-style: italic;
+}
+.hljs-doctag {
+  color: #608B4E;
+}
+.hljs-meta,
+.hljs-meta .hljs-keyword,
+.hljs-tag {
+  color: #9B9B9B;
+}
+.hljs-variable,
+.hljs-template-variable {
+  color: var(--tk-keyword);
+}
+.hljs-attr,
+.hljs-attribute {
+  color: var(--tk-variable);
+}
+.hljs-section {
+  color: gold;
+}
+.hljs-emphasis {
+  font-style: italic;
+}
+.hljs-strong {
+  font-weight: bold;
+}
+.hljs-bullet,
+.hljs-selector-tag,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: var(--tk-dim);
+}
+.hljs-addition {
+  background-color: #144212;
+  display: inline-block;
+  width: 100%;
+}
+.hljs-deletion {
+  background-color: #600;
+  display: inline-block;
+  width: 100%;
+}

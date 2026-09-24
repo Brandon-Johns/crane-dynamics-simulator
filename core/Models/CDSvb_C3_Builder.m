@@ -187,6 +187,7 @@ methods (Access=protected)
                 V.L_AB = 1.108; % Based off a trial from Exp2021-11-29
                 V.a_DE_eq = 0.6; % Based off a trial from Exp2021-11-29
             else
+                fprintf("\n")
                 warning("Use with CDSm_C3_ImportExp_v1.m to set [L_AB, theta_3_eq, a_DE_eq]")
             end
         case 7
@@ -225,7 +226,7 @@ methods (Access=protected)
         M_PI = pi; % C/C++ notation for pi
 
         fprintf('Input Preset: ')
-        syms t
+        syms t real
         switch inputPreset
         case 0
             fprintf('Stationary with skew=pi/2)')

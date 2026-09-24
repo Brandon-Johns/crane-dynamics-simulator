@@ -1,13 +1,11 @@
 %{
 PURPOSE
-    Various functions to validate, create, and write to text files
+    Validate filepaths. Create and write to text files
 %}
 
 classdef CDS_Helper_StrOut < handle
-properties
-    %
-end
 methods
+    % Blank constructor
     function this = CDS_Helper_StrOut()
         %
     end
@@ -15,9 +13,11 @@ methods
     %**********************************************************************
     % Interface: Create
     %***********************************
-    % Create a folder tree, given a path including the filename
+    % Create a folder tree
     % INPUT
-    %    filePath: path to the file
+    %   Relative filepath, including filename & extension
+    % OUTPUT
+    %   (string) DIM[1,1] The input path with the directory separator normalised for the current OS
     function filePath = MakePathToFile(this, filePath)
         arguments
             this(1,1)
@@ -45,10 +45,10 @@ methods
     % Validate that a given file path string has the desired file extension
     % The path itself is not validated
     % INPUT
-    %   filepath: The path to validate
-    %   extension: The file extension that should be at the end of the path
+    %   filepath: Relative filepath, including filename and optional file extension
+    %   extension: Desired file extension
     % OUTPUT
-    %   The input path. If there was no extension, then the extension is added
+    %   (string) DIM[1,1] The input path with the extension added
     function filePath = ValidateFileExtension(this, filePath, extension)
         arguments
             this(1,1)
@@ -72,20 +72,22 @@ methods
     % Check if a given file exists
     % Test the input string without altering it / without any error-correcting
     % INPUT
-    %   filepath: The path to validate
-    function pathExists = CheckFileExists(this, filePath)
+    %   Relative filepath, including filename & extension
+    % OUTPUT
+    %   (logical) DIM[1,1]
+    function result = CheckFileExists(this, filePath)
         arguments
             this(1,1)
             filePath(1,1) string
         end
-        pathExists = exist(filePath, "file");
+        result = exist(filePath, "file");
     end
 
     % Validate that a given file exists
     % INPUT
-    %   filepath: The path to validate
+    %   Relative filepath, including filename & extension
     % OUTPUT
-    %   The input path. The directory separator is automatically corrected to that of the current OS
+    %   (string) DIM[1,1] The input path with the directory separator normalised for the current OS
     function filePath = ValidateFileExists(this, filePath)
         arguments
             this(1,1)
@@ -98,9 +100,9 @@ methods
     % Validate a given file path string
     % Its existence is not validated
     % INPUT
-    %   filepath: The path to validate
+    %   Relative filepath, including filename & extension
     % OUTPUT
-    %   The input path. The directory separator is automatically corrected to that of the current OS
+    %   (string) DIM[1,1] The input path with the directory separator normalised for the current OS
     function filePath = ValidatePath(this, filePath)
         arguments
             this(1,1)
@@ -122,7 +124,7 @@ methods
     %***********************************
     % Clear content of txt file
     % INPUT
-    %   filePath: path to the file
+    %   Relative filepath, including filename & extension
     function ClearFile(this, filePath)
         arguments
             this(1,1)
@@ -139,12 +141,14 @@ methods
 
     % Append string to text file
     % INPUT
-    %   str: string to output
-    %   filePath: path to the file
-    %   mode =
-    %       "format": print formatted with 'fprintf()'
-    %       "exact": write exact string input with 'fwrite()'
-    %       "exactN": write exact string input, then newline
+    %   str
+    %       Text to output
+    %   filePath
+    %       Relative filepath, including filename & extension
+    %   mode
+    %       "format": Print formatted with 'fprintf()'
+    %       "exact":  Write exact string input with 'fwrite()'
+    %       "exactN": Write exact string input, then newline
     function StrToTxt(this, str, filePath, mode)
         arguments
             this(1,1)
@@ -180,18 +184,20 @@ methods
 
     % Append symbolic expression to text file
     % INPUT
-    %   var: symbolic matrix or cell array of symbolic matrices
-    %   filePath: path to the file
-    %   mode =
-    %       "bare": only print the expression (not for cell arrays)
-    %       "terminate": bare, but terminate line with ';\n\n'
-    %   modeWS =
-    %       "normalWS": print spaces within equation
-    %       "removeWS": remove spaces from equation
+    %   var
+    %       Symbolic matrix
+    %   filePath
+    %       Relative filepath, including filename & extension
+    %   mode
+    %       "bare":      Only print the expression (not for cell arrays)
+    %       "terminate": Bare, but terminate line with ';\n\n'
+    %   modeWS
+    %       "normalWS": Print spaces within equation
+    %       "removeWS": Remove spaces from equation
     function SymToTxt(this, var, filePath, mode, modeWS)
         arguments
             this(1,1)
-            var
+            var sym
             filePath(1,1) string = "tmp.txt"
             mode(1,1) string {mustBeMember(mode, ["bare","terminate"])} = "bare"
             modeWS(1,1) string {mustBeMember(modeWS, ["normalWS","removeWS"])} = "normalWS"
@@ -213,20 +219,10 @@ methods
         end
 
         % Print data
-        if iscell(var)
-            % Reshape into 1D cell array
-            var = var(:);
+        fprintf(fileID, '%s' ,preprocessWS(char(var)));
 
-            % Print each cell
-            for idx = 1:length(var)
-                fprintf(fileID, '%s\n\n' ,preprocessWS(char(var{idx})));
-            end
-        else % Bare matrix
-            fprintf(fileID, '%s' ,preprocessWS(char(var)));
-
-            if strcmp(mode,'terminate')
-                fprintf(fileID, ';\n\n');
-            end
+        if strcmp(mode,'terminate')
+            fprintf(fileID, ';\n\n');
         end
 
         % Close file

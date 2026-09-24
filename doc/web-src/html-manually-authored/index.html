@@ -1,0 +1,221 @@
+{{--Include into layoutMain as inner--}}
+
+<h1>Crane Dynamics Simulator</h1>
+<div class="home-text-box">
+	<p>Crane Dynamics Simulator (CDS) is a MATLAB package for simulating mechanical systems.</p>
+	<p>Systems are described through a declarative interface, and the software then symbolically generates the equations of motion using the Euler-Lagrange formulation with Lagrange multipliers. The software can solve these equations in MATLAB, or export them to C++. Tooling is provided to automatically generate, evaluate, and plot symbolic expressions for physical quantities at a per-system-element level, including trajectories, force decompositions, energy decompositions, and power decompositions.</p>
+	<ul class="home-bullets">
+		<li>This package does not contain any AI generated content.</li>
+		<li>The design philosophy is to provide automation, not abstraction.</li>
+		<li>The underlying maths and physics are accessible to the user, and are presented in a way that mirrors a pen-and-paper derivation.</li>
+	</ul>
+</div>
+
+<h2 class="home-divider">Showcase: Moving Constraint</h2>
+<div class="home-showcase">
+	<img id="img-home-e3-energy" src="/crane-dynamics-simulator/img/E3_ParticleOnPath_A_EnergyAll.svg" width="" height="">
+	<img id="img-home-e3-power" src="/crane-dynamics-simulator/img/E3_ParticleOnPath_A_Power_Custom.svg" width="" height="">
+	<img id="img-home-e3-task" src="/crane-dynamics-simulator/img/E3_ParticleOnPath_A_TaskSpace.svg" width="" height="">
+	<img id="img-home-e3-constraint" src="/crane-dynamics-simulator/img/E3_ParticleOnPath_B_ConstraintForces.svg" width="" height="">
+	<img id="img-home-e3-powertotal" src="/crane-dynamics-simulator/img/E3_ParticleOnPath_A_PowerAll.svg" width="" height="">
+	<video autoplay loop muted playsinline disablepictureinpicture preload="auto" width="350" height="250" poster="/crane-dynamics-simulator/video/E3_ParticleOnPath_A_60fps.webp">
+		<source type="video/webm; codecs=av01" src="/crane-dynamics-simulator/video/E3_ParticleOnPath_A_60fps.webm" />
+		<source type="video/mp4; codecs=avc1" src="/crane-dynamics-simulator/video/E3_ParticleOnPath_A_60fps.mp4" />
+	</video>
+</div>
+
+<h2 class="home-divider">Showcase: Flying Fox (Zipline)</h2>
+<div class="home-showcase">
+	<img id="img-home-e3-energy" src="/crane-dynamics-simulator/img/E18_FlyingFox_ConfigSpace.svg" width="" height="">
+	<img id="img-home-e3-power" src="/crane-dynamics-simulator/img/E18_FlyingFox_EnergyAll.svg" width="" height="">
+	<img id="img-home-e3-task" src="/crane-dynamics-simulator/img/E18_FlyingFox_PowerAll.svg" width="" height="">
+	<img id="img-home-e3-constraint" src="/crane-dynamics-simulator/img/E18_FlyingFox_Force.svg" width="" height="">
+	<img id="img-home-e3-powertotal" src="/crane-dynamics-simulator/img/E18_FlyingFox_TaskSpace.svg" width="" height="">
+	<video autoplay loop muted playsinline disablepictureinpicture preload="auto" width="350" height="250" poster="/crane-dynamics-simulator/video/E18_FlyingFox_60fps.webp">
+		<source type="video/webm; codecs=av01" src="/crane-dynamics-simulator/video/E18_FlyingFox_60fps.webm" />
+		<source type="video/mp4; codecs=avc1" src="/crane-dynamics-simulator/video/E18_FlyingFox_60fps.mp4" />
+	</video>
+</div>
+
+<h2 class="home-divider">Example</h2>
+<p>This is a complete example. Compare the code to the kinematic diagram (fig1).</p>
+<p>The code generates the displayed animation (fig2) and plot (fig3).</p>
+<p>Copy/paste it into matlab to solve the double pendulum.</p>
+<div class="home-example">
+{{@matlab-console-pre}}
+% System parameters
+sys = CDS_SystemDescription();
+sys.params.Create('free', 'theta_1').SetIC(1); % Generalised coordinate
+sys.params.Create('free', 'theta_2').SetIC(0); % Generalised coordinate
+sys.params.Create('const', 'L1').SetNum(1);
+sys.params.Create('const', 'L2').SetNum(1);
+sys.params.Create('const', 'g').SetNum(9.8);
+
+% Forward transformations
+T_OA = CDS_T('at',  'z', theta_1);
+T_AB = CDS_T('atP', 'z', theta_2, [L1;0;0]);
+T_BC = CDS_T('P',                 [L2;0;0]);
+T_OB = T_OA * T_AB;
+T_OC = T_OB * T_BC;
+
+% Point masses
+A = sys.CreatePoint('A');
+B = sys.CreatePoint('B').SetT_0n(T_OB).SetMass(1);
+C = sys.CreatePoint('C').SetT_0n(T_OC).SetMass(1);
+
+sys.SetGravity([g; 0; 0]); % Direction of gravity
+sys.SetChains([A,B,C]); % For the animation
+
+% Solve the system
+S = CDS_Solver;
+[t,x,xd] = S.Solve(sys);
+
+% Process the results
+SS = CDS_SolutionSim(sys, t, x, xd);
+SSa = CDS_Solution_Animate(SS);
+SSp = CDS_Solution_Plot(SS);
+
+% Plot an animation
+SSa.Animate
+
+% Evaluate and Plot Arbitrary symbolic expressions
+massPoints = [B;C];
+SSp.PlotSymExpr([...
+    massPoints.Power_dKdt,...
+    massPoints.Power_dVdt,...
+    massPoints.Power_dEdt])
+legend(["(dKdt) ","(dVdt) ","(dEdt) "] + massPoints.NameReadable,...
+    Orientation='horizontal', NumColumns=2, Location='northoutside');
+
+% Generate symbolic expressions per system element
+simplify(B.Power_dEdt)
+ans =
+L1*theta_1d*(L1*theta_1dd + g*sin(theta_1))
+{{/matlab-console-pre}}
+	<div class="home-example-images">
+		{{--Rendered from "doc/web-src/svg/DoublePendulum-js.html"--}}
+		<svg id="img-home-2p-kinematic" class="kinematic-diagram" viewBox="0 0 770 770" xmlns="http://www.w3.org/2000/svg" width="350">
+			<defs>
+				<marker id="dot" viewBox="0 0 20 20" refX="10" refY="10" markerWidth="10" markerHeight="10">
+					<circle cx="10" cy="10" r="5" fill="#9193a5"></circle>
+				</marker>
+			</defs>
+			<g stroke-linecap="round" stroke-linejoin="round" fill="none">
+				<path stroke="#9c9eb0" stroke-width="5" d="M 650 150 v 100 l 20 -30 m -20 30 l -20 -30"></path>
+				<path stroke="#9c9eb0" stroke-width="8" d="M 150 130 L 277 402 L 507 595"></path>
+				<path stroke="#808080" stroke-width="4" stroke-dasharray="15 11" d="M 150 330 L 150 130 L 361 583"></path>
+				<path stroke="#808080" stroke-width="4" d="M 150 250 A 120 120 0 0 0 201 239 M 327 511 A 120 120 0 0 0 369 479"></path>
+				<path stroke="#228833" stroke-width="15" d="M 250 130 L 150 130 L 241 88 M 277 402 L 341 325 M 507 595 L 571 518"></path>
+				<path stroke="#bb5566" stroke-width="15" d="M 150 230 L 150 130 L 192 221 M 277 402 L 354 466 M 507 595 L 584 659"></path>
+				<path stroke="none" stroke-width="5" marker-start="url(#dot)" marker-mid="url(#dot)" marker-end="url(#dot)" fill="none" d="M 150 130 L 277 402 L 507 595"></path>
+			</g>
+			<g stroke="none" fill="#9c9eb0" font-size="50" text-anchor="middle" dominant-baseline="middle">
+				<text x="650" y="100">g</text>
+				<g fill="#af888e">
+					<text x="100" y="217">x<tspan baseline-shift="sub" font-size="30">O</tspan></text>
+					<text x="232" y="187">x<tspan baseline-shift="sub" font-size="30">A</tspan></text>
+					<text x="375" y="419">x<tspan baseline-shift="sub" font-size="30">B</tspan></text>
+					<text x="605" y="612">x<tspan baseline-shift="sub" font-size="30">C</tspan></text>
+				</g>
+				<g fill="#84a88b">
+					<text x="300" y="130">y<tspan baseline-shift="sub" font-size="30">O</tspan></text>
+					<text x="286.5" y="67">y<tspan baseline-shift="sub" font-size="30">A</tspan></text>
+					<text x="373" y="286.5">y<tspan baseline-shift="sub" font-size="30">B</tspan></text>
+					<text x="603" y="479.5">y<tspan baseline-shift="sub" font-size="30">C</tspan></text>
+				</g>
+				<g fill="#808080">
+					<text x="184" y="286">θ<tspan baseline-shift="sub" font-size="30">1</tspan></text>
+					<text x="375" y="528">θ<tspan baseline-shift="sub" font-size="30">2</tspan></text>
+				</g>
+				<g fill="#9c9eb0">
+					<text x="80" y="130">O,A</text>
+					<text x="245" y="440">B</text>
+					<text x="475" y="633">C</text>
+				</g>
+			</g>
+		</svg>
+		<video id="img-home-2p-video" controls loop muted playsinline disablepictureinpicture preload="metadata" width="500" height="294" poster="/crane-dynamics-simulator/video/HomeExample2P_60fps.webp">
+			<source type="video/webm; codecs=av01" src="/crane-dynamics-simulator/video/HomeExample2P_60fps.webm" />
+			<source type="video/mp4; codecs=avc1" src="/crane-dynamics-simulator/video/HomeExample2P_60fps.mp4" />
+		</video>
+		<img id="img-home-2p-power" src="/crane-dynamics-simulator/img/HomeExample2P_PowerCustom.svg" width="948" height="624">
+	</div>
+</div>
+
+<h2 class="home-divider">Key Capabilities</h2>
+<div class="home-capabilities">
+	<div>
+		<h3>Modelling Capabilities</h3>
+		<p>Model components can be described by their fundamental properties. For example, a spring can be defined by its length without being attached to a specific location. Likewise, a location can be defined by its transformation, independent of any underlying kinematic linkage.</p>
+		<p>Components</p>
+		<ul>
+			<li>rigid bodies</li>
+			<li>point masses</li>
+			<li>massless locations</li>
+			<li>springs</li>
+			<li>torsion springs</li>
+			<li>dampers</li>
+			<li>point forces</li>
+			<li>generalised forces</li>
+			<li>holonomic constraints</li>
+		</ul>
+		<p>Features</p>
+		<ul>
+			<li>explicit time dependence (e.g. rheonomous systems)</li>
+			<li>position-driven coordinates (e.g. servo-controlled)</li>
+			<li>state-dependent forces (e.g. state feedback)</li>
+			<li>Baumgarte stabilisation</li>
+		</ul>
+	</div>
+	<div>
+		<h3>Automatic Equation Generation</h3>
+		<p>Equations can be generated in representation of the system as a whole, and as decomposed by system component and degree of freedom.</p>
+		<p>Decompositions can be split into categorised contributions from inertia, Coriolis and centrifugal effects, explicit time dependence, and velocity dependent potentials.</p>
+		<p>Whole-system equations</p>
+		<ul>
+			<li>System equations (formed as ODEs or DAEs)</li>
+			<li>Euler-Lagrange equations with Lagrange Multipliers</li>
+			<li>Values of Lagrange Multipliers</li>
+		</ul>
+		<p>Derived Quantities</p>
+		<ul>
+			<li>Lagrangian</li>
+			<li>Hamiltonian</li>
+			<li>system energies</li>
+			<li>equivalent generalised forces</li>
+		</ul>
+		<p>Decompositions</p>
+		<ul>
+			<li>energy balance</li>
+			<li>power balance</li>
+			<li>force balance</li>
+		</ul>
+	</div>
+</div>
+
+<h2 class="home-divider">Getting Started</h2>
+<div class="home-text-box">
+	<p>The target audience of this software should already be familiar with applying Lagrangian mechanics by pencil-and-paper method to describe and solve simple systems (e.g. a pendulum-cart), and with describing 3D pose using <exLink href="https://robotacademy.net.au/masterclass/3d-geometry/?lesson=102">4x4 homogeneous transformation matrices</exLink>.</p>
+
+	<p>Required Software</p>
+	<ul>
+		<li>MATLAB (Tested on version 2025a. Other versions may or may not work)</li>
+		<li>MATLAB Symbolic Math Toolbox</li>
+		<li>MATLAB Robotics System Toolbox</li>
+		<li>MATLAB Curve Fitting Toolbox (Optional - Used for some specific types of input)</li>
+		<li>MATLAB Signal Processing Toolbox (Optional - Used in some input files)</li>
+	</ul>
+
+	<p>To get started</p>
+	<ol>
+		<li>Download the GitHub repository</li>
+		<li>Follow the <a href="/crane-dynamics-simulator/tutorial.html">Tutorial</a> to create and run your first model</li>
+		<li>Review and run the examples in <span class="file">run_matlab/Examples/</span> to discover more complex functionality</li>
+		<li>Review the <a href="/crane-dynamics-simulator/how-to-guides.html">How-To Guides</a></li>
+		<li>Review the API Reference</li>
+	</ol>
+</div>
+
+<h2 class="home-divider">License and Suggested Citation</h2>
+<p>Please see the <exLink href="https://github.com/Brandon-Johns/crane-dynamics-simulator">GitHub repository readme</exLink>.</p>
+

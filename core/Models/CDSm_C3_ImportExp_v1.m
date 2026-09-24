@@ -45,8 +45,8 @@ methods
         %**********************************************************************
         % Define Geometry - Parameters
         %***********************************
-        params = CDS_Params();
-        points = CDS_Points(params);
+        sys = CDS_SystemDescription();
+        params = sys.params;
 
         params.Create('input', 'theta_1').Set_Selector(V.theta_1_t);
         params.Create('input', 'theta_2').Set_Selector(V.theta_2_t);
@@ -55,50 +55,46 @@ methods
         %**********************************************************************
         % Define Geometry - Other
         %***********************************
-        % Points and chains
-        A = points.Create('A');
-        I = points.Create('I');
-        J = points.Create('J');
-        K = points.Create('K', V.mass_K, V.inertia_K);
-        L = points.Create('L');
-        L2 = points.Create('L2');
-        M = points.Create('M', V.mass_M, V.inertia_M);
+        A = sys.CreatePoint('A');
+        I = sys.CreatePoint('I');
+        J = sys.CreatePoint('J');
+        K = sys.CreatePoint('K', V.mass_K, V.inertia_K);
+        L = sys.CreatePoint('L');
+        L2 = sys.CreatePoint('L2');
+        M = sys.CreatePoint('M', V.mass_M, V.inertia_M);
 
-        chains = {[A,I,J,K,L,M], [L,L2]};
+        sys.SetChains([A,I,J,K,L,M], [L,L2]);
 
         %**********************************************************************
         % Build Solution Object
         %***********************************
-        SS = CDS_SolutionExp(params, t);
+        SS = CDS_SolutionExp(sys, t);
 
-        SS.AddPoint_Analytic(A);
-        SS.AddPoint_Exp(I, V.T_w0, raw_BH_R, raw_BH_P, V.T_BH_I);
-        SS.AddPoint_Exp(J, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_J);
-        SS.AddPoint_Exp(K, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_K);
-        SS.AddPoint_Exp(L, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_L);
-        SS.AddPoint_Exp(L2, V.T_w0, raw_PP_R, raw_PP_P, V.T_PP_L);
-        SS.AddPoint_Exp(M, V.T_w0, raw_PP_R, raw_PP_P, V.T_PP_M);
-
-        SS.SetChains(chains);
+        SS.CalculatePointTrajectory_Analytic(A);
+        SS.CalculatePointTrajectory_Exp(I, V.T_w0, raw_BH_R, raw_BH_P, V.T_BH_I);
+        SS.CalculatePointTrajectory_Exp(J, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_J);
+        SS.CalculatePointTrajectory_Exp(K, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_K);
+        SS.CalculatePointTrajectory_Exp(L, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_L);
+        SS.CalculatePointTrajectory_Exp(L2, V.T_w0, raw_PP_R, raw_PP_P, V.T_PP_L);
+        SS.CalculatePointTrajectory_Exp(M, V.T_w0, raw_PP_R, raw_PP_P, V.T_PP_M);
 
         %**********************************************************************
         % Evaluate Missing Parameters - Setup
         %***********************************
-        tmpParams = CDS_Params();
-        tmpPoints = CDS_Points(tmpParams);
-        B = tmpPoints.Create('B');
-        C = tmpPoints.Create('C');
-        F = tmpPoints.Create('F');
-        %G = tmpPoints.Create('G');
-        tmpSS = CDS_SolutionExp(tmpParams, t);
-        tmpSS.AddPoint_Exp(B, V.T_w0, raw_BH_R, raw_BH_P, V.T_BH_B);
-        tmpSS.AddPoint_Exp(C, V.T_w0, raw_BH_R, raw_BH_P, V.T_BH_C);
-        tmpSS.AddPoint_Exp(F, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_F);
-        %tmpSS.AddPoint_Exp(G, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_G);
-        idxB = tmpSS.p_all==B;
-        idxC = tmpSS.p_all==C;
-        idxF = tmpSS.p_all==F;
-        %idxG = tmpSS.p_all==G;
+        tmpSys = CDS_SystemDescription();
+        B = tmpSys.CreatePoint('B');
+        C = tmpSys.CreatePoint('C');
+        F = tmpSys.CreatePoint('F');
+        %G = tmpSys.CreatePoint('G');
+        tmpSS = CDS_SolutionExp(tmpSys, t);
+        tmpSS.CalculatePointTrajectory_Exp(B, V.T_w0, raw_BH_R, raw_BH_P, V.T_BH_B);
+        tmpSS.CalculatePointTrajectory_Exp(C, V.T_w0, raw_BH_R, raw_BH_P, V.T_BH_C);
+        tmpSS.CalculatePointTrajectory_Exp(F, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_F);
+        %tmpSS.CalculatePointTrajectory_Exp(G, V.T_w0, raw_HB_R, raw_HB_P, V.T_HB_G);
+        idxB = tmpSS.sys.points==B;
+        idxC = tmpSS.sys.points==C;
+        idxF = tmpSS.sys.points==F;
+        %idxG = tmpSS.sys.points==G;
 
         %**********************************************************************
         % Evaluate Missing Parameters: L_AB
@@ -209,8 +205,8 @@ methods
         %**********************************************************************
         % Evaluate Missing Parameters: imagRope
         %***********************************
-        idxI = SS.p_all==I;
-        idxJ = SS.p_all==J;
+        idxI = SS.sys.points==I;
+        idxJ = SS.sys.points==J;
         P_IJ_measureWorld = [...
             SS.Px(idxJ, idx_time) - SS.Px(idxI, idx_time);
             SS.Py(idxJ, idx_time) - SS.Py(idxI, idx_time);

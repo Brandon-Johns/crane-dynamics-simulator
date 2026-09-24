@@ -44,9 +44,8 @@ CDS_IncludeSimulator;
 %**********************************************************************
 % Define System
 %***********************************
-params = CDS_Params();
-points = CDS_Points(params);
-
+sys = CDS_SystemDescription();
+params = sys.params;
 
 % Generalised coordinates and system parameters
 params.Create('free', 'theta_1').SetIC(0);
@@ -60,10 +59,9 @@ params.Create('const', 'g').SetNum(9.8);
 
 % Set the input
 % Choose one!
-syms t
+syms t real
 %d_OA_point.SetAnalytic((t/5)*(cos(t*2*pi/4)-1));
 d_OA_point.SetPiecewise([(t/5)*(cos(t*2*pi/4)-1), 0], 8); % Stop moving at t=8
-
 
 % Forward transformations as homogeneous transformation matrices
 T_OA = CDS_T('P', [d_OA;0;0]);
@@ -80,20 +78,17 @@ T_OD = T_OC * T_CD;
 %   Particles are points that have mass
 %   Rigid bodies are points that have mass and moment of inertia
 mass = 1; % [kg]
-O = points.Create('O');
-A = points.Create('A').SetT_0n(T_OA);
-B = points.Create('B', mass).SetT_0n(T_OB);
-C = points.Create('C', mass).SetT_0n(T_OC);
-D = points.Create('D', mass).SetT_0n(T_OD);
+O = sys.CreatePoint('O');
+A = sys.CreatePoint('A').SetT_0n(T_OA);
+B = sys.CreatePoint('B', mass).SetT_0n(T_OB);
+C = sys.CreatePoint('C', mass).SetT_0n(T_OC);
+D = sys.CreatePoint('D', mass).SetT_0n(T_OD);
 
 % Kinematic chains (used only for plotting the animation)
-chains = {[A,B,C,D]};
+sys.SetChains([A,B,C,D]);
 
 % Direction of gravity in base frame
-g0 = [0; -g; 0];
-
-% This holds the complete system description
-sys = CDS_SystemDescription(params, points, chains, g0);
+sys.SetGravity([0; -g; 0]);
 
 
 %**********************************************************************

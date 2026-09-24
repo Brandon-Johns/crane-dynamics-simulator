@@ -1,19 +1,20 @@
 %{
 PURPOSE
-    Get the path to the root project directory or a data directory
+    Form paths to subdirectories of data/
 
-% EXAMPLE
+EXAMPLE
     CDS_GetDataLocations().cache()
-    # Returns "C:\________\data\matlab_cache"
+    % Returns "C:\________\data\matlab_cache"
 
     CDS_GetDataLocations().cache("aaa","bbb","ccc")
-    # Returns "C:\________\data\matlab_cache\aaa\bbb\ccc"
+    % Returns "C:\________\data\matlab_cache\aaa\bbb\ccc"
 %}
-classdef CDS_GetDataLocations
+classdef CDS_GetDataLocations < handle
 properties (Access=private)
     base(1,1) string
 end
 methods
+    % Constructor
     function this = CDS_GetDataLocations()
         % Full path to this file (no matter where it is called from)
         [pathDir,~,~] = fileparts( mfilename('fullpath') );
@@ -22,12 +23,12 @@ methods
         this.base = fullfile(pathDir, "..","..","data");
     end
 
-    % INPUT
-    %   varargin: [string,...] directory hierarchy. Specify one directory per string
+    % Form a path from a root data directory to a subdirectory
+    % INPUT (Repeating)
+    %   (string) DIM[1,1] Subdirectory hierarchy. Specify one directory per string
     % OUTPUT
-    %   Path to the corresponding directory
+    %   (string) DIM[1,1] Path to the corresponding directory
     function out = root(this,varargin);          out = this.formPath(varargin{:}); end
-
     function out = exp_results(this,varargin);   out = this.formPath("experiments_results", varargin{:}); end
     function out = cache(this,varargin);         out = this.formPath("matlab_cache", varargin{:}); end
     function out = fig(this,varargin);           out = this.formPath("matlab_fig", varargin{:}); end

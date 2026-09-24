@@ -56,7 +56,7 @@ I_B_num = (1/12)*m_B_num*[...
     Bx_num^2+Bz_num^2,...
     Bx_num^2+By_num^2];
 
-syms t
+syms t real
 t_scale = t/sqrt(scale); % Must replace all 't' with 't_scale'
 t_max = 20*sqrt(scale);
 
@@ -64,16 +64,13 @@ t_max = 20*sqrt(scale);
 %**********************************************************************
 % Define System
 %***********************************
-params = CDS_Params();
-points = CDS_Points(params);
+sys = CDS_SystemDescription();
+params = sys.params;
 
 params.Create('free', 'theta_1').SetIC(pi-1);
 params.Create('input', 'd_OA').SetAnalytic((t_scale*d_OA_max_num)*sin(2*t_scale));
 params.Create('const', 'L_AB').SetNum(L_AB_num);
 params.Create('const', 'g').SetNum(9.8);
-
-% Direction of gravity in base frame
-g0 = [0; -g; 0];
 
 % Forward transformations
 T_OA = CDS_T('atP', 'z', 0, [d_OA;0;0]); % With control input
@@ -84,12 +81,12 @@ T_A2B = CDS_T('atP', 'z', 0, [L_AB;0;0]);
 
 T_OB = T_OA*T_AA2*T_A2B;
 
-O = points.Create('O');
-A = points.Create('A').SetT_0n(T_OA);
-B = points.Create('B', m_B_num, I_B_num).SetT_0n(T_OB);
+O = sys.CreatePoint('O');
+A = sys.CreatePoint('A').SetT_0n(T_OA);
+B = sys.CreatePoint('B', m_B_num, I_B_num).SetT_0n(T_OB);
 
-chains = {[O,A,B]};
-sys = CDS_SystemDescription(params, points, chains, g0);
+sys.SetChains([O,A,B]);
+sys.SetGravity([0; -g; 0]);
 
 
 %**********************************************************************

@@ -1,0 +1,633 @@
+{{--Include into layoutMain as inner--}}
+
+<h1>How-To Guides</h1>
+<details class="how-to">
+	<summary>
+		<div>
+			<h2>Transformation Matrices</h2>
+			<p>CDS_T represents a 4x4 homogeneous transformation matrix.</p>
+		</div>
+		<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<path d="m10 30 40 40 40-40" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+		</svg>
+	</summary>
+	<p>Transformation matrices are the primary means of describing position to the software. To learn more about the specific type of transformation matrix used in this software, see Peter Corke's short lecture on <exLink href="https://robotacademy.net.au/masterclass/3d-geometry/?lesson=102">describing 3D pose with 4x4 homogeneous transformation matrices</exLink>. Understanding this is essential to being able to use this software.</p>
+
+	<p>Specifically, this software uses the conventions of <exLink href="https://en.wikipedia.org/wiki/Active_and_passive_transformation">passive transformations</exLink> (movement of the coordinate system; change of basis), using <exLink href="https://en.wikipedia.org/wiki/Rotation_matrix#Ambiguities">pre-multiplication, with right-handed coordinates</exLink>. Put simply, this means that the transformation matrix <tex>\mathbf{T}_{AB}</tex> satisfies the relation </p>
+
+	<p><dtex>
+		\mathbf{P}_{h,\ A} = \mathbf{T}_{AB} \cdot \mathbf{P}_{h,\ B}
+		\quad given \quad \mathbf{P}_{h,\ A}=\begin{bmatrix}x_A\\y_A\\z_A\\1\end{bmatrix},
+		\quad \mathbf{P}_{h,\ B}=\begin{bmatrix}x_B\\y_B\\z_B\\1\end{bmatrix}
+	</dtex></p>
+
+	<p>where <tex>\mathbf{P}_{h,\ A}</tex> is a location, as measured in frame A, and <tex>\mathbf{P}_{h,\ B}</tex> is the same location, as measured in frame B.</p>
+	<p>The transformation matrix decomposes into the position vector <tex>\mathbf{P}_{AB}</tex>, and the rotation matrix <tex>\mathbf{R}_{AB}</tex>, which encode the relative location and orientation of frame B, as measured in frame A.</p>
+	<p><dtex>
+		\mathbf{T}_{AB}=\begin{bmatrix}\mathbf{R}_{AB} & \mathbf{P}_{AB} \\ \mathbf{0}_{1 \times 3} & 1\end{bmatrix},
+		\quad \mathbf{P}_{AB}=\begin{bmatrix}x_{AB}\\y_{AB}\\z_{AB}\end{bmatrix},
+		\quad \mathbf{P}_{h,\ AB}=\begin{bmatrix}x_{AB}\\y_{AB}\\z_{AB}\\1\end{bmatrix},
+		\quad \mathbf{R}_{AB}=\begin{bmatrix}
+			r_{1,1} & r_{1,2} & r_{1,3} \\
+			r_{2,1} & r_{2,2} & r_{2,3} \\
+			r_{3,1} & r_{3,2} & r_{3,3} \\
+		\end{bmatrix}
+	</dtex></p>
+
+	<p>These decompositions satisfy <tex>\mathbf{P}_{A} = \mathbf{P}_{AB} + \mathbf{R}_{AB} \cdot \mathbf{P}_{B}</tex>.</p>
+
+	<p>All transformations specified as part of the system description must be specified as relative to a single coordinate frame, the world frame, which is assumed to be an inertial frame. In keeping with the specified conventions, the software uses the following interpretation:</p>
+
+	<p><em>Let the world frame be assumed stationary. Let the other frames, specified by the provided transformation matrices, move around as a function of time. If a transformation matrix is used to specify the pose of a rigid body, then it is assumed that the frame has been specified such that it just happens to exactly follow the pose of the body. Thus, pose of frame = pose of body.</em></p>
+
+	<p>In this way, the convention of specifying transformations is <em>move-then-rotate</em>. First assume the world frame, O. Then apply the transformation <tex>\mathbf{T}_{OA}</tex> in which the decomposed <tex>\mathbf{P}_{OA}</tex> moves the world frame to point A, and then the decomposed <tex>\mathbf{R}_{OA}</tex> rotates this intermediary frame to a new orientation.</p>
+
+	<p>Realistically though, this is all just a matter of perspective. Feel free to think of it backwards or however you prefer.</p>
+
+	<p>Each {{@matlab}}CDS_T{{/matlab}} represents a single transformation matrix, and the value is immutable. Although immutable, the matrix can hold symbolic expressions which are functions of time - the expression is immutable, but the value that the expression evaluates to can vary.</p>
+
+	<h3>Creation</h3>
+	<p>{{@matlab}}CDS_T{{/matlab}} can be constructed by direct input of the underlying data.</p>
+{{@matlab-pre}}
+T_matrix = [
+    1,0,0,3;
+    0,1,0,4;
+    0,0,1,5;
+    0,0,0,1
+];
+
+T = CDS_T(T_matrix);
+{{/matlab-pre}}
+
+	<p>However, the following shorthand construction methods are recommended for everyday use. In the following, each pair shows the shorthand, followed by the equivalent direct input.</p>
+{{@matlab-pre}}
+syms x y z theta
+
+% 'P' means point
+CDS_T('P', [x;y;z]);
+CDS_T([1,0,0,x; 0,1,0,y; 0,0,1,z; 0,0,0,1]);
+
+% 'R' means rotation matrix
+CDS_T('R', [0,0,1; -1,0,0; 0,1,0])
+CDS_T([0,0,1,0; -1,0,0,0; 0,1,0,0; 0,0,0,1]);
+
+% 'at' means rotation by theta (in radians) about the x, y, or z axis
+% In this case, the second argument is z, for rotation about the z axis
+CDS_T('at', 'z' theta);
+CDS_T([1,0,0,0; 0,cos(theta),-sin(theta),0; 0,sin(theta),cos(theta),0; 0,0,0,1]);
+
+% Combination of 'R' and 'P'
+% Following the convention of move, then rotate
+CDS_T('RP', [0,0,1; -1,0,0; 0,1,0], [x;y;z]);
+CDS_T([0,0,1,x; -1,0,0,y; 0,1,0,z; 0,0,0,1]);
+
+% Combination of 'at' and 'P'
+% Following the convention of move, then rotate
+CDS_T('atP', 'z', theta, [x;y;z]);
+CDS_T([1,0,0,x; 0,cos(theta),-sin(theta),y; 0,sin(theta),cos(theta),z; 0,0,0,1]);
+{{/matlab-pre}}
+
+	<p>For construction from other representations (e.g. DH, Modified DH, Euler, Angle-Axis), you may wish to either extend the constructor to provide support, or use direct input of an externally constructed T. Construction from quaternions is supported for transformation matrices of type {{@matlab}}double{{/matlab}} only.</p>
+
+	<h3>Composition of transformations</h3>
+	<p>Transformations can be directly multiplied by other transformations and matrices of compatible size</p>
+	<p>Composing transformations is the intended means of constructing complex transformations for specification as part of the system description e.g. because {{@matlab}}CDS_Point{{/matlab}} requires that transformations are specified with respect to the world frame.</p>
+{{@matlab-console-pre}}
+>> syms x y z theta a b c
+>> T_AB = CDS_T('P', [x;y;z]);
+>> T_BC = CDS_T('at', 'z', theta);
+>> Ph_CD = [a;b;c;1];
+
+% Compose Transformations
+>> T_AC = T_AB * T_BC
+T_AC =
+  CDS_T with properties:
+    T: [4×4 sym]
+
+>> T_AC.T
+ans =
+[cos(theta), -sin(theta), 0, x]
+[sin(theta),  cos(theta), 0, y]
+[         0,           0, 1, z]
+[         0,           0, 0, 1]
+
+% Compose Transformations apply transformation to a position vector
+>> Ph_AD = T_AB * T_BC * Ph_CD
+Ph_AD =
+x + a*cos(theta) - b*sin(theta)
+y + b*cos(theta) + a*sin(theta)
+                          c + z
+                              1
+{{/matlab-console-pre}}
+
+	<h3>Decomposition</h3>
+	<p>The following methods are given for deconstructing transformation matrices. Additional methods are available in the function reference (see {{@matlab}}CDS_T{{/matlab}}).</p>
+{{@matlab-console-pre}}
+>> T = CDS_T([1,0,0,3; 0,1,0,4; 0,0,1,5; 0,0,0,1]);
+
+%% Position
+>> T.x
+3
+
+>> T.y
+4
+
+>> T.z
+5
+
+>> T.P
+[3; 4; 5]
+
+% Homogeneous position
+>> T.Ph
+[3; 4; 5; 1]
+
+% Rotation matrix
+>> T.R
+[1,0,0; 0,1,0; 0,0,1]
+
+% Itself as a matrix
+>> T.T
+[1,0,0,3; 0,1,0,4; 0,0,1,5; 0,0,0,1]
+
+% Its inverse
+>> T_inv = T.Inv;
+>> T_inv.T
+[1,0,0,-3; 0,1,0,-4; 0,0,1,-5; 0,0,0,1]
+{{/matlab-console-pre}}
+</details>
+<details class="how-to">
+	<summary>
+		<div>
+			<h2>Object Arrays</h2>
+			<p>Call methods on arrays of objects directly.</p>
+		</div>
+		<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<path d="m10 30 40 40 40-40" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+		</svg>
+	</summary>
+	<p>This package extensively abuses MATLAB's convention of <em>everything is a matrix</em>.</p>
+	<p>Roughly half of the methods in this software may be called directly on arrays of objects.</p>
+	<h3>For-loops, begone!</h3>
+	<p>As an introductory example, consider an array of transformation matrices.</p>
+{{@matlab-console-pre}}
+>> T1 = CDS_T('P', [1; 0.1; 0]);
+>> T2 = CDS_T('P', [2; 0.2; 0]);
+>> T3 = CDS_T('P', [3; 0.3; 0]);
+>> T_array = [T1; T2; T3];
+
+>> T_array.x
+ans =
+     1
+     2
+     3
+
+>> T_array.batch_P
+ans =
+    1.0000    2.0000    3.0000
+    0.1000    0.2000    0.3000
+         0         0         0
+{{/matlab-console-pre}}
+
+	<p>So a natural question that arises from this is "why?". Well, the first reason is to eliminate the need to write for-loops. The alternative would be something like</p>
+{{@matlab-pre}}
+T_array = [T1; T2; T3];
+x_array = zeros(size(T_array));
+P_array = zeros([3, size(T_array)]);
+for (idx = 1:numel(T_array))
+    x_array(idx) = T_array(idx).x;
+    P_array(:, idx) = T_array(idx).P;
+end
+{{/matlab-pre}}
+	<p>Now, that's not very readable compared to just {{@matlab}}P_array=T_array.batch_P{{/matlab}}.</p>
+
+	<p>The convention for the size of array call outputs is {{@matlab}}[size(tensorValue), size(objectArray)]{{/matlab}}. In the above example, {{@matlab}}.x{{/matlab}} produces a scalar, so the dimensions of the output array directly match the input array. However, {{@matlab}}.P{{/matlab}} produces a vector, so the dimensionality of the output array are increased by 1.</p>
+
+	<h3>Containers, begone!</h3>
+	<p>Another, more extreme abuse of the array call convention is the abstract class {{@matlab}}CDS_NamedItem{{/matlab}}, from which most classes comprising the system description derive. This class has decided that dedicated container classes are for the birds. This behaviour is best described through example.</p>
+{{@matlab-console-pre}}
+>> params = CDS_Params;
+>> params.Create("const", "g");
+>> params.Create("const", "L1");
+>> params.Create("const", "L2");
+>> params.Create("const", "L3");
+>> paramArray = params.All
+paramArray =
+  4×1 CDS_Param_Const array with no properties.
+
+% Now that we have an array of parameters, let's start treating it as a dictionary
+>> paramArray.Contains("g")
+ans =
+  logical
+   1
+>> paramArray.SubsetIdx(["g","L2"])
+ans =
+     1
+     3
+>> subsetArray = paramArray.Subset(["g","L2"])
+subsetArray =
+  2×1 CDS_Param_Const array with no properties.
+>> subsetArray.Name
+ans =
+  2×1 string array
+    "g"
+    "L2"
+
+% Now let's set and retrieve some values
+>> paramArray.Subset(["g"]).SetNum(9.8);
+>> paramArray.Subset(["L2"]).SetNum(50);
+>> paramArray.Num
+ans =
+    9.8000
+         0
+   50.0000
+         0
+
+paramArray.Subset(["g","L2"]).Num
+ans =
+    9.8000
+   50.0000
+{{/matlab-console-pre}}
+
+	<p>Again, we shall contrast this to the alternative</p>
+{{@matlab-pre}}
+% Tracking indices
+keys = ["g","L2"];
+allKeys = strings(size(paramArray));
+for (idx = 1:numel(paramArray))
+    allKeys(idx) = paramArray(idx).Str;
+end
+contains_g = any(allKeys=="g");
+subsetArray = paramArray(any(allKeys==keys, 2));
+paramArray(allKeys=="g").SetNum(9.8);
+paramArray(allKeys=="L2").SetNum(50);
+
+nums = zeros(size(paramArray));
+for (idx = 1:numel(paramArray))
+    nums(idx) = paramArray(idx).Num;
+end
+
+% Juggling dictionary keys
+paramDict = dictionary
+paramDict("g") = CDS_Param_Const("g");
+paramDict("L1") = CDS_Param_Const("L1");
+paramDict("L2") = CDS_Param_Const("L2");
+paramDict("L3") = CDS_Param_Const("L3");
+keys = ["g","L2"];
+subsetDict = dictionary(keys, paramDict.lookup(keys));
+{{/matlab-pre}}
+
+	<p>The key insight is that the values themselves are named; the name stays with the item even as you subset the array. There is no need to juggle containers just to keep the keys with the items.</p>
+
+	<!--The highlight.js language used here is comedic reasons-->
+	<p>For those familiar with the pythonic <code class="language-powershell">subsetDict = { key: value for key, value in paramDict.items() if key in keys }</code>, this becomes {{@matlab}}subsetArray=paramArray.Subset(keys){{/matlab}}.</p>
+
+	<p>{{@matlab}}CDS_NamedItem{{/matlab}} pairs well with method chaining, e.g. {{@matlab}}paramArray.Subset(...).Num{{/matlab}}, because {{@matlab}}.Subset{{/matlab}} returns an array of objects. Thus, the result can be immediately directed right into another array call.</p>
+</details>
+<details class="how-to">
+	<summary>
+		<div>
+			<h2>Explicit Time Dependence</h2>
+			<p>CDS_Param_Input and the symbolic variable for time.</p>
+		</div>
+		<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<path d="m10 30 40 40 40-40" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+		</svg>
+	</summary>
+	<div class="text-aside">
+		<p><em>Related Examples</em></p>
+		<ul class="ul-no-bullets">
+			<li><p class="file">run_matlab/Examples/E10_TriplePendulumCartDriven.m</p></li>
+		</ul>
+	</div>
+	<div class="text-aside">
+		<p>The symbolic variable {{@matlab}}sym('t','real'){{/matlab}} is reserved to represent time. There is no need to create a parameter for it; the sym is automatically recognised by the software. Instead, this sym should be instanced as usual per the symbolic toolbox</p>
+		<p>Furthermore, <em>we be keep'n it real</em>.</p>
+{{@matlab-pre}}
+syms t real
+{{/matlab-pre}}
+	</div>
+
+	<p>Consider the explicitly time-dependent system where the top of a pendulum is moved according to a predefined function of time <tex>L_{OA}(t)=sin(t)</tex>. Assume this movement is generated externally; it is going to happen no matter what, and it is not influenced by the system. It should be expected that waving around the top of a pendulum like this should induce swinging of the bob.</p>
+	<p>The symbolic variable {{@matlab}}sym('t','real'){{/matlab}} is reserved to represent time for the purpose of modelling such systems. In the pendulum case, this looks like</p>
+{{@matlab-pre}}
+sys = CDS_SystemDescription();
+params = sys.params;
+params.Create('free', 'theta_1').SetIC(0);
+params.Create('const', 'L_AB').SetNum(1);
+params.Create('const', 'g').SetNum(9.8);
+
+% Instance the symbolic variable t, to represent time
+syms t real
+L_OA = sin(t);
+
+T_OA  = CDS_T('P', [L_OA;0;0]);
+T_AA2 = CDS_T('at', 'z', theta_1-sym(pi)/2);
+T_A2B = CDS_T('P', [L_AB;0;0]);
+T_OB = T_OA * T_AA2 * T_A2B;
+
+mass = 1;
+A = sys.CreatePoint('A').SetT_0n(T_OA);
+B = sys.CreatePoint('B', mass).SetT_0n(T_OB);
+sys.SetChains([A,B]);
+sys.SetGravity([0; -g; 0]);
+{{/matlab-pre}}
+
+	<p>Doing this makes the Lagrangian and the system equations explicitly time-dependent. The variable {{@matlab}}t{{/matlab}} enters the equations though the kinetic energy term. The Physics &amp; Maths Background pdf details the implications of this.</p>
+
+	<p>Alternatively, this software provides time varying parameters. These represent the same concept, but the predefined function of time is given a symbolic variable. They are referred to as 'inputs' or 'externally specified generalised coordinates'.</p>
+
+	<p>The following code creates the parameter <tex>L_{OA}</tex>, as equivalent to the prior example.</p>
+{{@matlab-pre}}
+syms t real
+sys.params.Create('input', 'L_OA').SetAnalytic(sin(t));
+{{/matlab-pre}}
+
+	<p>Extending this, the following defines it to follow the piecewise function:</p>
+	<p><dtex>
+		L_{OA}(t) = \begin{cases}
+			t & t \in [0,5] \\
+			2t - 5 & t \in (5,9] \\
+			t + 4 & t \in (9,15]
+		\end{cases}
+	</dtex></p>
+{{@matlab-pre}}
+syms t real
+sys = CDS_SystemDescription();
+sys.params.Create('input', 'L_OA').SetPiecewise([t, 2*t-5, t+4], [5,9]);
+{{/matlab-pre}}
+
+	<p>Extending this even further, the method {{@matlab}}.SetSpline{{/matlab}} can be used to fix the motion to any smooth trajectory that is desired. For example, a spline can be fit to an experimentally sampled trajectory.</p>
+	<div class="text-aside">
+		<p>Warning:</p>
+		<ul>
+			<li>Inputs can make the ODE become stiff</li>
+			<li>Piecewise inputs can make the ODE stiff at the discontinuity</li>
+		</ul>
+		<p>In general, it is best to first test with no input, and then introduce slow smooth inputs, before trying fast/rough inputs</p>
+	</div>
+
+	<p>The method {{@matlab}}.q(t){{/matlab}} evaluates the expression at the input times. This can be useful for plotting, to inspect the smoothness.</p>
+{{@matlab-pre}}
+% Plot the input
+time = 0:0.01:15;
+plot(time, sys.params.Subset("L_OA").q(time));
+{{/matlab-pre}}
+</details>
+<details class="how-to">
+	<summary>
+		<div>
+			<h2>Kinematic Constraints</h2>
+			<p>CDS_Component_Constraint is used to algebraically constrain the system geometry.</p>
+		</div>
+		<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<path d="m10 30 40 40 40-40" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+		</svg>
+	</summary>
+	<div class="text-aside">
+		<p><em>Related Examples</em></p>
+		<ul class="ul-no-bullets">
+			<li><p class="file">run_matlab/Examples/E3_ParticleOnPath_A.m</p></li>
+			<li><p class="file">run_matlab/Examples/E4_ParticleOnPath_B.m</p></li>
+			<li><p class="file">run_matlab/Examples/E5_ParticleOnCone.m</p></li>
+			<li><p class="file">run_matlab/Examples/E6_ParticleOnSphere.m</p></li>
+			<li><p class="file">run_matlab/Examples/E11_4BarLinkage.m</p></li>
+			<li><p class="file">run_matlab/Examples/E12_Pulley.m</p></li>
+			<li><p class="file">run_matlab/Examples/E13_ParticleOnPath_Fancy.m</p></li>
+		</ul>
+	</div>
+	<p>Suppose you're modelling a crank mechanism or a closed kinematic chain. It can be difficult to describe such systems with a set of linearly independent generalised coordinates. If only you could define a couple extra coordinates than degrees of freedom.</p>
+	<p>The software permits this. Mathematically, for every additional free generalised variable {{@matlab}}CDS_Param_Free{{/matlab}} used, an algebraic constraint equation {{@matlab}}CDS_Component_Constraint{{/matlab}} should be specified to constrain this extra degree of freedom. Any number of constraint equations may be specified, provided that this rule is followed.</p>
+	<p>The Physics &amp; Maths Background pdf further details the physical meaning of the constraints, and how they can effect numerical error.</p>
+
+	<p>To use {{@matlab}}CDS_Component_Constraint{{/matlab}}, first form your constraint equations into the form <tex>C=0</tex>. These may then be applied to the system as follows</p>
+{{@matlab-pre}}
+% Given:
+%   sys = an instance of CDS_SystemDescription
+%   C1 = a symbolic constraint equation
+%   C2 = a symbolic constraint equation
+%   C3 = a symbolic constraint equation
+% Set the specified equations as is
+sys.CreateConstraint("name1").SetConstraint(C1);
+sys.CreateConstraint("name2").SetConstraint(C2);
+sys.CreateConstraint("name3").SetConstraint(C3);
+
+% Set the specified equations, as offset by an automatically calculated constant to force C=0 in the initial conditions
+% The offset is calculated immediately when SetConstraint is called, so be careful not to modify the ICs afterwards
+sys.CreateConstraint("name").SetConstraint(C, "offsetToIC");
+{{/matlab-pre}}
+
+	<p>The constraint equations are permitted to be functions of time and any position variables. Constraints must be <exLink href="https://en.wikipedia.org/wiki/Holonomic_constraints">holonomic</exLink>. Explicitly time-dependent, <exLink href="https://en.wikipedia.org/wiki/Rheonomous">rheonomic constraints</exLink> are permitted.</p>
+	<div class="text-aside">
+		<p>WARNING: Ensure that the initial conditions are consistent with the constraint equations</p>
+	</div>
+
+	<h3>Baumgarte stabilisation</h3>
+	<p>Baumgarte stabilisation controls accumulated numerical error due to use of constraint equations.</p>
+	<ul>
+		<li>Traditionally, the constraint is enforced as <tex>0=\frac{d^2C}{dt^2}</tex></li>
+		<li>Baumgarte stabilisation changes this to <tex>0=\frac{d^2C}{dt^2} + 2\alpha\frac{dC}{dt} + \beta^{2}C</tex></li>
+	</ul>
+	<p>This makes a trade off to reduce numerical error, at the expense of making the differential equations stiff.</p>
+{{@matlab-pre}}
+% Given:
+%   alpha = some constant (default 10)
+%   beta = some constant (default same as alpha)
+sys.SetConstraint_StabilisationFactors(alpha, beta);
+{{/matlab-pre}}
+
+	<p>It can be a good idea to start without stabilisation (alpha=beta=0), and then gradually increase the factors while observing the effect on the solution.</p>
+
+	<h3>Example</h3>
+	<p>Constrain a point to move on the surface of a sphere</p>
+{{@matlab-pre}}
+% Equation for sphere
+%    1 = Lx^2 + Ly^2 + Lz^2
+% Rearrange into the form C=0
+%    C = 0 = 1 - Lx^2 - Ly^2 - Lz^2
+
+sys = CDS_SystemDescription();
+sys.params.Create('free', 'Lx').SetIC(0.9);
+sys.params.Create('free', 'Ly').SetIC(0);
+sys.params.Create('free', 'Lz').SetIC(sqrt(1 - 0.9^2));
+
+C = 1 - Lx^2 - Ly^2 - Lz^2;
+sys.CreateConstraint("sphere").SetConstraint(C);
+sys.SetConstraint_StabilisationFactors();
+{{/matlab-pre}}
+
+	<p>The initial conditions are consistent with the constraint equation because when substituted into the constraint equation, the equation is equal to 0.</p>
+</details>
+<details class="how-to">
+	<summary>
+		<div>
+			<h2>Closed Kinematic Chains (Advanced)</h2>
+		</div>
+		<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<path d="m10 30 40 40 40-40" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+		</svg>
+	</summary>
+	<div class="text-aside">
+		<p><em>Related Examples</em></p>
+		<ul class="ul-no-bullets">
+			<li><p class="file">run_matlab/Examples/E11_4BarLinkage.m</p></li>
+		</ul>
+	</div>
+	<div class="text-aside">
+		<p>This section uses the notation that was introduced in the how-to for Transformation Matrices.</p>
+		<p>The methods used in this section are not strictly necessary, and can be avoided by simply using more kinematic constraint equations.</p>
+	</div>
+	<p>Using constraint equations can negatively impact ODE stiffness and numerical error. An alternative method of specifying the system involves manually solving geometric relations in the system to isolate dependent variables, such that they can be eliminated by substitution directly into the equations.</p>
+
+	<p>The following procedure can work in some circumstances:</p>
+	<ol>
+		<li>Define the model as an open kinematic chain which just happens to close back on itself. This will result in assigning more generalised coordinates than degrees of freedom.</li>
+		<li>Identify a continuous segment of the chain for which its configuration which fully defines the closed chain model (the driving segment). Thus, the rest of the chain is driven, and any generalised coordinates in the driven segment (driven variables) are geometrically fully specified by the configuration of the driving segment.</li>
+		<li>Manually solve for the driven variables, in terms of the driving variables, through use of inverse kinematics methods
+			<ol>
+				<li>Define every transformation matrix to move around the full chain</li>
+				<li>Compose the transformation around the driving segment <tex>T_{AB,driving}</tex> and then invert it for <tex>T_{BA,driving}</tex></li>
+				<li>Compose the transformation around the driven segment <tex>T_{BA,driven}</tex></li>
+				<li>Form the equation <tex>T_{BA,driving} = T_{BA,driven}</tex> and solve for the driven variables</li>
+			</ol>
+		</li>
+		<li>Substitute the solution expressions into the driven transformation matrices</li>
+		<li>Compose the transformations to each centre of mass, and finish building the model as usual</li>
+	</ol>
+	<p>In case that it is difficult to manually solve <tex>T_{BA,driving} = T_{BA,driven}</tex>, the number of driving coordinates can be increased. Use the same procedure, but allowing more generalised coordinates then degrees of freedom to be driving. Then use {{@matlab}}CDS_Component_Constraint{{/matlab}} to specify the remaining constraint equations to force the kinematic chain to be closed.</p>
+
+	<p>A variation on this method allows the definition of constraint equations that specify link lengths to be constant by means of pythagoras theorem between the starts and ends of the links. In doing this, the orientation of the link does not need to be found, and in 3D problems, a single constraint of this type can eliminate multiple driven variables.</p>
+
+	<h3>Example: 4-bar mechanism</h3>
+	<ol>
+		<li>Define a 4-link open chain D-A-B-C-D, with link AD fixed in space.</li>
+		<li>The model has 1 degree of freedom, but the open-chain has 3 free joint angles. Let joint A and joint B be driving, and joint C be driven. Thus, 1 driven variable must be solved for, and one additional constraint equation must be specified.</li>
+		<li>Inverse kinematics
+			<ol>
+				<li>Find <tex>T_{DC}</tex> in terms of the driven variables, and invert it for <tex>T_{CD}</tex></li>
+				<li>By the magic of staring at a drawing of the system, the angle of joint C can be found as <tex>\theta_3 = atan(y_{CD} / x_{CD})</tex>, where <tex>x_{CD}=T_{CD}(1,4)</tex> and <tex>y_{CD}=T_{CD}(2,4)</tex></li>
+				<li>Substitute this expression of <tex>\theta_3</tex> directly into the forward transformations</li>
+			</ol>
+		</li>
+		<li>Constraint
+			<ol>
+				<li>Using the previously found <tex>T_{CD}</tex>, a possible constraint is <tex>0 = \sqrt{x_{CD}^2 + y_{CD}^2} - L_{CD}</tex>, which describes that the length of the link CD must be constant.</li>
+				<li>Apply this constraint as {{@matlab}}sys.CreateConstraint("closeLink").SetConstraint( sqrt(x_CD^2 + y_CD^2), "offsetToIC" ){{/matlab}} where the option {{@matlab}}"offsetToIC"{{/matlab}} tells the package to automatically determine the value of the constant offset <tex>L_{CD}</tex>.</li>
+			</ol>
+		</li>
+	</ol>
+</details>
+<details class="how-to">
+	<summary>
+		<div>
+			<h2>SUNDIALS Solver</h2>
+			<p>Exporting generated equations to C++.</p>
+		</div>
+		<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<path d="m10 30 40 40 40-40" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+		</svg>
+	</summary>
+	<p>See the <a href="/crane-dynamics-simulator/sundials.html">sundials reference page</a>.</p>
+</details>
+<details class="how-to">
+	<summary>
+		<div>
+			<h2>Automatic Plots &amp; Animations</h2>
+		</div>
+		<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<path d="m10 30 40 40 40-40" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+		</svg>
+	</summary>
+	<p>Automatic plots are generated using the information provided in the system description (e.g. the names that were provided during point and component creation). The full list of automatic plots is</p>
+{{@matlab-pre}}
+%   Given: SS = an instance of CDS_Solution (or a subclass)
+SSp = CDS_Solution_Plot(SS);
+SSa = CDS_Solution_Animate(SS);
+
+% General data plots (automatically processed and labelled)
+SSp.PlotConfigSpace
+SSp.PlotLambda
+SSp.PlotInput
+SSp.PlotConstraintViolation
+SSp.PlotEnergyTotal
+SSp.PlotEnergyAll
+SSp.PlotPowerError
+SSp.PlotPowerTotal
+SSp.PlotPowerAll
+SSp.PlotTaskSpace
+SSp.PlotTaskSpace_Mass
+SSp.PlotTaskSpace_All
+SSp.PlotForces
+SSp.PlotComponentLengths
+
+% Plot a drawing of the system
+SSa.PlotFrame
+SSa.Animate % Click the "Repeat" button on the figure to play the animation!
+
+% Export the animation to a gif or video file
+SSa.Animate("gif")
+SSa.Animate("video")
+{{/matlab-pre}}
+</details>
+<details class="how-to">
+	<summary>
+		<div>
+			<h2>Export/Import the Processed Solution</h2>
+		</div>
+		<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<path d="m10 30 40 40 40-40" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+		</svg>
+	</summary>
+	<p>The post-processed solution can be exported to excel in human readable format. This exports all of the solution arrays held in {{@matlab}}CDS_Solution{{/matlab}} (the configuration space trajectories, task space trajectories, and system energies). Other quantities can be exported manually.</p>
+{{@matlab-pre}}
+% Export
+%   Given: SS = an instance of CDS_Solution (or a subclass)
+SSe = CDS_Solution_Export(SS);
+SSe.DataToExcel("mySolution.xlsx");
+{{/matlab-pre}}
+
+	<p>The solution importer copies the exported data from the excel file back into the {{@matlab}}CDS_Solution{{/matlab}} data structure. Before importing the solution, you are required to recreate an identical copy of the {{@matlab}}CDS_SystemDescription{{/matlab}} that generated the exported solution. The importer assumes that it is exactly identical, and it does not attempt verify this assumption.</p>
+	<p>This functionality is mostly intended for caching purposes. For example, you can import a large number of cached solutions to compare against each other.</p>
+{{@matlab-pre}}
+% Reimport
+%   Given: sys = CDS_SystemDescription
+SS_imported = CDS_SolutionSaved(sys, "mySolution.xlsx");
+{{/matlab-pre}}
+</details>
+<details class="how-to">
+	<summary>
+		<div>
+			<h2>Automatically Include CDS on the MATLAB Path</h2>
+			<p>Add the simulator to the path so that MATLAB can find and load it</p>
+		</div>
+		<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<path d="m10 30 40 40 40-40" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+		</svg>
+	</summary>
+	<p>The following convention is used to include the simulator on the MATLAB path.</p>
+
+	<p>To setup the directory that you with to work in, create a file in this directory called <span class="file">CDS_FindIncludes.m</span>, and add the following code. Edit the {{@matlab}}fullfile{{/matlab}} command such that it specifies the relative path from the directory that you are working in to <span class="file">core/includes_matlab/</span>.</p>
+{{@matlab-pre}}
+% Call this file from your own file to add to the Matlab path: the include files
+
+% Get the full path to this file (no matter where it is called from)
+[CDS_pathDir,~,~] = fileparts( mfilename('fullpath') );
+
+% Directory to include, relative to directory that holds this file
+CDS_include1 = fullfile(CDS_pathDir, "..","..","core","includes_matlab");
+
+% Add to the Matlab path
+addpath(CDS_include1);
+
+clearvars CDS_pathDir CDS_include1
+{{/matlab-pre}}
+
+	<p>Now, add the following code to the top of all scripts that you author, which use the simulator.</p>
+{{@matlab-pre}}
+CDS_FindIncludes;
+CDS_IncludeSimulator;
+{{/matlab-pre}}
+
+	<p>When you run your script, these commands will automatically ensure that the simulator is added to the MATLAB path.</p>
+</details>
+

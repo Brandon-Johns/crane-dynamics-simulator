@@ -65,6 +65,7 @@ SSg = CDS_Solution_GetData(SS);
 % Results
 %***********************************
 SSp.PlotConfigSpace
+SSp.PlotConstraintViolation
 % SSp.PlotInput
 % SSp.PlotEnergyTotal
 % SSp.PlotEnergyAll
@@ -73,7 +74,7 @@ SSp.PlotConfigSpace
 % SSe.DataToExcel
 
 SSa.Set_View_Predefined("front")
-SSa.PlotFrame(0, "")
+SSa.PlotFrame(0, "variable")
 SSa.Animate
 
 

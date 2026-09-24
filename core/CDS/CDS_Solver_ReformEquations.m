@@ -19,8 +19,20 @@ methods
     %***********************************
     % Reform into: 0=f(t,x,x_d)
     % Make function of 't' and reduce differential order
-    function DAEs_t = Implicit(this, sys, DAEs_EL, DAEs_C)
+    % NOTES
+    %   Matlab requires DAEs to be reduced to index-1 DAEs, but doesn't strictly enforce it
+    %   For reference, see the builtin function isLowIndexDAE()
+    %   To do this:
+    %       Use DAEs_C=C_dd
+    %       Append more order reducing equations: 0 = qf_dd - d[qf_d]/dt
+    %       Update state vector accordingly (make a mess of the codebase)
+    %   But in practice, it seems to work better when I don't do that
+    %   Except for finding consistent ICs, where it works great
+    function [DAEs_h, Jacobians_h] = Implicit(~, sys, DAEs_EL, DAEs_C)
         q_free = sys.params.q_free;
+        x = sys.params.x;
+        u = sys.params.u;
+        c = sys.params.const;
         x_swap = sys.params.x_SymSwap();
         x_swap_t = sys.params.x_SymSwap('t');
 
@@ -28,16 +40,41 @@ methods
         DAEs_C_t = subs(DAEs_C, x_swap, x_swap_t);
 
         % Extra equations from reduction of order
-        DAEs_OrderReducing_t = (q_free.Sym(0,'t',1) - q_free.Sym(1,'t'));
+        DAEs_OrderReducing_t = q_free.Sym(0,'t',1) - q_free.Sym(1,'t');
+        DAEs_OrderReducing_tt = q_free.Sym(1,'t',1) - q_free.Sym(2,'t');
+        if sys.params.StateVectorMode_differential_order_of_q_free==1
+            DAEs_OrderReducing = DAEs_OrderReducing_t;
+        else
+            DAEs_OrderReducing = [DAEs_OrderReducing_t; DAEs_OrderReducing_tt];
+        end
 
         % Form system of equation into matrix equation
-        DAEs_LHS_t = [DAEs_EL_t; DAEs_OrderReducing_t; DAEs_C_t];
-        DAEs_RHS_t = zeros(size(DAEs_LHS_t));
-        DAEs_t = DAEs_LHS_t == DAEs_RHS_t;
+        DAEs_f_t = [DAEs_EL_t; DAEs_OrderReducing; DAEs_C_t];
+
+        % Jacobians: df/dx and df/d[x_d]
+        Jacobian_t = jacobian(DAEs_f_t, x.Sym(0,'t'));
+        Jacobian_d_t = jacobian(DAEs_f_t, x.Sym(0,'t',1));
+        Jacobian = subs(Jacobian_t, x_swap_t, x_swap);
+        Jacobian_d = subs(Jacobian_d_t, x_swap_t, x_swap);
+
+        % Sub in constants
+        DAEs_f_semiNum_t = subs(DAEs_f_t, c.Sym, c.Num);
+        Jacobian_f_semiNum = subs(Jacobian, c.Sym, c.Num);
+        Jacobian_d_f_semiNum = subs(Jacobian_d, c.Sym, c.Num);
+
+        % Create function handle for ode solver
+        DAEs_h1 = daeFunction(DAEs_f_semiNum_t, x.Sym(0,"t"), u.Sym);
+        Jacobian_h1 = matlabFunction(Jacobian_f_semiNum, 'Vars',{sym('t','real'), x.Sym, x.Sym(1), u.Sym});
+        Jacobian_d_h1 = matlabFunction(Jacobian_d_f_semiNum, 'Vars',{sym('t','real'), x.Sym, x.Sym(1), u.Sym});
+
+        % Inject inputs into DAE
+        u_h = sys.params.u.q_h;
+        DAEs_h = @(t_,x_,xd_) DAEs_h1(t_,x_,xd_, u_h(t_));
+        Jacobians_h = @(t_,x_,xd_) deal(Jacobian_h1(t_,x_,xd_, u_h(t_)), Jacobian_d_h1(t_,x_,xd_, u_h(t_)));
     end
 
     % Reform into: M(t,x)*x_d=f(t,x)
-    function [M, f] = MassMatrix(this, sys, DAEs_EL, DAEs_C)
+    function [M, f, Jacobian] = MassMatrix(this, sys, DAEs_EL, DAEs_C)
         q_free_dd = sys.params.q_free.Sym(2);
         x = sys.params.x.Sym;
         numQF = length(q_free_dd);
@@ -56,7 +93,12 @@ methods
         % Constraint equations
         %   I've double and triple checked this one. Should be good
         %   Wish I had a test case sufficiently complex to really test it though
-        [M(2*numQF+1:numX,1:numQF), f(2*numQF+1:numX)] = this.FormMatrixEquation(DAEs_C, q_free_dd);
+        if ~isempty(DAEs_C)
+            [M(2*numQF+1:numX,1:numQF), f(2*numQF+1:numX)] = this.FormMatrixEquation(DAEs_C, q_free_dd);
+        end
+
+        % Jacobian: df/dx
+        Jacobian = jacobian(f, x);
     end
 
     % Reform into: x_d=f(t,x)
@@ -116,7 +158,7 @@ methods (Access=private)
             x_d_semiNum = subs(x_d, sys.params.const.Sym, sys.params.const.Num);
 
             % Create function handle for solver
-            x_d_h = matlabFunction(x_d_semiNum,'Vars',{sym('t'), x, u});
+            x_d_h = matlabFunction(x_d_semiNum,'Vars',{sym('t','real'), x, u});
             ODEs = x_d_h;
 
         elseif strcmp(mode, "solvetime_anonfun")
@@ -128,11 +170,11 @@ methods (Access=private)
             f_e_semiNum = subs(f_e, sys.params.const.Sym, sys.params.const.Num);
 
             % To compare: Anon functions or just call a function
-            M_order2_h = matlabFunction(M_order2_semiNum,'Vars',{sym('t'), x, u});
-            fb_h = matlabFunction(f_b_semiNum,'Vars',{sym('t'), x, u});
-            fc_h = matlabFunction(f_c_semiNum,'Vars',{sym('t'), x, u});
-            fdT_h = matlabFunction(f_dT_semiNum,'Vars',{sym('t'), x, u});
-            fe_h = matlabFunction(f_e_semiNum,'Vars',{sym('t'), x, u});
+            M_order2_h = matlabFunction(M_order2_semiNum,'Vars',{sym('t','real'), x, u});
+            fb_h = matlabFunction(f_b_semiNum,'Vars',{sym('t','real'), x, u});
+            fc_h = matlabFunction(f_c_semiNum,'Vars',{sym('t','real'), x, u});
+            fdT_h = matlabFunction(f_dT_semiNum,'Vars',{sym('t','real'), x, u});
+            fe_h = matlabFunction(f_e_semiNum,'Vars',{sym('t','real'), x, u});
 
             % Solve for lambda
             f_mb_h = @(t_,x_,u_) M_order2_h(t_,x_,u_) \ fb_h(t_,x_,u_);
@@ -197,7 +239,7 @@ methods (Access=private)
             x_d_semiNum = subs(x_d, sys.params.const.Sym, sys.params.const.Num);
 
             % Create function handle for solver
-            x_d_h = matlabFunction(x_d_semiNum,'Vars',{sym('t'), x, u});
+            x_d_h = matlabFunction(x_d_semiNum,'Vars',{sym('t','real'), x, u});
             ODEs = x_d_h;
 
         elseif strcmp(mode, "solvetime_anonfun")
@@ -206,8 +248,8 @@ methods (Access=private)
             f_c_semiNum = subs(f_c, sys.params.const.Sym, sys.params.const.Num);
 
             % To compare: Anon functions or just call a function
-            M_order2_h = matlabFunction(M_order2_semiNum,'Vars',{sym('t'), x, u});
-            fc_h = matlabFunction(f_c_semiNum,'Vars',{sym('t'), x, u});
+            M_order2_h = matlabFunction(M_order2_semiNum,'Vars',{sym('t','real'), x, u});
+            fc_h = matlabFunction(f_c_semiNum,'Vars',{sym('t','real'), x, u});
 
             % Form into 2nd order ODE
             %   q_dd = f(t, [q; q_d], u)

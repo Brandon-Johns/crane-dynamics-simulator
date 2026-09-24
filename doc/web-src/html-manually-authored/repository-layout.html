@@ -1,0 +1,89 @@
+{{--Include into layoutMain as inner--}}
+
+
+<h1>Repository Layout</h1>
+<p>The most important part of the simulator is <span class="file">core/CDS/</span>. If you only care about 2 things, it should be this and <span class="file">run_matlab/Examples/</span>.</p>
+
+<h2>Simulator</h2>
+<p><span class="file">core/</span> is self-contained. It has no external dependencies, and it does not specify data input/output filepaths. Filepaths are to be specified in function arguments, or default to the working directory. The exception being that the helper {{@matlab}}CDS_GetDataLocations{{/matlab}} contains the base paths to the directories in <span class="file">data/</span>. However, this file is not itself used within core.</p>
+<p>Within core, <span class="file">core/CDS/</span> is fully self-contained, while <span class="file">core/Models/</span> and <span class="file">core/Utilities/</span> depend on <span class="file">core/CDS/</span>.</p>
+
+<table class="repo-layout">
+	<thead><tr>
+		<th scope="col">Directory</th>
+		<th scope="col">Class Prefix</th>
+		<th scope="col">Content</th>
+	</tr></thead>
+	<tbody>
+		</tr><td>core/CDS/</td><td>CDS</td><td>The simulator</td></tr>
+		</tr><td>core/Models/</td><td>CDSm, CDSv, CDSvb</td><td>From the related research article:<ul><li>Models (CDSm)</li><li>Values of parameters and inputs (CDSv, CDSvb)</li></ul></td></tr>
+		</tr><td>core/Utilities/</td><td>CDSu</td><td>Helpers to format and plot results</td></tr>
+		</tr><td>core/includes_matlab/</td><td>CDS</td><td>Helpers to add the folders in <span class="file">core</span> to the MATLAB path.<br>Helpers to form filepaths to the locations in <span class="file">data/</span>.</td></tr>
+	</tbody>
+</table>
+
+<h3>MATLAB Path Helpers</h3>
+<p>See the <a href="/crane-dynamics-simulator/how-to-guides.html">how-to guide</a> for automatically including CDS on the MATLAB path.</p>
+<table class="repo-layout">
+	<thead><tr>
+		<th scope="col">Directory</th>
+		<th scope="col">Content</th>
+	</tr></thead>
+	<tbody>
+		<tr><td>core/includes_matlab/CDS_IncludeSimulator.m</td><td>Calling script this includes <span class="file">core/CDS/</span> on the MATLAB path</td></tr>
+		<tr><td>core/includes_matlab/CDS_IncludeModels.m</td><td>Calling script this includes <span class="file">core/Models/</span> on the MATLAB path</td></tr>
+		<tr><td>core/includes_matlab/CDS_IncludeUtilities.m</td><td>Calling script this includes <span class="file">core/Utilities/</span> on the MATLAB path</td></tr>
+	</tbody>
+</table>
+
+
+<h2>Solver Infrastructure for C++ Code Generation (SUNDIALS)</h2>
+<p>Used when solving with solve mode {{@matlab}}CDS_Solver.Solve(..., "sundials"){{/matlab}}. See <a href="/crane-dynamics-simulator/sundials.html">C++ Code Generation</a></td></p>
+<p>The CMake/C++ project and related scripts that are used to compile and run generated C++ code.</p>
+<table class="repo-layout">
+	<thead><tr>
+		<th scope="col">Directory</th>
+		<th scope="col">Content</th>
+	</tr></thead>
+	<tbody>
+		<tr><td>lib_ubuntu/</td><td>Dependencies of the CMake project in <span class="file">run_sundials/</span>, if running on Ubuntu</td></tr>
+		<tr><td>lib_windows/</td><td>Dependencies of the CMake project in <span class="file">run_sundials/</span>, if running on Windows</td></tr>
+		<tr><td>run_sundials/</td><td>Bash and PowerShell scripts to compile and run the generated code</td></tr>
+		<tr><td>run_sundials/src/</td><td>The CMake/C++ project that compiles with the generated code</td></tr>
+		<tr><td>run_sundials/src/SimC3/</td><td>The C++ code that compiles with the generated code</td></tr>
+		<tr><td>run_sundials/src/test_armadillo/</td><td>Test to validate your correct installation of the Armadillo C++ library</td></tr>
+		<tr><td>run_sundials/src/test_sundials/</td><td>Test to validate your correct installation of the SUNDIALS C++ library</td></tr>
+	</tbody>
+</table>
+
+<h2>Run Files</h2>
+<p>Scripts that run the simulator for different models</p>
+<table class="repo-layout">
+	<thead><tr>
+		<th scope="col">Directory</th>
+		<th scope="col">Content</th>
+	</tr></thead>
+	<tbody>
+		<tr><td>run_matlab/Evaluate/</td><td>Run-files to evaluate the performance of <span class="file">core/CDS</span></td></tr>
+		<tr><td>run_matlab/Examples/</td><td>Sample run-files which depend only on <span class="file">core/CDS</span></td></tr>
+		<tr><td>run_matlab/SimC3/</td><td>From the related research article: Run-files that use <span class="file">core/Models</span> and/or <span class="file">data/experiments_results</span></td></tr>
+		<tr><td>run_matlab/Tests/</td><td>Run-files to automatically validate <span class="file">core/CDS</span> against known physics</td></tr>
+	</tbody>
+</table>
+
+<h2>Data</h2>
+<p>Generated code, saved simulation results, saved plots, and cached intermediary data.</p>
+<table class="repo-layout">
+	<thead><tr>
+		<th scope="col">Directory</th>
+		<th scope="col">Content</th>
+	</tr></thead>
+	<tbody>
+<tr><td>data/experiments_results/</td><td>From the related research article: Raw data from the trials with a UR5 robot</td></tr>
+<tr><td>data/matlab_cache/</td><td>Used by some run-files: Cache of simulation results for batch processing</td></tr>
+<tr><td>data/matlab_fig/</td><td>Used by some run-files: Output path for figures</td></tr>
+<tr><td>data/sundials_generated/</td><td>Cache of generated C++ code. See: <a href="/crane-dynamics-simulator/sundials.html">C++ Code Generation</a></td></tr>
+<tr><td>data/sundials_results/</td><td>Holds simulation results of SUNDIALS solved systems. See: <a href="/crane-dynamics-simulator/sundials.html">C++ Code Generation</a></td></tr>
+	</tbody>
+</table>
+

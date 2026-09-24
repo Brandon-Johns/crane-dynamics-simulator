@@ -1,0 +1,35 @@
+{{--Include array of this into layoutReference as methods--}}
+
+<h3>{{methodNameAndSignature}}</h3>
+{{methodDescription}}
+{{@summaryArgs}}
+<table class="ref-summary-args">
+	<thead><tr>
+		<th scope="col">Name</th>
+		<th scope="col">Size</th>
+		<th scope="col">Types/Members</th>
+		{{@summaryArgsConstraints}}<th scope="col">Constraints</th>{{/summaryArgsConstraints}}
+		{{@summaryArgsDefault}}<th scope="col">Default Value</th>{{/summaryArgsDefault}}
+		<th scope="col">Description</th>
+	</tr></thead>
+	<tbody>
+		{{summaryArgs}}
+	</tbody>
+</table>
+{{/summaryArgs}}
+{{@summaryReturn}}
+<table class="ref-summary-args">
+	<thead>
+		<tr><th scope="col" colspan="4">OUTPUT</th></tr>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Size</th>
+			<th scope="col">Types/Members</th>
+			<th scope="col">Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{summaryReturn}}
+	</tbody>
+</table>
+{{/summaryReturn}}

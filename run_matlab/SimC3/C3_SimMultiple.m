@@ -17,7 +17,7 @@ Utilities
 
 %}
 classdef C3_SimMultiple < handle
-properties (Access=public)
+properties
     % Options for user to set directly
     Flag_refreshCached = false
     Flag_DoNotCache = false
@@ -136,7 +136,7 @@ methods
     % Interface: Output utilities
     %***********************************
     % OUTPUT
-    % results = table of data relative to "I"
+    %   results: table of data relative to "I"
     %   Access as results.I{idxRows}(valY,valX)
     function results = ChangeCoordinates(this)
         Sg = CDS_Solution_GetData(this.Solutions);

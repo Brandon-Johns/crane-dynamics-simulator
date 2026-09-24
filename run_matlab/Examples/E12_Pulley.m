@@ -52,8 +52,8 @@ CDS_IncludeSimulator;
 %**********************************************************************
 % Define System
 %***********************************
-params = CDS_Params();
-points = CDS_Points(params);
+sys = CDS_SystemDescription();
+params = sys.params;
 
 % Generalised coordinates and system parameters
 params.Create('free', 'theta_1').SetIC( deg2rad(30) );
@@ -98,20 +98,17 @@ T_AG = T_AB*T_BG;
 %   Rigid bodies are points that have mass and moment of inertia
 mass = 1; % [kg]
 momentOfInertia = [.2, .2, .2]; % [kg*m^2]
-A = points.Create('A');
-B = points.Create('B').SetT_0n(T_AB);
-C = points.Create('C').SetT_0n(T_AC);
-D = points.Create('D').SetT_0n(T_AD);
-G = points.Create('G', mass, momentOfInertia).SetT_0n(T_AG);
+A = sys.CreatePoint('A');
+B = sys.CreatePoint('B').SetT_0n(T_AB);
+C = sys.CreatePoint('C').SetT_0n(T_AC);
+D = sys.CreatePoint('D').SetT_0n(T_AD);
+G = sys.CreatePoint('G', mass, momentOfInertia).SetT_0n(T_AG);
 
 % Kinematic chains (used only for plotting the animation)
-chains = {[A,B,C,D]};
+sys.SetChains([A,B,C,D]);
 
 % Direction of gravity in base frame
-g0 = [0; -g; 0];
-
-% This holds the complete system description
-sys = CDS_SystemDescription(params, points, chains, g0);
+sys.SetGravity([0; -g; 0]);
 
 % The constraint describes that the length of the rope must remain constant
 L_rope = L_AB + L_BC + L_CD;
@@ -120,7 +117,7 @@ L_rope = L_AB + L_BC + L_CD;
 %   e.g. the rope doubles back through L_CD
 %   L_rope = L_AB + L_BC + 2*L_CD;
 
-sys.SetConstraint(L_rope);
+sys.CreateConstraint("rope").SetConstraint(L_rope);
 
 
 %**********************************************************************
@@ -147,6 +144,7 @@ SSa = CDS_Solution_Animate(SS);
 SSg = CDS_Solution_GetData(SS);
 
 SSp.PlotConfigSpace
+SSp.PlotConstraintViolation
 SSp.PlotEnergyTotal
 SSp.PlotEnergyAll
 SSp.PlotTaskSpace

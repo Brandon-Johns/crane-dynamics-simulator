@@ -7,7 +7,7 @@ PURPOSE
 %}
 
 classdef CDS_Solver_ODEs < handle
-properties (Access=public)
+properties
     modeConstraint(1,1) string {mustBeMember(modeConstraint,["noConstraint","withConstraint",""])} = ""
 
     M_order2(:,:) sym

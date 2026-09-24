@@ -85,7 +85,7 @@ for modelPreset = ["1P", "2P", "3P", "ZS", "FC"]
     % SSe.DataToExcel
 
     SSa.Set_View_Predefined("front")
-    % SSa.PlotFrame(0, "")
+    % SSa.PlotFrame(0, "variable")
     % SSa.Animate
 
     %**********************************************************************

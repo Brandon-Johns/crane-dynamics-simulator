@@ -39,8 +39,12 @@ CDS_IncludeSimulator;
 %**********************************************************************
 % Define System
 %***********************************
+% System description
+% This contains all of the information required to simulate the system
+sys = CDS_SystemDescription();
+
 % Builder/manager object
-params = CDS_Params();
+params = sys.params;
 
 % System parameters
 %   Define and set the numeric value
@@ -67,24 +71,27 @@ T_OA = T_OO2 * T_O2A;
 T_OB = T_OA * T_AB;
 T_OC = T_OB * T_BC;
 
-% Builder/manager object
-points = CDS_Points(params);
-
-% SYNTAX: .Create('Name', mass, inertia)
-O = points.Create('O');
-A = points.Create('A', 1).SetT_0n(T_OA);
-B = points.Create('B', 1).SetT_0n(T_OB);
-C = points.Create('C', 1).SetT_0n(T_OC);
+% SYNTAX: .CreatePoint('Name', mass, inertia)
+O = sys.CreatePoint('O');
+A = sys.CreatePoint('A', 1).SetT_0n(T_OA);
+B = sys.CreatePoint('B', 1).SetT_0n(T_OB);
+C = sys.CreatePoint('C', 1).SetT_0n(T_OC);
 
 % Kinematic chains (used only for plotting the animation)
-chains = {[O,A,B,C]};
+sys.SetChains([O,A,B,C]);
 
 % Direction of gravity in base frame
-g0 = [0; -g; 0];
+sys.SetGravity([0; -g; 0]);
 
-% System description
-% This contains all of the information required to simulate the system
-sys = CDS_SystemDescription(params, points, chains, g0);
+% EXTRA - Uncomment to activate holonomic constraint
+%sys.CreateConstraint("By").SetConstraint(T_OB.y, "offsetToIC");
+%sys.SetConstraint_StabilisationFactors();
+
+% EXTRA - Uncomment any combination of spring, damper, force
+%sys.CreateLinearSpring("AC").SetSpringConstant(7).SetConnections(A,C);
+%sys.CreateLinearDamper("OC").SetDampingConstant(2).SetConnections(O,C);
+%sys.CreatePointForce("Cx").SetLocation(C).SetF([10,30,0]);
+%sys.CreateGeneralisedForce("B").SetLocation(theta_2).SetQ(8);
 
 
 %**********************************************************************
@@ -108,6 +115,7 @@ SSp = CDS_Solution_Plot(SS);
 SSa = CDS_Solution_Animate(SS);
 
 SSp.PlotConfigSpace
+SSp.PlotConstraintViolation
 SSp.PlotLambda
 SSp.PlotInput
 SSp.PlotEnergyTotal
@@ -127,7 +135,7 @@ SSa.Animate("play") % Click the "Repeat" button on the figure to play the animat
 SSg = CDS_Solution_GetData(SS);
 
 % Get the value of theta_2, and its derivatives at the time 3.8 seconds
-idx = SSg.t_idx(3.8);
+idx = SS.t_idx(3.8);
 fprintf("theta_2 at 3.8s = %g\n",           SSg.q("theta_2", idx));
 fprintf("d[theta_2]/dt at 3.8s = %g\n",     SSg.qd("theta_2", idx));
 fprintf("d^2[theta_2]/dt^2 at 3.8s = %g\n", SSg.qdd("theta_2", idx));

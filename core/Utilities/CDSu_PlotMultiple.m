@@ -20,10 +20,10 @@ methods
     function this = CDSu_PlotMultiple()
     end
 
-    % NOTES:
+    % NOTES
     %   A lagging plot occurs after the baseline => it is to far right on the time plot
-    % INPUT:
-    %   LagIdx =
+    % INPUT
+    %   LagIdx
     %       Offsets, specified by index, not time
     %       Position corresponds to the lag of each member of P (negative lag = lead)
     function P = RemoveLag(this, P, LagIdx)
@@ -234,6 +234,53 @@ methods
         this.exportFig(fig, fileNameOut, export);
     end
 
+    % Rough implementation: probably needs adjustment for subplots and tiled layouts
+    function ChangeFontSizes(this, fig, fontSize)
+        arguments
+            this(1,1)
+            fig(1,1) matlab.ui.Figure
+            fontSize(1,1) double
+        end
+        for idx = 1:length(fig.Children)
+            child = fig.Children(idx);
+            if isa(child, "matlab.graphics.illustration.Legend")
+                %child.FontName = this.FontName;
+                child.FontSize = fontSize;
+            elseif isa(child, "matlab.graphics.axis.Axes")
+                %child.FontName = this.FontName;
+                child.FontSize = fontSize;
+                child.XLabel.FontSize = fontSize;
+                child.YLabel.FontSize = fontSize;
+                child.Title.FontSize  = fontSize;
+            else
+                error("Plot object type not recognised")
+            end
+        end
+    end
+
+    function ChangeLineColours(this, ax, palette)
+        arguments
+            this(1,1)
+            ax(1,1) matlab.graphics.axis.Axes
+            palette(:,1) string
+        end
+        currentColourToIdx = configureDictionary("string","uint64");
+        idxNextColour = 1;
+        for idx=1:length(ax.Children)
+            child = ax.Children(idx);
+            if isa(child, "matlab.graphics.chart.primitive.Line")
+                currentColour = rgb2hex(child.Color);
+                if currentColourToIdx.isKey(currentColour)
+                    child.Color = ax.Children( currentColourToIdx.lookup(currentColour) ).Color;
+                else
+                    currentColourToIdx(currentColour) = idx;
+                    child.Color = palette(idxNextColour);
+                    idxNextColour = idxNextColour + 1;
+                end
+            end
+        end
+    end
+
     function exportFig(this, fig, fileName, fileType)
         arguments
             this(1,1)
@@ -271,7 +318,7 @@ methods
         if this.lineColour~="auto"; lineColours=this.lineColour; return; end
 
         % Aims to choose colour blind friendly colours
-        % Source: https://personal.sron.nl/~pault/#sec:qualitative
+        % Source: https://sronpersonalpages.nl/~pault/#sec:qualitative
         switch numberOfLines
         case {1,2,3,4}
             % Colour blind safe (including greyscale safe)

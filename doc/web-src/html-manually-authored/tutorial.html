@@ -1,0 +1,524 @@
+{{--Include into layoutMain as inner--}}
+
+<h1>Tutorial: Create and Run Your First Model</h1>
+<p>This tutorial is recommended as an introduction to all users.</p>
+<p>You will learn how to use this package to simulate a triple pendulum.</p>
+<p>Steps:</p>
+<ol>
+	<li>Define the model on paper</li>
+	<li>Create a new run-file</li>
+	<li>Define the model in code</li>
+	<li>Run the solver</li>
+	<li>Post-process the solution</li>
+</ol>
+<p>The full code of this example is <span class="file">run_matlab/Examples/E8_TriplePendulum.m</span></p>
+
+<h2>Define the Model on paper</h2>
+<p>To define your model:</p>
+<ul>
+	<li>Draw the kinematic chain</li>
+	<li>Assign constant parameters (e.g. gravity, link lengths)</li>
+	<li>Assign generalised coordinates (e.g. joint angles, lengths of prismatic joints)</li>
+	<li>Assign a coordinate frame to every joint and centre of mass location</li>
+	<li>Attach mass and/or moment of inertia to the coordinate frames</li>
+</ul>
+<p>There is no need to write equations. A labelled diagram is sufficient.</p>
+
+{{--Rendered from "doc/web-src/svg/TriplePendulum-js.html"--}}
+<svg class="kinematic-diagram" viewBox="0 0 970 870" xmlns="http://www.w3.org/2000/svg" width="450">
+	<defs>
+		<marker id="dot" viewBox="0 0 20 20" refX="10" refY="10" markerWidth="10" markerHeight="10">
+			<circle cx="10" cy="10" r="5" fill="#9193a5"></circle>
+		</marker>
+	</defs>
+	<g stroke-linecap="round" stroke-linejoin="round" fill="none">
+		<path stroke="#9c9eb0" stroke-width="5" d="M 850 150 v 100 l 20 -30 m -20 30 l -20 -30"></path>
+		<path stroke="#9c9eb0" stroke-width="8" d="M 100 200 L 227 472 L 457 665 L 747 743"></path>
+		<path stroke="#808080" stroke-width="4" stroke-dasharray="15 11" d="M 100 400 L 100 200 L 311 653 M 227 472 L 610 793"></path>
+		<path stroke="#808080" stroke-width="4" d="M 100 320 A 120 120 0 0 0 151 309 M 277 581 A 120 120 0 0 0 319 549  M 549 742 A 120 120 0 0 0 573 696"></path>
+		<path stroke="#228833" stroke-width="15" d="M 100 100 L 100 200 L 191 158 M 227 472 L 291 395 M 457 665 L 483 568 M 747 743 L 773 646"></path>
+		<path stroke="#bb5566" stroke-width="15" d="M 200 200 L 100 200 L 142 291 M 227 472 L 304 536 M 457 665 L 554 691 M 747 743 L 844 769"></path>
+		<path stroke="none" stroke-width="5" marker-start="url(#dot)" marker-mid="url(#dot)" marker-end="url(#dot)" fill="none" d="M 100 200 L 227 472 L 457 665 L 747 743"></path>
+	</g>
+	<g stroke="none" fill="#9c9eb0" font-size="50" text-anchor="middle" dominant-baseline="middle">
+		<text x="850" y="100">g</text>
+		<g fill="#af888e">
+			<text x="250" y="200">x<tspan baseline-shift="sub" font-size="30">O</tspan></text>
+			<text x="182" y="257">x<tspan baseline-shift="sub" font-size="30">O2</tspan></text>
+			<text x="325" y="489">x<tspan baseline-shift="sub" font-size="30">A</tspan></text>
+			<text x="554" y="639">x<tspan baseline-shift="sub" font-size="30">B</tspan></text>
+			<text x="892.5" y="782">x<tspan baseline-shift="sub" font-size="30">C</tspan></text>
+		</g>
+		<g fill="#84a88b">
+			<text x="323" y="356.5">y<tspan baseline-shift="sub" font-size="30">A</tspan></text>
+			<text x="236.5" y="137">y<tspan baseline-shift="sub" font-size="30">O2</tspan></text>
+			<text x="100" y="50">y<tspan baseline-shift="sub" font-size="30">O</tspan></text>
+			<text x="496" y="519.5">y<tspan baseline-shift="sub" font-size="30">B</tspan></text>
+			<text x="786" y="597.5">y<tspan baseline-shift="sub" font-size="30">C</tspan></text>
+		</g>
+		<g fill="#808080">
+			<text x="134" y="356">θ<tspan baseline-shift="sub" font-size="30">1</tspan></text>
+			<text x="325" y="598">θ<tspan baseline-shift="sub" font-size="30">2</tspan></text>
+			<text x="599" y="739">θ<tspan baseline-shift="sub" font-size="30">3</tspan></text>
+		</g>
+		<g fill="#9c9eb0">
+			<text x="50" y="200">O</text>
+			<text x="195" y="510">A</text>
+			<text x="444" y="713">B</text>
+			<text x="734" y="791">C</text>
+		</g>
+	</g>
+</svg>
+
+<p>For the triple pendulum, I have used</p>
+<ul>
+	<li>Constants
+		<ul>
+			<li>{{@matlab}}g = 9.8{{/matlab}}, magnitude of gravitational acceleration</li>
+			<li>{{@matlab}}L_1 = 1{{/matlab}}, link length from {{@matlab}}O{{/matlab}} to {{@matlab}}A{{/matlab}}</li>
+			<li>{{@matlab}}L_2 = 1{{/matlab}}, link length from {{@matlab}}A{{/matlab}} to {{@matlab}}B{{/matlab}}</li>
+			<li>{{@matlab}}L_3 = 1{{/matlab}}, link length from {{@matlab}}B{{/matlab}} to {{@matlab}}C{{/matlab}}</li>
+		</ul>
+	</li>
+	<li>Generalised coordinates
+		<ul>
+			<li>{{@matlab}}theta_1{{/matlab}}, with initial conditions <tex>\theta_1 = \pi/4</tex> and <tex>\dot{\theta}_1 = 0</tex></li>
+			<li>{{@matlab}}theta_2{{/matlab}}, with initial conditions <tex>\theta_2 = 0</tex> and <tex>\dot{\theta}_2 = 0</tex></li>
+			<li>{{@matlab}}theta_3{{/matlab}}, with initial conditions <tex>\theta_3 = 0</tex> and <tex>\dot{\theta}_3 = 0</tex></li>
+		</ul>
+	</li>
+	<li>Frames
+		<ul>
+			<li>{{@matlab}}O{{/matlab}}: World frame at top of pendulum</li>
+			<li>{{@matlab}}O2{{/matlab}}: First joint</li>
+			<li>{{@matlab}}A{{/matlab}}: Second Joint</li>
+			<li>{{@matlab}}B{{/matlab}}: Third Joint</li>
+			<li>{{@matlab}}C{{/matlab}}: End of final link</li>
+		</ul>
+	</li>
+	<li>Mass and moment of inertia
+		<ul>
+			<li>At {{@matlab}}A{{/matlab}}: <tex>m_A = 1</tex> and <tex>I_A = 0_{3,3}</tex></li>
+			<li>At {{@matlab}}B{{/matlab}}: <tex>m_B = 1</tex> and <tex>I_B = 0_{3,3}</tex></li>
+			<li>At {{@matlab}}C{{/matlab}}: <tex>m_C = 1</tex> and <tex>I_C = 0_{3,3}</tex></li>
+		</ul>
+	</li>
+</ul>
+
+<h2>Create a new run-file</h2>
+<p>Initial Setup</p>
+<ul>
+	<li>Download this repository</li>
+	<li>Create a new directory within <span class="file">run_matlab</span>
+		<ul>
+			<li>e.g. <span class="file">run_matlab/MyProject</span></li>
+		</ul>
+	</li>
+	<li>Copy in a <span class="file">CDS_FindIncludes.m</span> file from one of the other folders within <span class="file">run_matlab</span></li>
+	<li>Edit this file so that it adds <span class="file">core/includes_matlab/</span> to the MATLAB path</li>
+</ul>
+
+<p>Create a run-file</p>
+<ul>
+	<li>In the new directory, create a new matlab script (I call this a run-file, because it runs the simulator)
+		<ul>
+			<li>e.g. <span class="file">run_matlab/MyProject/TriplePendulum.m</span></li>
+		</ul>
+	</li>
+	<li>At the top of the run-file, add the code</li>
+</ul>
+{{@matlab-pre}}
+CDS_FindIncludes;
+CDS_IncludeSimulator;
+{{/matlab-pre}}
+
+<p>You should now have created</p>
+<ul>
+	<li><span class="file">run_matlab/MyProject/CDS_FindIncludes.m</span></li>
+	<li><span class="file">run_matlab/MyProject/TriplePendulum.m</span></li>
+</ul>
+
+<h2>Define the Model in code</h2>
+<p>Continuing editing the run-file, incrementally adding in the code snippets that follow</p>
+
+<h3>System Description</h3>
+<p>The {{@matlab}}CDS_SystemDescription{{/matlab}} object holds and manages the information required to simulate a given system.</p>
+<p>Exactly one of these should be created for each system being defined.</p>
+{{@matlab-pre}}
+% System description
+% This contains all of the information required to simulate the system
+sys = CDS_SystemDescription();
+{{/matlab-pre}}
+
+<p>This is a handle object, it is passed by reference. It is not possible to clone this object because it internally contains and manages references to the many objects the collectively define the system.</p>
+
+<p>The {{@matlab}}CDS_SystemDescription{{/matlab}} is a builder and manager type object. Its methods are called to build the components of the system, and it holds a reference to each object that it builds. Thus, it is also used to retrieve information about the system.</p>
+
+<h3>Parameters</h3>
+<p>Each {{@matlab}}CDS_SystemDescription{{/matlab}} holds a single instance of {{@matlab}}CDS_Params{{/matlab}}, which is a builder / manager object for system parameters:</p>
+<ul>
+	<li>Constants</li>
+	<li>Free variables (generalised coordinates)</li>
+	<li>Driven variables (system inputs)</li>
+</ul>
+
+<p>All parameters must be created with this single {{@matlab}}CDS_Params{{/matlab}} instance by calling {{@matlab}}.Create(){{/matlab}}.</p>
+<p>Appropriate {{@matlab}}.Set{{/matlab}} methods can optionally be chained to the output.</p>
+{{@matlab-pre}}
+% Builder/manager object
+params = sys.params;
+
+% System parameters
+%   Define and set the numeric value
+params.Create('const', 'L_1').SetNum(1);
+params.Create('const', 'L_2').SetNum(1);
+params.Create('const', 'L_3').SetNum(1);
+params.Create('const', 'g').SetNum(9.8);
+
+% Generalised coordinates
+%   Define and set the initial conditions
+params.Create('free', 'theta_1').SetIC(pi/4);
+params.Create('free', 'theta_2').SetIC(0);
+params.Create('free', 'theta_3').SetIC(0);
+{{/matlab-pre}}
+
+<div class="text-aside">
+	<p><em>Aside:</em> This syntax is known as <exLink href="https://en.wikipedia.org/wiki/Method_chaining">method chaining</exLink>, and it can be understood as the combination of</p>
+{{@matlab-pre}}
+tmp = params.Create('const', 'myVar');
+tmp.SetNum(1);
+{{/matlab-pre}}
+</div>
+
+<p>Note that {{@matlab}}CDS_Params.Create('myType', 'myVar'){{/matlab}} has the side effect of calling {{@matlab}}syms myVar{{/matlab}} in the current workspace.</p>
+
+<h3>Points / Kinematic Chains</h3>
+<p>The geometry of the system can now be described, in terms of the parameters, as a set of homogeneous transformation matrices</p>
+{{@matlab-pre}}
+% Forward kinematics between the frames
+% NOTE: Using shorthand notation. See the aside for explanation
+T_OO2 = CDS_T('atP', 'z', theta_1-sym(pi)/2, [0;0;0]);
+T_O2A = CDS_T('atP', 'z', theta_2, [L_1;0;0]);
+T_AB  = CDS_T('atP', 'z', theta_3, [L_2;0;0]);
+T_BC  = CDS_T('atP', 'z', 0, [L_3;0;0]);
+
+% Combine to obtain the transformation to each frame as relative to the base frame
+T_OA = T_OO2 * T_O2A;
+T_OB = T_OA * T_AB;
+T_OC = T_OB * T_BC;
+{{/matlab-pre}}
+
+<p>The notation {{@matlab}}T_AB{{/matlab}} means the transformation matrix that satisfies the relation {{@matlab}}P_A = T_AB * P_B{{/matlab}} where {{@matlab}}P_A{{/matlab}} is a point as measured in frame A, and {{@matlab}}P_B{{/matlab}} is the same point as measured in frame B.</p>
+
+<div class="text-aside">
+	<p><em>Aside:</em> {{@matlab}}CDS_T(){{/matlab}} accepts shorthand inputs as well as full 4x4 transformation matrices</p>
+{{@matlab-pre}}
+% These are equivalent ('P' means point)
+CDS_T('P', [x;y;z]);
+CDS_T([1,0,0,x; 0,1,0,y; 0,0,1,z; 0,0,0,1]);
+
+% These are equivalent ('at' means rotation about the x, y, or z axis by theta)
+CDS_T('at', 'z' theta); % Rotation about the z axis
+CDS_T([1,0,0,0; 0,cos(theta),-sin(theta),0; 0,sin(theta),cos(theta),0; 0,0,0,1]);
+
+% These are equivalent (Combination of the above)
+CDS_T('atP', 'z', theta, [x;y;z]);
+CDS_T([1,0,0,x; 0,cos(theta),-sin(theta),y; 0,sin(theta),cos(theta),z; 0,0,0,1]);
+{{/matlab-pre}}
+</div>
+
+<p>Next, all particles and rigid bodies must be created with the {{@matlab}}CDS_SystemDescription{{/matlab}} by calling {{@matlab}}.CreatePoint().SetT_0n(){{/matlab}}</p>
+<ul>
+	<li>Notation
+		<ul>
+			<li>'0' means the base frame (world frame)</li>
+			<li>'n' means the frame of the current point</li>
+		</ul>
+	</li>
+	<li>Points are locations defined by a transformation matrix (they have both position and orientation)
+		<ul>
+			<li>Particles are points that have mass</li>
+			<li>Rigid bodies are points that have mass and moment of inertia</li>
+		</ul>
+	</li>
+	<li>Uses
+		<ul>
+			<li>Only particles and rigid bodies influence the solution dynamics</li>
+			<li>Other points may be optionally defined by omitting the mass and moment of inertia inputs</li>
+			<li>The locations of all points are calculated after solving, so that their values may be queried or plotted</li>
+		</ul>
+	</li>
+</ul>
+{{@matlab-pre}}
+% SYNTAX: .CreatePoint('Name', mass, inertia)
+O = sys.CreatePoint('O');
+A = sys.CreatePoint('A', 1).SetT_0n(T_OA);
+B = sys.CreatePoint('B', 1).SetT_0n(T_OB);
+C = sys.CreatePoint('C', 1).SetT_0n(T_OC);
+{{/matlab-pre}}
+
+<p>The structure of the kinematic chain is then declared as a set of arrays.</p>
+<ul>
+	<li>This has no effect on the physics of the problem; it does not effect the solution</li>
+	<li>It is only used for plotting the animation</li>
+	<li>The plotter will draw animated lines joining the points in each array</li>
+</ul>
+{{@matlab-pre}}
+% Kinematic chains (used only for plotting the animation)
+sys.SetChains([O,A,B,C]);
+{{/matlab-pre}}
+
+<h3>Gravity</h3>
+<p>The magnitude and direction of gravity should be defined as an acceleration vector, as measured in the base frame.</p>
+
+<p>In this case, I have chosen y as up in the base frame, with gravity pointing in the negative y direction.</p>
+{{@matlab-pre}}
+% Direction of gravity in base frame
+sys.SetGravity([0; -g; 0]);
+{{/matlab-pre}}
+
+<p>This completes description of our triple pendulum system.</p>
+
+
+<h2>Run the Solver</h2>
+<p>Now that the system has been completely defined, the package can automatically generate and solve the equations of motion</p>
+
+<p>The final options to choose are:</p>
+<ul>
+	<li>The time to solve over
+		<ul>
+			<li>Specified either as a range, or a set of values to evaluate</li>
+			<li>This does not influence the values that the solver uses internally, only the values that are output</li>
+		</ul>
+	</li>
+	<li>The integration tolerances</li>
+	<li>The solver
+		<ul>
+			<li>{{@matlab}}.Solve(sys){{/matlab}} (Automatic)</li>
+			<li>{{@matlab}}.Solve(sys, "ode89"){{/matlab}} Specify a MATLAB ODE solver</li>
+			<li>{{@matlab}}.Solve(sys, "drawIC"){{/matlab}} Skip solving and just plot the initial conditions</li>
+			<li>{{@matlab}}.Solve(sys, "sundials"){{/matlab}} Export the equations to C++ for solving with SUNDIALS</li>
+		</ul>
+	</li>
+	<li>The equation formulation method
+		<ul>
+			<li>For almost all cases, the best option is to use the automatic mode</li>
+		</ul>
+	</li>
+</ul>
+{{@matlab-pre}}
+SO = CDS_Solver_Options();
+SO.time = 0 : 0.02 : 20;
+SO.RelTol = 1e-10;
+SO.AbsTol = 1e-10;
+
+% Generate and solve equation of motion
+S = CDS_Solver(SO);
+[t,x,xd] = S.Solve(sys);
+{{/matlab-pre}}
+
+<p>This results in the solution to the differential equation, in the traditional form that is output by an ODE solver</p>
+<ul>
+	<li>{{@matlab}}t{{/matlab}} The time that the solution is sampled at</li>
+	<li>{{@matlab}}x{{/matlab}} The values of the state vector at these times</li>
+	<li>{{@matlab}}xd{{/matlab}} The values of the state vector derivative at these times</li>
+</ul>
+<p>Where the automatically generated state vector can be viewed with</p>
+{{@matlab-console-pre}}
+>> sys.params.x.Sym
+ans =
+theta_1d
+theta_2d
+theta_3d
+ theta_1
+ theta_2
+ theta_3
+{{/matlab-console-pre}}
+
+<p>The variables</p>
+<ul>
+	<li>{{@matlab}}theta_1{{/matlab}}, {{@matlab}}theta_2{{/matlab}}, and {{@matlab}}theta_3{{/matlab}} are as we defined.
+		<ul>
+			<li>Recall that each parameter was named during its creation; when {{@matlab}}sys.params.Create(){{/matlab}} was called</li>
+		</ul>
+	</li>
+	<li>with the suffix {{@matlab}}d{{/matlab}} are their time derivatives (velocity), as have been automatically created.</li>
+	<li>with the suffix {{@matlab}}dd{{/matlab}} are their double time derivatives (acceleration), as have been automatically created.</li>
+</ul>
+
+<p>Given that we requested the solution time as {{@matlab}}SO.time = 0 : 0.02 : 20;{{/matlab}}, then the sizes of the solution arrays are</p>
+<ul>
+	<li>{{@matlab}}t(1,1001) double{{/matlab}}</li>
+	<li>{{@matlab}}x(6,1001) double{{/matlab}}</li>
+	<li>{{@matlab}}xd(6,1001) double{{/matlab}}</li>
+</ul>
+<p>Thus, you can now use the solution however you usually would, having it in the traditional form that is output by an ODE solver.</p>
+<p>Or you can use the provided tools to automate performing various calculations and creating plots of the solution.</p>
+
+
+<h2>Post-Process the Solution</h2>
+<p>The {{@matlab}}CDS_SystemDescription{{/matlab}} holds the description of the system, in the terms that we defined it.</p>
+<p>This is a perfect match for automating the creation of plots in terms of these same variables.</p>
+
+<p>In post-processing, the {{@matlab}}CDS_SystemDescription{{/matlab}} is used to generate equations, and the solution {{@matlab}}t, x, xd{{/matlab}} is fed into these equations.</p>
+<p>We can</p>
+<ul>
+	<li>Query the values of generalised coordinates by name</li>
+	<li>Calculate and query the position of each point by name</li>
+	<li>Calculate and query the energies of each particle / rigid body by name</li>
+	<li>Generate plots</li>
+	<li>Generate a real-time animation of the motion</li>
+</ul>
+{{@matlab-pre}}
+SS = CDS_SolutionSim(sys, t,x,xd);
+SSp = CDS_Solution_Plot(SS);
+SSa = CDS_Solution_Animate(SS);
+
+SSp.PlotConfigSpace
+SSp.PlotLambda
+SSp.PlotInput
+SSp.PlotEnergyTotal
+SSp.PlotEnergyAll
+SSp.PlotTaskSpace
+
+
+SSa.Set_View_Predefined("front")
+SSa.PlotFrame
+SSa.Animate("play") % Click the "Repeat" button on the figure to play the animation!
+%SSa.Animate("gif")
+%SSa.Animate("video")
+{{/matlab-pre}}
+
+<p>The post-processed data can be exported to excel in a human readable format</p>
+{{@matlab-pre}}
+% Export
+SSe = CDS_Solution_Export(SS);
+SSe.DataToExcel("mySolution.xlsx");
+{{/matlab-pre}}
+
+<p>The post-processed data can also be queried by using the names of the parameters / points</p>
+<ul>
+	<li>Recall that each parameter / point was named during its creation; when {{@matlab}}sys.params.Create(){{/matlab}} or {{@matlab}}sys.CreatePoint(){{/matlab}} was called</li>
+</ul>
+{{@matlab-pre}}
+SSg = CDS_Solution_GetData(SS);
+
+% Get the value of theta_2, and its derivatives at the time 3.8 seconds
+idx = SS.t_idx(3.8);
+fprintf("theta_2 at 3.8s = %g\n",           SSg.q("theta_2", idx));
+fprintf("d[theta_2]/dt at 3.8s = %g\n",     SSg.qd("theta_2", idx));
+fprintf("d^2[theta_2]/dt^2 at 3.8s = %g\n", SSg.qdd("theta_2", idx));
+
+% Get the x,y,z locations of point C at this same time
+fprintf("x coordinate of point C at 3.8s = %g\n", SSg.Px("C", idx));
+fprintf("y coordinate of point C at 3.8s = %g\n", SSg.Py("C", idx));
+fprintf("z coordinate of point C at 3.8s = %g\n", SSg.Pz("C", idx));
+{{/matlab-pre}}
+
+<h2>Experiment with the Code</h2>
+<p>Explore the properties of the variable {{@matlab}}SS{{/matlab}}</p>
+
+<p>Try changing the</p>
+<ul>
+	<li>model parameters (lengths, mass, moment of inertia)</li>
+	<li>initial conditions (initial angle, initial angular velocity)</li>
+	<li>solve options</li>
+</ul>
+
+<h3>Add a Constraint</h3>
+<p>Using {{@matlab}}sys.CreateConstraint("name").SetConstraint(C){{/matlab}} specifies that the solution must satisfy the algebraic equation <tex>C=0</tex>.</p>
+
+<p>Try different constraints by adding the following to the system description, before calling solve</p>
+{{@matlab-pre}}
+% This constraint can fix the linkage to slide along a rail
+% Enable only one at a time!
+%sys.CreateConstraint("Bx").SetConstraint(T_OB.x, "offsetToIC");
+sys.CreateConstraint("By").SetConstraint(T_OB.y, "offsetToIC");
+%sys.CreateConstraint("Cx").SetConstraint(T_OC.x, "offsetToIC");
+%sys.CreateConstraint("Cy").SetConstraint(T_OC.y, "offsetToIC");
+sys.SetConstraint_StabilisationFactors();
+{{/matlab-pre}}
+
+<p>The option {{@matlab}}"offsetToIC"{{/matlab}} modifies the input constraint equation to enforce <tex>C=0</tex>. The value of the provided constraint equation (in terms of the system parameters) is calculated at the initial conditions, and then the equation is offset by this value, such that it equals 0 in initial condition. Otherwise, the constraint equation would be inconsistent with the initial conditions, and the system would be unsolvable.</p>
+<p>Internally, this uses the helpful function {{@matlab}}.params.EvaluateSymExpr_IC(){{/matlab}}</p>
+{{@matlab-console-pre}}
+% This does not equal 0 in the initial conditions
+>> T_OB.y
+ans =
+- L_2*(cos(theta_1)*cos(theta_2) - sin(theta_1)*sin(theta_2)) - L_1*cos(theta_1)
+
+% This is equal to 0 in the initial conditions
+>> T_OB.y - sys.params.EvaluateSymExpr_IC(T_OB.y)
+ans =
+2^(1/2) - L_2*(cos(theta_1)*cos(theta_2) - sin(theta_1)*sin(theta_2)) - L_1*cos(theta_1)
+{{/matlab-console-pre}}
+
+<p>The function {{@matlab}}.SetConstraint_StabilisationFactors(){{/matlab}} makes the solver use 'Baumgarte stabilisation'. It makes a trade off to reduce numerical error, at the expense of making the differential equations stiff (more difficult to solve). It is optional to use, and the strength can be tuned.</p>
+
+<h3>Add Explicit Time Dependence</h3>
+<p>The symbolic variable to represent time is always {{@matlab}}sym('t','real'){{/matlab}}. There is no need to create a parameter for it; the sym is automatically recognised by the software. To use this sym, you should instance as per the usual with the symbolic toolbox</p>
+{{@matlab-pre}}
+syms t real
+{{/matlab-pre}}
+
+<p>Let us make the top of the pendulum move according to the trajectory <tex>L_O(t) = sin(t)</tex>. You can imagine that the top of the pendulum is being driven by an externally controlled servomotor. This means that the total system energy will not necessarily be conserved. There are multiple ways to implement this, as follows</p>
+
+<p>It may be necessary to first remove any previously added constraints as to not cause impossible geometry!</p>
+
+<h4>Method 1: Explicitly time dependent Lagrangian</h4>
+<p>Implement the following changes to make the Lagrangian explicitly time dependent</p>
+{{@matlab-pre}}
+% Change this
+T_OO2 = CDS_T('atP', 'z', theta_1-sym(pi)/2, [sin(sym('t','real'));0;0]);
+
+% Change this
+O = sys.CreatePoint('O').SetT_0n(T_OO2);
+{{/matlab-pre}}
+
+<h4>Method 2: Rheonomic constraints</h4>
+<p>Implement the following changes to make the constraint equations explicitly time dependent (rheonomic)</p>
+{{@matlab-pre}}
+% Add this
+params.Create('free', 'L_O');
+constraint = L_O - sin(sym('t','real'));
+sys.CreateConstraint("top").SetConstraint(constraint, "offsetToIC");
+sys.SetConstraint_StabilisationFactors(100);
+
+% Change this
+T_OO2 = CDS_T('atP', 'z', theta_1-sym(pi)/2, [L_O;0;0]);
+
+% Change this
+O = sys.CreatePoint('O').SetT_0n(T_OO2);
+{{/matlab-pre}}
+
+<h4>Method 3: Inputs</h4>
+<p>Inputs are parameters that vary with time according to a predefined function. Note that using inputs indirectly makes the Lagrangian time dependent.</p>
+
+<p>Implement the following changes to specify an input</p>
+{{@matlab-pre}}
+% Add this
+params.Create('input', 'L_O').SetAnalytic(sin(sym('t','real')));
+
+% Change this
+T_OO2 = CDS_T('atP', 'z', theta_1-sym(pi)/2, [L_O;0;0]);
+
+% Change this
+O = sys.CreatePoint('O').SetT_0n(T_OO2);
+{{/matlab-pre}}
+
+<p>A key use for inputs instead of explicit time dependence is for to specify a piecewise function of time, or a data-driven trajectory (e.g. cubic spline fit to sampled data points)</p>
+
+<h3>Add Springs, Dampers, and Forces</h3>
+<p>Springs and dampers can have their lengths specified by arbitrary expressions, using the {{@matlab}}.SetLength(){{/matlab}} method. Alternatively, the length can be indirectly specified by the {{@matlab}}.SetConnections(){{/matlab}} method, which defines the length by the locations where it starts and ends.</p>
+
+<p>A point force is specified by the location where it acts, and the value of the force. A generalised force is specified by the generalised coordinate upon which it acts, and the value of the force.</p>
+
+<p>Implement the following changes to add in these components</p>
+{{@matlab-pre}}
+% Add any combination of these
+sys.CreateLinearSpring("AC").SetSpringConstant(7).SetConnections(A,C);
+sys.CreateLinearDamper("OC").SetDampingConstant(2).SetConnections(O,C);
+sys.CreatePointForce("Cx").SetLocation(C).SetF([10,30,0]);
+sys.CreateGeneralisedForce("B").SetLocation(theta_2).SetQ(8);
+{{/matlab-pre}}
+

@@ -38,7 +38,7 @@ else if(motionMode == MotionMode(motion3))
 ************************************************************
 Calibration
 ******************************
-// Calibration Results (mm & deg), value(stddev): 
+// Calibration Results (mm & deg), value(stddev):
 // Z rotation:            -25.7567
 // Z axis alignment error:0.407964
 // r = 1125.91 (0.453753)

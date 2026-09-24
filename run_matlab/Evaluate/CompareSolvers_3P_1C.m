@@ -1,7 +1,7 @@
 %{
 Written By: Brandon Johns
 Date Version Created: 2022-01-30
-Date Last Edited: 2024-04-08
+Date Last Edited: 2024-12-30
 Status: Complete
 Simulator: CDS
 
@@ -27,8 +27,8 @@ dataPath = @(fileName_) dataPaths.cache("VerifySimulatorAnalytic", fileName_);
 %**********************************************************************
 % Define System
 %***********************************
-params = CDS_Params();
-points = CDS_Points(params);
+sys = CDS_SystemDescription();
+params = sys.params;
 
 % Parameters
 params.Create('free', 'L_AB').SetIC(1); % Constrained link
@@ -54,18 +54,15 @@ mass = 1;
 % inertia = [1,1,1];
 inertia = [0,0,0];
 
-A = points.Create('A');
-B = points.Create('B', mass, inertia).SetT_0n(T_AB);
-C = points.Create('C', mass, inertia).SetT_0n(T_AC);
-D = points.Create('D', mass, inertia).SetT_0n(T_AD);
+A = sys.CreatePoint('A');
+B = sys.CreatePoint('B', mass, inertia).SetT_0n(T_AB);
+C = sys.CreatePoint('C', mass, inertia).SetT_0n(T_AC);
+D = sys.CreatePoint('D', mass, inertia).SetT_0n(T_AD);
 
-% Direction of gravity in base frame
-g0 = [0; -g; 0];
+sys.SetChains([A,B,C,D]);
+sys.SetGravity([0; -g; 0]);
 
-chains = {[A,B,C,D]};
-sys = CDS_SystemDescription(params, points, chains, g0);
-
-sys.SetConstraint(L_AB);
+sys.CreateConstraint("lenAB").SetConstraint(L_AB);
 
 
 %**********************************************************************
@@ -113,6 +110,7 @@ SSa = CDS_Solution_Animate(SS);
 SSg = CDS_Solution_GetData(SS);
 
 SSp.PlotConfigSpace
+SSp.PlotConstraintViolation
 %SSp.PlotInput
 %SSp.PlotEnergyTotal
 %SSp.PlotEnergyAll
@@ -125,14 +123,18 @@ SSa.Set_View_Predefined("front")
 % SSa.PlotFrame
 % SSa.Animate
 
-% CE.InputList_0Vel
-e_IC = CE.E0; % Initial conditions
-e_eq = CE.E_0Vel([params.Param("L_AB").q0; 0;0;0]); % Equilibrium position
+% Initial conditions
+e_IC = CE.E0;
+
+% Equilibrium position
+e_eq_vars = params.Subset(["L_AB"; "theta_1"; "theta_2"; "theta_3"]).Sym;
+e_eq_vals = [params.Subset("L_AB").q0; 0;0;0];
+e_eq = params.EvaluateSymExpr_StaticCondition(CE.E, 0, e_eq_vars, e_eq_vals);
+
 e_total = e_IC - e_eq;
 
-
-finalValuesStr = strjoin(compose("%g", SSg.q(SS.q_free, length(SS.t)) ),",");
-fprintf("Final values ["+strjoin(SS.q_free.Str,",")+"]: ["+finalValuesStr+"]\n")
+finalValuesStr = strjoin(compose("%g", SSg.q(params.q_free, length(SS.t)) ),",");
+fprintf("Final values ["+strjoin(params.q_free.Str,",")+"]: ["+finalValuesStr+"]\n")
 fprintf("Max deviation of total energy (normalised by total energy): %g\n", max(abs((SS.E)))/e_total)
 fprintf("Time to Form and Solve (s): %g\n", timeToSolve)
 

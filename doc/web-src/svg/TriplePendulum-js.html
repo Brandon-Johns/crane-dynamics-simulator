@@ -1,0 +1,179 @@
+
+<svg id="js-pendulum" viewBox="0 0 970 870" xmlns="http://www.w3.org/2000/svg" width="450" style="border: 2px solid #3b3c42;">
+	<defs>
+		<marker id="dot" viewBox="0 0 20 20" refX="10" refY="10" markerWidth="10" markerHeight="10">
+			<circle cx="10" cy="10" r="5" fill="#9193a5" />
+		</marker>
+	</defs>
+	<g stroke-linecap="round" stroke-linejoin="round" fill="none">
+		<path stroke="#9c9eb0" stroke-width="5" d="M 850 150 v 100 l 20 -30 m -20 30 l -20 -30"/>
+		<path id="js-pendulum-line1"   stroke="#9c9eb0" stroke-width="8"/>
+		<path id="js-pendulum-lineExt" stroke="#808080" stroke-width="4" stroke-dasharray="15 11"/>
+		<path id="js-pendulum-arc" stroke="#808080" stroke-width="4"/>
+		<path id="js-pendulum-y-ax" stroke="#228833" stroke-width="15"/>
+		<path id="js-pendulum-x-ax" stroke="#bb5566" stroke-width="15"/>
+		<path id="js-pendulum-line2" stroke="none" stroke-width="5" marker-start="url(#dot)" marker-mid="url(#dot)" marker-end="url(#dot)" fill="none"/>
+	</g>
+	<g stroke="none" fill="#9c9eb0" font-size="50" text-anchor="middle" dominant-baseline="middle">
+		<text x="850" y="100">g</text>
+		<g fill="#af888e">
+			<text id="js-pendulum-axLabelOx" >x<tspan baseline-shift="sub" font-size="30">O</tspan></text>
+			<text id="js-pendulum-axLabelO2x">x<tspan baseline-shift="sub" font-size="30">O2</tspan></text>
+			<text id="js-pendulum-axLabelAx" >x<tspan baseline-shift="sub" font-size="30">A</tspan></text>
+			<text id="js-pendulum-axLabelBx" >x<tspan baseline-shift="sub" font-size="30">B</tspan></text>
+			<text id="js-pendulum-axLabelCx" >x<tspan baseline-shift="sub" font-size="30">C</tspan></text>
+		</g>
+		<g fill="#84a88b">
+			<text id="js-pendulum-axLabelAy" >y<tspan baseline-shift="sub" font-size="30">A</tspan></text>
+			<text id="js-pendulum-axLabelO2y">y<tspan baseline-shift="sub" font-size="30">O2</tspan></text>
+			<text id="js-pendulum-axLabelOy" >y<tspan baseline-shift="sub" font-size="30">O</tspan></text>
+			<text id="js-pendulum-axLabelBy" >y<tspan baseline-shift="sub" font-size="30">B</tspan></text>
+			<text id="js-pendulum-axLabelCy" >y<tspan baseline-shift="sub" font-size="30">C</tspan></text>
+		</g>
+		<g fill="#808080">
+			<text id="js-pendulum-theta1">&#952;<tspan baseline-shift="sub" font-size="30">1</tspan></text>
+			<text id="js-pendulum-theta2">&#952;<tspan baseline-shift="sub" font-size="30">2</tspan></text>
+			<text id="js-pendulum-theta3">&#952;<tspan baseline-shift="sub" font-size="30">3</tspan></text>
+		</g>
+		<g fill="#9c9eb0">
+			<text id="js-pendulum-ptO">O</text>
+			<text id="js-pendulum-ptA">A</text>
+			<text id="js-pendulum-ptB">B</text>
+			<text id="js-pendulum-ptC">C</text>
+		</g>
+	</g>
+</svg>
+<script>
+class Pendulum {
+	constructor() {
+		this.svg = document.getElementById("js-pendulum");
+		this.line1 = this.svg.getElementById("js-pendulum-line1");
+		this.line2 = this.svg.getElementById("js-pendulum-line2");
+		this.lineExt = this.svg.getElementById("js-pendulum-lineExt");
+		this.line_xAxis = this.svg.getElementById("js-pendulum-x-ax");
+		this.line_yAxis = this.svg.getElementById("js-pendulum-y-ax");
+		this.arc        = this.svg.getElementById("js-pendulum-arc");
+		this.axLabelOx  = this.svg.getElementById("js-pendulum-axLabelOx");
+		this.axLabelOy  = this.svg.getElementById("js-pendulum-axLabelOy");
+		this.axLabelO2x = this.svg.getElementById("js-pendulum-axLabelO2x");
+		this.axLabelO2y = this.svg.getElementById("js-pendulum-axLabelO2y");
+		this.axLabelAx  = this.svg.getElementById("js-pendulum-axLabelAx");
+		this.axLabelAy  = this.svg.getElementById("js-pendulum-axLabelAy");
+		this.axLabelBx  = this.svg.getElementById("js-pendulum-axLabelBx");
+		this.axLabelBy  = this.svg.getElementById("js-pendulum-axLabelBy");
+		this.axLabelCx  = this.svg.getElementById("js-pendulum-axLabelCx");
+		this.axLabelCy  = this.svg.getElementById("js-pendulum-axLabelCy");
+		this.theta1  = this.svg.getElementById("js-pendulum-theta1");
+		this.theta2  = this.svg.getElementById("js-pendulum-theta2");
+		this.theta3  = this.svg.getElementById("js-pendulum-theta3");
+		this.ptO  = this.svg.getElementById("js-pendulum-ptO");
+		this.ptA  = this.svg.getElementById("js-pendulum-ptA");
+		this.ptB  = this.svg.getElementById("js-pendulum-ptB");
+		this.ptC  = this.svg.getElementById("js-pendulum-ptC");
+
+		const theta_1 = (Math.PI/180)*25;
+		const theta_3 = (Math.PI/180)*25;
+		const theta_2 = (Math.PI/180)*25;
+		this.Draw(theta_1, theta_2, theta_3);
+	}
+
+	Draw(theta_1, theta_2, theta_3) {
+		const theta_ax = (Math.PI/180)*30;
+		const axX = 0;
+		const axY = 0.5;
+		const L_arc = 120;
+		const L_axis = 100;
+		const L_theta = 80;
+		const L_ext = 200;
+		const L_pt = -50;
+		const L_1 = 300;
+		const L_2 = 300;
+		const L_3 = 300;
+		const Ox = 100;
+		const Oy = -200;
+		const Ax = Math.round(Ox + L_1*Math.sin(theta_1));
+		const Ay = Math.round(Oy - L_1*Math.cos(theta_1));
+		const Bx = Math.round(Ax + L_2*Math.sin(theta_1 + theta_2));
+		const By = Math.round(Ay - L_2*Math.cos(theta_1 + theta_2));
+		const Cx = Math.round(Bx + L_3*Math.sin(theta_1 + theta_2 + theta_3));
+		const Cy = Math.round(By - L_3*Math.cos(theta_1 + theta_2 + theta_3));
+		const AxExt = Math.round(Ox + (L_1+L_ext)*Math.sin(theta_1));
+		const AyExt = Math.round(Oy - (L_1+L_ext)*Math.cos(theta_1));
+		const BxExt = Math.round(Ax + (L_2+L_ext)*Math.sin(theta_1 + theta_2));
+		const ByExt = Math.round(Ay - (L_2+L_ext)*Math.cos(theta_1 + theta_2));
+		const Oxx  = Math.round(Ox + L_axis);
+		const Oyy  = Math.round(Oy + L_axis);
+		const O2xx = Math.round(Ox + L_axis*Math.sin(theta_1));
+		const O2xy = Math.round(Oy - L_axis*Math.cos(theta_1));
+		const O2yx = Math.round(Ox + L_axis*Math.cos(theta_1));
+		const O2yy = Math.round(Oy + L_axis*Math.sin(theta_1));
+		const Axx  = Math.round(Ax + L_axis*Math.sin(theta_1 + theta_2));
+		const Axy  = Math.round(Ay - L_axis*Math.cos(theta_1 + theta_2));
+		const Ayx  = Math.round(Ax + L_axis*Math.cos(theta_1 + theta_2));
+		const Ayy  = Math.round(Ay + L_axis*Math.sin(theta_1 + theta_2));
+		const Bxx  = Math.round(Bx + L_axis*Math.sin(theta_1 + theta_2 + theta_3));
+		const Bxy  = Math.round(By - L_axis*Math.cos(theta_1 + theta_2 + theta_3));
+		const Byx  = Math.round(Bx + L_axis*Math.cos(theta_1 + theta_2 + theta_3));
+		const Byy  = Math.round(By + L_axis*Math.sin(theta_1 + theta_2 + theta_3));
+		const Cxx  = Math.round(Cx + L_axis*Math.sin(theta_1 + theta_2 + theta_3));
+		const Cxy  = Math.round(Cy - L_axis*Math.cos(theta_1 + theta_2 + theta_3));
+		const Cyx  = Math.round(Cx + L_axis*Math.cos(theta_1 + theta_2 + theta_3));
+		const Cyy  = Math.round(Cy + L_axis*Math.sin(theta_1 + theta_2 + theta_3));
+		const O2xAxis = Math.round(Ox + L_axis*Math.sin(theta_1 + theta_ax));
+		const O2yAxis = Math.round(Oy - L_axis*Math.cos(theta_1 + theta_ax));
+		const AxAxis  = Math.round(Ax + L_axis*Math.sin(theta_1 + theta_2 + theta_ax));
+		const AyAxis  = Math.round(Ay - L_axis*Math.cos(theta_1 + theta_2 + theta_ax));
+		const BxAxis  = Math.round(Bx + L_axis*Math.sin(theta_1 + theta_2 + theta_3 + theta_ax));
+		const ByAxis  = Math.round(By - L_axis*Math.cos(theta_1 + theta_2 + theta_3 + theta_ax));
+		const Theta1x = Math.round(Ox + L_theta*Math.sin(theta_1/2));
+		const Theta1y = Math.round(Oy - L_theta*Math.cos(theta_1/2));
+		const Theta2x = Math.round(Ax + L_theta*Math.sin(theta_1 + theta_2/2));
+		const Theta2y = Math.round(Ay - L_theta*Math.cos(theta_1 + theta_2/2));
+		const Theta3x = Math.round(Bx + L_theta*Math.sin(theta_1 + theta_2 + theta_3/2));
+		const Theta3y = Math.round(By - L_theta*Math.cos(theta_1 + theta_2 + theta_3/2));
+		const OxPt  = Math.round(Ox + L_pt);
+		const AxPt  = Math.round(Ax + L_pt*Math.cos(theta_1 + theta_2));
+		const AyPt  = Math.round(Ay + L_pt*Math.sin(theta_1 + theta_2));
+		const BxPt  = Math.round(Bx + L_pt*Math.cos(theta_1 + theta_2 + theta_3));
+		const ByPt  = Math.round(By + L_pt*Math.sin(theta_1 + theta_2 + theta_3));
+		const CxPt  = Math.round(Cx + L_pt*Math.cos(theta_1 + theta_2 + theta_3));
+		const CyPt  = Math.round(Cy + L_pt*Math.sin(theta_1 + theta_2 + theta_3));
+
+		const O2xArc  = Math.round(Ox + L_arc*Math.sin(theta_1));
+		const O2yArc  = Math.round(Oy - L_arc*Math.cos(theta_1));
+		const O2xArcL = Math.round(Ox + (L_1+L_arc)*Math.sin(theta_1));
+		const O2yArcL = Math.round(Oy - (L_1+L_arc)*Math.cos(theta_1));
+		const AxArc   = Math.round(Ax + (L_arc)*Math.sin(theta_1 + theta_2));
+		const AyArc   = Math.round(Ay - (L_arc)*Math.cos(theta_1 + theta_2));
+		const AxArcL   = Math.round(Ax + (L_2+L_arc)*Math.sin(theta_1 + theta_2));
+		const AyArcL   = Math.round(Ay - (L_2+L_arc)*Math.cos(theta_1 + theta_2));
+		const BxArc   = Math.round(Bx + (L_arc)*Math.sin(theta_1 + theta_2 + theta_3));
+		const ByArc   = Math.round(By - (L_arc)*Math.cos(theta_1 + theta_2 + theta_3));
+
+		this.line1.setAttribute("d", `M ${Ox} ${-Oy} L ${Ax} ${-Ay} L ${Bx} ${-By} L ${Cx} ${-Cy}`);
+		this.line2.setAttribute("d", `M ${Ox} ${-Oy} L ${Ax} ${-Ay} L ${Bx} ${-By} L ${Cx} ${-Cy}`);
+		this.lineExt.setAttribute("d", `M ${Ox} ${-Oy+L_ext} L ${Ox} ${-Oy} L ${AxExt} ${-AyExt} M ${Ax} ${-Ay} L ${BxExt} ${-ByExt}`);
+		this.line_xAxis.setAttribute("d", `M ${Oxx} ${-Oy} L ${Ox} ${-Oy} L ${O2xx} ${-O2xy} M ${Ax} ${-Ay} L ${Axx} ${-Axy} M ${Bx} ${-By} L ${Bxx} ${-Bxy} M ${Cx} ${-Cy} L ${Cxx} ${-Cxy}`);
+		this.line_yAxis.setAttribute("d", `M ${Ox} ${-Oyy} L ${Ox} ${-Oy} L ${O2yx} ${-O2yy} M ${Ax} ${-Ay} L ${Ayx} ${-Ayy} M ${Bx} ${-By} L ${Byx} ${-Byy} M ${Cx} ${-Cy} L ${Cyx} ${-Cyy}`);
+		this.arc.setAttribute("d", `M ${Ox} ${-Oy+L_arc} A ${L_arc} ${L_arc} 0 0 0 ${O2xArc} ${-O2yArc} M ${O2xArcL} ${-O2yArcL} A ${L_arc} ${L_arc} 0 0 0 ${AxArc} ${-AyArc}  M ${AxArcL} ${-AyArcL} A ${L_arc} ${L_arc} 0 0 0 ${BxArc} ${-ByArc}`);
+		this.axLabelOx.setAttribute("x",  Oxx+(Oxx-Ox)*axY);       this.axLabelOx.setAttribute("y", -Oy);
+		this.axLabelOy.setAttribute("x",  Ox);                     this.axLabelOy.setAttribute("y", -(Oyy+(Oyy-Oy)*axY));
+		this.axLabelO2x.setAttribute("x", O2xAxis+(O2xAxis-Ox)*axX); this.axLabelO2x.setAttribute("y", -(O2yAxis+(O2yAxis-Oy)*axX));
+		this.axLabelO2y.setAttribute("x", O2yx+(O2yx-Ox)*axY);     this.axLabelO2y.setAttribute("y", -(O2yy+(O2yy-Oy)*axY));
+		this.axLabelAx.setAttribute("x",  AxAxis+(AxAxis-Ax)*axX);   this.axLabelAx.setAttribute("y", -(AyAxis+(AyAxis-Ay)*axX));
+		this.axLabelAy.setAttribute("x",  Ayx+(Ayx-Ax)*axY);       this.axLabelAy.setAttribute("y", -(Ayy+(Ayy-Ay)*axY));
+		this.axLabelBx.setAttribute("x",  BxAxis+(BxAxis-Bx)*axX);   this.axLabelBx.setAttribute("y", -(ByAxis+(ByAxis-By)*axX));
+		this.axLabelBy.setAttribute("x",  Byx+(Byx-Bx)*axY);       this.axLabelBy.setAttribute("y", -(Byy+(Byy-By)*axY));
+		this.axLabelCx.setAttribute("x",  Cxx+(Cxx-Cx)*axY);       this.axLabelCx.setAttribute("y", -(Cxy+(Cxy-Cy)*axY));
+		this.axLabelCy.setAttribute("x",  Cyx+(Cyx-Cx)*axY);       this.axLabelCy.setAttribute("y", -(Cyy+(Cyy-Cy)*axY));
+		this.theta1.setAttribute("x",  Theta1x+(Theta1x-Ox));    this.theta1.setAttribute("y", -(Theta1y+(Theta1y-Oy)));
+		this.theta2.setAttribute("x",  Theta2x+(Theta2x-Ax));    this.theta2.setAttribute("y", -(Theta2y+(Theta2y-Ay)));
+		this.theta3.setAttribute("x",  Theta3x+(Theta3x-Bx));    this.theta3.setAttribute("y", -(Theta3y+(Theta3y-By)));
+		this.ptO.setAttribute("x",  OxPt); this.ptO.setAttribute("y", -Oy);
+		this.ptA.setAttribute("x",  AxPt); this.ptA.setAttribute("y", -AyPt);
+		this.ptB.setAttribute("x",  BxPt); this.ptB.setAttribute("y", -ByPt);
+		this.ptC.setAttribute("x",  CxPt); this.ptC.setAttribute("y", -CyPt);
+	}
+}
+new Pendulum();
+</script>

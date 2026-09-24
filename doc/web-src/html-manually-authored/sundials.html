@@ -1,0 +1,205 @@
+{{--Include into layoutMain as inner--}}
+
+
+<h1>C++ Code Generation for Solving with SUNDIALS</h1>
+<div class="text-aside">
+	<p>NOTE: Code generation is currently limited to systems with 0 or 1 kinematic constraint equations (instances of {{@matlab}}CDS_Component_Constraint{{/matlab}}). The exported equations mirror the equations used by solveMode {{@matlab}}"solveTime2"{{/matlab}}.</p>
+</div>
+
+<p>The software can export the system equations (the ODE) to C++, in a format ready for solving with the <exLink href="https://computing.llnl.gov/projects/sundials">SUNDIALS</exLink> CVODE solver.</p>
+
+<p>General workflow:</p>
+<ol>
+	<li><b>MATLAB:</b> Define the system description as usual, and then export the system equations instead of solving them.</li>
+	<li><b>CMake/C++:</b> Edit CMakeList.txt to include the exported equations.</li>
+	<li><b>CMake/C++:</b> Build the CMake project, and execute the compiled file to solve the equations.</li>
+	<li><b>MATLAB:</b> Import the solution from the text file, and continue as if it were the output of calling solve.</li>
+</ol>
+
+<h2>Setup / Install</h2>
+<p>Follow the installation instructions for your operating system</p>
+<ul>
+	<li><span class="file">lib_ubuntu/instructions/Install_Instructions_Ubuntu.txt</span></li>
+	<li><span class="file">lib_windows/instructions/Install_Instructions_Windows.txt</span></li>
+</ul>
+
+<h2>Step 1: Code Generation</h2>
+<p>In MATLAB, define the system description as usual, continuing up to when you would usually call {{@matlab}}CDS_Solver.Solve{{/matlab}}. Then, set the export path in the solver options and call {{@matlab}}.Solve{{/matlab}} with the solveMode {{@matlab}}"sundials"{{/matlab}}. This will generate the equations and export them to C++ instead of solving them.</p>
+<p>The generated code is required to be placed in a subdirectory of <span class="file">data/sundials_generated/</span>. Use {{@matlab}}CDS_GetDataLocations{{/matlab}} to help form this directory path.</p>
+{{@matlab-pre}}
+% Given:
+%   The generated code is desired to be created in "data/sundials_generated/myModels/myPendulum/"
+%       where the subdirectory depth and names "myModels/myPendulum/" may be changed as desired
+%   SO = CDS_Solver_Options
+%   sys = CDS_SystemDescription
+
+exportPath = CDS_GetDataLocations().sun_generated("myModels", "myPendulum");
+SO.exportPath = exportPath;
+
+S = CDS_Solver(SO);
+S.Solve(sys, "sundials");
+{{/matlab-pre}}
+
+<p>As a result of this, the following files will be created:</p>
+<ul>
+	<li><span class="file">data/sundials_generated/myModels/myPendulum/crane_head_shared.cpp</span></li>
+	<li><span class="file">data/sundials_generated/myModels/myPendulum/crane_head.cpp</span></li>
+	<li><span class="file">data/sundials_generated/myModels/myPendulum/crane_inputs.cpp</span></li>
+	<li><span class="file">data/sundials_generated/myModels/myPendulum/crane_ode.cpp</span></li>
+	<li><span class="file">data/sundials_generated/myModels/myPendulum/crane_x.cpp</span></li>
+</ul>
+
+<p>These files collectively define the ODE. If you open these files, you will see that the variable names have been minified. The comments next to the variables display the names that you specified while building the system description.</p>
+
+<h2>Step 2: Configure CMake</h2>
+<p>Edit <span class="file">run_sundials/src/SimC3/CMakeLists.txt</span>, setting the variable <code class="language-cmake">SunGenerated_Includes</code> to the path to the directory holding the generated code. Specify this path as relative to <span class="file">data/sundials_generated/</span>. List the paths to all the models that you wish to solve.</p>
+<pre class="code-example"><code class="language-cmake">
+# CMake
+set(SunGenerated_Includes
+    "myModels/myPendulum"
+    "myModels/myDoublePendulum"
+    "myModels/myLinkage"
+)
+</code></pre>
+
+<h2>Step 3: Build and execute the C++</h2>
+<p>Build and execute the CMake project with your preferred CMake and C++ tooling.</p>
+
+<p>When running the executable, the SUNDIALS and OpenBLAS shared library files must either be on the system path, or copies of them must be placed in the same directory as the built executable. Specifically, <span class="file">sundials_cvode.dll</span> and <span class="file">libopenblas.dll</span>. The provided helper scripts automatically modify the system path for you (the modification is temporary and local to the lifetime of the current PowerShell session).</p>
+
+<p>The built executable prints the results to standard out in csv format, with solver statistics appended. These results should be echoed into a text file, ready for importing back into MATLAB. Any filename and path is fine, but the nominal path is in a subdirectory of <span class="file">data/sundials_results/</span>, using the same name as the executable file. For example:</p>
+<pre class="code-example code-console"><code class="language-powershell">
+# BASH or PowerShell
+#   Run commands from the root CDS directory
+
+# To run without using the helper scripts
+# Given:
+#   The required dll files are on the system path, or otherwise in "run_sundials/bin/"
+#   The generated executable is "run_sundials/bin/myModels-myPendulum.exe"
+#   The results are desired to be created in "data/sundials_results/myResults/myModels-myPendulum.txt"
+#       where the subdirectory and file names "myResults/myModels-myPendulum.txt" may be changed as desired
+& "./run_sundials/bin/myModels-myPendulum.exe" > "./data/sundials_results/myResults/myModels-myPendulum.txt"
+</code></pre>
+
+<p>In the results, the first column is the solution time. The remaining columns are the state derivative followed by the state. The csv header row uses the variable names that you specified while building the system description. Example results:</p>
+<pre class="code-example code-console"><code class="language-text">
+t,theta_1 [d],theta_2 [d],theta_1,theta_2
+2.000000e-02,-5.822970e-05,5.785055e-05,-3.958976e-07,3.941549e-07
+4.000000e-02,-2.315077e-04,2.265941e-04,-3.101418e-06,3.058664e-06
+6.000000e-02,-5.181504e-04,4.952741e-04,-1.041057e-05,1.011886e-05
+...
+1.500000e+01,-2.705615e-01,-2.822419e-02,-8.785475e-02,-5.238121e-03
+
+CDS_INFO: Solver Statistics
+	Steps     = 961
+	ODE Evals = 1035
+	Jacobian Evals = 17
+	Linear Evals   = 170
+	Linear Solve Setups        = 60
+	Local error Test Fails     = 3
+	Nonlinear Solve Iters      = 1032
+	Nonlinear Solve Conv Fails = 0
+	User Root Function Evals   = 0
+
+CDS_INFO: Final CVODE retval = 0
+</code></pre>
+
+<p>Specific instructions for various operating systems and build systems follow:</p>
+
+<h3>Ubuntu</h3>
+<p>Helper script</p>
+<ul>
+	<li><span class="file">run_sundials/ubuntu_buildrun.sh</span></li>
+</ul>
+<pre class="code-example code-console"><code class="language-bash">
+# BASH
+#   Run commands from the root CDS directory
+
+# View script help text for details and examples
+./run_sundials/ubuntu_buildrun.sh -h
+
+# To build and execute the pendulum example
+chmod +x "./run_sundials/ubuntu_buildrun.sh"
+./run_sundials/ubuntu_buildrun.sh -cbe -r myResults -t myModels-myPendulum
+</code></pre>
+
+<p>The solution will be created at <span class="file">data/sundials_results/myResults/myModels-myPendulum.txt</span></p>
+
+<h3>Windows (Visual Studio via CLI)</h3>
+<p>Helper scripts</p>
+<ul>
+	<li><span class="file">run_sundials/clearBuild.ps1</span></li>
+	<li><span class="file">run_sundials/rebuild.ps1</span></li>
+	<li><span class="file">run_sundials/runExe.ps1</span></li>
+</ul>
+<pre class="code-example code-console"><code class="language-powershell">
+# PowerShell
+#   Run commands from the root CDS directory
+
+# View script help text for details and examples
+Get-Help run_sundials/clearBuild.ps1
+Get-Help run_sundials/rebuild.ps1
+Get-Help run_sundials/runExe.ps1
+
+# To build and execute the pendulum example
+# NOTE: It may be necessary to edit rebuild.ps1 to match the path to the compiler to your version of Visual Studio
+./run_sundials/rebuild.ps1
+./run_sundials/runExe.ps1 "myModels-myPendulum" > "./data/sundials_results/myResults/myModels-myPendulum.txt"
+</code></pre>
+
+<p>The solution will be created at <span class="file">data/sundials_results/myResults/myModels-myPendulum.txt</span></p>
+
+<h3>Windows (Visual Studio via GUI)</h3>
+<ol>
+	<li>Open the CMake project from within Visual Studio:
+		<ol>
+			<li>File > Open > CMake...</li>
+			<li>Choose <span class="file">run_sundials\src\CMakeLists.txt</span></li>
+		</ol>
+	</li>
+	<li>Generate the CMake cache: CMake > Cache > Generate</li>
+	<li>Build: CMake > Build Only > ...</li>
+</ol>
+
+<p>After building, the executable must be run with PowerShell.
+<pre class="code-example code-console"><code class="language-powershell">
+# PowerShell
+#   Run commands from the root CDS directory
+
+# To build and execute the pendulum example
+./run_sundials/runExe.ps1 "myModels-myPendulum" > "./data/sundials_results/myResults/myModels-myPendulum.txt"
+</code></pre>
+
+<p>The solution will be created at <span class="file">data/sundials_results/myResults/myModels-myPendulum.txt</span></p>
+
+
+<p>To edit the build settings, open <span class="file">run_sundials\src\CMakeSettings.json</span> from within Visual Studio, while the project is open.</p>
+
+<p>It may be necessary to delete the CMake cache between builds.</p>
+
+
+<h2>Step 4: Load the Solution into MATLAB</h2>
+<p>The solution data should be loaded directly into MATLAB, and then passed to {{@matlab}}CDS_Solution{{/matlab}}, just as it would if it had been output by calling {{@matlab}}CDS_Solver.Solve{{/matlab}} normally. Before importing the solution, you are required to recreate an identical copy of the {{@matlab}}CDS_SystemDescription{{/matlab}} that generated the exported solution. It is assumed that this is exactly identical, and this assumption is not automatically verified. To do this, it is suggested to simply reuse the same MATLAB script that generated the C++ output, but with the {{@matlab}}.Solve{{/matlab}} command commented out and replaced with a {{@matlab}}readmatrix{{/matlab}} command.</p>
+
+<p>Additionally, the command {{@matlab}}.params.SetStateVectorMode("withoutLambda"){{/matlab}} should be run to specify that the SUNDIALS solution does not include the lagrange multipliers in the state vector or solution data. This command should always be called when using a SUNDIALS solution.</p>
+
+{{@matlab-pre}}
+% Given:
+%   The solution is in "data/sundials_results/myResults/myModels-myPendulum.txt"
+%   sys = CDS_SystemDescription
+
+% Read in the txt/csv results
+importPath = CDS_GetDataLocations().sun_results("myResults", "myModels-myPendulum.txt");
+dataRaw = readmatrix(importPath);
+t_import = dataRaw(:, 1).';
+x_import = dataRaw(:, 2:end).';
+
+% Remove the solver stats
+t = t_import(isfinite(t_import));
+x = x_import(:, isfinite(t_import));
+
+% Build the solution object
+sys.params.SetStateVectorMode("withoutLambda");
+SS = CDS_SolutionSim(sys, t, x);
+{{/matlab-pre}}
+
