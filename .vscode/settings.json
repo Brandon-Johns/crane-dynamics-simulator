@@ -1,4 +1,23 @@
 {
+	"livePreview.serverRoot": "doc/public_html",
+	"latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%/doc/public_html/crane-dynamics-simulator/",
+	"latex-workshop.latex.auxDir":"%DIR%",
+	"latex-workshop.latex.tools": [
+		{
+			"name": "latexmk",
+			"command": "latexmk",
+			"args": [
+				"-synctex=1",
+				"-interaction=nonstopmode",
+				"-file-line-error",
+				"-pdf",
+				"-jobname=crane-dynamics-simulator-maths-and-physics",
+				"-outdir=%OUTDIR%",
+				"--aux-directory=%AUXDIR%",
+				"%DOC%"
+			],
+		}
+	],
 	"[matlab]": {
 		"files.trimTrailingWhitespace": true,
 		"editor.insertSpaces": true,
