@@ -72,13 +72,13 @@ This software is distributed under the [BSD-3-Clause-Clear License](./LICENSE.tx
 The data, user guide, and documentation are distributed under the [Creative Commons CC BY 4.0 license](https://creativecommons.org/licenses/by/4.0/)
 
 The following files are excluded from these licenses. Copyright (c) 2023 Brandon Johns. All rights reserved. Do not redistribute, repurpose, modify, etc.
-- `doc/public_html/crane-dynamics-simulator/apple-touch-icon.png`
-- `doc/public_html/crane-dynamics-simulator/favicon-96x96.png`
-- `doc/public_html/crane-dynamics-simulator/favicon.ico`
-- `doc/public_html/crane-dynamics-simulator/favicon.svg`
-- `doc/public_html/crane-dynamics-simulator/web-app-manifest-192x192.png`
-- `doc/public_html/crane-dynamics-simulator/web-app-manifest-512x512.png`
-- `doc/public_html/crane-dynamics-simulator/embed.png`
+- `docs/apple-touch-icon.png`
+- `docs/favicon-96x96.png`
+- `docs/favicon.ico`
+- `docs/favicon.svg`
+- `docs/web-app-manifest-192x192.png`
+- `docs/web-app-manifest-512x512.png`
+- `docs/embed.png`
 
 
 ## Source Code
