@@ -166,7 +166,7 @@ y + b*cos(theta) + a*sin(theta)
 			<path d="m10 30 40 40 40-40" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
 		</svg>
 	</summary>
-	<p>This package extensively abuses MATLAB's convention of <em>everything is a matrix</em>.</p>
+	<p>This software extensively abuses MATLAB's convention of <em>everything is a matrix</em>.</p>
 	<p>Roughly half of the methods in this software may be called directly on arrays of objects.</p>
 	<h3>For-loops, begone!</h3>
 	<p>As an introductory example, consider an array of transformation matrices.</p>
@@ -512,7 +512,7 @@ sys.SetConstraint_StabilisationFactors();
 		<li>Constraint
 			<ol>
 				<li>Using the previously found <tex>T_{CD}</tex>, a possible constraint is <tex>0 = \sqrt{x_{CD}^2 + y_{CD}^2} - L_{CD}</tex>, which describes that the length of the link CD must be constant.</li>
-				<li>Apply this constraint as {{@matlab}}sys.CreateConstraint("closeLink").SetConstraint( sqrt(x_CD^2 + y_CD^2), "offsetToIC" ){{/matlab}} where the option {{@matlab}}"offsetToIC"{{/matlab}} tells the package to automatically determine the value of the constant offset <tex>L_{CD}</tex>.</li>
+				<li>Apply this constraint as {{@matlab}}sys.CreateConstraint("closeLink").SetConstraint( sqrt(x_CD^2 + y_CD^2), "offsetToIC" ){{/matlab}} where the option {{@matlab}}"offsetToIC"{{/matlab}} tells the software to automatically determine the value of the constant offset <tex>L_{CD}</tex>.</li>
 			</ol>
 		</li>
 	</ol>

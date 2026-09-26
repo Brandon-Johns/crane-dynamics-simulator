@@ -4,13 +4,13 @@
 	<meta charset="UTF-8">
 	<!--Page info-->
 	<title>How To Guides | Crane Dynamics Simulator</title>
-	<link rel="canonical" href="https://Brandon-Johns.github.io/crane-dynamics-simulator/how-to-guides.html"/>
+	<link rel="canonical" href="https://brandon-johns.github.io/crane-dynamics-simulator/how-to-guides.html"/>
 
 	<!-- Traditional (Google), Open Graph (Facebook, Linkedin), Twitter Card -->
 	<meta property="og:type" content="website"/>
 	<meta name="twitter:card" content="summary_large_image"/>
-	<meta property="og:url" content="https://Brandon-Johns.github.io/crane-dynamics-simulator/how-to-guides.html"/>
-	<meta name="twitter:url" content="https://Brandon-Johns.github.io/crane-dynamics-simulator/how-to-guides.html"/>
+	<meta property="og:url" content="https://brandon-johns.github.io/crane-dynamics-simulator/how-to-guides.html"/>
+	<meta name="twitter:url" content="https://brandon-johns.github.io/crane-dynamics-simulator/how-to-guides.html"/>
 	<meta name="title" content="How To Guides | Crane Dynamics Simulator"/>
 	<meta property="og:title" content="How To Guides | Crane Dynamics Simulator"/>
 	<meta name="twitter:title" content="How To Guides | Crane Dynamics Simulator"/>
@@ -322,7 +322,7 @@
 			<path d="m10 30 40 40 40-40" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
 		</svg>
 	</summary>
-	<p>This package extensively abuses MATLAB's convention of <em>everything is a matrix</em>.</p>
+	<p>This software extensively abuses MATLAB's convention of <em>everything is a matrix</em>.</p>
 	<p>Roughly half of the methods in this software may be called directly on arrays of objects.</p>
 	<h3>For-loops, begone!</h3>
 	<p>As an introductory example, consider an array of transformation matrices.</p>
@@ -644,7 +644,7 @@
 		<li>Constraint
 			<ol>
 				<li>Using the previously found <tex>T_{CD}</tex>, a possible constraint is <tex>0 = \sqrt{x_{CD}^2 + y_{CD}^2} - L_{CD}</tex>, which describes that the length of the link CD must be constant.</li>
-				<li>Apply this constraint as <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreateConstraint</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;closeLink&quot;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetConstraint</span><span class="tk-paren-o">(</span> <span class="tk-normal">sqrt</span><span class="tk-paren-o">(</span><span class="tk-normal">x_CD</span><span class="tk-hat">^</span><span class="tk-numeric">2</span> <span class="tk-plus">+</span> <span class="tk-normal">y_CD</span><span class="tk-hat">^</span><span class="tk-numeric">2</span><span class="tk-paren-c">)</span><span class="tk-comma">,</span> <span class="tk-string">&quot;offsetToIC&quot;</span> <span class="tk-paren-c">)</span> where the option <span class="tk-string">&quot;offsetToIC&quot;</span> tells the package to automatically determine the value of the constant offset <tex>L_{CD}</tex>.</li>
+				<li>Apply this constraint as <span class="tk-normal">sys</span><span class="tk-dot">.</span><span class="tk-function">CreateConstraint</span><span class="tk-paren-o">(</span><span class="tk-string">&quot;closeLink&quot;</span><span class="tk-paren-c">)</span><span class="tk-dot">.</span><span class="tk-function">SetConstraint</span><span class="tk-paren-o">(</span> <span class="tk-normal">sqrt</span><span class="tk-paren-o">(</span><span class="tk-normal">x_CD</span><span class="tk-hat">^</span><span class="tk-numeric">2</span> <span class="tk-plus">+</span> <span class="tk-normal">y_CD</span><span class="tk-hat">^</span><span class="tk-numeric">2</span><span class="tk-paren-c">)</span><span class="tk-comma">,</span> <span class="tk-string">&quot;offsetToIC&quot;</span> <span class="tk-paren-c">)</span> where the option <span class="tk-string">&quot;offsetToIC&quot;</span> tells the software to automatically determine the value of the constant offset <tex>L_{CD}</tex>.</li>
 			</ol>
 		</li>
 	</ol>

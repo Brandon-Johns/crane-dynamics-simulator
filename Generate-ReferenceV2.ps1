@@ -1,6 +1,6 @@
 ## Written By: Brandon Johns
 ## Date Version Created: 2026-08-25
-## Date Last Edited: 2026-09-23
+## Date Last Edited: 2026-09-26
 ## Purpose: Generate documentation from matlab code with structured comments, and from the manually authored html
 ## Status: Functional
 
@@ -143,6 +143,8 @@ where
 #>
 
 
+#Requires -Version 7
+
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
@@ -151,15 +153,19 @@ Set-StrictMode -Version Latest
 ## Server Config
 ################################################
 # Github pages why?
-$productionDomain = 'https://Brandon-Johns.github.io'
-$productionRoot = '/crane-dynamics-simulator'
+$productionDomain = 'https://brandon-johns.github.io'
+$productionRoot = 'crane-dynamics-simulator'
 
 
 ################################################################################################
 ## Project Config
 ################################################
 $projectRoot = $PSScriptRoot;
-$dirpathWebRoot = Join-Path $projectRoot 'doc/public_html/'
+
+# 1) For VSCode LivePreview
+# 2) For GitHub Pages
+#$dirpathWebRoot = Join-Path $projectRoot 'doc/public_html/crane-dynamics-simulator'
+$dirpathWebRoot = Join-Path $projectRoot 'docs'
 
 $filepathLayoutMain            = Join-Path $projectRoot 'doc/web-src/html-templates/layoutMain.html'
 $filepathLayoutReference       = Join-Path $projectRoot 'doc/web-src/html-templates/layoutReference.html'
@@ -472,6 +478,10 @@ class CommentBlock {
 ## Main
 ################################################
 function RunMain {
+	$referenceDir = Join-Path $dirpathWebRoot 'reference'
+	if(-not (Test-Path $dirpathWebRoot)) { throw "Can't find dir to create web root at" }
+	if(-not (Test-Path $referenceDir)) { New-Item $referenceDir -ItemType Directory }
+
 	$filesAll = $filesDescription + $filesSolving + $filesPost + $filesMisc
 
 	# Lexical tokenisation + parse 1
@@ -514,12 +524,6 @@ function RunMain {
 	$solverNameArg.TypesOrMembers += "(any standard Matlab solver)"
 
 	# Parse 3
-	# Classify method return type to detect support for method chaining
-	#	"Self" returns self
-	#	"SelfSubset" returns subset of array of self
-	#	"HeldObject" returns held objects
-	#	"BuiltObject" returns built object
-	#	"Other" cannot tell form the name alone (see structured comments in next parse)
 	# Extract information from structured the comments
 	$Parser3 = [Parse3]::new()
 	foreach($class in $classes2) {
@@ -596,7 +600,8 @@ function RunMain {
 		$pageName = ($class.IsAbstract ? "(Abstract) " : "") + "$($class.Name)"
 		$pageDescription = "Crane Dynamics Simulator Documentation: $($class.Name) API Reference"
 		$pageUrl = URLFormatReference $class.Name
-		$pageUrlCanonical = "$($script:productionDomain)$pageUrl"
+		$outPath = URLFormatReference $class.Name -AsFilepath
+		$pageUrlCanonical = URLFormatReference $class.Name -AsCanonical
 		$htmlRef = $ReferenceRenderer.Render($class, $pageName)
 		$htmlMain_thisFile = $htmlMain
 		$htmlMain_thisFile = HtmlInsert $htmlMain_thisFile 'metaTitle' "$pageName | Crane Dynamics Simulator" -Trim
@@ -606,7 +611,6 @@ function RunMain {
 		$htmlMain_thisFile = HtmlRemoveComments $htmlMain_thisFile
 		$htmlMain_thisFile = HtmlFormatExLink $htmlMain_thisFile
 		HtmlErrorIfRemainingTags $htmlMain_thisFile "($pageUrl)"
-		$outPath = Join-Path $script:dirpathWebRoot $pageUrl
 		$htmlMain_thisFile | Out-File -LiteralPath $outPath -Encoding utf8
 	}
 
@@ -617,7 +621,8 @@ function RunMain {
 	$pageName = "API Reference Home"
 	$pageDescription = "Crane Dynamics Simulator Documentation"
 	$pageUrl = URLFormatMain "reference-home"
-	$pageUrlCanonical = "$($script:productionDomain)$pageUrl"
+	$outPath = URLFormatMain "reference-home" -AsFilepath
+	$pageUrlCanonical = URLFormatMain "reference-home" -AsCanonical
 	$htmlMain_thisFile = $htmlMain
 	$htmlMain_thisFile = HtmlInsert $htmlMain_thisFile 'metaTitle' "$pageName | Crane Dynamics Simulator" -Trim
 	$htmlMain_thisFile = HtmlInsert $htmlMain_thisFile 'metaUrlCanonical' $pageUrlCanonical -Trim
@@ -626,7 +631,6 @@ function RunMain {
 	$htmlMain_thisFile = HtmlFormatExLink $htmlMain_thisFile
 	$htmlMain_thisFile = HtmlRemoveComments $htmlMain_thisFile
 	HtmlErrorIfRemainingTags $htmlMain_thisFile "($pageUrl)"
-	$outPath = Join-Path $script:dirpathWebRoot $pageUrl
 	$htmlMain_thisFile | Out-File -LiteralPath $outPath -Encoding utf8
 
 	#**********************************************************************
@@ -643,7 +647,8 @@ function RunMain {
 
 		$pageDescription = "Crane Dynamics Simulator Documentation"
 		$pageUrl = URLFormatMain $fileObject.BaseName
-		$pageUrlCanonical = "$($script:productionDomain)$pageUrl"
+		$outPath = URLFormatMain $fileObject.BaseName -AsFilepath
+		$pageUrlCanonical = URLFormatMain $fileObject.BaseName -AsCanonical
 		$htmlMain_thisFile = $htmlMain
 		$htmlMain_thisFile = HtmlInsert $htmlMain_thisFile 'metaTitle' "$pageName | Crane Dynamics Simulator" -Trim
 		$htmlMain_thisFile = HtmlInsert $htmlMain_thisFile 'metaUrlCanonical' $pageUrlCanonical -Trim
@@ -652,7 +657,6 @@ function RunMain {
 		$htmlMain_thisFile = HtmlRemoveComments $htmlMain_thisFile
 		$htmlMain_thisFile = HtmlFormatExLink $htmlMain_thisFile
 		HtmlErrorIfRemainingTags $htmlMain_thisFile "($pageUrl)"
-		$outPath = Join-Path $script:dirpathWebRoot $pageUrl
 		$htmlMain_thisFile | Out-File -LiteralPath $outPath -Encoding utf8
 	}
 }
@@ -2735,18 +2739,32 @@ function HtmlEscape {
 
 function URLFormatReference {
 	Param(
-		[Parameter(Mandatory=$true)] [String]$Text
+		[Parameter(Mandatory=$true)] [String]$baseName,
+		[Parameter()] [Switch]$AsFilepath,
+		[Parameter()] [Switch]$AsCanonical
 	)
-	$filename = $Text.Replace("_","-")
-	return "$($script:productionRoot)/reference/$filename.html"
+	$baseName = Join-Path 'reference' $baseName.Replace("_","-")
+	return URLFormatMain $baseName -AsFilepath:$AsFilepath -AsCanonical:$AsCanonical
 }
 
 
 function URLFormatMain {
 	Param(
-		[Parameter(Mandatory=$true)] [String]$Text
+		[Parameter(Mandatory=$true)] [String]$baseName,
+		[Parameter()] [Switch]$AsFilepath,
+		[Parameter()] [Switch]$AsCanonical
 	)
-	return "$($script:productionRoot)/$Text.html"
+	$filename = $baseName + ".html"
+	if($AsFilepath) {
+		$out = Join-Path $script:dirpathWebRoot $filename
+	}
+	elseif($AsCanonical) {
+		$out = $script:productionDomain.TrimEnd('\', '/') + (Join-Path "/" $script:productionRoot $filename)
+	}
+	else {
+		$out = Join-Path "/" $script:productionRoot $filename
+	}
+	return $out.Replace('\', '/')
 }
 
 

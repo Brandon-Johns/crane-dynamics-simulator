@@ -13,11 +13,12 @@ Systems are described through a declarative interface, and the software then sym
 - The underlying maths and physics are accessible to the user, and are presented in a way that mirrors a pen-and-paper derivation.
 
 
-DOCUMENTATION
-- [Documentation Website](https://Brandon-Johns.github.io/crane-dynamics-simulator/)
-- [Maths and Physics Background (pdf)](./doc/public_html/crane-dynamics-simulator/crane-dynamics-simulator-maths-and-physics.pdf)
+## Getting Started
+Visit the documentation website
+- [Documentation Website](https://brandon-johns.github.io/crane-dynamics-simulator/)
+- [Maths and Physics Background (pdf)](https://brandon-johns.github.io/crane-dynamics-simulator/crane-dynamics-simulator-maths-and-physics.pdf)
 
-KEY DIRECTORIES
+See the key project directories
 - The simulator: `core/CDS/`
 - Introductory examples: `run_matlab/Examples/`
 
